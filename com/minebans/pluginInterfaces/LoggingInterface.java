@@ -1,0 +1,49 @@
+package com.minebans.pluginInterfaces;
+
+import java.util.HashMap;
+
+import com.minebans.MineBans;
+
+public class LoggingInterface {
+	
+	private LoggingPluginInterface pluginInterface;
+	
+	public LoggingInterface(MineBans plugin){
+		if (plugin.pluginManager.isPluginEnabled("LogBlock")){
+			this.pluginInterface = new LogBlockPluginInterface(plugin);
+//		}else if (plugin.pluginManager.isPluginEnabled("HawkEye")){
+			
+		}else{
+			plugin.log.fatal("A suitable exploit detection plugin was not found.");
+		}
+		
+		if (this.foundLoggingPlugin()){
+			plugin.log.info("Using " + this.pluginInterface.getPluginName() + " for player data, checking config.");
+			
+			if (this.pluginInterface.checkConfig() == false){
+				plugin.log.fatal(this.pluginInterface.getPluginName() + " minimum config was not met.");
+			}
+		}
+	}
+	
+	public boolean foundLoggingPlugin(){
+		return (this.pluginInterface != null);
+	}
+	
+	public HashMap<Short, Integer> getChestAccess(String playerName){
+		return this.pluginInterface.getChestAccess(playerName);
+	}
+	
+	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
+		return this.pluginInterface.getBlocksPlaced(playerName);
+	}
+	
+	public HashMap<Integer, Integer> getBlocksBroken(String playerName){
+		return this.pluginInterface.getBlocksBroken(playerName);
+	}
+	
+	public HashMap<String, HashMap<Integer, Integer>> getBlockChanges(String playerName){
+		return this.pluginInterface.getBlockChanges(playerName);
+	}
+	
+}

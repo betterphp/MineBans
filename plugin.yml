@@ -1,0 +1,59 @@
+name: MineBans
+version: 0.1
+main: com.minebans.MineBans
+softdepend: [LogBlock, NoCheat]
+commands:
+    ban:
+        description: Bans a player from the server.
+        usage: /<command> <player_name> <reason_id / reason_keyword>
+        aliases: [b]
+    unban:
+        description: Unbans a player.
+        usage: /<command> <player_name>
+        aliases: [ub, uban]
+    kick:
+        description: Disconnects a player from the server.
+        usage: /<command> <player_name>
+        aliases: [k]
+    whitelist:
+        description: Used to manage the whitelist.
+        usage: /<command> <option> <player_name>
+        aliases: [wl]
+    minebans:
+        description: Provides various commands relating to the system.
+        usage: /<command> <option> [args]
+        aliases: [mb, mbans]
+permissions:
+    minebans.alert.onjoin:
+        description: Players with this permission will be shown a players ban summary when the join.
+        default: op
+    minebans.alert.onapifail:
+        description: Players with this pemrission will be notified if a player joins before the API responds with their data.
+        default: op
+    minebans.alert.onban:
+        description: Players with this permission will be notified when a player is banned.
+        default: true
+    minebans.alert.onunban:
+        description: Players with this permission will be notified when a player is unbanned.
+        default: true
+    minebans.alert.onkick:
+        description: Players with this permission will be notified when a player is kicked.
+        default: true
+    minebans.alert.onwhitelist:
+        description: Players with this permission will be notified when a player is added to the whitelist.
+        default: true
+    minebans.alert.onunwhitelist:
+        description: Players with this permission will be notified when a player is removed from the whitelist.
+        default: true
+    minebans.admin.ban:
+        description: Allows the use of the /ban and /unban commands.
+        default: op
+    minebans.admin.kick:
+        description: Allows the use of the /kick command.
+        default: op
+    minebans.admin.whitelist:
+        description: Allows the use of the /whitelist commands.
+        default: op
+    minebans.admin.lookup:
+        description: Allows the player to lookup the bans another player has.
+        default: op
