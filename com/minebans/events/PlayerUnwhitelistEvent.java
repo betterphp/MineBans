@@ -3,13 +3,13 @@ package com.minebans.events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PlayerLocalBanEvent extends Event {
+public class PlayerUnwhitelistEvent extends Event {
 	
 	private static final HandlerList handlers = new HandlerList();
 	
 	private String playerName;
 	
-	public PlayerLocalBanEvent(String playerName){
+	public PlayerUnwhitelistEvent(String playerName){
 		this.playerName = playerName;
 	}
 	

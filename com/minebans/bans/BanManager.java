@@ -10,8 +10,8 @@ import com.minebans.events.PlayerBanEvent;
 import com.minebans.events.PlayerGlobalBanEvent;
 import com.minebans.events.PlayerLocalBanEvent;
 import com.minebans.events.PlayerTempBanEvent;
-import com.minebans.events.PlayerUnWhitelistEvent;
 import com.minebans.events.PlayerUnbanEvent;
+import com.minebans.events.PlayerUnwhitelistEvent;
 import com.minebans.events.PlayerWhitelistEvent;
 import com.minebans.util.PlayerDataStore;
 import com.minebans.util.PlayerListStore;
@@ -178,7 +178,7 @@ public class BanManager {
 		
 		this.localWhitelist.remove(playerName);
 		
-		plugin.pluginManager.callEvent(new PlayerUnWhitelistEvent(playerName));
+		plugin.pluginManager.callEvent(new PlayerUnwhitelistEvent(playerName));
 	}
 	
 	public void unWhiteListPlayer(String playerName){

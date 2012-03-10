@@ -114,4 +114,8 @@ public class MineBansPluginAPI {
 		});
 	}
 	
+	public void lookupPlayer(Player player, String issuedBy, PluginAPIResponceCallback callback){
+		this.lookupPlayer(player.getName(), issuedBy, callback);
+	}
+	
 }

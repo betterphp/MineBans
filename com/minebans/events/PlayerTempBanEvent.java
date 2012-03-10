@@ -23,7 +23,7 @@ public class PlayerTempBanEvent extends Event {
 		return handlers;
 	}
 	
-	public String getBannedName(){
+	public String getPlayerName(){
 		return this.playerName;
 	}
 	

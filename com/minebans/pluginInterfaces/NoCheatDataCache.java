@@ -74,7 +74,7 @@ public class NoCheatDataCache implements Runnable, Listener {
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerBan(PlayerBanEvent event){
-		String playerName = event.getBannedName();
+		String playerName = event.getPlayerName();
 		
 		if (this.data.containsKey(playerName)){
 			this.data.remove(playerName);

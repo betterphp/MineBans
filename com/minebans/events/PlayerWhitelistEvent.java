@@ -21,7 +21,7 @@ public class PlayerWhitelistEvent extends Event {
 		return handlers;
 	}
 	
-	public String getWhitelistedName(){
+	public String getPlayerName(){
 		return this.playerName;
 	}
 	

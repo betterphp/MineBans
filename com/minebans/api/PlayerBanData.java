@@ -70,10 +70,6 @@ public class PlayerBanData {
 		return this.summary;
 	}
 	
-	public HashMap<BanReason, HashMap<BanSeverity, Long>> getBans(){
-		return this.bans;
-	}
-	
 	public Long getTotal(){
 		return this.summary.get("total");
 	}
@@ -84,6 +80,10 @@ public class PlayerBanData {
 	
 	public Long getRemoved(){
 		return this.summary.get("removed");
+	}
+	
+	public HashMap<BanReason, HashMap<BanSeverity, Long>> getBans(){
+		return this.bans;
 	}
 	
 	public Set<BanReason> getBanReasons(){

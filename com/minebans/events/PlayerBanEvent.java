@@ -25,7 +25,7 @@ public class PlayerBanEvent extends Event {
 		return handlers;
 	}
 	
-	public String getBannedName(){
+	public String getPlayerName(){
 		return this.playerName;
 	}
 	

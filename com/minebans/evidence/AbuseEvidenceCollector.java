@@ -53,7 +53,7 @@ public class AbuseEvidenceCollector extends EvidenceCollector implements Listene
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerBan(PlayerBanEvent event){
-		String playerName = event.getBannedName();
+		String playerName = event.getPlayerName();
 		
 		if (this.wordListLog.containsKey(playerName)){
 			this.wordListLog.remove(playerName);

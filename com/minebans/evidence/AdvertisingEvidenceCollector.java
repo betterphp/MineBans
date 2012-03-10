@@ -52,7 +52,7 @@ public class AdvertisingEvidenceCollector extends EvidenceCollector implements L
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerBan(PlayerBanEvent event){
-		String playerName = event.getBannedName();
+		String playerName = event.getPlayerName();
 		
 		if (this.wordListLog.containsKey(playerName)){
 			this.wordListLog.remove(playerName);

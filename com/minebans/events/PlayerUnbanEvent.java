@@ -25,7 +25,7 @@ public class PlayerUnbanEvent extends Event {
 		return handlers;
 	}
 	
-	public String getUnBannedName(){
+	public String getPlayerName(){
 		return this.playerName;
 	}
 	

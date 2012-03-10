@@ -55,7 +55,7 @@ public class SpamEvidenceCollector extends EvidenceCollector implements Listener
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerBan(PlayerBanEvent event){
-		String playerName = event.getBannedName();
+		String playerName = event.getPlayerName();
 		
 		if (this.messageCounter.containsKey(playerName)){
 			this.messageCounter.remove(playerName);
