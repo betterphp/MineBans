@@ -35,14 +35,13 @@ public class BanExecutor implements CommandExecutor {
 		
 		String playerName = args[0];
 		
-		
 		if (plugin.server.getOnlineMode() == false){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Your server must be running in online-mode."));
 			return true;
 		}
 		
 		if (sender instanceof Player && playerName.equalsIgnoreCase(((Player) sender).getName())){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot ban yourself."));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot ban yourself, that would be silly."));
 			return true;
 		}
 		
@@ -68,7 +67,7 @@ public class BanExecutor implements CommandExecutor {
 				plugin.banManager.tempBanPlayer(playerName, banDuration, (sender instanceof Player));
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been temporarily banned for " + args[1] + "."));
 			}else{
-				if (plugin.server.getOfflinePlayer(playerName).hasPlayedBefore() == false){
+				if (plugin.server.getPlayer(playerName) != null || plugin.server.getOfflinePlayer(playerName).hasPlayedBefore() == false){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot globally ban a player that has never connected to the server."));
 					return true;
 				}
