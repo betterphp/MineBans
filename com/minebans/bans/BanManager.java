@@ -126,7 +126,7 @@ public class BanManager {
 		this.tempBanPlayer(playerName, banDuration, true, true);
 	}
 	
-	// NOTE: Called on line 153 of APIInterface.java to remove the player only if the request completed correctly.
+	// NOTE: Called by APIInterface.java to remove the player only if the request completed correctly.
 	public void unbanPlayerAPICallback(String playerName){
 		if (this.globallyBannedPlayers.contains(playerName)){
 			this.globallyBannedPlayers.remove(playerName);
@@ -137,21 +137,33 @@ public class BanManager {
 		}
 	}
 	
+	public void unGlobalBan(String playerName, String issuedBy){
+		plugin.api.unbanPlayer(playerName, issuedBy);
+	}
+	
+	public void unLocalBan(String playerName, boolean log){
+		this.locallyBannedPlayers.remove(playerName);
+		this.locallyBannedPlayers.save();
+		
+		plugin.pluginManager.callEvent(new PlayerUnbanEvent(playerName, BanType.LOCAL));
+		this.notification.sendUnbanNotification(playerName, log);
+	}
+	
+	public void unTempBan(String playerName, boolean log){
+		this.tempBannedPlayers.remove(playerName);
+		this.tempBannedPlayers.save();
+		
+		plugin.pluginManager.callEvent(new PlayerUnbanEvent(playerName, BanType.TEMP));
+		this.notification.sendUnbanNotification(playerName, log);
+	}
+	
 	public void unbanPlayer(String playerName, String issuedBy, boolean log){
 		if (this.isGloballyBanned(playerName)){
-			plugin.api.unbanPlayer(playerName, issuedBy);
+			this.unGlobalBan(playerName, issuedBy);
 		}else if (this.isLocallyBanned(playerName)){
-			this.locallyBannedPlayers.remove(playerName);
-			this.locallyBannedPlayers.save();
-			
-			plugin.pluginManager.callEvent(new PlayerUnbanEvent(playerName, BanType.LOCAL));
-			this.notification.sendUnbanNotification(playerName, log);
+			this.unLocalBan(playerName, log);
 		}else if (this.isTempBanned(playerName)){
-			this.tempBannedPlayers.remove(playerName);
-			this.tempBannedPlayers.save();
-			
-			plugin.pluginManager.callEvent(new PlayerUnbanEvent(playerName, BanType.TEMP));
-			this.notification.sendUnbanNotification(playerName, log);
+			this.unTempBan(playerName, log);
 		}
 	}
 	

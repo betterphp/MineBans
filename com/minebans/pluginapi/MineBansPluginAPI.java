@@ -48,6 +48,22 @@ public class MineBansPluginAPI {
 		return this.kickPlayer(player, "You have been kicked from the server.");
 	}
 	
+	public boolean isBanned(String playerName){
+		return plugin.banManager.isBanned(playerName);
+	}
+	
+	public boolean isBanned(Player player){
+		return plugin.banManager.isBanned(player.getName());
+	}
+	
+	public boolean isWhitelisted(String playerName){
+		return plugin.banManager.isWhitelisted(playerName);
+	}
+	
+	public boolean isWhitelisted(Player player){
+		return this.isWhitelisted(player.getName());
+	}
+	
 	public boolean locallyBanPlayer(String playerName){
 		plugin.banManager.locallyBanPlayer(playerName, false, false);
 		plugin.log.info(playerName + " was locally banned by the plugin '" + this.pdf.getName() + "'");
@@ -94,6 +110,81 @@ public class MineBansPluginAPI {
 	
 	public boolean tempBanPlayer(Player player, int banDuration){
 		return this.tempBanPlayer(player.getName(), banDuration);
+	}
+	
+	public boolean unLocalBanPlayer(String playerName){
+		if (plugin.banManager.isLocallyBanned(playerName) == false){
+			return false;
+		}
+		
+		plugin.banManager.unLocalBan(playerName, false);
+		return true;
+	}
+	
+	public boolean unLocalBanPlayer(Player player){
+		return this.unLocalBanPlayer(player.getName());
+	}
+	
+	public boolean unGlobalBanPlayer(String playerName, String issuedBy){
+		if (plugin.banManager.isGloballyBanned(playerName) == false){
+			return false;
+		}
+		
+		plugin.banManager.unGlobalBan(playerName, issuedBy);
+		return true;
+	}
+	
+	public boolean unGlobalBanPlayer(Player player, String issuedBy){
+		return this.unGlobalBanPlayer(player.getName(), issuedBy);
+	}
+	
+	public boolean unTempBanPlayer(String playerName){
+		if (plugin.banManager.isTempBanned(playerName) == false){
+			return false;
+		}
+		
+		plugin.banManager.unTempBan(playerName, false);
+		return true;
+	}
+	
+	public boolean unTempBanPlayer(Player player){
+		return this.unTempBanPlayer(player.getName());
+	}
+	
+	public boolean unBanPlayer(String playerName, String issuedBy){
+		if (this.isBanned(playerName) == false){
+			return false;
+		}
+		
+		plugin.banManager.unbanPlayer(playerName, issuedBy);
+		return true;
+	}
+	
+	public boolean unBanPlayer(Player player, String issuedBy){
+		return this.unBanPlayer(player.getName(), issuedBy);
+	}
+	
+	public boolean whitelistPlayer(String playerName){
+		plugin.banManager.whiteListPlayer(playerName, false);
+		return true;
+	}
+	
+	public boolean whitelistPlayer(Player player){
+		return this.whitelistPlayer(player.getName());
+	}
+	
+	public boolean unWhitelistPlayer(String playerName){
+		if (this.isWhitelisted(playerName) == false){
+			return false;
+		}
+		
+		plugin.banManager.whiteListPlayer(playerName);
+		
+		return true;
+	}
+	
+	public boolean unWhitelistPlayer(Player player){
+		return this.unWhitelistPlayer(player.getName());
 	}
 	
 	public void lookupPlayer(String playerName, String issuedBy, final PluginAPIResponceCallback callback){
