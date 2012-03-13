@@ -23,8 +23,8 @@ public class APIRequestHandler extends Thread implements Runnable {
 	
 	public APIRequestHandler(MineBans plugin){
 		try{
-		//	this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(plugin.config.getString("api-key"), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
-			this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(plugin.config.getString("api-key"), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
+			this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(plugin.config.getString("api-key"), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
+		//	this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(plugin.config.getString("api-key"), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
 		}catch (Exception e){
 			e.printStackTrace();
 		}
