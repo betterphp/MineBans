@@ -1,5 +1,9 @@
 package com.minebans.pluginapi;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -9,6 +13,7 @@ import com.minebans.MineBans;
 import com.minebans.api.APIResponceCallback;
 import com.minebans.api.PlayerBanData;
 import com.minebans.bans.BanReason;
+import com.minebans.bans.BanType;
 
 public class MineBansPluginAPI {
 	
@@ -68,6 +73,36 @@ public class MineBansPluginAPI {
 		plugin.banManager.locallyBanPlayer(playerName, false, false);
 		plugin.log.info(playerName + " was locally banned by the plugin '" + this.pdf.getName() + "'");
 		return true;
+	}
+	
+	public List<String> getLocallyBannedPlayers(){
+		return plugin.banManager.getLocallyBannedPlayers();
+	}
+	
+	public List<String> getGloballyBannedPlayers(){
+		return plugin.banManager.getGloballyBannedPlayers();
+	}
+	
+	public List<String> getTempBannedPlayers(){
+		return plugin.banManager.getTempBannedPlayers();
+	}
+	
+	public Map<String, BanType> getBannedPlayers(){
+		HashMap<String, BanType> bans = new HashMap<String, BanType>();
+		
+		for (String playerName : this.getLocallyBannedPlayers()){
+			bans.put(playerName, BanType.LOCAL);
+		}
+		
+		for (String playerName : this.getGloballyBannedPlayers()){
+			bans.put(playerName, BanType.GLOBAL);
+		}
+		
+		for (String playerName : this.getTempBannedPlayers()){
+			bans.put(playerName, BanType.TEMP);
+		}
+		
+		return bans;
 	}
 	
 	public boolean locallyBanPlayer(Player player){

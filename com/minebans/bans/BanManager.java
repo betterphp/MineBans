@@ -2,6 +2,7 @@ package com.minebans.bans;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.entity.Player;
 
@@ -197,6 +198,18 @@ public class BanManager {
 		this.unWhiteListPlayer(playerName, true);
 	}
 	
+	public List<String> getLocallyBannedPlayers(){
+		return new ArrayList<String>(this.locallyBannedPlayers.getPlayerNames());
+	}
+	
+	public List<String> getGloballyBannedPlayers(){
+		return new ArrayList<String>(this.globallyBannedPlayers.getPlayerNames());
+	}
+	
+	public List<String> getTempBannedPlayers(){
+		return new ArrayList<String>(this.tempBannedPlayers.getPlayerNames());
+	}
+	
 	public boolean isLocallyBanned(String playerName){
 		return this.locallyBannedPlayers.contains(playerName);
 	}
@@ -234,10 +247,6 @@ public class BanManager {
 	
 	public boolean isWhitelisted(String playerName){
 		return this.localWhitelist.contains(playerName);
-	}
-	
-	public ArrayList<String> getLocallyBannedPlayers(){
-		return this.locallyBannedPlayers.getPlayerNames();
 	}
 	
 }
