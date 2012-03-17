@@ -1,6 +1,7 @@
 package com.minebans.commands;
 
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -67,7 +68,9 @@ public class BanExecutor implements CommandExecutor {
 				plugin.banManager.tempBanPlayer(playerName, banDuration, (sender instanceof Player));
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been temporarily banned for " + args[1] + "."));
 			}else{
-				if (plugin.server.getOfflinePlayer(playerName).hasPlayedBefore() == false && plugin.server.getPlayer(playerName) == null){
+				OfflinePlayer player = plugin.server.getOfflinePlayer(playerName);
+				
+				if (player.isOnline() == false && player.hasPlayedBefore() == false){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot globally ban a player that has never connected to the server."));
 					return true;
 				}
