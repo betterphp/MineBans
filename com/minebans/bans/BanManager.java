@@ -80,7 +80,7 @@ public class BanManager {
 		this.globallyBannedPlayers.add(playerName);
 		this.globallyBannedPlayers.save();
 		
-		plugin.api.banPlayer(playerName, issuedBy, reason, reason.getEvidenceCollector().collect(playerName));
+		plugin.api.banPlayer(playerName, issuedBy, reason, plugin.evidenceManager.collectFor(reason, playerName));
 		
 		plugin.pluginManager.callEvent(new PlayerGlobalBanEvent(playerName, reason));
 		plugin.pluginManager.callEvent(new PlayerBanEvent(playerName, BanType.GLOBAL));

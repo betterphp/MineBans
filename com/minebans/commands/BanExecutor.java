@@ -34,7 +34,7 @@ public class BanExecutor implements CommandExecutor {
 			return true;
 		}
 		
-		String playerName = args[0].trim();
+		String playerName = args[0];
 		
 		if (plugin.server.getOnlineMode() == false){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Your server must be running in online-mode."));

@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import com.minebans.MineBans;
 import com.minebans.events.PlayerBanEvent;
@@ -46,8 +47,15 @@ public class SpamEvidenceCollector extends EvidenceCollector implements Listener
 		this.messageCounter.clear();
 	}
 	
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerChat(PlayerChatEvent event){
+		String playerName = event.getPlayer().getName();
+		
+		this.messageCounter.put(playerName, (this.messageCounter.containsKey(playerName)) ? this.messageCounter.get(playerName) + 1 : 1);
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onPlayerCommand(PlayerCommandPreprocessEvent event){
 		String playerName = event.getPlayer().getName();
 		
 		this.messageCounter.put(playerName, (this.messageCounter.containsKey(playerName)) ? this.messageCounter.get(playerName) + 1 : 1);
