@@ -13,10 +13,10 @@ import org.bukkit.scheduler.BukkitScheduler;
 import com.minebans.api.APIInterface;
 import com.minebans.bans.BanManager;
 import com.minebans.commands.BanExecutor;
+import com.minebans.commands.BanExemptExecutor;
 import com.minebans.commands.MineBansExecutor;
 import com.minebans.commands.KickExecutor;
 import com.minebans.commands.UnbanExecutor;
-import com.minebans.commands.WhiteListExecutor;
 import com.minebans.evidence.EvidenceManager;
 import com.minebans.pluginInterfaces.ExploitInterface;
 import com.minebans.pluginInterfaces.LoggingInterface;
@@ -81,7 +81,7 @@ public class MineBans extends JavaPlugin {
 		this.getCommand("ban").setExecutor(new BanExecutor(this));
 		this.getCommand("unban").setExecutor(new UnbanExecutor(this));
 		this.getCommand("kick").setExecutor(new KickExecutor(this));
-		this.getCommand("whitelist").setExecutor(new WhiteListExecutor(this));
+		this.getCommand("banexempt").setExecutor(new BanExemptExecutor(this));
 		this.getCommand("minebans").setExecutor(new MineBansExecutor(this));
 		
 		this.log.info("Enabled.");

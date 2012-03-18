@@ -15,10 +15,10 @@ commands:
         description: Disconnects a player from the server.
         usage: /<command> <player_name>
         aliases: [k]
-    whitelist:
-        description: Used to manage the whitelist.
+    banexempt:
+        description: Used to manage the ban exempted list.
         usage: /<command> <option> <player_name>
-        aliases: [wl]
+        aliases: [be]
     minebans:
         description: Provides various commands relating to the system.
         usage: /<command> <option> [args]
@@ -51,8 +51,8 @@ permissions:
     minebans.admin.kick:
         description: Allows the use of the /kick command.
         default: op
-    minebans.admin.whitelist:
-        description: Allows the use of the /whitelist commands.
+    minebans.admin.banexempt:
+        description: Allows the use of the /banexempt commands.
         default: op
     minebans.admin.lookup:
         description: Allows the player to lookup the bans another player has.
