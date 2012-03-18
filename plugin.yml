@@ -1,5 +1,5 @@
 name: MineBans
-version: 0.3.3
+version: 0.4
 main: com.minebans.MineBans
 softdepend: [LogBlock, NoCheat]
 commands:
@@ -15,10 +15,10 @@ commands:
         description: Disconnects a player from the server.
         usage: /<command> <player_name>
         aliases: [k]
-    whitelist:
-        description: Used to manage the whitelist.
+    exempt:
+        description: Used to manage the exempt list.
         usage: /<command> <option> <player_name>
-        aliases: [wl]
+        aliases: [e, be]
     minebans:
         description: Provides various commands relating to the system.
         usage: /<command> <option> [args]
@@ -39,11 +39,11 @@ permissions:
     minebans.alert.onkick:
         description: Players with this permission will be notified when a player is kicked.
         default: true
-    minebans.alert.onwhitelist:
-        description: Players with this permission will be notified when a player is added to the whitelist.
+    minebans.alert.onexempt:
+        description: Players with this permission will be notified when a player is added to the exempt list.
         default: true
-    minebans.alert.onunwhitelist:
-        description: Players with this permission will be notified when a player is removed from the whitelist.
+    minebans.alert.onunexempt:
+        description: Players with this permission will be notified when a player is removed from the exempt list.
         default: true
     minebans.admin.ban:
         description: Allows the use of the /ban and /unban commands.
@@ -51,8 +51,8 @@ permissions:
     minebans.admin.kick:
         description: Allows the use of the /kick command.
         default: op
-    minebans.admin.whitelist:
-        description: Allows the use of the /whitelist commands.
+    minebans.admin.exempt:
+        description: Allows the use of the /exempt commands.
         default: op
     minebans.admin.lookup:
         description: Allows the player to lookup the bans another player has.

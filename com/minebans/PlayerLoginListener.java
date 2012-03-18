@@ -125,8 +125,8 @@ public class PlayerLoginListener implements Listener {
 		 */
 		
 		// 1
-		if (plugin.banManager.isWhitelisted(playerName)){
-			plugin.log.info(playerName + " (" + playerAddress + ") was found on the local ban exceptions list, no further checks will be made.");
+		if (plugin.banManager.isExempt(playerName)){
+			plugin.log.info(playerName + " (" + playerAddress + ") was found on the local ban exempt list, no further checks will be made.");
 			plugin.pluginManager.callEvent(new PlayerConnectionAllowedEvent(playerName));
 			return;
 		}

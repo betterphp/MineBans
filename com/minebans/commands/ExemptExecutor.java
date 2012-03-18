@@ -25,8 +25,8 @@ public class ExemptExecutor implements CommandExecutor {
 		if (args.length != 2){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /exempt <option> <player_name>"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Options:"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   add - Adds the player to the whitelist."));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   remove - Removed the player from the whitelist."));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   add - Adds the player to the exempt list."));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   remove - Removed the player from the exempt list."));
 			return true;
 		}
 		

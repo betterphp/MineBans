@@ -61,12 +61,12 @@ public class MineBansPluginAPI {
 		return plugin.banManager.isBanned(player.getName());
 	}
 	
-	public boolean isWhitelisted(String playerName){
-		return plugin.banManager.isWhitelisted(playerName);
+	public boolean isExempt(String playerName){
+		return plugin.banManager.isExempt(playerName);
 	}
 	
-	public boolean isWhitelisted(Player player){
-		return this.isWhitelisted(player.getName());
+	public boolean isExempt(Player player){
+		return this.isExempt(player.getName());
 	}
 	
 	public boolean locallyBanPlayer(String playerName){
@@ -153,6 +153,8 @@ public class MineBansPluginAPI {
 		}
 		
 		plugin.banManager.unLocalBan(playerName, false);
+		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pdf.getName() + "'");
+		
 		return true;
 	}
 	
@@ -166,6 +168,8 @@ public class MineBansPluginAPI {
 		}
 		
 		plugin.banManager.unGlobalBan(playerName, issuedBy);
+		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pdf.getName() + "'");
+		
 		return true;
 	}
 	
@@ -179,6 +183,8 @@ public class MineBansPluginAPI {
 		}
 		
 		plugin.banManager.unTempBan(playerName, false);
+		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pdf.getName() + "'");
+		
 		return true;
 	}
 	
@@ -191,7 +197,9 @@ public class MineBansPluginAPI {
 			return false;
 		}
 		
-		plugin.banManager.unbanPlayer(playerName, issuedBy);
+		plugin.banManager.unbanPlayer(playerName, issuedBy, false);
+		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pdf.getName() + "'");
+		
 		return true;
 	}
 	
@@ -199,27 +207,30 @@ public class MineBansPluginAPI {
 		return this.unBanPlayer(player.getName(), issuedBy);
 	}
 	
-	public boolean whitelistPlayer(String playerName){
-		plugin.banManager.whiteListPlayer(playerName, false);
+	public boolean exemptPlayer(String playerName){
+		plugin.banManager.exemptPlayer(playerName, false);
+		plugin.log.info(playerName + " was added to the exempt list by the plugin '" + this.pdf.getName() + "'");
+		
 		return true;
 	}
 	
-	public boolean whitelistPlayer(Player player){
-		return this.whitelistPlayer(player.getName());
+	public boolean exemptPlayer(Player player){
+		return this.exemptPlayer(player.getName());
 	}
 	
-	public boolean unWhitelistPlayer(String playerName){
-		if (this.isWhitelisted(playerName) == false){
+	public boolean unExemptPlayer(String playerName){
+		if (this.isExempt(playerName) == false){
 			return false;
 		}
 		
-		plugin.banManager.whiteListPlayer(playerName);
+		plugin.banManager.unExemptPlayer(playerName, false);
+		plugin.log.info(playerName + " was removed from thes exempt list by the plugin '" + this.pdf.getName() + "'");
 		
 		return true;
 	}
 	
-	public boolean unWhitelistPlayer(Player player){
-		return this.unWhitelistPlayer(player.getName());
+	public boolean unExemptPlayer(Player player){
+		return this.unExemptPlayer(player.getName());
 	}
 	
 	public void lookupPlayer(String playerName, String issuedBy, final PluginAPIResponceCallback callback){

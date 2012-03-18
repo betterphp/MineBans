@@ -8,12 +8,12 @@ import org.bukkit.entity.Player;
 
 import com.minebans.MineBans;
 import com.minebans.events.PlayerBanEvent;
+import com.minebans.events.PlayerExemptEvent;
 import com.minebans.events.PlayerGlobalBanEvent;
 import com.minebans.events.PlayerLocalBanEvent;
 import com.minebans.events.PlayerTempBanEvent;
 import com.minebans.events.PlayerUnbanEvent;
-import com.minebans.events.PlayerUnwhitelistEvent;
-import com.minebans.events.PlayerWhitelistEvent;
+import com.minebans.events.PlayerUnExemptEvent;
 import com.minebans.util.PlayerDataStore;
 import com.minebans.util.PlayerListStore;
 
@@ -25,7 +25,7 @@ public class BanManager {
 	private PlayerListStore globallyBannedPlayers;
 	private PlayerListStore locallyBannedPlayers;
 	private PlayerDataStore tempBannedPlayers;
-	private PlayerListStore localWhitelist;
+	private PlayerListStore localExemptList;
 	
 	public BanManager(MineBans plugin){
 		this.plugin = plugin;
@@ -36,12 +36,12 @@ public class BanManager {
 		this.globallyBannedPlayers = new PlayerListStore(new File(pluginFolder + File.separator + "globally-banned-players.txt"));
 		this.locallyBannedPlayers = new PlayerListStore(new File(pluginFolder + File.separator + "locally-banned-players.txt"));
 		this.tempBannedPlayers = new PlayerDataStore(new File(pluginFolder + File.separator + "temp-banned-players.txt"));
-		this.localWhitelist = new PlayerListStore(new File(pluginFolder + File.separator + "ban-exceptions.txt"));
+		this.localExemptList = new PlayerListStore(new File(pluginFolder + File.separator + "ban-exceptions.txt"));
 		
 		this.globallyBannedPlayers.load();
 		this.locallyBannedPlayers.load();
 		this.tempBannedPlayers.load();
-		this.localWhitelist.load();
+		this.localExemptList.load();
 	}
 	
 	public void locallyBanPlayer(String playerName, boolean log, boolean notify){
@@ -172,30 +172,30 @@ public class BanManager {
 		this.unbanPlayer(playerName, issuedBy, true);
 	}
 	
-	public void whiteListPlayer(String playerName, boolean log){
-		this.localWhitelist.add(playerName);
+	public void exemptPlayer(String playerName, boolean log){
+		this.localExemptList.add(playerName);
 		
-		plugin.pluginManager.callEvent(new PlayerWhitelistEvent(playerName));
+		plugin.pluginManager.callEvent(new PlayerExemptEvent(playerName));
 	}
 	
-	public void whiteListPlayer(String playerName){
-		this.whiteListPlayer(playerName, true);
+	public void exemptPlayer(String playerName){
+		this.exemptPlayer(playerName, true);
 	}
 	
-	public void unWhiteListPlayer(String playerName, boolean log){
+	public void unExemptPlayer(String playerName, boolean log){
 		Player player = plugin.getServer().getPlayer(playerName);
 		
 		if (player != null){
-			player.kickPlayer("You have been removed from the whitelist.");
+			player.kickPlayer("You have been removed from the exempt list.");
 		}
 		
-		this.localWhitelist.remove(playerName);
+		this.localExemptList.remove(playerName);
 		
-		plugin.pluginManager.callEvent(new PlayerUnwhitelistEvent(playerName));
+		plugin.pluginManager.callEvent(new PlayerUnExemptEvent(playerName));
 	}
 	
-	public void unWhiteListPlayer(String playerName){
-		this.unWhiteListPlayer(playerName, true);
+	public void unExemptPlayer(String playerName){
+		this.unExemptPlayer(playerName, true);
 	}
 	
 	public List<String> getLocallyBannedPlayers(){
@@ -245,8 +245,8 @@ public class BanManager {
 		return (this.isGloballyBanned(playerName) || this.isLocallyBanned(playerName) || this.isTempBanned(playerName));
 	}
 	
-	public boolean isWhitelisted(String playerName){
-		return this.localWhitelist.contains(playerName);
+	public boolean isExempt(String playerName){
+		return this.localExemptList.contains(playerName);
 	}
 	
 }
