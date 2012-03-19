@@ -217,7 +217,7 @@ public class BanManager {
 	public boolean isTempBanned(String playerName){
 		if (this.tempBannedPlayers.contains(playerName)){
 			if (Long.parseLong(this.tempBannedPlayers.getData(playerName)) <= (System.currentTimeMillis() / 1000)){
-				this.unbanPlayer(playerName, "CONSOLE");
+				this.unTempBan(playerName, true);
 				return false;
 			}else{
 				return true;
@@ -228,7 +228,7 @@ public class BanManager {
 	}
 	
 	public Integer getTempBanRemaining(String playerName){
-		if (this.isBanned(playerName) == false){
+		if (this.isTempBanned(playerName) == false){
 			return null;
 		}
 		
