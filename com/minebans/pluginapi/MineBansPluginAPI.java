@@ -20,9 +20,26 @@ public class MineBansPluginAPI {
 	private MineBans plugin;
 	private PluginDescriptionFile pdf;
 	
-	public MineBansPluginAPI(MineBans minebans, Plugin plugin){
-		this.plugin = minebans;
+	private static HashMap<Plugin, MineBansPluginAPI> handles = new HashMap<Plugin, MineBansPluginAPI>();
+	
+	private MineBansPluginAPI(MineBans mineBans, Plugin plugin){
+		this.plugin = mineBans;
 		this.pdf = plugin.getDescription();
+	}
+	
+	public static MineBansPluginAPI getHandle(MineBans mineBans, Plugin plugin){
+		if (plugin == null){
+			return null;
+		}
+		
+		MineBansPluginAPI api = handles.get(plugin);			
+		
+		if (api == null){
+			api = new MineBansPluginAPI(mineBans, plugin);
+			handles.put(plugin, api);
+		}
+		
+		return api;
 	}
 	
 	public String getVersion(){

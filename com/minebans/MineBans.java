@@ -100,7 +100,7 @@ public class MineBans extends JavaPlugin {
 	}
 	
 	public MineBansPluginAPI getPluginAPI(Plugin plugin){
-		return new MineBansPluginAPI(this, plugin);
+		return MineBansPluginAPI.getHandle(this, plugin);
 	}
 	
 	public String formatMessage(String message, boolean colour, boolean version){
