@@ -47,7 +47,7 @@ public class PlayerLoginListener implements Listener {
 	private boolean processPlayerInfoData(PlayerInfoData playerInfo, String playerName, String playerAddress){
 		// 4
 		if (playerInfo.shouldUnban()){
-			plugin.banManager.unbanPlayer(playerName, "CONSOLE");
+			plugin.banManager.unGlobalBan(playerName, "CONSOLE");
 		}
 		
 		// 3
