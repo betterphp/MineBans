@@ -17,10 +17,24 @@ import com.minebans.bans.BanType;
 
 public class MineBansPluginAPI {
 	
+	private static HashMap<Plugin, MineBansPluginAPI> handles = new HashMap<>();
+
+	public static MineBansPluginAPI getHandle(MineBans mineBans, Plugin plugin) {
+		if (plugin != null){
+			MineBansPluginAPI r = handles.get(plugin);
+			if (r == null){
+				r = new MineBansPluginAPI(mineBans, plugin);
+				handles.put(plugin, r);
+			}
+			return r;
+		}
+		return null;
+	}
+	
 	private MineBans plugin;
 	private PluginDescriptionFile pdf;
 	
-	public MineBansPluginAPI(MineBans minebans, Plugin plugin){
+	private MineBansPluginAPI(MineBans minebans, Plugin plugin){
 		this.plugin = minebans;
 		this.pdf = plugin.getDescription();
 	}
