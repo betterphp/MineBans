@@ -216,8 +216,6 @@ public class BanManager {
 	
 	public boolean isTempBanned(String playerName){
 		if (this.tempBannedPlayers.contains(playerName)){
-			System.out.println(Long.parseLong(this.tempBannedPlayers.getData(playerName)));
-			
 			if (Long.parseLong(this.tempBannedPlayers.getData(playerName)) <= (System.currentTimeMillis() / 1000)){
 				this.unbanPlayer(playerName, "CONSOLE");
 				return false;
