@@ -8,7 +8,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.minebans.MineBans;
 
-
 public class MineBansConfig {
 	
 	private YamlConfiguration config;
@@ -19,6 +18,8 @@ public class MineBansConfig {
 		this.configDefaults = new LinkedHashMap<String, Object>();
 		
 		this.configDefaults.put("api-key", "change this to the one from your control panel");
+		
+		this.configDefaults.put("use-compact-join-info", false);
 		
 		this.configDefaults.put("block-public-proxies", true);
 		this.configDefaults.put("block-known-compromised-accounts", true);

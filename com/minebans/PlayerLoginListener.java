@@ -95,12 +95,20 @@ public class PlayerLoginListener implements Listener {
 		Long removed	= playerData.getRemoved();
 		
 		if (totalBans > 0L || last24 > 0L || removed > 0L){
-			for (Player player : plugin.server.getOnlinePlayers()){
-				if (player.getName().equalsIgnoreCase(playerName) == false && player.hasPermission("minebans.alert.onjoin")){
-					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Summary for " + playerName));
-					player.sendMessage(ChatColor.GREEN + "Total bans on record: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans);
-					player.sendMessage(ChatColor.GREEN + "Bans in the last 24 hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
-					player.sendMessage(ChatColor.GREEN + "Bans that have been removed: " + ((removed <= 10L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + removed);
+			if (plugin.config.getBoolean("use-compact-join-info")){
+				for (Player player : plugin.server.getOnlinePlayers()){
+					if (player.getName().equalsIgnoreCase(playerName) == false && player.hasPermission("minebans.alert.onjoin")){
+						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Summary for " + playerName + " Total: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans) + " Last 24 Hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
+					}
+				}
+			}else{
+				for (Player player : plugin.server.getOnlinePlayers()){
+					if (player.getName().equalsIgnoreCase(playerName) == false && player.hasPermission("minebans.alert.onjoin")){
+						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Summary for " + playerName));
+						player.sendMessage(ChatColor.GREEN + "Total bans on record: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans);
+						player.sendMessage(ChatColor.GREEN + "Bans in the last 24 hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
+						player.sendMessage(ChatColor.GREEN + "Bans that have been removed: " + ((removed <= 10L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + removed);
+					}
 				}
 			}
 		}
