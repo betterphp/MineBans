@@ -15,7 +15,7 @@ import org.json.simple.parser.ParseException;
 
 import com.minebans.MineBans;
 import com.minebans.api.APIException;
-import com.minebans.api.APIResponceCallback;
+import com.minebans.api.APIResponseCallback;
 import com.minebans.api.PlayerBanData;
 import com.minebans.bans.BanReason;
 import com.minebans.bans.BanSeverity;
@@ -96,13 +96,13 @@ public class MineBansExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			plugin.api.lookupPlayerBans(args[1], sender.getName(), new APIResponceCallback(){
+			plugin.api.lookupPlayerBans(args[1], sender.getName(), new APIResponseCallback(){
 				
-				public void onSuccess(String responce) {
+				public void onSuccess(String response) {
 					PlayerBanData data;
 					
 					try{
-						data = new PlayerBanData((JSONObject) ((JSONObject) (new JSONParser()).parse(responce)));
+						data = new PlayerBanData((JSONObject) ((JSONObject) (new JSONParser()).parse(response)));
 					}catch (ParseException e){
 						this.onFailure(e);
 						return;
@@ -143,22 +143,22 @@ public class MineBansExecutor implements CommandExecutor {
 				
 				public void onFailure(Exception e){
 					if (e instanceof SocketTimeoutException){
-						plugin.log.fatal("The API failed to responce in time.");
+						plugin.log.fatal("The API failed to response in time.");
 					}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
 						plugin.log.fatal("Failed to contact the API (you should report this on BukkitDev).");
 						e.printStackTrace();
 					}else if (e instanceof ParseException){
-						plugin.log.fatal("Failed to parse API responce (you should report this on BukkitDev).");
+						plugin.log.fatal("Failed to parse API response (you should report this on BukkitDev).");
 						e.printStackTrace();
 					}else if (e instanceof APIException){
-						plugin.log.fatal("API Request Failed: " + ((APIException) e).getResponce());
+						plugin.log.fatal("API Request Failed: " + ((APIException) e).getResponse());
 					}
 					
 					if (sender != null){
 						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Failed to fetch bans for '" + args[1] + "'."));
 						
 						if (e instanceof APIException){
-							sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Responce: " + ((APIException) e).getResponce()));
+							sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Response: " + ((APIException) e).getResponse()));
 						}
 					}
 				}

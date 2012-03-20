@@ -16,11 +16,11 @@ public class PlayerBanData {
 	private HashMap<String, Long> summary;
 	private HashMap<BanReason, HashMap<BanSeverity, Long>> bans;
 	
-	public PlayerBanData(JSONObject responce){
+	public PlayerBanData(JSONObject response){
 		this.summary = new HashMap<String, Long>();
 		this.bans = new HashMap<BanReason, HashMap<BanSeverity, Long>>();
 		
-		JSONObject playerInfo = (JSONObject) responce.get("player_info");
+		JSONObject playerInfo = (JSONObject) response.get("player_info");
 		JSONObject totalBans = (JSONObject) playerInfo.get("total_bans");
 		
 		JSONObject banReasonInfo;
@@ -62,8 +62,8 @@ public class PlayerBanData {
 		}
 	}
 	
-	public PlayerBanData(String responce) throws ParseException {
-		this((JSONObject) (new JSONParser()).parse(responce));
+	public PlayerBanData(String response) throws ParseException {
+		this((JSONObject) (new JSONParser()).parse(response));
 	}
 	
 	public HashMap<String, Long> getSummary(){

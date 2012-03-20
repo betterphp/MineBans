@@ -4,14 +4,14 @@ public class APIException extends Exception {
 	
 	private static final long serialVersionUID = -2326975797674124248L;
 	
-	private String responce;
+	private String response;
 	
-	public APIException(String responce){
-		this.responce = responce;
+	public APIException(String response){
+		this.response = response;
 	}
 	
-	public String getResponce(){
-		return this.responce;
+	public String getResponse(){
+		return this.response;
 	}
 	
 }

@@ -9,15 +9,15 @@ public class PlayerInfoData {
 	private Boolean isKnownCompromised;
 	private Boolean shouldUnban;
 	
-	public PlayerInfoData(JSONObject responce){
-		JSONObject data = (JSONObject) responce.get("player_info");
+	public PlayerInfoData(JSONObject response){
+		JSONObject data = (JSONObject) response.get("player_info");
 		
 		this.isKnownCompromised = (Boolean) data.get("known_compromised");
 		this.shouldUnban = (Boolean) data.get("should_unban");
 	}
 	
-	public PlayerInfoData(String responce) throws ParseException {
-		this((JSONObject) (new JSONParser()).parse(responce));
+	public PlayerInfoData(String response) throws ParseException {
+		this((JSONObject) (new JSONParser()).parse(response));
 	}
 	
 	public Boolean isKnownCompromised(){
