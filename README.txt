@@ -33,13 +33,13 @@ Thing 1.
 	
 	v0.1.1 Commit message here
 	
-	This ultimately means that you have to decide on a version number,
-	If you are making an improvement to the code without changing the
-	overall functionality take the last digit and increment it by 1. If
-	you are adding a new feature or making a more significant change
-	increment the second digit. The first should never be changed. 
-
+	The version number should be the one from the current plugin.yml
+	file. It will be updated with each release.
+	
+	If you are submitting a major change (one that modified the end user
+	experience) the version number should be updated.
+	
 Thing 2.
-
+	
 	The message should be free of technical jargon, try to explain the
 	effect instead.

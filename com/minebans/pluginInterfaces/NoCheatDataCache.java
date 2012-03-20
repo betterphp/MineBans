@@ -20,7 +20,6 @@ public class NoCheatDataCache implements Runnable, Listener {
 	private MineBans plugin;
 	private NoCheat nocheat;
 	
-	// data['player_name']['data_key'][] = 'violation_level';
 	private HashMap<String, HashMap<String, ArrayList<Long>>> data;
 	
 	public NoCheatDataCache(MineBans plugin, NoCheat nocheat){
