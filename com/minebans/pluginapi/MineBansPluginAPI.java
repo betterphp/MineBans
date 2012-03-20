@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.json.simple.parser.ParseException;
 
 import com.minebans.MineBans;
@@ -18,13 +17,13 @@ import com.minebans.bans.BanType;
 public class MineBansPluginAPI {
 	
 	private MineBans plugin;
-	private PluginDescriptionFile pdf;
+	private String pluginName;
 	
 	private static HashMap<Plugin, MineBansPluginAPI> handles = new HashMap<Plugin, MineBansPluginAPI>();
 	
 	private MineBansPluginAPI(MineBans mineBans, Plugin plugin){
 		this.plugin = mineBans;
-		this.pdf = plugin.getDescription();
+		this.pluginName = plugin.getDescription().getName();
 	}
 	
 	public static MineBansPluginAPI getHandle(MineBans mineBans, Plugin plugin){
@@ -52,7 +51,7 @@ public class MineBansPluginAPI {
 		}
 		
 		player.kickPlayer(message);
-		plugin.log.info(player.getName() + " was kicked from the server by the plugin '" + this.pdf.getName() + "'");
+		plugin.log.info(player.getName() + " was kicked from the server by the plugin '" + this.pluginName + "'");
 		
 		return true;
 	}
@@ -88,7 +87,7 @@ public class MineBansPluginAPI {
 	
 	public boolean locallyBanPlayer(String playerName){
 		plugin.banManager.locallyBanPlayer(playerName, false, false);
-		plugin.log.info(playerName + " was locally banned by the plugin '" + this.pdf.getName() + "'");
+		plugin.log.info(playerName + " was locally banned by the plugin '" + this.pluginName + "'");
 		return true;
 	}
 	
@@ -140,7 +139,7 @@ public class MineBansPluginAPI {
 		}
 		
 		plugin.banManager.globallyBanPlayer(playerName, issuedBy, reason, false, false);
-		plugin.log.info(playerName + " was globally banned by the plugin '" + this.pdf.getName() + "'");
+		plugin.log.info(playerName + " was globally banned by the plugin '" + this.pluginName + "'");
 		
 		return true;
 	}
@@ -155,7 +154,7 @@ public class MineBansPluginAPI {
 		}
 		
 		plugin.banManager.tempBanPlayer(playerName, banDuration, false, false);
-		plugin.log.info(playerName + " was temporarily banned by the plugin '" + this.pdf.getName() + "'");
+		plugin.log.info(playerName + " was temporarily banned by the plugin '" + this.pluginName + "'");
 		
 		return true;
 	}
@@ -170,7 +169,7 @@ public class MineBansPluginAPI {
 		}
 		
 		plugin.banManager.unLocalBan(playerName, false);
-		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pdf.getName() + "'");
+		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pluginName + "'");
 		
 		return true;
 	}
@@ -185,7 +184,7 @@ public class MineBansPluginAPI {
 		}
 		
 		plugin.banManager.unGlobalBan(playerName, issuedBy);
-		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pdf.getName() + "'");
+		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pluginName + "'");
 		
 		return true;
 	}
@@ -200,7 +199,7 @@ public class MineBansPluginAPI {
 		}
 		
 		plugin.banManager.unTempBan(playerName, false);
-		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pdf.getName() + "'");
+		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pluginName + "'");
 		
 		return true;
 	}
@@ -215,7 +214,7 @@ public class MineBansPluginAPI {
 		}
 		
 		plugin.banManager.unbanPlayer(playerName, issuedBy, false);
-		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pdf.getName() + "'");
+		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pluginName + "'");
 		
 		return true;
 	}
@@ -226,7 +225,7 @@ public class MineBansPluginAPI {
 	
 	public boolean exemptPlayer(String playerName){
 		plugin.banManager.exemptPlayer(playerName, false);
-		plugin.log.info(playerName + " was added to the exempt list by the plugin '" + this.pdf.getName() + "'");
+		plugin.log.info(playerName + " was added to the exempt list by the plugin '" + this.pluginName + "'");
 		
 		return true;
 	}
@@ -241,7 +240,7 @@ public class MineBansPluginAPI {
 		}
 		
 		plugin.banManager.unExemptPlayer(playerName, false);
-		plugin.log.info(playerName + " was removed from thes exempt list by the plugin '" + this.pdf.getName() + "'");
+		plugin.log.info(playerName + " was removed from thes exempt list by the plugin '" + this.pluginName + "'");
 		
 		return true;
 	}
