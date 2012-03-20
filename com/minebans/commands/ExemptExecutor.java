@@ -52,7 +52,7 @@ public class ExemptExecutor implements CommandExecutor {
 			
 			sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the exempt list."));
 		}else{
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Invalid option, see /whitelist for a list of options."));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Invalid option, try /exempt for a list of options."));
 			return true;
 		}
 		
