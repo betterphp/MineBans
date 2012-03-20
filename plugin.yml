@@ -28,7 +28,7 @@ permissions:
         description: Players with this permission will be shown a players ban summary when the join.
         default: op
     minebans.alert.onapifail:
-        description: Players with this pemrission will be notified if a player joins before the API responds with their data.
+        description: Players with this permission will be notified if a player joins before the API responds with their data.
         default: op
     minebans.alert.onban:
         description: Players with this permission will be notified when a player is banned.
