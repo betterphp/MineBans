@@ -5,12 +5,12 @@ import org.json.simple.JSONObject;
 public class APIRequest {
 	
 	public JSONObject json;
-	public APIResponceCallback callback;
+	public APIResponseCallback callback;
 	public int timeout;
 	
 	public boolean complete;
 	
-	public APIRequest(JSONObject json, APIResponceCallback callback, int timeout){
+	public APIRequest(JSONObject json, APIResponseCallback callback, int timeout){
 		this.json = json;
 		this.callback = callback;
 		this.timeout = timeout;
@@ -23,7 +23,7 @@ public class APIRequest {
 		this.complete = false;
 	}
 	
-	public APIRequest(JSONObject json, APIResponceCallback callback){
+	public APIRequest(JSONObject json, APIResponseCallback callback){
 		this(json, callback, 250);
 	}
 	

@@ -9,7 +9,7 @@ import org.bukkit.plugin.Plugin;
 import org.json.simple.parser.ParseException;
 
 import com.minebans.MineBans;
-import com.minebans.api.APIResponceCallback;
+import com.minebans.api.APIResponseCallback;
 import com.minebans.api.PlayerBanData;
 import com.minebans.bans.BanReason;
 import com.minebans.bans.BanType;
@@ -249,12 +249,12 @@ public class MineBansPluginAPI {
 		return this.unExemptPlayer(player.getName());
 	}
 	
-	public void lookupPlayer(String playerName, String issuedBy, final PluginAPIResponceCallback callback){
-		plugin.api.lookupPlayerBans(playerName, issuedBy, new APIResponceCallback(){
+	public void lookupPlayer(String playerName, String issuedBy, final PluginAPIResponseCallback callback){
+		plugin.api.lookupPlayerBans(playerName, issuedBy, new APIResponseCallback(){
 			
-			public void onSuccess(String responce){
+			public void onSuccess(String response){
 				try{
-					callback.onSuccess(new PlayerBanData(responce));
+					callback.onSuccess(new PlayerBanData(response));
 				}catch (ParseException e){
 					callback.onFailure(e);
 				}
@@ -267,7 +267,7 @@ public class MineBansPluginAPI {
 		});
 	}
 	
-	public void lookupPlayer(Player player, String issuedBy, PluginAPIResponceCallback callback){
+	public void lookupPlayer(Player player, String issuedBy, PluginAPIResponseCallback callback){
 		this.lookupPlayer(player.getName(), issuedBy, callback);
 	}
 	
