@@ -66,11 +66,6 @@ public class MineBans extends JavaPlugin {
 		this.loggingPlugin = new LoggingInterface(this);
 		this.exploitPlugin = new ExploitInterface(this);
 		
-		if (this.loggingPlugin.foundLoggingPlugin() == false){
-			this.setEnabled(false);
-			return;
-		}
-		
 		this.banManager = new BanManager(this);
 		this.evidenceManager = new EvidenceManager(this);
 		

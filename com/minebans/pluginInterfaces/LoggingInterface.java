@@ -12,9 +12,11 @@ public class LoggingInterface {
 		if (plugin.pluginManager.isPluginEnabled("LogBlock")){
 			this.pluginInterface = new LogBlockPluginInterface(plugin);
 //		}else if (plugin.pluginManager.isPluginEnabled("HawkEye")){
-			
+			//TODO: Add HawkEye support.
 		}else{
-			plugin.log.fatal("A suitable exploit detection plugin was not found.");
+			plugin.log.warn("A suitable logging plugin was not found.");
+			plugin.log.warn("It is strongly recomended that you install a plugin such as LogBlock");
+			plugin.log.warn("this will be used to calculate the severity of any bans you make.");
 		}
 		
 		if (this.foundLoggingPlugin()){
@@ -31,18 +33,34 @@ public class LoggingInterface {
 	}
 	
 	public HashMap<Short, Integer> getChestAccess(String playerName){
+		if (this.foundLoggingPlugin() == false){
+			return null;
+		}
+		
 		return this.pluginInterface.getChestAccess(playerName);
 	}
 	
 	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
+		if (this.foundLoggingPlugin() == false){
+			return null;
+		}
+		
 		return this.pluginInterface.getBlocksPlaced(playerName);
 	}
 	
 	public HashMap<Integer, Integer> getBlocksBroken(String playerName){
+		if (this.foundLoggingPlugin() == false){
+			return null;
+		}
+		
 		return this.pluginInterface.getBlocksBroken(playerName);
 	}
 	
 	public HashMap<String, HashMap<Integer, Integer>> getBlockChanges(String playerName){
+		if (this.foundLoggingPlugin() == false){
+			return null;
+		}
+		
 		return this.pluginInterface.getBlockChanges(playerName);
 	}
 	
