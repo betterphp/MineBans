@@ -58,16 +58,16 @@ public class APIRequestHandler extends Thread implements Runnable {
 			buffer.append(line);
 		}
 		
-		String responce = buffer.toString();
+		String response = buffer.toString();
 		
 		out.close();
 		in.close();
 		
-		if (responce == null || responce.startsWith("E")){
-			throw new APIException(responce);
+		if (response == null || response.startsWith("E")){
+			throw new APIException(response);
 		}
 		
-		return responce;
+		return response;
 	}
 	
 	public void run(){
