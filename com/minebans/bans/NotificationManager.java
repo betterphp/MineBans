@@ -90,4 +90,16 @@ public class NotificationManager {
 		}
 	}
 	
+	public void sendKickNotification(String playerName, boolean log){
+		for (Player onlinePlayer : plugin.server.getOnlinePlayers()){
+			if (onlinePlayer.hasPermission("globalbans.alert.onkick")){
+				onlinePlayer.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been kicked from the server."));
+			}
+		}
+		
+		if (log){
+			plugin.log.info(plugin.formatMessage(playerName + " has been kicked from the server.", false));
+		}
+	}
+	
 }

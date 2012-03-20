@@ -4,7 +4,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import com.minebans.MineBans;
 
@@ -28,22 +27,12 @@ public class KickExecutor implements CommandExecutor {
 			return true;
 		}
 		
-		Player player = plugin.server.getPlayer(args[0]);
-		
-		if (player == null){
+		if (plugin.server.getOfflinePlayer(args[0]).isOnline() == false){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + args[0] + " is not online."));
 			return true;
 		}
 		
-		player.kickPlayer("You have been kicked from the server.");
-		
-		for (Player onlinePlayer : plugin.server.getOnlinePlayers()){
-			if (onlinePlayer.hasPermission("globalbans.alert.onkick")){
-				onlinePlayer.sendMessage(plugin.formatMessage(ChatColor.GREEN + args[0] + " has been kicked from the server."));
-			}
-		}
-		
-		plugin.log.info(args[0] + " has been kicked from the server.");
+		plugin.banManager.kickPlayer(args[0], true);
 		
 		return true;
 	}
