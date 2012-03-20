@@ -66,27 +66,27 @@ public class NotificationManager {
 		}
 	}
 	
-	public void sendWhiteListNotification(String playerName, boolean log){
+	public void sendExemptListNotification(String playerName, boolean log){
 		for (Player player : plugin.server.getOnlinePlayers()){
-			if (player.hasPermission("minebans.alert.onunban")){
-				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been added to the whitelsit."));
+			if (player.hasPermission("minebans.alert.onexempt")){
+				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been added to the exempt list."));
 			}
 		}
 		
 		if (log){
-			plugin.log.info(plugin.formatMessage(playerName + " has been added to the whitelist.", false));
+			plugin.log.info(plugin.formatMessage(playerName + " has been added to the exempt list.", false));
 		}
 	}
 	
-	public void sendUnWhiteListNotification(String playerName, boolean log){
+	public void sendUnExemptListNotification(String playerName, boolean log){
 		for (Player player : plugin.server.getOnlinePlayers()){
-			if (player.hasPermission("minebans.alert.onunban")){
-				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the whitelsit."));
+			if (player.hasPermission("minebans.alert.onunexempt")){
+				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the exempt list."));
 			}
 		}
 		
 		if (log){
-			plugin.log.info(plugin.formatMessage(playerName + " has been removed from the whitelist.", false));
+			plugin.log.info(plugin.formatMessage(playerName + " has been removed from the exempt list.", false));
 		}
 	}
 	

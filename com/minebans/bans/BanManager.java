@@ -176,6 +176,7 @@ public class BanManager {
 		this.localExemptList.add(playerName);
 		
 		plugin.pluginManager.callEvent(new PlayerExemptEvent(playerName));
+		this.notification.sendExemptListNotification(playerName, log);
 	}
 	
 	public void exemptPlayer(String playerName){
@@ -192,6 +193,7 @@ public class BanManager {
 		this.localExemptList.remove(playerName);
 		
 		plugin.pluginManager.callEvent(new PlayerUnExemptEvent(playerName));
+		this.notification.sendUnExemptListNotification(playerName, log);
 	}
 	
 	public void unExemptPlayer(String playerName){
