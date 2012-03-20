@@ -25,12 +25,12 @@ public class BanExecutor implements CommandExecutor {
 		}
 		
 		if (args.length == 0){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Useage: /ban <player_name> [reason / ban_duration]"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (local only): /ban wide_load"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /ban <player_name> [reason / ban_duration]"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (local): /ban wide_load"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (global): /ban wide_load 2"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (global): /ban wide_load griefing"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (global): /ban wide_load 12h"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (global): /ban wide_load 7d"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (temporary): /ban wide_load 12h"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (temporary): /ban wide_load 7d"));
 			return true;
 		}
 		
@@ -41,7 +41,7 @@ public class BanExecutor implements CommandExecutor {
 			return true;
 		}
 		
-		if (sender instanceof Player && playerName.equalsIgnoreCase(((Player) sender).getName())){
+		if (sender instanceof Player && playerName.equalsIgnoreCase(sender.getName())){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot ban yourself, that would be silly."));
 			return true;
 		}
