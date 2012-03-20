@@ -34,7 +34,7 @@ public class APIInterface {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void lookupPlayerBans(final String playerName, String issuedBy, APIResponceCallback callback){
+	public void lookupPlayerBans(final String playerName, String issuedBy, APIResponseCallback callback){
 		JSONObject json = new JSONObject();
 		
 		json.put("action", "lookup_player");
@@ -45,7 +45,7 @@ public class APIInterface {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void lookupPlayerInfo(final String playerName, String issuedBy, APIResponceCallback callback){
+	public void lookupPlayerInfo(final String playerName, String issuedBy, APIResponseCallback callback){
 		JSONObject json = new JSONObject();
 		
 		json.put("action", "get_player_info");
@@ -65,30 +65,30 @@ public class APIInterface {
 		json.put("reason", reason.getID());
 		json.put("evidence", evidence);
 		
-		this.requestHandler.addRequest(new APIRequest(json, new APIResponceCallback(){
+		this.requestHandler.addRequest(new APIRequest(json, new APIResponseCallback(){
 			
 			CommandSender sender = (issuedBy.equalsIgnoreCase("console")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
 			
-			public void onSuccess(String responce){  }
+			public void onSuccess(String response){  }
 			
 			public void onFailure(Exception e){
 				if (e instanceof SocketTimeoutException){
-					plugin.log.fatal("The API failed to responce in time.");
+					plugin.log.fatal("The API failed to response in time.");
 				}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
 					plugin.log.fatal("Failed to contact the API (you should report this on BukkitDev).");
 					e.printStackTrace();
 				}else if (e instanceof ParseException){
-					plugin.log.fatal("Failed to parse API responce (you should report this on BukkitDev).");
+					plugin.log.fatal("Failed to parse API response (you should report this on BukkitDev).");
 					e.printStackTrace();
 				}else if (e instanceof APIException){
-					plugin.log.fatal("API Request Failed: " + ((APIException) e).getResponce());
+					plugin.log.fatal("API Request Failed: " + ((APIException) e).getResponse());
 				}
 				
 				if (sender != null){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Failed to upload ban for '" + playerName + "'."));
 					
 					if (e instanceof APIException){
-						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Responce: " + ((APIException) e).getResponce()));
+						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Response: " + ((APIException) e).getResponse()));
 					}
 				}
 			}
@@ -104,32 +104,32 @@ public class APIInterface {
 		json.put("issued_by", issuedBy);
 		json.put("player_name", playerName);
 		
-		this.requestHandler.addRequest(new APIRequest(json, new APIResponceCallback(){
+		this.requestHandler.addRequest(new APIRequest(json, new APIResponseCallback(){
 			
 			CommandSender sender = (issuedBy.equalsIgnoreCase("console")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
 			
-			public void onSuccess(String responce){
+			public void onSuccess(String response){
 				plugin.banManager.unbanPlayerAPICallback(playerName);
 			}
 			
 			public void onFailure(Exception e){
 				if (e instanceof SocketTimeoutException){
-					plugin.log.fatal("The API failed to responce in time.");
+					plugin.log.fatal("The API failed to response in time.");
 				}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
 					plugin.log.fatal("Failed to contact the API (you should report this on BukkitDev).");
 					e.printStackTrace();
 				}else if (e instanceof ParseException){
-					plugin.log.fatal("Failed to parse API responce (you should report this on BukkitDev).");
+					plugin.log.fatal("Failed to parse API response (you should report this on BukkitDev).");
 					e.printStackTrace();
 				}else if (e instanceof APIException){
-					plugin.log.fatal("API Request Failed: " + ((APIException) e).getResponce());
+					plugin.log.fatal("API Request Failed: " + ((APIException) e).getResponse());
 				}
 				
 				if (sender != null){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Failed to remove global ban for '" + playerName + "'."));
 					
 					if (e instanceof APIException){
-						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Responce: " + ((APIException) e).getResponce()));
+						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Response: " + ((APIException) e).getResponse()));
 					}
 				}
 			}
@@ -153,12 +153,12 @@ public class APIInterface {
 			if (e instanceof SocketTimeoutException){
 				throw (SocketTimeoutException) e;
 			}else if (e instanceof APIException){
-				plugin.log.fatal("Unable to contact the API. Responce: " + ((APIException) e).getResponce());
+				plugin.log.fatal("Unable to contact the API. Response: " + ((APIException) e).getResponse());
 			}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
 				plugin.log.fatal("Failed to contact the API (you should report this on BukkitDev).");
 				e.printStackTrace();
 			}else if (e instanceof ParseException){
-				plugin.log.fatal("Failed to parse API responce (you should report this on BukkitDev).");
+				plugin.log.fatal("Failed to parse API response (you should report this on BukkitDev).");
 				e.printStackTrace();
 			}
 			
@@ -166,7 +166,7 @@ public class APIInterface {
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Failed to fetch bans for '" + playerName + "'."));
 				
 				if (e instanceof APIException){
-					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Responce: " + ((APIException) e).getResponce()));
+					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Response: " + ((APIException) e).getResponse()));
 				}
 			}
 			
@@ -190,12 +190,12 @@ public class APIInterface {
 			if (e instanceof SocketTimeoutException){
 				throw (SocketTimeoutException) e;
 			}else if (e instanceof APIException){
-				plugin.log.fatal("Unable to contact the API. Responce: " + ((APIException) e).getResponce());
+				plugin.log.fatal("Unable to contact the API. Response: " + ((APIException) e).getResponse());
 			}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
 				plugin.log.fatal("Failed to contact the API (you should report this on BukkitDev).");
 				e.printStackTrace();
 			}else if (e instanceof ParseException){
-				plugin.log.fatal("Failed to parse API responce (you should report this on BukkitDev).");
+				plugin.log.fatal("Failed to parse API response (you should report this on BukkitDev).");
 				e.printStackTrace();
 			}
 			
@@ -203,7 +203,7 @@ public class APIInterface {
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Failed to fetch info for '" + playerName + "'."));
 				
 				if (e instanceof APIException){
-					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Responce: " + ((APIException) e).getResponce()));
+					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Response: " + ((APIException) e).getResponse()));
 				}
 			}
 			

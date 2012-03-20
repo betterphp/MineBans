@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerPreLoginEvent;
 import org.json.simple.parser.ParseException;
 
-import com.minebans.api.APIResponceCallback;
+import com.minebans.api.APIResponseCallback;
 import com.minebans.api.PlayerBanData;
 import com.minebans.api.PlayerInfoData;
 import com.minebans.bans.BanReason;
@@ -164,11 +164,11 @@ public class PlayerLoginListener implements Listener {
 				}
 			}
 			
-			plugin.api.lookupPlayerInfo(playerName, "CONSOLE", new APIResponceCallback(){
+			plugin.api.lookupPlayerInfo(playerName, "CONSOLE", new APIResponseCallback(){
 				
-				public void onSuccess(String responce){
+				public void onSuccess(String response){
 					try{
-						PlayerInfoData playerInfo = new PlayerInfoData(responce);
+						PlayerInfoData playerInfo = new PlayerInfoData(response);
 						
 						if (processPlayerInfoData(playerInfo, playerName, playerAddress)){
 							Player player = plugin.server.getPlayer(playerName);
@@ -222,11 +222,11 @@ public class PlayerLoginListener implements Listener {
 					}
 				}
 				
-				plugin.api.lookupPlayerBans(playerName, "CONSOLE", new APIResponceCallback(){
+				plugin.api.lookupPlayerBans(playerName, "CONSOLE", new APIResponseCallback(){
 					
-					public void onSuccess(String responce){
+					public void onSuccess(String response){
 						try{
-							PlayerBanData playerData = new PlayerBanData(responce);
+							PlayerBanData playerData = new PlayerBanData(response);
 							
 							if (processPlayerBanData(playerData, playerName, playerAddress)){
 								Player player = plugin.server.getPlayer(playerName);
