@@ -93,7 +93,7 @@ public class BanExecutor implements CommandExecutor {
 					return true;
 				}
 				
-				if (plugin.config.getBoolean("max-bans." + reason.getConfigKey() + ".enabled") == false){
+				if (plugin.config.getBoolean(reason.getEnabledKey()) == false){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot ban a player for a reason not enabled on the server."));
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "See /minebans reasons for a list of available reasons."));
 					return true;

@@ -57,7 +57,7 @@ public class MineBansExecutor implements CommandExecutor {
 			for (i = 0; i < reasons.length; ++i){
 				reason = reasons[i];
 				
-				if (plugin.config.getBoolean("max-bans." + reason.getConfigKey() + ".enabled")){
+				if (plugin.config.getBoolean(reason.getEnabledKey())){
 					line = new StringBuilder();
 					
 					keywords = reason.getKeywords();

@@ -21,7 +21,7 @@ import com.minebans.evidence.EvidenceManager;
 import com.minebans.pluginInterfaces.ExploitInterface;
 import com.minebans.pluginInterfaces.LoggingInterface;
 import com.minebans.pluginapi.MineBansPluginAPI;
-import com.minebans.util.MineBansConfig;
+import com.minebans.util.PluginConfig;
 import com.minebans.util.PluginLogger;
 
 public class MineBans extends JavaPlugin {
@@ -33,7 +33,7 @@ public class MineBans extends JavaPlugin {
 	public PluginManager pluginManager;
 	public BukkitScheduler scheduler;
 	
-	public MineBansConfig config;
+	public PluginConfig config;
 	
 	public LoggingInterface loggingPlugin;
 	public ExploitInterface exploitPlugin;
@@ -61,7 +61,7 @@ public class MineBans extends JavaPlugin {
 		
 		(new File(pluginFolder)).mkdirs();
 		
-		this.config = new MineBansConfig(new File(pluginFolder + File.separator + "config.yml"), this);
+		this.config = new PluginConfig(new File(pluginFolder + File.separator + "config.yml"), this.log);
 		
 		this.loggingPlugin = new LoggingInterface(this);
 		this.exploitPlugin = new ExploitInterface(this);

@@ -8,6 +8,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.minebans.MineBans;
+import com.minebans.bans.BanReason;
 
 import de.diddiz.LogBlock.BlockChange;
 import de.diddiz.LogBlock.LogBlock;
@@ -55,7 +56,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 			try{
 				worldConfig.load(worldConfigFile);
 				
-				if (plugin.config.getBoolean("max-bans.grief.enabled")){
+				if (plugin.config.getBoolean(BanReason.GRIEF.getEnabledKey())){
 					if (worldConfig.getBoolean("logging.BLOCKBREAK") == false){
 						plugin.log.warn("To provide the best data LogBlock should be set to log block breaks for all worlds.");
 					}
@@ -65,7 +66,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 					}
 				}
 				
-				if (plugin.config.getBoolean("max-bans.theft.enabled")){
+				if (plugin.config.getBoolean(BanReason.THEFT.getEnabledKey())){
 					if (worldConfig.getBoolean("logging.CHESTACCESS") == false){
 						plugin.log.warn("To provide the best data LogBlock should be set to log chest access for all worlds.");
 					}

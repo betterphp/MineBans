@@ -13,7 +13,7 @@ public class EvidenceManager {
 		this.collectorMap = new HashMap<BanReason, EvidenceCollector>();
 		
 		for (BanReason reason : BanReason.getAll()){
-			if (plugin.config.getBoolean("max-bans." + reason.getConfigKey() + ".enabled")){
+			if (plugin.config.getBoolean(reason.getEnabledKey())){
 				this.collectorMap.put(reason, reason.getEvidenceCollector());
 			}
 		}

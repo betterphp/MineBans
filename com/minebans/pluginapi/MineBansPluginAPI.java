@@ -130,7 +130,7 @@ public class MineBansPluginAPI {
 			return false;
 		}
 		
-		if (plugin.config.getBoolean("max-bans." + reason.getConfigKey() + ".enabled") == false){
+		if (plugin.config.getBoolean(reason.getEnabledKey()) == false){
 			return false;
 		}
 		

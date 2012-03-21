@@ -51,7 +51,7 @@ public class PlayerLoginListener implements Listener {
 		}
 		
 		// 3
-		if (plugin.config.getBoolean("block-known-compromised-accounts") && playerInfo.isKnownCompromised()){
+		if (plugin.config.getBoolean(MineBansConfig.BLOCK_COMPROMISED_ACCOUNTS) && playerInfo.isKnownCompromised()){
 			plugin.log.info(playerName + " (" + playerAddress + ") is using an account that is known to be compromised");
 			plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, null, null));
 			return true;
@@ -61,18 +61,15 @@ public class PlayerLoginListener implements Listener {
 	}
 	
 	private boolean processPlayerBanData(PlayerBanData playerData, String playerName, String playerAddress){
-		String key;
 		Long limit;
 		
 		for (BanReason banReason : playerData.getBanReasons()){
-			key = banReason.getConfigKey();
-			
-			if (plugin.config.getBoolean("max-bans." + key + ".enabled")){
+			if (plugin.config.getBoolean(banReason.getEnabledKey())){
 				for (BanSeverity severity : banReason.getSeverties()){
-					limit = plugin.config.getLong("max-bans." + key + "." + severity.getConfigName());
+					limit = plugin.config.getLong(MineBansConfig.getReasonLimit(banReason, severity));
 					
 					if (limit != -1L && playerData.get(banReason, severity) > limit){
-						plugin.log.info(playerName + " (" + playerAddress + ") has exceeded max-bans." + key + "." + severity.getConfigName());
+						plugin.log.info(playerName + " (" + playerAddress + ") has exceeded " + MineBansConfig.getReasonLimit(banReason, severity).getKey());
 						plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, banReason, severity));
 						return true;
 					}
@@ -81,7 +78,7 @@ public class PlayerLoginListener implements Listener {
 		}
 		
 		for (BanSeverity severity : BanSeverity.getAll()){
-			limit = plugin.config.getLong("max-bans.total." + severity.getConfigName());
+			limit = plugin.config.getLong(MineBansConfig.getTotalLimit(severity));
 			
 			if (limit != -1L && playerData.getTotal(severity) > limit){
 				plugin.log.info(playerName + " (" + playerAddress + ") has exceeded max-bans.total.total");
@@ -95,7 +92,7 @@ public class PlayerLoginListener implements Listener {
 		Long removed	= playerData.getRemoved();
 		
 		if (totalBans > 0L || last24 > 0L || removed > 0L){
-			if (plugin.config.getBoolean("use-compact-join-info")){
+			if (plugin.config.getBoolean(MineBansConfig.USE_COMPACT_JOIN_INFO)){
 				for (Player player : plugin.server.getOnlinePlayers()){
 					if (player.getName().equalsIgnoreCase(playerName) == false && player.hasPermission("minebans.alert.onjoin")){
 						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Summary for " + playerName + " Total: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans) + " Last 24 Hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
@@ -140,7 +137,7 @@ public class PlayerLoginListener implements Listener {
 		}
 		
 		// 2
-		if (plugin.config.getBoolean("block-public-proxies") && this.dnsblChecker.ipFound(playerAddress)){
+		if (plugin.config.getBoolean(MineBansConfig.BLOCK_PROXIES) && this.dnsblChecker.ipFound(playerAddress)){
 			event.disallow(Result.KICK_OTHER, "You cannot connect to this server via a proxy");
 			plugin.log.info(playerName + " (" + playerAddress + ") was prevented from connecting for using a public proxy.");
 			plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, null, null));
@@ -204,47 +201,51 @@ public class PlayerLoginListener implements Listener {
 		}
 		
 		// 5
-		if (plugin.config.getBooleansOr("max-bans.*.enabled")){
-			try{
-				PlayerBanData playerData = plugin.api.getPlayerBans(playerName, "CONSOLE");
-				
-				if (this.processPlayerBanData(playerData, playerName, playerAddress)){
-					event.disallow(Result.KICK_BANNED, "You have too many bans to connect to this server (apply for the whitelist at minebans.com)");
-					return;
-				}
-			}catch (SocketTimeoutException e){
-				plugin.log.info("The API failed to respond quick enough, trying again with more time. The player will be allowed to join for now.");
-				
-				for (Player player : plugin.server.getOnlinePlayers()){
-					if (player.getName().equalsIgnoreCase(playerName) == false && player.hasPermission("minebans.alert.onapifail")){
-						player.sendMessage(plugin.formatMessage(ChatColor.RED + playerName + " has not yet been checked with the API due to a timeout."));
-						player.sendMessage(plugin.formatMessage(ChatColor.RED + "The check has been delayed, they will be kicked if neessary."));
-					}
-				}
-				
-				plugin.api.lookupPlayerBans(playerName, "CONSOLE", new APIResponseCallback(){
+		for (BanReason banReason : BanReason.getAll()){
+			if (plugin.config.getBoolean(banReason.getEnabledKey())){
+				try{
+					PlayerBanData playerData = plugin.api.getPlayerBans(playerName, "CONSOLE");
 					
-					public void onSuccess(String response){
-						try{
-							PlayerBanData playerData = new PlayerBanData(response);
-							
-							if (processPlayerBanData(playerData, playerName, playerAddress)){
-								Player player = plugin.server.getPlayer(playerName);
-								
-								if (player != null){
-									player.kickPlayer("You have too many bans to connect to this server (apply for the whitelist at minebans.com)");
-								}
-							}
-						}catch (Exception e){
-							this.onFailure(e);
+					if (this.processPlayerBanData(playerData, playerName, playerAddress)){
+						event.disallow(Result.KICK_BANNED, "You have too many bans to connect to this server (apply for the whitelist at minebans.com)");
+						return;
+					}
+				}catch (SocketTimeoutException e){
+					plugin.log.info("The API failed to respond quick enough, trying again with more time. The player will be allowed to join for now.");
+					
+					for (Player player : plugin.server.getOnlinePlayers()){
+						if (player.getName().equalsIgnoreCase(playerName) == false && player.hasPermission("minebans.alert.onapifail")){
+							player.sendMessage(plugin.formatMessage(ChatColor.RED + playerName + " has not yet been checked with the API due to a timeout."));
+							player.sendMessage(plugin.formatMessage(ChatColor.RED + "The check has been delayed, they will be kicked if neessary."));
 						}
 					}
 					
-					public void onFailure(Exception e){
-						plugin.log.info("The API failed to respond even with a longer timeout, it might be down for some reason.");
-					}
-					
-				});
+					plugin.api.lookupPlayerBans(playerName, "CONSOLE", new APIResponseCallback(){
+						
+						public void onSuccess(String response){
+							try{
+								PlayerBanData playerData = new PlayerBanData(response);
+								
+								if (processPlayerBanData(playerData, playerName, playerAddress)){
+									Player player = plugin.server.getPlayer(playerName);
+									
+									if (player != null){
+										player.kickPlayer("You have too many bans to connect to this server (apply for the whitelist at minebans.com)");
+									}
+								}
+							}catch (Exception e){
+								this.onFailure(e);
+							}
+						}
+						
+						public void onFailure(Exception e){
+							plugin.log.info("The API failed to respond even with a longer timeout, it might be down for some reason.");
+						}
+						
+					});
+				}
+				
+				break;
 			}
 		}
 		
