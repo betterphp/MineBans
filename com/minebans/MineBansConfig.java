@@ -150,6 +150,10 @@ public enum MineBansConfig implements PluginConfigKey {
 		return defaultValues;
 	}
 	
+	public static MineBansConfig getReasonEnabled(BanReason reason){
+		return keyLookupTable.get("max-bans." + banReasonKeys.get(reason) + ".enabled");
+	}
+	
 	public static MineBansConfig getReasonLimit(BanReason reason, BanSeverity severity){
 		return keyLookupTable.get("max-bans." + banReasonKeys.get(reason) + "." + banSeverityKeys.get(severity));
 	}

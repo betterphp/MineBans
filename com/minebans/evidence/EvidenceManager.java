@@ -3,6 +3,7 @@ package com.minebans.evidence;
 import java.util.HashMap;
 
 import com.minebans.MineBans;
+import com.minebans.MineBansConfig;
 import com.minebans.bans.BanReason;
 
 public class EvidenceManager {
@@ -13,7 +14,7 @@ public class EvidenceManager {
 		this.collectorMap = new HashMap<BanReason, EvidenceCollector>();
 		
 		for (BanReason reason : BanReason.getAll()){
-			if (plugin.config.getBoolean(reason.getEnabledKey())){
+			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(reason))){
 				this.collectorMap.put(reason, reason.getEvidenceCollector());
 			}
 		}

@@ -14,6 +14,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.minebans.MineBans;
+import com.minebans.MineBansConfig;
 import com.minebans.api.APIException;
 import com.minebans.api.APIResponseCallback;
 import com.minebans.api.PlayerBanData;
@@ -57,7 +58,7 @@ public class MineBansExecutor implements CommandExecutor {
 			for (i = 0; i < reasons.length; ++i){
 				reason = reasons[i];
 				
-				if (plugin.config.getBoolean(reason.getEnabledKey())){
+				if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(reason))){
 					line = new StringBuilder();
 					
 					keywords = reason.getKeywords();

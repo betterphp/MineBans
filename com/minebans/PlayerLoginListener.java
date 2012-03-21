@@ -64,7 +64,7 @@ public class PlayerLoginListener implements Listener {
 		Long limit;
 		
 		for (BanReason banReason : playerData.getBanReasons()){
-			if (plugin.config.getBoolean(banReason.getEnabledKey())){
+			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(banReason))){
 				for (BanSeverity severity : banReason.getSeverties()){
 					limit = plugin.config.getLong(MineBansConfig.getReasonLimit(banReason, severity));
 					
@@ -202,7 +202,7 @@ public class PlayerLoginListener implements Listener {
 		
 		// 5
 		for (BanReason banReason : BanReason.getAll()){
-			if (plugin.config.getBoolean(banReason.getEnabledKey())){
+			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(banReason))){
 				try{
 					PlayerBanData playerData = plugin.api.getPlayerBans(playerName, "CONSOLE");
 					
