@@ -6,26 +6,31 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionDefault;
 
 public enum MineBansPermission {
 	
-	ALERT_ON_JOIN("minebans.alert.onjoin"),
-	ALERT_ON_API_FAIL("minebans.alert.onapifail"),
-	ALERT_ON_BAN("minebans.alert.onban"),
-	ALERT_ON_UNBAN("minebans.alert.onunban"),
-	ALERT_ON_KICK("minebans.alert.onkick"),
-	ALERT_ON_EXEMPT("minebans.alert.onexempt"),
-	ALERT_ON_UNEXEMPT("minebans.alert.onunexempt"),
+	ALERT_ON_JOIN(		"minebans.alert.onjoin",		PermissionDefault.OP,		"Players with this permission will be shown a players ban summary when the join."),
+	ALERT_ON_API_FAIL(	"minebans.alert.onapifail",		PermissionDefault.OP,		"Players with this permission will be notified if a player joins before the API responds with their data."),
+	ALERT_ON_BAN(		"minebans.alert.onban",			PermissionDefault.TRUE,		"Players with this permission will be notified when a player is banned."),
+	ALERT_ON_UNBAN(		"minebans.alert.onunban",		PermissionDefault.TRUE,		"Players with this permission will be notified when a player is unbanned."),
+	ALERT_ON_KICK(		"minebans.alert.onkick",		PermissionDefault.TRUE,		"Players with this permission will be notified when a player is kicked."),
+	ALERT_ON_EXEMPT(	"minebans.alert.onexempt",		PermissionDefault.TRUE,		"Players with this permission will be notified when a player is added to the exempt list."),
+	ALERT_ON_UNEXEMPT(	"minebans.alert.onunexempt",	PermissionDefault.TRUE,		"Players with this permission will be notified when a player is removed from the exempt list."),
 	
-	ADMIN_BAN("minebans.admin.ban"),
-	ADMIN_KICK("minebans.admin.kick"),
-	ADMIN_EXEMPT("minebans.admin.exempt"),
-	ADMIN_LOOKUP("minebans.admin.lookup");
+	ADMIN_BAN(			"minebans.admin.ban",			PermissionDefault.OP,		"Allows the use of the /ban and /unban commands."),
+	ADMIN_KICK(			"minebans.admin.kick",			PermissionDefault.OP,		"Allows the use of the /kick command."),
+	ADMIN_EXEMPT(		"minebans.admin.exempt",		PermissionDefault.OP,		"Allows the use of the /exempt commands."),
+	ADMIN_LOOKUP(		"minebans.admin.lookup",		PermissionDefault.OP,		"Allows the player to lookup the bans another player has.");
 	
 	private String node;
+	private PermissionDefault defaultValue;
+	private String description;
 	
-	private MineBansPermission(String node){
+	private MineBansPermission(String node, PermissionDefault defaultValue, String description){
 		this.node = node;
+		this.defaultValue = defaultValue;
+		this.description = description;
 	}
 	
 	public List<Player> getPlayersWithPermission(){
@@ -42,6 +47,14 @@ public enum MineBansPermission {
 	
 	public String getNode(){
 		return this.node;
+	}
+	
+	public PermissionDefault getDefault(){
+		return this.defaultValue;
+	}
+	
+	public String getDescription(){
+		return this.description;
 	}
 	
 	public Boolean playerHasPermission(CommandSender sender){

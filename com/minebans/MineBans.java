@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -72,6 +73,10 @@ public class MineBans extends JavaPlugin {
 		this.api = new APIInterface(this);
 		
 		this.pluginManager.registerEvents(new PlayerLoginListener(this), this);
+		
+		for (MineBansPermission permission : MineBansPermission.values()){
+			pluginManager.addPermission(new Permission(permission.getNode(), permission.getDescription(), permission.getDefault()));
+		}
 		
 		this.getCommand("ban").setExecutor(new BanExecutor(this));
 		this.getCommand("unban").setExecutor(new UnbanExecutor(this));
