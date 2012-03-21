@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.minebans.MineBans;
+import com.minebans.MineBansPermission;
 
 public class NotificationManager {
 	
@@ -14,10 +15,8 @@ public class NotificationManager {
 	}
 	
 	public void sendBanNotification(String playerName, boolean log){
-		for (Player player : plugin.server.getOnlinePlayers()){
-			if (player.hasPermission("minebans.alert.onban")){
-				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been banned from the server."));
-			}
+		for (Player player : MineBansPermission.ALERT_ON_BAN.getPlayersWithPermission()){
+			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been banned from the server."));
 		}
 		
 		if (log){
@@ -26,11 +25,9 @@ public class NotificationManager {
 	}
 	
 	public void sendBanNotification(String playerName, BanReason reason, boolean log){
-		for (Player player : plugin.server.getOnlinePlayers()){
-			if (player.hasPermission("minebans.alert.onban")){
-				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been banned from the server."));
-				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Reason: " + reason.getDescription()));
-			}
+		for (Player player : MineBansPermission.ALERT_ON_BAN.getPlayersWithPermission()){
+			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been banned from the server."));
+			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Reason: " + reason.getDescription()));
 		}
 		
 		if (log){
@@ -43,10 +40,8 @@ public class NotificationManager {
 		double days = Math.floor(banDuration / 86400);
 		double hours = Math.round((banDuration - (days * 86400)) / 3600);
 		
-		for (Player player : plugin.server.getOnlinePlayers()){
-			if (player.hasPermission("minebans.alert.onban")){
-				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been banned from the server for " + days + " " + ((days == 1D) ? "day" : "days") + " and " + hours + " " + ((hours == 1D) ? "hour" : "hours") + "."));
-			}
+		for (Player player : MineBansPermission.ALERT_ON_BAN.getPlayersWithPermission()){
+			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been banned from the server for " + days + " " + ((days == 1D) ? "day" : "days") + " and " + hours + " " + ((hours == 1D) ? "hour" : "hours") + "."));
 		}
 		
 		if (log){
@@ -55,10 +50,8 @@ public class NotificationManager {
 	}
 	
 	public void sendUnbanNotification(String playerName, boolean log){
-		for (Player player : plugin.server.getOnlinePlayers()){
-			if (player.hasPermission("minebans.alert.onunban")){
-				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been unbanned from the server."));
-			}
+		for (Player player : MineBansPermission.ALERT_ON_UNBAN.getPlayersWithPermission()){
+			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been unbanned from the server."));
 		}
 		
 		if (log){
@@ -67,10 +60,8 @@ public class NotificationManager {
 	}
 	
 	public void sendExemptListNotification(String playerName, boolean log){
-		for (Player player : plugin.server.getOnlinePlayers()){
-			if (player.hasPermission("minebans.alert.onexempt")){
-				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been added to the exempt list."));
-			}
+		for (Player player : MineBansPermission.ALERT_ON_EXEMPT.getPlayersWithPermission()){
+			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been added to the exempt list."));
 		}
 		
 		if (log){
@@ -79,10 +70,8 @@ public class NotificationManager {
 	}
 	
 	public void sendUnExemptListNotification(String playerName, boolean log){
-		for (Player player : plugin.server.getOnlinePlayers()){
-			if (player.hasPermission("minebans.alert.onunexempt")){
-				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the exempt list."));
-			}
+		for (Player player : MineBansPermission.ALERT_ON_UNEXEMPT.getPlayersWithPermission()){
+			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the exempt list."));
 		}
 		
 		if (log){
@@ -91,10 +80,8 @@ public class NotificationManager {
 	}
 	
 	public void sendKickNotification(String playerName, boolean log){
-		for (Player onlinePlayer : plugin.server.getOnlinePlayers()){
-			if (onlinePlayer.hasPermission("globalbans.alert.onkick")){
-				onlinePlayer.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been kicked from the server."));
-			}
+		for (Player player : MineBansPermission.ALERT_ON_KICK.getPlayersWithPermission()){
+			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been kicked from the server."));
 		}
 		
 		if (log){

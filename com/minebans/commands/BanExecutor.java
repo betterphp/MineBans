@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import com.minebans.MineBans;
 import com.minebans.MineBansConfig;
+import com.minebans.MineBansPermission;
 import com.minebans.bans.BanReason;
 
 public class BanExecutor implements CommandExecutor {
@@ -20,7 +21,7 @@ public class BanExecutor implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-		if (sender.hasPermission("minebans.admin.ban") == false){
+		if (MineBansPermission.ADMIN_BAN.playerHasPermission(sender) == false){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return true;
 		}

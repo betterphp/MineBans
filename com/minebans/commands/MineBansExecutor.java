@@ -15,6 +15,7 @@ import org.json.simple.parser.ParseException;
 
 import com.minebans.MineBans;
 import com.minebans.MineBansConfig;
+import com.minebans.MineBansPermission;
 import com.minebans.api.APIException;
 import com.minebans.api.APIResponseCallback;
 import com.minebans.api.PlayerBanData;
@@ -31,7 +32,7 @@ public class MineBansExecutor implements CommandExecutor {
 	
 	public boolean onCommand(final CommandSender sender, Command command, String label, final String[] args){
 		if (args.length == 0){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Useage: /minebans <option> [args]"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /minebans <option> [args]"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Options:"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   reasons - Lists all of the ban reasons."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   lookup - Gets a summary of a players bans."));
@@ -41,7 +42,7 @@ public class MineBansExecutor implements CommandExecutor {
 		String option = args[0];
 		
 		if (option.equalsIgnoreCase("reasons") || option.equalsIgnoreCase("r")){
-			if (sender.hasPermission("minebans.admin.ban") == false){
+			if (MineBansPermission.ADMIN_BAN.playerHasPermission(sender) == false){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 				return true;
 			}
@@ -86,13 +87,13 @@ public class MineBansExecutor implements CommandExecutor {
 				}
 			}
 		}else if (option.equalsIgnoreCase("lookup") || option.equalsIgnoreCase("l")){
-			if (sender.hasPermission("minebans.admin.lookup") == false){
+			if (MineBansPermission.ADMIN_LOOKUP.playerHasPermission(sender)){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 				return true;
 			}
 			
 			if (args.length != 2){
-				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Useage: /minebans lookup <player_name>"));
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /minebans lookup <player_name>"));
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /minebans lookup wide_load"));
 				return true;
 			}

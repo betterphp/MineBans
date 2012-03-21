@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.minebans.MineBans;
+import com.minebans.MineBansPermission;
 
 public class UnbanExecutor implements CommandExecutor {
 	
@@ -17,13 +18,13 @@ public class UnbanExecutor implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-		if (sender.hasPermission("minebans.admin.ban") == false){
+		if (MineBansPermission.ADMIN_BAN.playerHasPermission(sender) == false){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return true;
 		}
 		
 		if (args.length == 0){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Useage: /unban <player_name>"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /unban <player_name>"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /unban wide_load"));
 			return true;
 		}
