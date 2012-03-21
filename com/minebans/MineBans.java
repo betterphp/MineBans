@@ -22,12 +22,12 @@ import com.minebans.pluginInterfaces.ExploitInterface;
 import com.minebans.pluginInterfaces.LoggingInterface;
 import com.minebans.pluginapi.MineBansPluginAPI;
 import com.minebans.util.MineBansConfig;
-import com.minebans.util.MineBansLogger;
+import com.minebans.util.PluginLogger;
 
 public class MineBans extends JavaPlugin {
 	
 	private PluginDescriptionFile pdFile;
-	public MineBansLogger log;
+	public PluginLogger log;
 	
 	public Server server;
 	public PluginManager pluginManager;
@@ -45,7 +45,7 @@ public class MineBans extends JavaPlugin {
 	
 	public void onEnable(){
 		this.pdFile = this.getDescription();
-		this.log = new MineBansLogger(this);
+		this.log = new PluginLogger(this);
 		
 		this.server = this.getServer();
 		this.pluginManager = this.server.getPluginManager();

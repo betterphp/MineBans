@@ -2,16 +2,15 @@ package com.minebans.util;
 
 import java.util.logging.Logger;
 
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 
-import com.minebans.MineBans;
-
-public class MineBansLogger {
+public class PluginLogger {
 	
-	private MineBans plugin;
+	private Plugin plugin;
 	private Logger logger;
 	
-	public MineBansLogger(MineBans plugin){
+	public PluginLogger(Plugin plugin){
 		this.plugin = plugin;
 		this.logger = Logger.getLogger("Minecraft");
 	}
