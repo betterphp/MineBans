@@ -36,6 +36,7 @@ public class MineBansExecutor implements CommandExecutor {
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Options:"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   reasons - Lists all of the ban reasons."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   lookup - Gets a summary of a players bans."));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   listtemp - Lists all of the players that are temporarily banned."));
 			return true;
 		}
 		
@@ -166,6 +167,19 @@ public class MineBansExecutor implements CommandExecutor {
 				}
 				
 			});
+		}else if (option.equalsIgnoreCase("listtemp") || option.equalsIgnoreCase("lt")){
+			if (MineBansPermission.ADMIN_LOOKUP.playerHasPermission(sender) == false){
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+				return true;
+			}
+			
+			List<String> playerNames = plugin.banManager.getTempBannedPlayers();
+			
+			sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "There are " + playerNames.size() + " players temporarily banned."));
+			
+			for (String playerName : playerNames){
+				sender.sendMessage(ChatColor.GREEN + "  " + playerName + " - " + plugin.banManager.getTempBanRemaining(playerName) / 3600 + " hours");
+			}
 		}else{
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Invalid option, see /minebans for a list of options."));
 			return true;

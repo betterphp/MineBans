@@ -21,7 +21,8 @@ public enum MineBansPermission {
 	ADMIN_BAN(			"minebans.admin.ban",			PermissionDefault.OP,		"Allows the use of the /ban and /unban commands."),
 	ADMIN_KICK(			"minebans.admin.kick",			PermissionDefault.OP,		"Allows the use of the /kick command."),
 	ADMIN_EXEMPT(		"minebans.admin.exempt",		PermissionDefault.OP,		"Allows the use of the /exempt commands."),
-	ADMIN_LOOKUP(		"minebans.admin.lookup",		PermissionDefault.OP,		"Allows the player to lookup the bans another player has.");
+	ADMIN_LOOKUP(		"minebans.admin.lookup",		PermissionDefault.OP,		"Allows the player to lookup the bans another player has."),
+	ADMIN_LISTTEMP(		"minebans.admin.listtemp",		PermissionDefault.OP,		"Allows the player to list all of the temporary bans.");
 	
 	private String node;
 	private PermissionDefault defaultValue;
