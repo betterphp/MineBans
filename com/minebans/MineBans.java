@@ -125,11 +125,7 @@ public class MineBans extends JavaPlugin {
 	}
 	
 	public String formatMessage(String message, boolean colour){
-		if (colour){
-			return this.formatMessage(message, true, false);
-		}else{
-			return this.formatMessage(message, false, true);
-		}
+		return this.formatMessage(message, colour, !colour);
 	}
 	
 	public String formatMessage(String message){

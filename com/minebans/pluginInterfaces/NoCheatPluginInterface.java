@@ -100,7 +100,7 @@ public class NoCheatPluginInterface extends ExploitPluginInterface {
 			
 			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.PVP_CHEAT)) || plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.BLOCK_REACH))){
 				if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.BLOCK_REACH))){
-					if (noCheatConfig.getBoolean(ConfPaths.BLOCKBREAK_DIRECTION_CHECK) == false || noCheatConfig.getBoolean(ConfPaths.BLOCKBREAK_REACH_CHECK)){
+					if (noCheatConfig.getBoolean(ConfPaths.BLOCKBREAK_DIRECTION_CHECK) == false || noCheatConfig.getBoolean(ConfPaths.BLOCKBREAK_REACH_CHECK) == false){
 						plugin.log.warn("To provide the best data NoCheat should to be set to check for block break reach and direction in all worlds.");
 					}
 				}
