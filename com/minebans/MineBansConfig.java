@@ -13,6 +13,7 @@ public enum MineBansConfig implements PluginConfigKey {
 	API_KEY(							"api-key", 								"change this to the one from your control panel"),
 	
 	USE_COMPACT_JOIN_INFO(				"use-compact-join-info",				false),
+	USE_GROUP_BANS(						"use-group-bans",						true),
 	
 	BLOCK_PROXIES(						"block-public-proxies",					true),
 	BLOCK_COMPROMISED_ACCOUNTS(			"block-known-compromised-accounts",		true),

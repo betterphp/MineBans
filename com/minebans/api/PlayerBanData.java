@@ -55,10 +55,12 @@ public class PlayerBanData {
 			this.summary.put("total", (banSummary.containsKey("total")) ? (Long) banSummary.get("total") : 0L);
 			this.summary.put("last_24", (banSummary.containsKey("last_24")) ? (Long) banSummary.get("last_24") : 0L);
 			this.summary.put("removed", (banSummary.containsKey("removed")) ? (Long) banSummary.get("removed") : 0L);
+			this.summary.put("group_bans", (banSummary.containsKey("group_bans")) ? (Long) banSummary.get("group_bans") : 0L);
 		}else{
 			this.summary.put("total", 0L);
 			this.summary.put("last_24", 0L);
 			this.summary.put("removed", 0L);
+			this.summary.put("group_bans", 0L);
 		}
 	}
 	
@@ -80,6 +82,10 @@ public class PlayerBanData {
 	
 	public Long getRemoved(){
 		return this.summary.get("removed");
+	}
+	
+	public Long getGroup(){
+		return this.summary.get("group_bans");
 	}
 	
 	public HashMap<BanReason, HashMap<BanSeverity, Long>> getBans(){
