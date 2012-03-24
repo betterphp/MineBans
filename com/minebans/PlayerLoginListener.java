@@ -44,20 +44,26 @@ public class PlayerLoginListener implements Listener {
 		}
 	}
 	
-	private boolean processPlayerInfoData(PlayerInfoData playerInfo, String playerName, String playerAddress){
-		// 4
+	private String processPlayerInfoData(PlayerInfoData playerInfo, String playerName, String playerAddress){
 		if (playerInfo.shouldUnban()){
 			plugin.banManager.unGlobalBan(playerName, "CONSOLE");
 		}
 		
-		// 3
+		if (playerInfo.bannedFromGroup()){
+			plugin.log.info(playerName + " (" + playerAddress + ") has been banned from another server linked to your account");
+			plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, null, null));
+			
+			return "You have been banned from all of this admin's servers";
+		}
+		
 		if (plugin.config.getBoolean(MineBansConfig.BLOCK_COMPROMISED_ACCOUNTS) && playerInfo.isKnownCompromised()){
 			plugin.log.info(playerName + " (" + playerAddress + ") is using an account that is known to be compromised");
 			plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, null, null));
-			return true;
+			
+			return "You are using an account that is known to be compromised, you should change your password";
 		}
 		
-		return false;
+		return null;
 	}
 	
 	private boolean processPlayerBanData(PlayerBanData playerData, String playerName, String playerAddress){
@@ -120,23 +126,12 @@ public class PlayerLoginListener implements Listener {
 		final String playerAddress = event.getAddress().getHostAddress();
 		final String playerName = event.getName();
 		
-		/*
-		 * 1 - Local whitelist
-		 * 2 - DNSBL
-		 * 3 - Known compromised
-		 * 4 - Unban if necessary then local ban list
-		 * 5 - Global ban list
-		 * 6 - Known alts (informational only) (not yet)
-		 */
-		
-		// 1
 		if (plugin.banManager.isExempt(playerName)){
 			plugin.log.info(playerName + " (" + playerAddress + ") was found on the local ban exempt list, no further checks will be made.");
 			plugin.pluginManager.callEvent(new PlayerConnectionAllowedEvent(playerName));
 			return;
 		}
 		
-		// 2
 		if (plugin.config.getBoolean(MineBansConfig.BLOCK_PROXIES) && this.dnsblChecker.ipFound(playerAddress)){
 			event.disallow(Result.KICK_OTHER, "You cannot connect to this server via a proxy");
 			plugin.log.info(playerName + " (" + playerAddress + ") was prevented from connecting for using a public proxy.");
@@ -145,33 +140,31 @@ public class PlayerLoginListener implements Listener {
 		}
 		
 		try{
-			PlayerInfoData playerInfo = plugin.api.getPlayerInfo(playerName, "CONSOLE");
+			String kickMessage = this.processPlayerInfoData(plugin.api.getPlayerInfo(playerName, "CONSOLE"), playerName, playerAddress);
 			
-			if (this.processPlayerInfoData(playerInfo, playerName, playerAddress)){
-				event.disallow(Result.KICK_OTHER, "You are using an account that is known to be compromised, you should change your password");
+			if (kickMessage != null){
+				event.disallow(Result.KICK_OTHER, kickMessage);
 				return;
 			}
 		}catch (SocketTimeoutException e){
 			plugin.log.info("The API failed to respond quick enough, trying again with more time. The player will be allowed to join for now.");
 			
-			for (Player player : plugin.server.getOnlinePlayers()){
-				if (player.getName().equalsIgnoreCase(playerName) == false && player.hasPermission("minebans.alert.onapifail")){
-					player.sendMessage(plugin.formatMessage(ChatColor.RED + playerName + " has not yet been checked with the API due to a timeout."));
-					player.sendMessage(plugin.formatMessage(ChatColor.RED + "The check has been delayed, they will be kicked if neessary."));
-				}
+			for (Player player : MineBansPermission.ALERT_ON_API_FAIL.getPlayersWithPermission()){
+				player.sendMessage(plugin.formatMessage(ChatColor.RED + playerName + " has not yet been checked with the API due to a timeout."));
+				player.sendMessage(plugin.formatMessage(ChatColor.RED + "The check has been delayed, they will be kicked if neessary."));
 			}
 			
 			plugin.api.lookupPlayerInfo(playerName, "CONSOLE", new APIResponseCallback(){
 				
 				public void onSuccess(String response){
 					try{
-						PlayerInfoData playerInfo = new PlayerInfoData(response);
+						String kickMessage = processPlayerInfoData(new PlayerInfoData(response), playerName, playerAddress);
 						
-						if (processPlayerInfoData(playerInfo, playerName, playerAddress)){
+						if (kickMessage != null){
 							Player player = plugin.server.getPlayer(playerName);
 							
 							if (player != null){
-								player.kickPlayer("You are using an account that is known to be compromised, you should change your password");
+								player.kickPlayer(kickMessage);
 							}
 						}
 					}catch (ParseException e){
@@ -200,24 +193,21 @@ public class PlayerLoginListener implements Listener {
 			return;
 		}
 		
-		// 5
 		for (BanReason banReason : BanReason.getAll()){
 			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(banReason))){
 				try{
 					PlayerBanData playerData = plugin.api.getPlayerBans(playerName, "CONSOLE");
 					
 					if (this.processPlayerBanData(playerData, playerName, playerAddress)){
-						event.disallow(Result.KICK_BANNED, "You have too many bans to connect to this server (apply for the whitelist at minebans.com)");
+						event.disallow(Result.KICK_BANNED, "You have too many bans to connect to this server (apply for the exempt list at minebans.com)");
 						return;
 					}
 				}catch (SocketTimeoutException e){
 					plugin.log.info("The API failed to respond quick enough, trying again with more time. The player will be allowed to join for now.");
 					
-					for (Player player : plugin.server.getOnlinePlayers()){
-						if (player.getName().equalsIgnoreCase(playerName) == false && player.hasPermission("minebans.alert.onapifail")){
-							player.sendMessage(plugin.formatMessage(ChatColor.RED + playerName + " has not yet been checked with the API due to a timeout."));
-							player.sendMessage(plugin.formatMessage(ChatColor.RED + "The check has been delayed, they will be kicked if neessary."));
-						}
+					for (Player player : MineBansPermission.ALERT_ON_API_FAIL.getPlayersWithPermission()){
+						player.sendMessage(plugin.formatMessage(ChatColor.RED + playerName + " has not yet been checked with the API due to a timeout."));
+						player.sendMessage(plugin.formatMessage(ChatColor.RED + "The check has been delayed, they will be kicked if neessary."));
 					}
 					
 					plugin.api.lookupPlayerBans(playerName, "CONSOLE", new APIResponseCallback(){
