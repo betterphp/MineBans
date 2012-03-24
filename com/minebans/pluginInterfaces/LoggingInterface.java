@@ -11,8 +11,8 @@ public class LoggingInterface {
 	public LoggingInterface(MineBans plugin){
 		if (plugin.pluginManager.isPluginEnabled("LogBlock")){
 			this.pluginInterface = new LogBlockPluginInterface(plugin);
-//		}else if (plugin.pluginManager.isPluginEnabled("HawkEye")){
-			//TODO: Add HawkEye support.
+		}else if (plugin.pluginManager.isPluginEnabled("HawkEye")){
+			this.pluginInterface = new HawkEyePluginInterface(plugin);
 		}else{
 			plugin.log.warn("A suitable logging plugin was not found.");
 			plugin.log.warn("It is strongly recomended that you install a plugin such as LogBlock");
