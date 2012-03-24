@@ -32,13 +32,11 @@ public class SpamEvidenceCollector extends EvidenceCollector implements Listener
 		for (String playerName : this.messageCounter.keySet()){
 			max = 0;
 			
-			if (this.maxViolationLevel.containsKey(playerName)){
-				current = this.messageCounter.get(playerName);
-				max = this.maxViolationLevel.get(playerName);
-				
-				if (current > max){
-					max = current;
-				}
+			current = this.messageCounter.get(playerName);
+			max = this.maxViolationLevel.containsKey(playerName) ? this.maxViolationLevel.get(playerName) : 0;
+			
+			if (current > max){
+				max = current;
 			}
 			
 			this.maxViolationLevel.put(playerName, max);
