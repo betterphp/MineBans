@@ -96,12 +96,14 @@ public class NotificationManager {
 		Long last24 	= playerData.getLast24();
 		Long removed	= playerData.getRemoved();
 		
-		if (totalBans > 0L || last24 > 0L || removed > 0L){
-			if (plugin.config.getBoolean(MineBansConfig.USE_COMPACT_JOIN_INFO)){
+		if (plugin.config.getBoolean(MineBansConfig.USE_COMPACT_JOIN_INFO)){
+			if (totalBans > 0L || last24 > 0L){
 				for (Player player : MineBansPermission.ALERT_ON_JOIN.getPlayersWithPermission()){
 					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Summary for " + playerName + " Total: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans) + " Last 24 Hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
 				}
-			}else{
+			}
+		}else{
+			if (totalBans > 0L || last24 > 0L || removed > 0L){
 				for (Player player : MineBansPermission.ALERT_ON_JOIN.getPlayersWithPermission()){
 					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Summary for " + playerName));
 					player.sendMessage(ChatColor.GREEN + "Total bans on record: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans);
