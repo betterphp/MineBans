@@ -4,7 +4,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.minebans.MineBans;
+import com.minebans.MineBansConfig;
 import com.minebans.MineBansPermission;
+import com.minebans.api.PlayerBanData;
 
 public class NotificationManager {
 	
@@ -86,6 +88,27 @@ public class NotificationManager {
 		
 		if (log){
 			plugin.log.info(plugin.formatMessage(playerName + " has been kicked from the server.", false));
+		}
+	}
+	
+	public void sendJoinNotification(String playerName, PlayerBanData playerData){
+		Long totalBans	= playerData.getTotal();
+		Long last24 	= playerData.getLast24();
+		Long removed	= playerData.getRemoved();
+		
+		if (totalBans > 0L || last24 > 0L || removed > 0L){
+			if (plugin.config.getBoolean(MineBansConfig.USE_COMPACT_JOIN_INFO)){
+				for (Player player : MineBansPermission.ALERT_ON_JOIN.getPlayersWithPermission()){
+					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Summary for " + playerName + " Total: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans) + " Last 24 Hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
+				}
+			}else{
+				for (Player player : MineBansPermission.ALERT_ON_JOIN.getPlayersWithPermission()){
+					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Summary for " + playerName));
+					player.sendMessage(ChatColor.GREEN + "Total bans on record: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans);
+					player.sendMessage(ChatColor.GREEN + "Bans in the last 24 hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
+					player.sendMessage(ChatColor.GREEN + "Bans that have been removed: " + ((removed <= 10L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + removed);
+				}
+			}
 		}
 	}
 	

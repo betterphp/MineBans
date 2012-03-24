@@ -53,7 +53,7 @@ public class PlayerLoginListener implements Listener {
 			plugin.log.info(playerName + " (" + playerAddress + ") has been banned from another server linked to your account");
 			plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, null, null));
 			
-			return "You have been banned from all of this admin's servers";
+			return "You have been banned from all of this owners's servers";
 		}
 		
 		if (plugin.config.getBoolean(MineBansConfig.BLOCK_COMPROMISED_ACCOUNTS) && playerInfo.isKnownCompromised()){
@@ -66,7 +66,7 @@ public class PlayerLoginListener implements Listener {
 		return null;
 	}
 	
-	private boolean processPlayerBanData(PlayerBanData playerData, String playerName, String playerAddress){
+	private String processPlayerBanData(PlayerBanData playerData, String playerName, String playerAddress){
 		Long limit;
 		
 		for (BanReason banReason : playerData.getBanReasons()){
@@ -77,7 +77,8 @@ public class PlayerLoginListener implements Listener {
 					if (limit != -1L && playerData.get(banReason, severity) > limit){
 						plugin.log.info(playerName + " (" + playerAddress + ") has exceeded " + MineBansConfig.getReasonLimit(banReason, severity).getKey());
 						plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, banReason, severity));
-						return true;
+						
+						return "You have too many bans for " + banReason.name().toLowerCase() + " to connect to this server";
 					}
 				}
 			}
@@ -89,34 +90,14 @@ public class PlayerLoginListener implements Listener {
 			if (limit != -1L && playerData.getTotal(severity) > limit){
 				plugin.log.info(playerName + " (" + playerAddress + ") has exceeded max-bans.total.total");
 				plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, null, severity));
-				return true;
+				
+				return "You have too many bans to connect to this server";
 			}
 		}
 		
-		Long totalBans	= playerData.getTotal();
-		Long last24 	= playerData.getLast24();
-		Long removed	= playerData.getRemoved();
+		plugin.notificationManager.sendJoinNotification(playerName, playerData);
 		
-		if (totalBans > 0L || last24 > 0L || removed > 0L){
-			if (plugin.config.getBoolean(MineBansConfig.USE_COMPACT_JOIN_INFO)){
-				for (Player player : plugin.server.getOnlinePlayers()){
-					if (player.getName().equalsIgnoreCase(playerName) == false && player.hasPermission("minebans.alert.onjoin")){
-						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Summary for " + playerName + " Total: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans) + " Last 24 Hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
-					}
-				}
-			}else{
-				for (Player player : plugin.server.getOnlinePlayers()){
-					if (player.getName().equalsIgnoreCase(playerName) == false && player.hasPermission("minebans.alert.onjoin")){
-						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Summary for " + playerName));
-						player.sendMessage(ChatColor.GREEN + "Total bans on record: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans);
-						player.sendMessage(ChatColor.GREEN + "Bans in the last 24 hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
-						player.sendMessage(ChatColor.GREEN + "Bans that have been removed: " + ((removed <= 10L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + removed);
-					}
-				}
-			}
-		}
-		
-		return false;
+		return null;
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -159,13 +140,10 @@ public class PlayerLoginListener implements Listener {
 				public void onSuccess(String response){
 					try{
 						String kickMessage = processPlayerInfoData(new PlayerInfoData(response), playerName, playerAddress);
+						Player player = plugin.server.getPlayer(playerName);
 						
-						if (kickMessage != null){
-							Player player = plugin.server.getPlayer(playerName);
-							
-							if (player != null){
-								player.kickPlayer(kickMessage);
-							}
+						if (kickMessage != null && player != null){
+							player.kickPlayer(kickMessage);
 						}
 					}catch (ParseException e){
 						this.onFailure(e);
@@ -196,10 +174,10 @@ public class PlayerLoginListener implements Listener {
 		for (BanReason banReason : BanReason.getAll()){
 			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(banReason))){
 				try{
-					PlayerBanData playerData = plugin.api.getPlayerBans(playerName, "CONSOLE");
+					String kickMessage = this.processPlayerBanData(plugin.api.getPlayerBans(playerName, "CONSOLE"), playerName, playerAddress);
 					
-					if (this.processPlayerBanData(playerData, playerName, playerAddress)){
-						event.disallow(Result.KICK_BANNED, "You have too many bans to connect to this server (apply for the exempt list at minebans.com)");
+					if (kickMessage != null){
+						event.disallow(Result.KICK_BANNED, kickMessage);
 						return;
 					}
 				}catch (SocketTimeoutException e){
@@ -214,14 +192,11 @@ public class PlayerLoginListener implements Listener {
 						
 						public void onSuccess(String response){
 							try{
-								PlayerBanData playerData = new PlayerBanData(response);
+								String kickMessage = processPlayerBanData(new PlayerBanData(response), playerName, playerAddress);
+								Player player = plugin.server.getPlayer(playerName);
 								
-								if (processPlayerBanData(playerData, playerName, playerAddress)){
-									Player player = plugin.server.getPlayer(playerName);
-									
-									if (player != null){
-										player.kickPlayer("You have too many bans to connect to this server (apply for the whitelist at minebans.com)");
-									}
+								if (kickMessage != null && player != null){
+									player.kickPlayer(kickMessage);
 								}
 							}catch (Exception e){
 								this.onFailure(e);

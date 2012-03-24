@@ -20,7 +20,6 @@ import com.minebans.util.PlayerListStore;
 public class BanManager {
 	
 	private MineBans plugin;
-	private NotificationManager notification;
 	
 	private PlayerListStore globallyBannedPlayers;
 	private PlayerListStore locallyBannedPlayers;
@@ -29,7 +28,6 @@ public class BanManager {
 	
 	public BanManager(MineBans plugin){
 		this.plugin = plugin;
-		this.notification = new NotificationManager(plugin);
 		
 		String pluginFolder = plugin.getDataFolder().getAbsolutePath();
 		
@@ -50,7 +48,7 @@ public class BanManager {
 		if (player != null){
 			player.kickPlayer("You have been kicked from the server.");
 			
-			this.notification.sendKickNotification(playerName, log);
+			plugin.notificationManager.sendKickNotification(playerName, log);
 		}
 	}
 	
@@ -68,7 +66,7 @@ public class BanManager {
 		plugin.pluginManager.callEvent(new PlayerBanEvent(playerName, BanType.LOCAL));
 		
 		if (notify){
-			this.notification.sendBanNotification(playerName, log);
+			plugin.notificationManager.sendBanNotification(playerName, log);
 		}
 	}
 	
@@ -96,7 +94,7 @@ public class BanManager {
 		plugin.pluginManager.callEvent(new PlayerBanEvent(playerName, BanType.GLOBAL));
 		
 		if (notify){
-			this.notification.sendBanNotification(playerName, reason, log);
+			plugin.notificationManager.sendBanNotification(playerName, reason, log);
 		}
 	}
 	
@@ -125,7 +123,7 @@ public class BanManager {
 		plugin.pluginManager.callEvent(new PlayerBanEvent(playerName, BanType.TEMP));
 		
 		if (notify){
-			this.notification.sendBanNotification(playerName, banDuration, log);
+			plugin.notificationManager.sendBanNotification(playerName, banDuration, log);
 		}
 	}
 	
@@ -144,7 +142,7 @@ public class BanManager {
 			this.globallyBannedPlayers.save();
 			
 			plugin.pluginManager.callEvent(new PlayerUnbanEvent(playerName, BanType.GLOBAL));
-			this.notification.sendUnbanNotification(playerName, true);
+			plugin.notificationManager.sendUnbanNotification(playerName, true);
 		}
 	}
 	
@@ -157,7 +155,7 @@ public class BanManager {
 		this.locallyBannedPlayers.save();
 		
 		plugin.pluginManager.callEvent(new PlayerUnbanEvent(playerName, BanType.LOCAL));
-		this.notification.sendUnbanNotification(playerName, log);
+		plugin.notificationManager.sendUnbanNotification(playerName, log);
 	}
 	
 	public void unTempBan(String playerName, boolean log){
@@ -165,7 +163,7 @@ public class BanManager {
 		this.tempBannedPlayers.save();
 		
 		plugin.pluginManager.callEvent(new PlayerUnbanEvent(playerName, BanType.TEMP));
-		this.notification.sendUnbanNotification(playerName, log);
+		plugin.notificationManager.sendUnbanNotification(playerName, log);
 	}
 	
 	public void unbanPlayer(String playerName, String issuedBy, boolean log){
@@ -186,7 +184,7 @@ public class BanManager {
 		this.localExemptList.add(playerName);
 		
 		plugin.pluginManager.callEvent(new PlayerExemptEvent(playerName));
-		this.notification.sendExemptListNotification(playerName, log);
+		plugin.notificationManager.sendExemptListNotification(playerName, log);
 	}
 	
 	public void exemptPlayer(String playerName){
@@ -203,7 +201,7 @@ public class BanManager {
 		this.localExemptList.remove(playerName);
 		
 		plugin.pluginManager.callEvent(new PlayerUnExemptEvent(playerName));
-		this.notification.sendUnExemptListNotification(playerName, log);
+		plugin.notificationManager.sendUnExemptListNotification(playerName, log);
 	}
 	
 	public void unExemptPlayer(String playerName){

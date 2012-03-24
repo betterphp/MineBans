@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import com.minebans.api.APIInterface;
 import com.minebans.bans.BanManager;
+import com.minebans.bans.NotificationManager;
 import com.minebans.commands.BanExecutor;
 import com.minebans.commands.MineBansExecutor;
 import com.minebans.commands.KickExecutor;
@@ -41,6 +42,7 @@ public class MineBans extends JavaPlugin {
 	
 	public BanManager banManager;
 	public EvidenceManager evidenceManager;
+	public NotificationManager notificationManager;
 	
 	public APIInterface api;
 	
@@ -69,6 +71,7 @@ public class MineBans extends JavaPlugin {
 		
 		this.banManager = new BanManager(this);
 		this.evidenceManager = new EvidenceManager(this);
+		this.notificationManager = new NotificationManager(this);
 		
 		this.api = new APIInterface(this);
 		
