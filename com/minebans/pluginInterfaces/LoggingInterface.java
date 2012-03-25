@@ -32,7 +32,7 @@ public class LoggingInterface {
 		return (this.pluginInterface != null);
 	}
 	
-	public HashMap<Short, Integer> getChestAccess(String playerName){
+	public HashMap<Integer, Integer> getChestAccess(String playerName){
 		if (this.foundLoggingPlugin() == false){
 			return null;
 		}

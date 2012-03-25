@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public abstract class LoggingPluginInterface extends PluginInterface {
 	
-	public abstract HashMap<Short, Integer> getChestAccess(String playerName);
+	public abstract HashMap<Integer, Integer> getChestAccess(String playerName);
 	
 	public abstract HashMap<Integer, Integer> getBlocksPlaced(String playerName);
 	

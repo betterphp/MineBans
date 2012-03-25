@@ -12,7 +12,7 @@ public class TheftEvidenceCollector extends EvidenceCollector {
 		this.plugin = plugin;
 	}
 	
-	public HashMap<Short, Integer> collect(String playerName){
+	public HashMap<Integer, Integer> collect(String playerName){
 		return plugin.loggingPlugin.getChestAccess(playerName);
 	}
 	

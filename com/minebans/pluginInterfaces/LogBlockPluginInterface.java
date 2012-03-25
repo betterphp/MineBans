@@ -82,8 +82,8 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 		return true;
 	}
 	
-	public HashMap<Short, Integer> getChestAccess(String playerName){
-		HashMap<Short, Integer> data = new HashMap<Short, Integer>();
+	public HashMap<Integer, Integer> getChestAccess(String playerName){
+		HashMap<Integer, Integer> data = new HashMap<Integer, Integer>();
 		
 		Field typeField, amountField;
 		Short type, amount;
@@ -110,9 +110,9 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 					amount = amountField.getShort(change.ca);
 					
 					if (data.containsKey(type)){
-						data.put(type, data.get(type) + amount);
+						data.put((int) type, data.get(type) + amount);
 					}else{
-						data.put(type, new Integer(amount));
+						data.put((int) type, new Integer(amount));
 					}
 				}
 			}catch (NullPointerException e){
@@ -182,7 +182,6 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 		return broken;
 	}
 	
-	// NOTE: We should not simply use the above two methods here in the interest of being kind to the database server. 
 	public HashMap<String, HashMap<Integer, Integer>> getBlockChanges(String playerName){
 		HashMap<String, HashMap<Integer, Integer>> data = new HashMap<String, HashMap<Integer, Integer>>();
 		
