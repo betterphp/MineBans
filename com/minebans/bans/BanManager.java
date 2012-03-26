@@ -208,6 +208,12 @@ public class BanManager {
 		this.unExemptPlayer(playerName, true);
 	}
 	
+	public void checkExpiredTempBans(){
+		for (String playerName : this.tempBannedPlayers.getPlayerNames()){
+			this.isTempBanned(playerName);
+		}
+	}
+	
 	public List<String> getLocallyBannedPlayers(){
 		return new ArrayList<String>(this.locallyBannedPlayers.getPlayerNames());
 	}
@@ -217,6 +223,8 @@ public class BanManager {
 	}
 	
 	public List<String> getTempBannedPlayers(){
+		this.checkExpiredTempBans();
+		
 		return new ArrayList<String>(this.tempBannedPlayers.getPlayerNames());
 	}
 	
@@ -226,7 +234,7 @@ public class BanManager {
 	
 	public boolean isTempBanned(String playerName){
 		if (this.tempBannedPlayers.contains(playerName)){
-			if (Long.parseLong(this.tempBannedPlayers.getData(playerName)) <= (System.currentTimeMillis() / 1000)){
+			if (this.getTempBanRemaining(playerName) == 0){
 				this.unTempBan(playerName, true);
 				return false;
 			}else{
