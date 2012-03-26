@@ -211,6 +211,7 @@ public class PlayerLoginListener implements Listener {
 		}
 		
 		plugin.log.info(playerName + " (" + playerAddress + ") was allowed to join the server.");
+		plugin.seenPlayers.add(playerName);
 		plugin.pluginManager.callEvent(new PlayerConnectionAllowedEvent(playerName));
 	}
 	

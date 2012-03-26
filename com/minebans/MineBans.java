@@ -1,6 +1,7 @@
 package com.minebans;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -46,6 +47,8 @@ public class MineBans extends JavaPlugin {
 	
 	public APIInterface api;
 	
+	public ArrayList<String> seenPlayers;
+	
 	public void onEnable(){
 		this.pdFile = this.getDescription();
 		this.log = new PluginLogger(this);
@@ -74,6 +77,8 @@ public class MineBans extends JavaPlugin {
 		this.notificationManager = new NotificationManager(this);
 		
 		this.api = new APIInterface(this);
+		
+		this.seenPlayers = new ArrayList<String>();
 		
 		this.pluginManager.registerEvents(new PlayerLoginListener(this), this);
 		

@@ -72,7 +72,7 @@ public class BanExecutor implements CommandExecutor {
 			}else{
 				OfflinePlayer player = plugin.server.getOfflinePlayer(playerName);
 				
-				if (player.isOnline() == false && (player.hasPlayedBefore() == false || player.getLastPlayed() == 0L || player.getFirstPlayed() == 0L)){
+				if (plugin.seenPlayers.contains(playerName) == false && player.isOnline() == false && player.hasPlayedBefore() == false){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot globally ban a player that has never connected to the server."));
 					return true;
 				}
