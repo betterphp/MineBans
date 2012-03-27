@@ -246,10 +246,6 @@ public class BanManager {
 	}
 	
 	public Integer getTempBanRemaining(String playerName){
-		if (this.isTempBanned(playerName) == false){
-			return null;
-		}
-		
 		return Math.max((int) (Long.parseLong(this.tempBannedPlayers.getData(playerName)) - (System.currentTimeMillis() / 1000)), 0);
 	}
 	
