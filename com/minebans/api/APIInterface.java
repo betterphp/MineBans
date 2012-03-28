@@ -75,10 +75,10 @@ public class APIInterface {
 				if (e instanceof SocketTimeoutException){
 					plugin.log.fatal("The API failed to response in time.");
 				}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
-					plugin.log.fatal("Failed to contact the API (you should report this on BukkitDev).");
+					plugin.log.fatal("Failed to contact the API (you should report this).");
 					e.printStackTrace();
 				}else if (e instanceof ParseException){
-					plugin.log.fatal("Failed to parse API response (you should report this on BukkitDev).");
+					plugin.log.fatal("Failed to parse API response (you should report this).");
 					e.printStackTrace();
 				}else if (e instanceof APIException){
 					plugin.log.fatal("API Request Failed: " + ((APIException) e).getResponse());
@@ -116,10 +116,10 @@ public class APIInterface {
 				if (e instanceof SocketTimeoutException){
 					plugin.log.fatal("The API failed to response in time.");
 				}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
-					plugin.log.fatal("Failed to contact the API (you should report this on BukkitDev).");
+					plugin.log.fatal("Failed to contact the API (you should report this).");
 					e.printStackTrace();
 				}else if (e instanceof ParseException){
-					plugin.log.fatal("Failed to parse API response (you should report this on BukkitDev).");
+					plugin.log.fatal("Failed to parse API response (you should report this).");
 					e.printStackTrace();
 				}else if (e instanceof APIException){
 					plugin.log.fatal("API Request Failed: " + ((APIException) e).getResponse());
@@ -155,10 +155,10 @@ public class APIInterface {
 			}else if (e instanceof APIException){
 				plugin.log.fatal("Unable to contact the API. Response: " + ((APIException) e).getResponse());
 			}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
-				plugin.log.fatal("Failed to contact the API (you should report this on BukkitDev).");
+				plugin.log.fatal("Failed to contact the API (you should report this).");
 				e.printStackTrace();
 			}else if (e instanceof ParseException){
-				plugin.log.fatal("Failed to parse API response (you should report this on BukkitDev).");
+				plugin.log.fatal("Failed to parse API response (you should report this).");
 				e.printStackTrace();
 			}
 			
@@ -192,10 +192,10 @@ public class APIInterface {
 			}else if (e instanceof APIException){
 				plugin.log.fatal("Unable to contact the API. Response: " + ((APIException) e).getResponse());
 			}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
-				plugin.log.fatal("Failed to contact the API (you should report this on BukkitDev).");
+				plugin.log.fatal("Failed to contact the API (you should report this).");
 				e.printStackTrace();
 			}else if (e instanceof ParseException){
-				plugin.log.fatal("Failed to parse API response (you should report this on BukkitDev).");
+				plugin.log.fatal("Failed to parse API response (you should report this).");
 				e.printStackTrace();
 			}
 			

@@ -21,6 +21,7 @@ import com.minebans.commands.KickExecutor;
 import com.minebans.commands.UnbanExecutor;
 import com.minebans.commands.ExemptExecutor;
 import com.minebans.evidence.EvidenceManager;
+import com.minebans.joinchecks.JoinCheckManager;
 import com.minebans.pluginInterfaces.ExploitInterface;
 import com.minebans.pluginInterfaces.LoggingInterface;
 import com.minebans.pluginapi.MineBansPluginAPI;
@@ -41,6 +42,7 @@ public class MineBans extends JavaPlugin {
 	public LoggingInterface loggingPlugin;
 	public ExploitInterface exploitPlugin;
 	
+	public JoinCheckManager joinCheckManager;
 	public BanManager banManager;
 	public EvidenceManager evidenceManager;
 	public NotificationManager notificationManager;
@@ -72,6 +74,7 @@ public class MineBans extends JavaPlugin {
 		this.loggingPlugin = new LoggingInterface(this);
 		this.exploitPlugin = new ExploitInterface(this);
 		
+		this.joinCheckManager = new JoinCheckManager(this);
 		this.banManager = new BanManager(this);
 		this.evidenceManager = new EvidenceManager(this);
 		this.notificationManager = new NotificationManager(this);

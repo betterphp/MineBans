@@ -1,0 +1,58 @@
+package com.minebans.joinchecks;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import com.minebans.MineBans;
+import com.minebans.MineBansConfig;
+import com.minebans.bans.BanReason;
+
+public class JoinCheckManager {
+	
+	private HashMap<ConnectionDeniedReason, LocalJoinCheck> localChecksMap;
+	private HashMap<ConnectionDeniedReason, InfoDataJoinCheck> infoDataChecksMap;
+	private HashMap<ConnectionDeniedReason, BanDataJoinCheck> banDataChecksMap;
+	
+	public JoinCheckManager(MineBans plugin){
+		this.localChecksMap = new HashMap<ConnectionDeniedReason, LocalJoinCheck>();
+		this.infoDataChecksMap = new HashMap<ConnectionDeniedReason, InfoDataJoinCheck>();
+		this.banDataChecksMap = new HashMap<ConnectionDeniedReason, BanDataJoinCheck>();
+		
+		this.localChecksMap.put(ConnectionDeniedReason.GLOBALLY_BANNED, new GloballyBannedCheck(plugin));
+		this.localChecksMap.put(ConnectionDeniedReason.LOCALLY_BANNED, new LocallyBannedCheck(plugin));
+		this.localChecksMap.put(ConnectionDeniedReason.TEMP_BANNED, new TempBannedCheck(plugin));
+		
+		if (plugin.config.getBoolean(MineBansConfig.BLOCK_PROXIES)){
+			this.localChecksMap.put(ConnectionDeniedReason.PUBLIC_PROXY, new PublicProxyCheck(plugin));
+		}
+		
+		if (plugin.config.getBoolean(MineBansConfig.BLOCK_COMPROMISED_ACCOUNTS)){
+			this.infoDataChecksMap.put(ConnectionDeniedReason.KNOWN_COMPROMISED, new KnownCompromisedCheck());
+		}
+		
+		if (plugin.config.getBoolean(MineBansConfig.USE_GROUP_BANS)){
+			this.banDataChecksMap.put(ConnectionDeniedReason.GROUP_BAN, new GroupBanCheck());
+		}
+		
+		for (BanReason banReason : BanReason.getAll()){
+			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(banReason))){
+				this.banDataChecksMap.put(ConnectionDeniedReason.TOO_MANY_BANS, new TooManyBansCheck(plugin));
+				break;
+			}
+		}
+	}
+	
+	public Set<Entry<ConnectionDeniedReason, LocalJoinCheck>> getLocalChecks(){
+		return new HashMap<ConnectionDeniedReason, LocalJoinCheck>(this.localChecksMap).entrySet();
+	}
+	
+	public Set<Entry<ConnectionDeniedReason, InfoDataJoinCheck>> getInfoDataChecks(){
+		return new HashMap<ConnectionDeniedReason, InfoDataJoinCheck>(this.infoDataChecksMap).entrySet();
+	}
+	
+	public Set<Entry<ConnectionDeniedReason, BanDataJoinCheck>> getBanDataChecks(){
+		return new HashMap<ConnectionDeniedReason, BanDataJoinCheck>(this.banDataChecksMap).entrySet();
+	}
+	
+}

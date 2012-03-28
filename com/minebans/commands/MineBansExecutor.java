@@ -146,12 +146,12 @@ public class MineBansExecutor implements CommandExecutor {
 				
 				public void onFailure(Exception e){
 					if (e instanceof SocketTimeoutException){
-						plugin.log.fatal("The API failed to response in time.");
+						plugin.log.fatal("The API failed to respond in time.");
 					}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
-						plugin.log.fatal("Failed to contact the API (you should report this on BukkitDev).");
+						plugin.log.fatal("Failed to contact the API (you should report this).");
 						e.printStackTrace();
 					}else if (e instanceof ParseException){
-						plugin.log.fatal("Failed to parse API response (you should report this on BukkitDev).");
+						plugin.log.fatal("Failed to parse API response (you should report this).");
 						e.printStackTrace();
 					}else if (e instanceof APIException){
 						plugin.log.fatal("API Request Failed: " + ((APIException) e).getResponse());
