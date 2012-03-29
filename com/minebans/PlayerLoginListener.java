@@ -17,6 +17,7 @@ import com.minebans.api.PlayerInfoData;
 import com.minebans.events.PlayerConnectionAllowedEvent;
 import com.minebans.events.PlayerConnectionDeniedEvent;
 import com.minebans.joinchecks.BanDataJoinCheck;
+import com.minebans.joinchecks.ConnectionAllowedReason;
 import com.minebans.joinchecks.ConnectionDeniedReason;
 import com.minebans.joinchecks.InfoDataJoinCheck;
 import com.minebans.joinchecks.LocalJoinCheck;
@@ -38,7 +39,7 @@ public class PlayerLoginListener implements Listener {
 		
 		if (plugin.banManager.isExempt(playerName)){
 			plugin.log.info(playerName + " (" + playerAddress + ") was found on the local ban exempt list, no further checks will be made.");
-			plugin.pluginManager.callEvent(new PlayerConnectionAllowedEvent(playerName));
+			plugin.pluginManager.callEvent(new PlayerConnectionAllowedEvent(playerName, ConnectionAllowedReason.PLAYER_EXEMPT));
 			return;
 		}
 		
@@ -52,7 +53,7 @@ public class PlayerLoginListener implements Listener {
 			if (localCheck.shouldPreventConnection(playerName, playerAddress)){
 				event.disallow(Result.KICK_OTHER, reason.getKickMessage());
 				plugin.log.info(playerName + " (" + playerAddress + ") " + reason.getLogMessage());
-				plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, null, null));
+				plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, reason));
 				return;
 			}
 		}
@@ -69,7 +70,7 @@ public class PlayerLoginListener implements Listener {
 				if (infoDataCheck.shouldPreventConnection(playerName, playerAddress, playerInfo)){
 					event.disallow(Result.KICK_OTHER, reason.getKickMessage());
 					plugin.log.info(playerName + " (" + playerAddress + ") " + reason.getLogMessage());
-					plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, null, null));
+					plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, reason));
 					return;
 				}
 			}
@@ -93,7 +94,7 @@ public class PlayerLoginListener implements Listener {
 								player.kickPlayer(reason.getKickMessage());
 								
 								plugin.log.info(playerName + " (" + playerAddress + ") " + reason.getLogMessage());
-								plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, null, null));
+								plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, reason));
 								
 								return;
 							}
@@ -122,7 +123,7 @@ public class PlayerLoginListener implements Listener {
 				if (banDataCheck.shouldPreventConnection(playerName, playerAddress, banData)){
 					event.disallow(Result.KICK_OTHER, reason.getKickMessage());
 					plugin.log.info(playerName + " (" + playerAddress + ") " + reason.getLogMessage());
-					plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, null, null));
+					plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, reason));
 					return;
 				}
 			}
@@ -146,7 +147,7 @@ public class PlayerLoginListener implements Listener {
 								player.kickPlayer(reason.getKickMessage());
 								
 								plugin.log.info(playerName + " (" + playerAddress + ") " + reason.getLogMessage());
-								plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, null, null));
+								plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, reason));
 								
 								return;
 							}
@@ -166,7 +167,7 @@ public class PlayerLoginListener implements Listener {
 		plugin.seenPlayers.add(playerName);
 		
 		plugin.log.info(playerName + " (" + playerAddress + ") was allowed to join the server.");
-		plugin.pluginManager.callEvent(new PlayerConnectionAllowedEvent(playerName));
+		plugin.pluginManager.callEvent(new PlayerConnectionAllowedEvent(playerName, ConnectionAllowedReason.PASSED_CHECKS));
 	}
 	
 }

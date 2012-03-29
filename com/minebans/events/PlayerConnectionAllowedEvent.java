@@ -3,14 +3,18 @@ package com.minebans.events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import com.minebans.joinchecks.ConnectionAllowedReason;
+
 public class PlayerConnectionAllowedEvent extends Event {
 	
 	private static final HandlerList handlers = new HandlerList();
 	
 	private String playerName;
+	private ConnectionAllowedReason reason;
 	
-	public PlayerConnectionAllowedEvent(String playerName){
+	public PlayerConnectionAllowedEvent(String playerName, ConnectionAllowedReason reason){
 		this.playerName = playerName;
+		this.reason = reason;
 	}
 	
 	public HandlerList getHandlers(){
@@ -25,5 +29,8 @@ public class PlayerConnectionAllowedEvent extends Event {
 		return this.playerName;
 	}
 	
+	public ConnectionAllowedReason getReason(){
+		return this.reason;
+	}
 	
 }
