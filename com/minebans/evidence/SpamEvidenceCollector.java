@@ -1,7 +1,9 @@
 package com.minebans.evidence;
 
+import java.util.Collections;
 import java.util.HashMap;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -14,15 +16,15 @@ import com.minebans.events.PlayerBanEvent;
 public class SpamEvidenceCollector extends EvidenceCollector implements Listener {
 	
 	private HashMap<String, Integer> maxViolationLevel;
-	private HashMap<String, Integer> messageCounter;
+	private HashMap<String, HashMap<String, Integer>> messageCounter;
 	
 	public SpamEvidenceCollector(MineBans plugin){
 		this.maxViolationLevel = new HashMap<String, Integer>();
-		this.messageCounter = new HashMap<String, Integer>();
+		this.messageCounter = new HashMap<String, HashMap<String, Integer>>();
 		
 		plugin.pluginManager.registerEvents(this, plugin);
 		
-		plugin.scheduler.scheduleSyncRepeatingTask(plugin, new SpamEvidenceCollectorResetTask(this), 100, 100);
+		plugin.scheduler.scheduleSyncRepeatingTask(plugin, new SpamEvidenceCollectorResetTask(this), 200, 200); // 200 ticks = 10 seconds
 	}
 	
 	// NOTE: Called by the task scheduled above,
@@ -32,12 +34,14 @@ public class SpamEvidenceCollector extends EvidenceCollector implements Listener
 		for (String playerName : this.messageCounter.keySet()){
 			max = 0;
 			
-			current = this.messageCounter.get(playerName);
+			current = Collections.max(this.messageCounter.get(playerName).values());
 			max = this.maxViolationLevel.containsKey(playerName) ? this.maxViolationLevel.get(playerName) : 0;
 			
 			if (current > max){
 				max = current;
 			}
+			
+			System.out.println("Current: " + current + " Max: " + max);
 			
 			this.maxViolationLevel.put(playerName, max);
 		}
@@ -45,18 +49,29 @@ public class SpamEvidenceCollector extends EvidenceCollector implements Listener
 		this.messageCounter.clear();
 	}
 	
+	private void processPlayerSendMessage(Player player, String message){
+		String playerName = player.getName();
+		HashMap<String, Integer> playerMessages;
+		
+		if (this.messageCounter.containsKey(playerName) == false){
+			playerMessages = new HashMap<String, Integer>();
+		}else{
+			playerMessages = this.messageCounter.get(playerName);
+		}
+		
+		playerMessages.put(message, (playerMessages.containsKey(message)) ? playerMessages.get(message) + 1 : 1);
+		
+		this.messageCounter.put(playerName, playerMessages);
+	}
+	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerChat(PlayerChatEvent event){
-		String playerName = event.getPlayer().getName();
-		
-		this.messageCounter.put(playerName, (this.messageCounter.containsKey(playerName)) ? this.messageCounter.get(playerName) + 1 : 1);
+		this.processPlayerSendMessage(event.getPlayer(), event.getMessage());
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerCommand(PlayerCommandPreprocessEvent event){
-		String playerName = event.getPlayer().getName();
-		
-		this.messageCounter.put(playerName, (this.messageCounter.containsKey(playerName)) ? this.messageCounter.get(playerName) + 1 : 1);
+		this.processPlayerSendMessage(event.getPlayer(), event.getMessage());
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -78,7 +93,7 @@ public class SpamEvidenceCollector extends EvidenceCollector implements Listener
 		}
 		
 		if (this.messageCounter.containsKey(playerName)){
-			return this.messageCounter.get(playerName);
+			return Collections.max(this.messageCounter.get(playerName).values());
 		}
 		
 		return 0;
