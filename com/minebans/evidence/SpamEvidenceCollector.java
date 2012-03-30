@@ -41,8 +41,6 @@ public class SpamEvidenceCollector extends EvidenceCollector implements Listener
 				max = current;
 			}
 			
-			System.out.println("Current: " + current + " Max: " + max);
-			
 			this.maxViolationLevel.put(playerName, max);
 		}
 		
