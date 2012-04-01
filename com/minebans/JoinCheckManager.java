@@ -1,16 +1,25 @@
-package com.minebans.joinchecks;
+package com.minebans;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.minebans.MineBans;
-import com.minebans.MineBansConfig;
 import com.minebans.bans.BanReason;
 import com.minebans.joinactions.AppealUnbanAction;
 import com.minebans.joinactions.BanDataJoinAction;
 import com.minebans.joinactions.InfoDataJoinAction;
+import com.minebans.joinchecks.BanDataJoinCheck;
+import com.minebans.joinchecks.ConnectionDeniedReason;
+import com.minebans.joinchecks.GloballyBannedCheck;
+import com.minebans.joinchecks.GroupBanCheck;
+import com.minebans.joinchecks.InfoDataJoinCheck;
+import com.minebans.joinchecks.KnownCompromisedCheck;
+import com.minebans.joinchecks.LocalJoinCheck;
+import com.minebans.joinchecks.LocallyBannedCheck;
+import com.minebans.joinchecks.PublicProxyCheck;
+import com.minebans.joinchecks.TempBannedCheck;
+import com.minebans.joinchecks.TooManyBansCheck;
 
 public class JoinCheckManager {
 	

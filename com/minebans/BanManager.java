@@ -1,4 +1,4 @@
-package com.minebans.bans;
+package com.minebans;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -6,7 +6,8 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 
-import com.minebans.MineBans;
+import com.minebans.bans.BanReason;
+import com.minebans.bans.BanType;
 import com.minebans.events.PlayerBanEvent;
 import com.minebans.events.PlayerExemptEvent;
 import com.minebans.events.PlayerGlobalBanEvent;

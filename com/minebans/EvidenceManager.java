@@ -1,10 +1,9 @@
-package com.minebans.evidence;
+package com.minebans;
 
 import java.util.HashMap;
 
-import com.minebans.MineBans;
-import com.minebans.MineBansConfig;
 import com.minebans.bans.BanReason;
+import com.minebans.evidence.EvidenceCollector;
 
 public class EvidenceManager {
 	

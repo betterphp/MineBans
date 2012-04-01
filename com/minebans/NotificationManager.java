@@ -1,12 +1,10 @@
-package com.minebans.bans;
+package com.minebans;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import com.minebans.MineBans;
-import com.minebans.MineBansConfig;
-import com.minebans.MineBansPermission;
 import com.minebans.api.PlayerBanData;
+import com.minebans.bans.BanReason;
 
 public class NotificationManager {
 	

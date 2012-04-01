@@ -13,15 +13,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import com.minebans.api.APIInterface;
-import com.minebans.bans.BanManager;
-import com.minebans.bans.NotificationManager;
 import com.minebans.commands.BanExecutor;
 import com.minebans.commands.MineBansExecutor;
 import com.minebans.commands.KickExecutor;
 import com.minebans.commands.UnbanExecutor;
 import com.minebans.commands.ExemptExecutor;
-import com.minebans.evidence.EvidenceManager;
-import com.minebans.joinchecks.JoinCheckManager;
 import com.minebans.pluginInterfaces.ExploitInterface;
 import com.minebans.pluginInterfaces.LoggingInterface;
 import com.minebans.pluginapi.MineBansPluginAPI;
