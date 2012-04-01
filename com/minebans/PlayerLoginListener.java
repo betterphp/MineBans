@@ -16,6 +16,8 @@ import com.minebans.api.PlayerBanData;
 import com.minebans.api.PlayerInfoData;
 import com.minebans.events.PlayerConnectionAllowedEvent;
 import com.minebans.events.PlayerConnectionDeniedEvent;
+import com.minebans.joinactions.BanDataJoinAction;
+import com.minebans.joinactions.InfoDataJoinAction;
 import com.minebans.joinchecks.BanDataJoinCheck;
 import com.minebans.joinchecks.ConnectionAllowedReason;
 import com.minebans.joinchecks.ConnectionDeniedReason;
@@ -63,6 +65,10 @@ public class PlayerLoginListener implements Listener {
 		try{
 			PlayerInfoData playerInfo = plugin.api.getPlayerInfo(playerName, "CONSOLE");
 			
+			for (InfoDataJoinAction action : plugin.joinCheckManager.getInfoDataActions()){
+				action.onPlayerInfoData(playerName, playerAddress, playerInfo);
+			}
+			
 			for (Entry<ConnectionDeniedReason, InfoDataJoinCheck> enabledCheck : plugin.joinCheckManager.getInfoDataChecks()){
 				reason = enabledCheck.getKey();
 				infoDataCheck = enabledCheck.getValue();
@@ -83,6 +89,10 @@ public class PlayerLoginListener implements Listener {
 						InfoDataJoinCheck infoDataCheck;
 						
 						PlayerInfoData playerInfo = new PlayerInfoData(response);
+						
+						for (InfoDataJoinAction action : plugin.joinCheckManager.getInfoDataActions()){
+							action.onPlayerInfoData(playerName, playerAddress, playerInfo);
+						}
 						
 						for (Entry<ConnectionDeniedReason, InfoDataJoinCheck> enabledCheck : plugin.joinCheckManager.getInfoDataChecks()){
 							reason = enabledCheck.getKey();
@@ -116,6 +126,10 @@ public class PlayerLoginListener implements Listener {
 		try{
 			PlayerBanData banData = plugin.api.getPlayerBans(playerName, "CONSOLE");
 			
+			for (BanDataJoinAction action : plugin.joinCheckManager.getBanDataActions()){
+				action.onPlayerBanData(playerName, playerAddress, banData);
+			}
+			
 			for (Entry<ConnectionDeniedReason, BanDataJoinCheck> enabledCheck : plugin.joinCheckManager.getBanDataChecks()){
 				reason = enabledCheck.getKey();
 				banDataCheck = enabledCheck.getValue();
@@ -136,6 +150,10 @@ public class PlayerLoginListener implements Listener {
 						BanDataJoinCheck banDataCheck;
 						
 						PlayerBanData banData = new PlayerBanData(response);
+						
+						for (BanDataJoinAction action : plugin.joinCheckManager.getBanDataActions()){
+							action.onPlayerBanData(playerName, playerAddress, banData);
+						}
 						
 						for (Entry<ConnectionDeniedReason, BanDataJoinCheck> enabledCheck : plugin.joinCheckManager.getBanDataChecks()){
 							reason = enabledCheck.getKey();
