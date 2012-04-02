@@ -40,14 +40,16 @@ public class PlayerLoginListener implements Listener {
 		try{
 			PlayerJoinData joinData = plugin.api.getPlayerJoinInfo(playerName, "CONSOLE");
 			
-			PlayerLoginDataEvent loginDataEvent = new PlayerLoginDataEvent(playerName, playerAddress, joinData);
-			
-			plugin.pluginManager.callEvent(loginDataEvent);
-			
-			if (loginDataEvent.isConnectionPrevented()){
-				event.disallow(Result.KICK_OTHER, loginDataEvent.getKickMessage());
-				plugin.log.info(playerName + " (" + playerAddress + ") " + loginDataEvent.getLogMessage());
-				plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, loginDataEvent.getReason()));
+			if (joinData != null){
+				PlayerLoginDataEvent loginDataEvent = new PlayerLoginDataEvent(playerName, playerAddress, joinData);
+				
+				plugin.pluginManager.callEvent(loginDataEvent);
+				
+				if (loginDataEvent.isConnectionPrevented()){
+					event.disallow(Result.KICK_OTHER, loginDataEvent.getKickMessage());
+					plugin.log.info(playerName + " (" + playerAddress + ") " + loginDataEvent.getLogMessage());
+					plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, loginDataEvent.getReason()));
+				}
 			}
 		}catch (SocketTimeoutException e){
 			plugin.api.lookupPlayerJoinInfo(playerName, "CONSOLE", new APIResponseCallback(){
@@ -56,19 +58,21 @@ public class PlayerLoginListener implements Listener {
 					try{
 						PlayerJoinData joinData = plugin.api.getPlayerJoinInfo(playerName, "CONSOLE");
 						
-						PlayerLoginDataEvent loginDataEvent = new PlayerLoginDataEvent(playerName, playerAddress, joinData);
-						
-						plugin.pluginManager.callEvent(loginDataEvent);
-						
-						if (loginDataEvent.isConnectionPrevented()){
-							Player player = plugin.server.getPlayer(playerName);
+						if (joinData != null){
+							PlayerLoginDataEvent loginDataEvent = new PlayerLoginDataEvent(playerName, playerAddress, joinData);
 							
-							if (player != null){
-								player.kickPlayer(loginDataEvent.getKickMessage());
+							plugin.pluginManager.callEvent(loginDataEvent);
+							
+							if (loginDataEvent.isConnectionPrevented()){
+								Player player = plugin.server.getPlayer(playerName);
+								
+								if (player != null){
+									player.kickPlayer(loginDataEvent.getKickMessage());
+								}
+								
+								plugin.log.info(playerName + " (" + playerAddress + ") " + loginDataEvent.getLogMessage());
+								plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, loginDataEvent.getReason()));
 							}
-							
-							plugin.log.info(playerName + " (" + playerAddress + ") " + loginDataEvent.getLogMessage());
-							plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, loginDataEvent.getReason()));
 						}
 					}catch (SocketTimeoutException e){
 						this.onFailure(e);
