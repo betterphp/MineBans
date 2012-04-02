@@ -84,7 +84,7 @@ public class PlayerBanData {
 		return this.summary.get("removed");
 	}
 	
-	public Long getGroup(){
+	public Long getTotalGroupBans(){
 		return this.summary.get("group_bans");
 	}
 	

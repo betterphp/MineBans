@@ -1,4 +1,4 @@
-package com.minebans.joinchecks;
+package com.minebans.api;
 
 public enum ConnectionDeniedReason {
 	
@@ -8,7 +8,9 @@ public enum ConnectionDeniedReason {
 	GLOBALLY_BANNED(	"You have been globally banned by this server (appeal at minebans.com)",						"was prevented from connecting as they have been globally banned by this server"),
 	LOCALLY_BANNED(		"You have been banned from this server",														"was prevented from connecting as they have been banned"),
 	TEMP_BANNED(		"You have been temporarily banned from this server",											"was prevented from connecting as they have been temporarily banned"),
-	TOO_MANY_BANS(		"You have too many bans on record to connect to this server",									"was prevented from connecting as they have too many bans on record");
+	TOO_MANY_BANS(		"You have too many bans on record to connect to this server",									"was prevented from connecting as they have too many bans on record"),
+	
+	OTHER("", "");
 	
 	private String kickMessage;
 	private String logMessage;

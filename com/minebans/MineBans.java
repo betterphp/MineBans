@@ -13,11 +13,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import com.minebans.api.APIInterface;
+import com.minebans.bans.BanReason;
 import com.minebans.commands.BanExecutor;
 import com.minebans.commands.MineBansExecutor;
 import com.minebans.commands.KickExecutor;
 import com.minebans.commands.UnbanExecutor;
 import com.minebans.commands.ExemptExecutor;
+import com.minebans.joindatalisteners.GroupBanListener;
+import com.minebans.joindatalisteners.KnownCompromisedListener;
+import com.minebans.joindatalisteners.PlayerBannedListener;
+import com.minebans.joindatalisteners.PublicProxyListener;
+import com.minebans.joindatalisteners.TooManyBansListener;
 import com.minebans.pluginInterfaces.ExploitInterface;
 import com.minebans.pluginInterfaces.LoggingInterface;
 import com.minebans.pluginapi.MineBansPluginAPI;
@@ -38,7 +44,6 @@ public class MineBans extends JavaPlugin {
 	public LoggingInterface loggingPlugin;
 	public ExploitInterface exploitPlugin;
 	
-	public JoinCheckManager joinCheckManager;
 	public BanManager banManager;
 	public EvidenceManager evidenceManager;
 	public NotificationManager notificationManager;
@@ -70,7 +75,6 @@ public class MineBans extends JavaPlugin {
 		this.loggingPlugin = new LoggingInterface(this);
 		this.exploitPlugin = new ExploitInterface(this);
 		
-		this.joinCheckManager = new JoinCheckManager(this);
 		this.banManager = new BanManager(this);
 		this.evidenceManager = new EvidenceManager(this);
 		this.notificationManager = new NotificationManager(this);
@@ -80,6 +84,27 @@ public class MineBans extends JavaPlugin {
 		this.seenPlayers = new ArrayList<String>();
 		
 		this.pluginManager.registerEvents(new PlayerLoginListener(this), this);
+		
+		this.pluginManager.registerEvents(new PlayerBannedListener(this), this);
+		
+		if (this.config.getBoolean(MineBansConfig.BLOCK_PROXIES)){
+			this.pluginManager.registerEvents(new PublicProxyListener(this), this);
+		}
+		
+		if (this.config.getBoolean(MineBansConfig.BLOCK_COMPROMISED_ACCOUNTS)){
+			this.pluginManager.registerEvents(new KnownCompromisedListener(), this);
+		}
+		
+		if (this.config.getBoolean(MineBansConfig.USE_GROUP_BANS)){
+			this.pluginManager.registerEvents(new GroupBanListener(), this);
+		}
+		
+		for (BanReason banReason : BanReason.getAll()){
+			if (this.config.getBoolean(MineBansConfig.getReasonEnabled(banReason))){
+				this.pluginManager.registerEvents(new TooManyBansListener(this), this);
+				break;
+			}
+		}
 		
 		for (MineBansPermission permission : MineBansPermission.values()){
 			pluginManager.addPermission(new Permission(permission.getNode(), permission.getDescription(), permission.getDefault()));

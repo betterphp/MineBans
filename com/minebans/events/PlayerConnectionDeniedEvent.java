@@ -3,7 +3,7 @@ package com.minebans.events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import com.minebans.joinchecks.ConnectionDeniedReason;
+import com.minebans.api.ConnectionDeniedReason;
 
 public class PlayerConnectionDeniedEvent extends Event {
 	

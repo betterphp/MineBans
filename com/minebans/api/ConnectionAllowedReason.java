@@ -1,4 +1,4 @@
-package com.minebans.joinchecks;
+package com.minebans.api;
 
 public enum ConnectionAllowedReason {
 	

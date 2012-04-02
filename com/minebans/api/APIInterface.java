@@ -56,6 +56,17 @@ public class APIInterface {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public void lookupPlayerJoinInfo(final String playerName, String issuedBy, APIResponseCallback callback){
+		JSONObject json = new JSONObject();
+		
+		json.put("action", "get_player_join_info");
+		json.put("issued_by", issuedBy);
+		json.put("player_name", playerName);
+		
+		this.requestHandler.addRequest(new APIRequest(json, callback, 10000));
+	}
+	
+	@SuppressWarnings("unchecked")
 	public void banPlayer(final String playerName, final String issuedBy, final BanReason reason, final Object evidence){
 		JSONObject json = new JSONObject();
 		
@@ -184,6 +195,43 @@ public class APIInterface {
 		
 		try{
 			return new PlayerInfoData(this.requestHandler.processRequestDirect(new APIRequest(json, 250)));
+		}catch (Exception e){
+			CommandSender sender = (issuedBy.equalsIgnoreCase("CONSOLE")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
+			
+			if (e instanceof SocketTimeoutException){
+				throw (SocketTimeoutException) e;
+			}else if (e instanceof APIException){
+				plugin.log.fatal("Unable to contact the API. Response: " + ((APIException) e).getResponse());
+			}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
+				plugin.log.fatal("Failed to contact the API (you should report this).");
+				e.printStackTrace();
+			}else if (e instanceof ParseException){
+				plugin.log.fatal("Failed to parse API response (you should report this).");
+				e.printStackTrace();
+			}
+			
+			if (sender != null){
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Failed to fetch info for '" + playerName + "'."));
+				
+				if (e instanceof APIException){
+					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Response: " + ((APIException) e).getResponse()));
+				}
+			}
+			
+			return null;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public PlayerJoinData getPlayerJoinInfo(final String playerName, final String issuedBy) throws SocketTimeoutException {
+		JSONObject json = new JSONObject();
+		
+		json.put("action", "get_player_join_info");
+		json.put("issued_by", issuedBy);
+		json.put("player_name", playerName);
+		
+		try{
+			return new PlayerJoinData(this.requestHandler.processRequestDirect(new APIRequest(json, 250)));
 		}catch (Exception e){
 			CommandSender sender = (issuedBy.equalsIgnoreCase("CONSOLE")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
 			
