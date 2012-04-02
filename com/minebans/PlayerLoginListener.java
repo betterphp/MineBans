@@ -37,6 +37,8 @@ public class PlayerLoginListener implements Listener {
 			return;
 		}
 		
+		Boolean apiDelay = false;
+		
 		try{
 			PlayerJoinData joinData = plugin.api.getPlayerJoinInfo(playerName, "CONSOLE");
 			
@@ -49,9 +51,12 @@ public class PlayerLoginListener implements Listener {
 					event.disallow(Result.KICK_OTHER, loginDataEvent.getKickMessage());
 					plugin.log.info(playerName + " (" + playerAddress + ") " + loginDataEvent.getLogMessage());
 					plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, loginDataEvent.getReason()));
+					return;
 				}
 			}
 		}catch (SocketTimeoutException e){
+			apiDelay = true;
+			
 			plugin.api.lookupPlayerJoinInfo(playerName, "CONSOLE", new APIResponseCallback(){
 				
 				public void onSuccess(String response){
@@ -89,7 +94,7 @@ public class PlayerLoginListener implements Listener {
 		plugin.seenPlayers.add(playerName.toLowerCase());
 		
 		plugin.log.info(playerName + " (" + playerAddress + ") was allowed to join the server.");
-		plugin.pluginManager.callEvent(new PlayerConnectionAllowedEvent(playerName, ConnectionAllowedReason.PASSED_CHECKS));
+		plugin.pluginManager.callEvent(new PlayerConnectionAllowedEvent(playerName, (apiDelay) ? ConnectionAllowedReason.CHECKS_DELAYED : ConnectionAllowedReason.PASSED_CHECKS));
 	}
 	
 }
