@@ -168,7 +168,7 @@ public class MineBansExecutor implements CommandExecutor {
 				
 			});
 		}else if (option.equalsIgnoreCase("listtemp") || option.equalsIgnoreCase("lt")){
-			if (MineBansPermission.ADMIN_LOOKUP.playerHasPermission(sender) == false){
+			if (MineBansPermission.ADMIN_LISTTEMP.playerHasPermission(sender) == false){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 				return true;
 			}
