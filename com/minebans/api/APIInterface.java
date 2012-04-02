@@ -37,7 +37,7 @@ public class APIInterface {
 	public void lookupPlayerBans(final String playerName, String issuedBy, APIResponseCallback callback){
 		JSONObject json = new JSONObject();
 		
-		json.put("action", "lookup_player");
+		json.put("action", "get_player_bans");
 		json.put("issued_by", issuedBy);
 		json.put("player_name", playerName);
 		
@@ -152,7 +152,7 @@ public class APIInterface {
 	public PlayerBanData getPlayerBans(final String playerName, final String issuedBy) throws SocketTimeoutException {
 		JSONObject json = new JSONObject();
 		
-		json.put("action", "lookup_player");
+		json.put("action", "get_player_bans");
 		json.put("issued_by", issuedBy);
 		json.put("player_name", playerName);
 		
