@@ -210,7 +210,7 @@ public class BanManager {
 	}
 	
 	public void checkExpiredTempBans(){
-		for (String playerName : this.tempBannedPlayers.getPlayerNames()){
+		for (String playerName : new ArrayList<String>(this.tempBannedPlayers.getPlayerNames())){
 			this.isTempBanned(playerName);
 		}
 	}
