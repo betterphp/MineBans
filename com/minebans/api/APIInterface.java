@@ -231,7 +231,7 @@ public class APIInterface {
 		json.put("player_name", playerName);
 		
 		try{
-			return new PlayerJoinData(this.requestHandler.processRequestDirect(new APIRequest(json, 250)));
+			return new PlayerJoinData(this.requestHandler.processRequestDirect(new APIRequest(json, 500)));
 		}catch (Exception e){
 			CommandSender sender = (issuedBy.equalsIgnoreCase("CONSOLE")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
 			
