@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerPreLoginEvent;
 
 import com.minebans.api.APIResponseCallback;
 import com.minebans.api.ConnectionAllowedReason;
+import com.minebans.api.ConnectionDeniedReason;
 import com.minebans.api.PlayerJoinData;
 import com.minebans.events.PlayerConnectionAllowedEvent;
 import com.minebans.events.PlayerConnectionDeniedEvent;
@@ -89,6 +90,26 @@ public class PlayerLoginListener implements Listener {
 				}
 				
 			});
+		}
+		
+		// REMINDER: Leave this here, if the API does not respond we don't want to allow locally banned player to connect.
+		if (apiDelay){
+			if (plugin.banManager.isLocallyBanned(playerName)){
+				event.disallow(Result.KICK_BANNED, ConnectionDeniedReason.LOCALLY_BANNED.getKickMessage());
+				plugin.log.info(playerName + " (" + playerAddress + ") " + ConnectionDeniedReason.LOCALLY_BANNED.getLogMessage());
+				plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, ConnectionDeniedReason.LOCALLY_BANNED));
+				return;
+			}else if (plugin.banManager.isGloballyBanned(playerName)){
+				event.disallow(Result.KICK_BANNED, ConnectionDeniedReason.GLOBALLY_BANNED.getKickMessage());
+				plugin.log.info(playerName + " (" + playerAddress + ") " + ConnectionDeniedReason.GLOBALLY_BANNED.getLogMessage());
+				plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, ConnectionDeniedReason.GLOBALLY_BANNED));
+				return;
+			}else if (plugin.banManager.isTempBanned(playerName)){
+				event.disallow(Result.KICK_BANNED, ConnectionDeniedReason.TEMP_BANNED.getKickMessage());
+				plugin.log.info(playerName + " (" + playerAddress + ") " + ConnectionDeniedReason.TEMP_BANNED.getLogMessage());
+				plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, ConnectionDeniedReason.TEMP_BANNED));
+				return;
+			}
 		}
 		
 		plugin.seenPlayers.add(playerName.toLowerCase());
