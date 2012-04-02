@@ -55,14 +55,26 @@ public class PlayerLoginDataEvent extends Event {
 	}
 	
 	public ConnectionDeniedReason getReason(){
+		if (this.reason == null){
+			this.reason = ConnectionDeniedReason.OTHER;
+		}
+		
 		return this.reason;
 	}
 	
 	public String getKickMessage(){
+		if (this.kickMessage.equals("")){
+			this.kickMessage = ConnectionDeniedReason.OTHER.getKickMessage();
+		}
+		
 		return this.kickMessage;
 	}
 	
 	public String getLogMessage(){
+		if (this.logMessage.equals("")){
+			this.logMessage = ConnectionDeniedReason.OTHER.getLogMessage();
+		}
+		
 		return this.logMessage;
 	}
 	

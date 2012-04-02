@@ -10,7 +10,7 @@ public enum ConnectionDeniedReason {
 	TEMP_BANNED(		"You have been temporarily banned from this server",											"was prevented from connecting as they have been temporarily banned"),
 	TOO_MANY_BANS(		"You have too many bans on record to connect to this server",									"was prevented from connecting as they have too many bans on record"),
 	
-	OTHER("", "");
+	OTHER(				"You have been banned",																			"was prevented from connecting");
 	
 	private String kickMessage;
 	private String logMessage;
