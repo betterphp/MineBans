@@ -107,7 +107,7 @@ public class MineBans extends JavaPlugin {
 		}
 		
 		for (MineBansPermission permission : MineBansPermission.values()){
-			pluginManager.addPermission(new Permission(permission.getNode(), permission.getDescription(), permission.getDefault()));
+			this.pluginManager.addPermission(new Permission(permission.getNode(), permission.getDescription(), permission.getDefault()));
 		}
 		
 		this.getCommand("ban").setExecutor(new BanExecutor(this));

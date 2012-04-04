@@ -27,7 +27,7 @@ public class PlayerBannedListener implements Listener {
 			event.setLogMessage(ConnectionDeniedReason.LOCALLY_BANNED.getLogMessage());
 		}else if (plugin.banManager.isGloballyBanned(playerName)){
 			if (event.getJoinData().getInfoData().shouldUnban()){
-				plugin.banManager.unTempBan(playerName, true);
+				plugin.banManager.unGlobalBan(playerName, "CONSOLE");
 			}else{
 				event.setPreventConnection(true);
 				event.setReason(ConnectionDeniedReason.GLOBALLY_BANNED);
