@@ -38,12 +38,14 @@ public class PlayerLoginListener implements Listener {
 			return;
 		}
 		
-		Boolean apiDelay = false;
+		Boolean apiFail = false;
 		
 		try{
 			PlayerJoinData joinData = plugin.api.getPlayerJoinInfo(playerName, "CONSOLE");
 			
-			if (joinData != null){
+			if (joinData == null){
+				apiFail = true;
+			}else{
 				PlayerLoginDataEvent loginDataEvent = new PlayerLoginDataEvent(playerName, playerAddress, joinData);
 				
 				plugin.pluginManager.callEvent(loginDataEvent);
@@ -56,8 +58,6 @@ public class PlayerLoginListener implements Listener {
 				}
 			}
 		}catch (SocketTimeoutException e){
-			apiDelay = true;
-			
 			plugin.api.lookupPlayerJoinInfo(playerName, "CONSOLE", new APIResponseCallback(){
 				
 				public void onSuccess(String response){
@@ -93,7 +93,7 @@ public class PlayerLoginListener implements Listener {
 		}
 		
 		// REMINDER: Leave this here, if the API does not respond we don't want to allow locally banned player to connect.
-		if (apiDelay){
+		if (apiFail){
 			if (plugin.banManager.isLocallyBanned(playerName)){
 				event.disallow(Result.KICK_BANNED, ConnectionDeniedReason.LOCALLY_BANNED.getKickMessage());
 				plugin.log.info(playerName + " (" + playerAddress + ") " + ConnectionDeniedReason.LOCALLY_BANNED.getLogMessage());
@@ -115,7 +115,7 @@ public class PlayerLoginListener implements Listener {
 		plugin.seenPlayers.add(playerName.toLowerCase());
 		
 		plugin.log.info(playerName + " (" + playerAddress + ") was allowed to join the server.");
-		plugin.pluginManager.callEvent(new PlayerConnectionAllowedEvent(playerName, (apiDelay) ? ConnectionAllowedReason.CHECKS_DELAYED : ConnectionAllowedReason.PASSED_CHECKS));
+		plugin.pluginManager.callEvent(new PlayerConnectionAllowedEvent(playerName, (apiFail) ? ConnectionAllowedReason.CHECKS_DELAYED : ConnectionAllowedReason.PASSED_CHECKS));
 	}
 	
 }

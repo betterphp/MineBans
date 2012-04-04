@@ -46,4 +46,33 @@ public class ListUtils {
 		return sum;
 	}
 	
+	public static Double stddev(List<Long> numbers){
+		Double mean = new Double(sumLongs(numbers)) / new Double(numbers.size());
+		
+		Double stdDevSum = 0D;
+		
+		for (Long number : numbers){
+			stdDevSum += Math.pow(number - mean, 2);
+		}
+		
+		return Math.sqrt(stdDevSum / numbers.size());
+	}
+	
+	public static String implode(String sep, List<?> values){
+		StringBuilder builder = new StringBuilder();
+		
+		if (values.size() == 0){
+			return "";
+		}
+		
+		builder.append(values.get(0).toString());
+		
+		for (int i = 1; i < values.size(); ++i){
+			builder.append(sep);
+			builder.append(values.get(i).toString());
+		}
+		
+		return builder.toString();
+	}
+	
 }
