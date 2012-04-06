@@ -127,7 +127,7 @@ public class MineBansPluginAPI {
 	}
 	
 	public boolean globallyBanPlayer(String playerName, String issuedBy, BanReason reason){
-		if (plugin.server.getOfflinePlayer(playerName).hasPlayedBefore() == false){
+		if (plugin.seenPlayers.contains(playerName.toLowerCase()) == false && plugin.server.getOfflinePlayer(playerName).hasPlayedBefore() == false){
 			return false;
 		}
 		
