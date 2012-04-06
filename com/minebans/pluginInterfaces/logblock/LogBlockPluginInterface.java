@@ -1,4 +1,4 @@
-package com.minebans.pluginInterfaces;
+package com.minebans.pluginInterfaces.logblock;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.minebans.MineBans;
 import com.minebans.MineBansConfig;
 import com.minebans.bans.BanReason;
+import com.minebans.pluginInterfaces.LoggingPluginInterface;
 
 import de.diddiz.LogBlock.BlockChange;
 import de.diddiz.LogBlock.LogBlock;

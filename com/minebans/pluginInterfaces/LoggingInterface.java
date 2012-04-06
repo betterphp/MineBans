@@ -3,6 +3,8 @@ package com.minebans.pluginInterfaces;
 import java.util.HashMap;
 
 import com.minebans.MineBans;
+import com.minebans.pluginInterfaces.hawkeye.HawkEyePluginInterface;
+import com.minebans.pluginInterfaces.logblock.LogBlockPluginInterface;
 
 public class LoggingInterface {
 	

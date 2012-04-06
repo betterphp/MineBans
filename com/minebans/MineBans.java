@@ -24,6 +24,7 @@ import com.minebans.joindatalisteners.KnownCompromisedListener;
 import com.minebans.joindatalisteners.PlayerBannedListener;
 import com.minebans.joindatalisteners.PublicProxyListener;
 import com.minebans.joindatalisteners.TooManyBansListener;
+import com.minebans.pluginInterfaces.AntiSpamInterface;
 import com.minebans.pluginInterfaces.ExploitInterface;
 import com.minebans.pluginInterfaces.LoggingInterface;
 import com.minebans.pluginapi.MineBansPluginAPI;
@@ -43,6 +44,7 @@ public class MineBans extends JavaPlugin {
 	
 	public LoggingInterface loggingPlugin;
 	public ExploitInterface exploitPlugin;
+	public AntiSpamInterface antiSpamPlugin;
 	
 	public BanManager banManager;
 	public EvidenceManager evidenceManager;
@@ -74,6 +76,7 @@ public class MineBans extends JavaPlugin {
 		
 		this.loggingPlugin = new LoggingInterface(this);
 		this.exploitPlugin = new ExploitInterface(this);
+		this.antiSpamPlugin = new AntiSpamInterface(this);
 		
 		this.banManager = new BanManager(this);
 		this.evidenceManager = new EvidenceManager(this);

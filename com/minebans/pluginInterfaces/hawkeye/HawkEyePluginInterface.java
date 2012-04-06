@@ -1,4 +1,4 @@
-package com.minebans.pluginInterfaces;
+package com.minebans.pluginInterfaces.hawkeye;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,6 +15,7 @@ import uk.co.oliwali.HawkEye.util.HawkEyeAPI;
 import com.minebans.MineBans;
 import com.minebans.MineBansConfig;
 import com.minebans.bans.BanReason;
+import com.minebans.pluginInterfaces.LoggingPluginInterface;
 
 public class HawkEyePluginInterface extends LoggingPluginInterface {
 	

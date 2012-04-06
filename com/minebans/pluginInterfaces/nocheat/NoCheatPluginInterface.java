@@ -1,4 +1,4 @@
-package com.minebans.pluginInterfaces;
+package com.minebans.pluginInterfaces.nocheat;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,6 +13,7 @@ import cc.co.evenprime.bukkit.nocheat.config.NoCheatConfiguration;
 import com.minebans.MineBans;
 import com.minebans.MineBansConfig;
 import com.minebans.bans.BanReason;
+import com.minebans.pluginInterfaces.ExploitPluginInterface;
 
 public class NoCheatPluginInterface extends ExploitPluginInterface {
 	

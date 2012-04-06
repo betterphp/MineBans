@@ -1,4 +1,4 @@
-package com.minebans.pluginInterfaces;
+package com.minebans.pluginInterfaces.nocheat;
 
 import java.util.ArrayList;
 import java.util.Collections;

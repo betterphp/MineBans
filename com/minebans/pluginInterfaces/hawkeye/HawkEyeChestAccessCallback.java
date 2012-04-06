@@ -1,4 +1,4 @@
-package com.minebans.pluginInterfaces;
+package com.minebans.pluginInterfaces.hawkeye;
 
 import java.util.HashMap;
 
