@@ -3,6 +3,7 @@ package com.minebans.pluginInterfaces;
 import java.util.HashMap;
 
 import com.minebans.MineBans;
+import com.minebans.pluginInterfaces.defaultlogging.DefaultLoggingPluginInterface;
 import com.minebans.pluginInterfaces.hawkeye.HawkEyePluginInterface;
 import com.minebans.pluginInterfaces.logblock.LogBlockPluginInterface;
 
@@ -16,17 +17,13 @@ public class LoggingInterface {
 		}else if (plugin.pluginManager.isPluginEnabled("HawkEye")){
 			this.pluginInterface = new HawkEyePluginInterface(plugin);
 		}else{
-			plugin.log.warn("A suitable logging plugin was not found.");
-			plugin.log.warn("It is strongly recomended that you install a plugin such as LogBlock");
-			plugin.log.warn("this will be used to calculate the severity of any bans you make.");
+			this.pluginInterface = new DefaultLoggingPluginInterface(plugin);
 		}
 		
-		if (this.foundLoggingPlugin()){
-			plugin.log.info("Using " + this.pluginInterface.getPluginName() + " for player data, checking config.");
-			
-			if (this.pluginInterface.checkConfig() == false){
-				plugin.log.fatal(this.pluginInterface.getPluginName() + " minimum config was not met.");
-			}
+		plugin.log.info("Using " + this.pluginInterface.getPluginName() + " for player data, checking config.");
+		
+		if (this.pluginInterface.checkConfig() == false){
+			plugin.log.fatal(this.pluginInterface.getPluginName() + " minimum config was not met.");
 		}
 	}
 	

@@ -32,8 +32,8 @@ public class MineBansAntiSpamPluginInterface extends AntiSpamPluginInterface {
 		return true;
 	}
 	
-	public long getMaxViolationLevel(String playerName){
-		return (this.detectedSpammers.contains(playerName.toLowerCase())) ? 20L : 0L;
+	public int getMaxViolationLevel(String playerName){
+		return (this.detectedSpammers.contains(playerName.toLowerCase())) ? 20 : 0;
 	}
 	
 }
