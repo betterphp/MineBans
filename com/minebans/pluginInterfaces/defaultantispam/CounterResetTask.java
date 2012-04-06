@@ -1,6 +1,8 @@
 package com.minebans.pluginInterfaces.defaultantispam;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class CounterResetTask implements Runnable {
 	
@@ -11,19 +13,19 @@ public class CounterResetTask implements Runnable {
 	}
 
 	public void run(){
-		Integer current, max;
+		Integer current;
+		String playerName;
+		HashMap<String, Integer> messageCount;
 		
-		for (String playerName : collector.messageCounter.keySet()){
-			max = 0;
+		for (Entry<String, HashMap<String, Integer>> entry : collector.messageCounter.entrySet()){
+			playerName = entry.getKey();
+			messageCount = entry.getValue();
 			
-			current = Collections.max(collector.messageCounter.get(playerName).values());
-			max = collector.maxViolationLevel.containsKey(playerName) ? collector.maxViolationLevel.get(playerName) : 0;
+			current = (messageCount.size() > 0) ? Collections.max(messageCount.values()) : 0;
 			
-			if (current > max){
-				max = current;
+			if (collector.maxViolationLevel.containsKey(playerName) == false || current > collector.maxViolationLevel.get(playerName)){
+				collector.maxViolationLevel.put(playerName, current);
 			}
-			
-			collector.maxViolationLevel.put(playerName, max);
 		}
 		
 		collector.messageCounter.clear();
