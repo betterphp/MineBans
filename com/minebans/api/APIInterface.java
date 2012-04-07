@@ -34,6 +34,16 @@ public class APIInterface {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public void lookupAPIStatus(String issuedBy, APIResponseCallback callback){
+		JSONObject json = new JSONObject();
+		
+		json.put("action", "get_system_status");
+		json.put("issued_by", issuedBy);
+		
+		this.requestHandler.addRequest(new APIRequest(json, callback, 5000));
+	}
+	
+	@SuppressWarnings("unchecked")
 	public void lookupPlayerBans(final String playerName, String issuedBy, APIResponseCallback callback){
 		JSONObject json = new JSONObject();
 		

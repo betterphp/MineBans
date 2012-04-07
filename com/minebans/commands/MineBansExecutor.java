@@ -19,6 +19,7 @@ import com.minebans.MineBansPermission;
 import com.minebans.api.APIException;
 import com.minebans.api.APIResponseCallback;
 import com.minebans.api.PlayerBanData;
+import com.minebans.api.SystemStatusData;
 import com.minebans.bans.BanReason;
 import com.minebans.bans.BanSeverity;
 
@@ -34,6 +35,7 @@ public class MineBansExecutor implements CommandExecutor {
 		if (args.length == 0){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /minebans <option> [args]"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Options:"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   status - Gets the status of the API."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   reasons - Lists all of the ban reasons."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   lookup - Gets a summary of a players bans."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   listtemp - Lists all of the players that are temporarily banned."));
@@ -42,7 +44,46 @@ public class MineBansExecutor implements CommandExecutor {
 		
 		String option = args[0];
 		
-		if (option.equalsIgnoreCase("reasons") || option.equalsIgnoreCase("r")){
+		if (option.equalsIgnoreCase("status") || option.equalsIgnoreCase("s")){
+			if (MineBansPermission.ADMIN_STATUS.playerHasPermission(sender) == false){
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+				return true;
+			}
+			
+			final long timeStart = System.currentTimeMillis();
+			
+			plugin.api.lookupAPIStatus(sender.getName(), new APIResponseCallback(){
+				
+				public void onSuccess(String response){
+					try{
+						SystemStatusData status = new SystemStatusData(response);
+						Double[] loadAvg = status.getLoadAvg();
+						
+						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "The API responded in " + (status.getResponceTime() - timeStart) + "ms"));
+						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Server Load Average: " + ((loadAvg[0] > 8L) ? ChatColor.RED : ChatColor.GREEN) + loadAvg[0] + " " + loadAvg[1] + " " + loadAvg[2]));
+					}catch (ParseException e){
+						this.onFailure(e);
+					}
+				}
+				
+				public void onFailure(Exception e){
+					if (e instanceof SocketTimeoutException){
+						plugin.log.fatal("The API failed to respond in time.");
+					}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
+						plugin.log.fatal("Failed to contact the API (you should report this).");
+						e.printStackTrace();
+					}else if (e instanceof ParseException){
+						plugin.log.fatal("Failed to parse API response (you should report this).");
+						e.printStackTrace();
+					}else if (e instanceof APIException){
+						plugin.log.fatal("API Request Failed: " + ((APIException) e).getResponse());
+					}
+					
+					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "The API failed to respond"));
+				}
+				
+			});
+		}else if (option.equalsIgnoreCase("reasons") || option.equalsIgnoreCase("r")){
 			if (MineBansPermission.ADMIN_BAN.playerHasPermission(sender) == false){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 				return true;
