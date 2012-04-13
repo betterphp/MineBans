@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.minebans.MineBans;
 import com.minebans.pluginInterfaces.defaultlogging.DefaultLoggingPluginInterface;
+import com.minebans.pluginInterfaces.guardian.GuardianPluginInterface;
 import com.minebans.pluginInterfaces.hawkeye.HawkEyePluginInterface;
 import com.minebans.pluginInterfaces.logblock.LogBlockPluginInterface;
 
@@ -16,7 +17,9 @@ public class LoggingInterface {
 			this.pluginInterface = new LogBlockPluginInterface(plugin);
 		}else if (plugin.pluginManager.isPluginEnabled("HawkEye")){
 			this.pluginInterface = new HawkEyePluginInterface(plugin);
-		}else{
+		}else if (plugin.pluginManager.isPluginEnabled("Guardian")){
+			this.pluginInterface = new GuardianPluginInterface(plugin);
+		}else{	
 			this.pluginInterface = new DefaultLoggingPluginInterface(plugin);
 		}
 		

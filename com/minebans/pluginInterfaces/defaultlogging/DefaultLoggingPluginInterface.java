@@ -37,15 +37,27 @@ public class DefaultLoggingPluginInterface extends LoggingPluginInterface {
 	}
 	
 	public HashMap<Integer, Integer> getChestAccess(String playerName){
-		return this.chestAccess.get(playerName.toLowerCase());
+		if (this.chestAccess.containsKey(playerName) == false){
+			return new HashMap<Integer, Integer>();
+		}
+		
+		return this.chestAccess.get(playerName);
 	}
 	
 	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
-		return this.blocksPlaced.get(playerName.toLowerCase());
+		if (this.blocksPlaced.containsKey(playerName) == false){
+			return new HashMap<Integer, Integer>();
+		}
+		
+		return this.blocksPlaced.get(playerName);
 	}
 	
 	public HashMap<Integer, Integer> getBlocksBroken(String playerName){
-		return this.blocksBroken.get(playerName.toLowerCase());
+		if (this.blocksBroken.containsKey(playerName) == false){
+			return new HashMap<Integer, Integer>();
+		}
+		
+		return this.blocksBroken.get(playerName);
 	}
 	
 	public HashMap<String, HashMap<Integer, Integer>> getBlockChanges(String playerName){

@@ -18,7 +18,7 @@ public class BlockListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent event){
-		String playerName = event.getPlayer().getName().toLowerCase();
+		String playerName = event.getPlayer().getName();
 		Integer blockId = event.getBlock().getTypeId();
 		
 		HashMap<Integer, Integer> blocksBroken = plugin.blocksBroken.get(playerName);
@@ -33,14 +33,14 @@ public class BlockListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockPlace(BlockPlaceEvent event){
-		String playerName = event.getPlayer().getName().toLowerCase();
+		String playerName = event.getPlayer().getName();
 		Integer blockId = event.getBlock().getTypeId();
 		
 		HashMap<Integer, Integer> blocksPlaced = plugin.blocksPlaced.get(playerName);
 		
 		if (blocksPlaced == null){
 			blocksPlaced = new HashMap<Integer, Integer>();
-			plugin.blocksBroken.put(playerName, blocksPlaced);
+			plugin.blocksPlaced.put(playerName, blocksPlaced);
 		}
 		
 		blocksPlaced.put(blockId, (blocksPlaced.containsKey(blockId)) ? blocksPlaced.get(blockId) + 1 : 1);

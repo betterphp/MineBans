@@ -29,7 +29,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 	}
 	
 	public boolean pluginEnabled(){
-		return (this.plugin != null);
+		return (this.logblock != null);
 	}
 	
 	public String getPluginName(){

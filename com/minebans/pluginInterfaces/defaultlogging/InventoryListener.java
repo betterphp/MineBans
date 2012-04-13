@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 
 public class InventoryListener implements Listener {
 	
+	@SuppressWarnings("unused")
 	private DefaultLoggingPluginInterface plugin;
 	
 	public InventoryListener(DefaultLoggingPluginInterface plugin){
