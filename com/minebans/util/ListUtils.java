@@ -46,18 +46,6 @@ public class ListUtils {
 		return sum;
 	}
 	
-	public static Double stddev(List<Long> numbers){
-		Double mean = new Double(sumLongs(numbers)) / new Double(numbers.size());
-		
-		Double stdDevSum = 0D;
-		
-		for (Long number : numbers){
-			stdDevSum += Math.pow(number - mean, 2);
-		}
-		
-		return Math.sqrt(stdDevSum / numbers.size());
-	}
-	
 	public static String implode(String sep, List<?> values){
 		StringBuilder builder = new StringBuilder();
 		

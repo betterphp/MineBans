@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 import org.guardian.ActionType;
 import org.guardian.Guardian;
+import org.guardian.config.Config;
+import org.guardian.config.WorldConfig;
 import org.guardian.entries.BlockEntry;
 import org.guardian.entries.Entry;
 import org.guardian.params.QueryParams;
@@ -32,6 +34,37 @@ public class GuardianPluginInterface extends LoggingPluginInterface {
 	}
 	
 	public boolean checkConfig(){
+		Config config = this.guardian.getConf();
+		
+		String worldName;
+		WorldConfig worldConfig;
+		
+		for (java.util.Map.Entry<String, WorldConfig> entry : config.worlds.entrySet()){
+			worldName = entry.getKey();
+			worldConfig = entry.getValue();
+			
+			plugin.log.info("Checking LogBlock config for '" + worldName + "'");
+			
+			if (worldConfig.isLogging(ActionType.BLOCK_BREAK) == false){
+				plugin.log.warn("To provide the best data Guardian should be set to log block breaks for all worlds.");
+			}
+			
+			if (worldConfig.isLogging(ActionType.BLOCK_PLACE) == false){
+				plugin.log.warn("To provide the best data Guardian should be set to log blocks placed for all worlds.");
+			}
+			
+			// Guardian does not have chest logging yet.
+			/*
+			if (worldConfig.isLogging(ActionType.INVENTORY_TAKE) == false){
+				plugin.log.warn("To provide the best data Guardian should be set to log items taken from inventories for all worlds.");
+			}
+			
+			if (worldConfig.isLogging(ActionType.INVENTORY_ADD) == false){
+				plugin.log.warn("To provide the best data Guardian should be set to log items added to inventories for all worlds.");
+			}
+			*/
+		}
+		
 		return true;
 	}
 	
