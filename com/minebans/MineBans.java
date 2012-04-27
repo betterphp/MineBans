@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import com.minebans.api.APIInterface;
+import com.minebans.api.SystemStatusData;
 import com.minebans.bans.BanReason;
 import com.minebans.commands.BanExecutor;
 import com.minebans.commands.MineBansExecutor;
@@ -119,7 +120,24 @@ public class MineBans extends JavaPlugin {
 		this.getCommand("exempt").setExecutor(new ExemptExecutor(this));
 		this.getCommand("minebans").setExecutor(new MineBansExecutor(this));
 		
-		this.log.info("Enabled.");
+		this.log.info("Enabled successfully, checking API server communication.");
+		
+		long startTime = System.currentTimeMillis();
+		SystemStatusData status = this.api.getAPIStatus("CONSOLE");
+		long ping = System.currentTimeMillis() - startTime;
+		
+		if (status == null){
+			this.log.warn("Failed to contact the API");
+		}else if (ping > 500){
+			this.log.warn("The API took longer than 500ms to reply, this is not a serious problem but due to a technical limitation,");
+			this.log.warn("the check with the API has to make the entire server wait until the request completes. If this takes longer");
+			this.log.warn("than 500ms it is assumed that the player is allowed to join and a check with a longer delay is scheduled.");
+			this.log.warn("This is done to prevent player joins causing noticeable server lag. The player may be online for a few seconds");
+			this.log.warn("while the API request is still waiting, this is normal and nothing to worry about :)");
+			this.log.warn("Your API Responce Time: " + ping);
+		}else{
+			this.log.info("The API server responded to your request successfully.");
+		}
 	}
 	
 	public void onDisable(){

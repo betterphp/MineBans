@@ -77,6 +77,30 @@ public class APIInterface {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public SystemStatusData getAPIStatus(String issuedBy){
+		JSONObject json = new JSONObject();
+		
+		json.put("action", "get_system_status");
+		json.put("issued_by", issuedBy);
+		
+		try{
+			return new SystemStatusData(this.requestHandler.processRequestDirect(new APIRequest(json, 5000)));
+		}catch (SocketTimeoutException ste){
+			plugin.log.fatal("The API failed to respond in time.");
+		}catch (IOException ioe){
+			plugin.log.fatal("Failed to contact the API (you should report this).");
+			ioe.printStackTrace();
+		}catch (ParseException pe){
+			plugin.log.fatal("Failed to parse API response (you should report this).");
+			pe.printStackTrace();
+		}catch (APIException apie){
+			plugin.log.fatal("API Request Failed: " + ((APIException) apie).getResponse());
+		}
+		
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
 	public void banPlayer(final String playerName, final String issuedBy, final BanReason reason, final Object evidence){
 		JSONObject json = new JSONObject();
 		
