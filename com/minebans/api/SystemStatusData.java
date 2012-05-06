@@ -9,13 +9,14 @@ public class SystemStatusData {
 	private Double[] loagAvg;
 	private long responceTime;
 	
-	public SystemStatusData(JSONObject response){
-		JSONObject data = (JSONObject) response.get("load_avg");
+	public SystemStatusData(JSONObject apiResponse){
+		JSONObject load = (JSONObject) apiResponse.get("load_avg");
 		
 		this.loagAvg = new Double[3];
-		this.loagAvg[0] = Double.parseDouble(data.get("0").toString());
-		this.loagAvg[1] = Double.parseDouble(data.get("1").toString());
-		this.loagAvg[2] = Double.parseDouble(data.get("2").toString());
+		
+		this.loagAvg[0] = Double.parseDouble(load.get("0").toString());
+		this.loagAvg[1] = Double.parseDouble(load.get("1").toString());
+		this.loagAvg[2] = Double.parseDouble(load.get("2").toString());
 		
 		this.responceTime = System.currentTimeMillis();
 	}

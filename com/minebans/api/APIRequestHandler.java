@@ -6,49 +6,40 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
-import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import com.minebans.MineBans;
-import com.minebans.MineBansConfig;
 
 public class APIRequestHandler extends Thread implements Runnable {
-	
-	private URL apiURL;
 	
 	private MineBans plugin;
 	
 	private ArrayBlockingQueue<APIRequest> requestStack;
 	
 	public APIRequestHandler(MineBans plugin){
-		try{
-			this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(plugin.config.getString(MineBansConfig.API_KEY), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
-		//	this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(plugin.config.getString(MineBansConfig.API_KEY), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-		
 		this.plugin = plugin;
 		
 		this.requestStack = new ArrayBlockingQueue<APIRequest>(500);
 	}
 	
 	public String processRequestDirect(APIRequest request) throws UnsupportedEncodingException, SocketTimeoutException, IOException, APIException {
-		String data = "request_data=" + URLEncoder.encode(request.json.toJSONString(), "UTF-8");
-		
-		URLConnection conn = this.apiURL.openConnection();
+		URLConnection conn = request.url.openConnection();
 		
 		conn.setUseCaches(false);
-		conn.setDoOutput(true);
 		conn.setConnectTimeout(request.timeout);
 		conn.setReadTimeout(request.timeout);
 		
-		OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
-		
-		out.write(data);
-		out.flush();
+		if (request.json != null){
+			conn.setDoOutput(true);
+			
+			OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
+			
+			out.write("request_data=" + URLEncoder.encode(request.json.toJSONString(), "UTF-8"));
+			out.flush();
+			out.close();
+		}
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 		
@@ -61,7 +52,6 @@ public class APIRequestHandler extends Thread implements Runnable {
 		
 		String response = buffer.toString();
 		
-		out.close();
 		in.close();
 		
 		if (response == null || response.startsWith("E")){

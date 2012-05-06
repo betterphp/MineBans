@@ -3,6 +3,8 @@ package com.minebans.api;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.net.URLEncoder;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,15 +13,28 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import com.minebans.MineBans;
+import com.minebans.MineBansConfig;
 import com.minebans.bans.BanReason;
 
 public class APIInterface {
 	
 	private MineBans plugin;
 	
+	private URL apiURL;
+	private URL statusURL;
+	
 	private APIRequestHandler requestHandler;
 	
 	public APIInterface(MineBans plugin){
+		try{
+			this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(plugin.config.getString(MineBansConfig.API_KEY), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
+//			this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(plugin.config.getString(MineBansConfig.API_KEY), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
+			
+			this.statusURL = new URL("https://dl.dropbox.com/s/vjngx1qzvhvtcqz/minebans_status_message.txt");
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		
 		this.plugin = plugin;
 		this.startThread();
 	}
@@ -33,6 +48,10 @@ public class APIInterface {
 		this.requestHandler.interrupt();
 	}
 	
+	public void lookupAPIStatusMessage(APIResponseCallback callback){
+		this.requestHandler.addRequest(new APIRequest(this.statusURL, null, callback, 8000));
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void lookupAPIStatus(String issuedBy, APIResponseCallback callback){
 		JSONObject json = new JSONObject();
@@ -40,7 +59,7 @@ public class APIInterface {
 		json.put("action", "get_system_status");
 		json.put("issued_by", issuedBy);
 		
-		this.requestHandler.addRequest(new APIRequest(json, callback, 5000));
+		this.requestHandler.addRequest(new APIRequest(this.apiURL, json, callback, 5000));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -51,7 +70,7 @@ public class APIInterface {
 		json.put("issued_by", issuedBy);
 		json.put("player_name", playerName);
 		
-		this.requestHandler.addRequest(new APIRequest(json, callback, 10000));
+		this.requestHandler.addRequest(new APIRequest(this.apiURL, json, callback, 10000));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -62,7 +81,7 @@ public class APIInterface {
 		json.put("issued_by", issuedBy);
 		json.put("player_name", playerName);
 		
-		this.requestHandler.addRequest(new APIRequest(json, callback, 10000));
+		this.requestHandler.addRequest(new APIRequest(this.apiURL, json, callback, 10000));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -73,7 +92,7 @@ public class APIInterface {
 		json.put("issued_by", issuedBy);
 		json.put("player_name", playerName);
 		
-		this.requestHandler.addRequest(new APIRequest(json, callback, 10000));
+		this.requestHandler.addRequest(new APIRequest(this.apiURL, json, callback, 10000));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -84,7 +103,7 @@ public class APIInterface {
 		json.put("issued_by", issuedBy);
 		
 		try{
-			return new SystemStatusData(this.requestHandler.processRequestDirect(new APIRequest(json, 5000)));
+			return new SystemStatusData(this.requestHandler.processRequestDirect(new APIRequest(this.apiURL, json, 5000)));
 		}catch (SocketTimeoutException ste){
 			plugin.log.fatal("The API failed to respond in time.");
 		}catch (IOException ioe){
@@ -110,7 +129,7 @@ public class APIInterface {
 		json.put("reason", reason.getID());
 		json.put("evidence", evidence);
 		
-		this.requestHandler.addRequest(new APIRequest(json, new APIResponseCallback(){
+		this.requestHandler.addRequest(new APIRequest(this.apiURL, json, new APIResponseCallback(){
 			
 			CommandSender sender = (issuedBy.equalsIgnoreCase("console")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
 			
@@ -149,7 +168,7 @@ public class APIInterface {
 		json.put("issued_by", issuedBy);
 		json.put("player_name", playerName);
 		
-		this.requestHandler.addRequest(new APIRequest(json, new APIResponseCallback(){
+		this.requestHandler.addRequest(new APIRequest(this.apiURL, json, new APIResponseCallback(){
 			
 			CommandSender sender = (issuedBy.equalsIgnoreCase("console")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
 			
@@ -191,7 +210,7 @@ public class APIInterface {
 		json.put("player_name", playerName);
 		
 		try{
-			return new PlayerBanData(this.requestHandler.processRequestDirect(new APIRequest(json, 250)));
+			return new PlayerBanData(this.requestHandler.processRequestDirect(new APIRequest(this.apiURL, json, 250)));
 		}catch (Exception e){
 			CommandSender sender = (issuedBy.equalsIgnoreCase("console")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
 			
@@ -228,7 +247,7 @@ public class APIInterface {
 		json.put("player_name", playerName);
 		
 		try{
-			return new PlayerInfoData(this.requestHandler.processRequestDirect(new APIRequest(json, 250)));
+			return new PlayerInfoData(this.requestHandler.processRequestDirect(new APIRequest(this.apiURL, json, 250)));
 		}catch (Exception e){
 			CommandSender sender = (issuedBy.equalsIgnoreCase("CONSOLE")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
 			
@@ -265,7 +284,7 @@ public class APIInterface {
 		json.put("player_name", playerName);
 		
 		try{
-			return new PlayerJoinData(this.requestHandler.processRequestDirect(new APIRequest(json, 500)));
+			return new PlayerJoinData(this.requestHandler.processRequestDirect(new APIRequest(this.apiURL, json, 500)));
 		}catch (Exception e){
 			CommandSender sender = (issuedBy.equalsIgnoreCase("CONSOLE")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
 			

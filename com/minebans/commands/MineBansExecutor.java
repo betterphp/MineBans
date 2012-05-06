@@ -79,7 +79,20 @@ public class MineBansExecutor implements CommandExecutor {
 						plugin.log.fatal("API Request Failed: " + ((APIException) e).getResponse());
 					}
 					
-					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "The API failed to respond"));
+					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "The API failed to respond, checking for known problems..."));
+					
+					plugin.api.lookupAPIStatusMessage(new APIResponseCallback(){
+						
+						public void onSuccess(String response){
+							sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Result: " + response));
+						}
+						
+						public void onFailure(Exception e){
+							plugin.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 8 seconds.");
+							sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Result: " + ChatColor.RED + "Unable to get info, check your server.log"));
+						}
+						
+					});
 				}
 				
 			});
