@@ -32,13 +32,15 @@ public class HawkEyeBlockPlacedCallback extends BaseCallback {
 			start = data.lastIndexOf(" ") + 1;
 			end = data.lastIndexOf(":");
 			
-			if (end > 0){
-				blockId = Material.getMaterial(data.substring(start, end)).getId();
-			}else{
-				blockId = Material.getMaterial(data.substring(start)).getId();
+			if (start > 0){
+				if (end > 0){
+					blockId = Material.getMaterial(data.substring(start, end)).getId();
+				}else{
+					blockId = Material.getMaterial(data.substring(start)).getId();
+				}
+				
+				this.placed.put(blockId, (this.placed.containsKey(blockId)) ? this.placed.get(blockId) + 1 : 1);
 			}
-			
-			this.placed.put(blockId, (this.placed.containsKey(blockId)) ? this.placed.get(blockId) + 1 : 1);
 		}
 		
 		this.gotData = true;
