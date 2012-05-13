@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import org.bukkit.inventory.ItemStack;
 
+import com.minebans.MineBans;
+
 import uk.co.oliwali.HawkEye.callbacks.BaseCallback;
 import uk.co.oliwali.HawkEye.database.SearchQuery.SearchError;
 import uk.co.oliwali.HawkEye.entry.DataEntry;
@@ -11,15 +13,23 @@ import uk.co.oliwali.HawkEye.util.InventoryUtil;
 
 public class HawkEyeChestAccessCallback extends BaseCallback {
 	
-	public Boolean gotData;
+	private MineBans plugin;
+	
+	public Boolean complete;
 	public HashMap<Integer, Integer> taken;
 	
-	public HawkEyeChestAccessCallback(){
-		this.gotData = false;
+	public HawkEyeChestAccessCallback(MineBans plugin){
+		this.plugin = plugin;
+		
+		this.complete = false;
 		this.taken = new HashMap<Integer, Integer>();
 	}
 	
-	public void error(SearchError error, String message){  }
+	public void error(SearchError error, String message){
+		plugin.log.warn(plugin.formatMessage("HawkEye Error: " + error.name() + " " + message, false));
+		
+		this.complete = true;
+	}
 	
 	public void execute(){
 		String data;
@@ -42,7 +52,7 @@ public class HawkEyeChestAccessCallback extends BaseCallback {
 			}
 		}
 		
-		this.gotData = true;
+		this.complete = true;
 	}
 	
 }

@@ -4,21 +4,31 @@ import java.util.HashMap;
 
 import org.bukkit.Material;
 
+import com.minebans.MineBans;
+
 import uk.co.oliwali.HawkEye.callbacks.BaseCallback;
 import uk.co.oliwali.HawkEye.database.SearchQuery.SearchError;
 import uk.co.oliwali.HawkEye.entry.DataEntry;
 
 public class HawkEyeBlockBrokenCallback extends BaseCallback {
 	
-	public Boolean gotData;
+	private MineBans plugin;
+	
+	public Boolean complete;
 	public HashMap<Integer, Integer> broken;
 	
-	public HawkEyeBlockBrokenCallback(){
-		this.gotData = false;
+	public HawkEyeBlockBrokenCallback(MineBans plugin){
+		this.plugin = plugin;
+		
+		this.complete = false;
 		this.broken = new HashMap<Integer, Integer>();
 	}
 	
-	public void error(SearchError error, String message){  }
+	public void error(SearchError error, String message){
+		plugin.log.warn(plugin.formatMessage("HawkEye Error: " + error.name() + " " + message, false));
+		
+		this.complete = true;
+	}
 	
 	public void execute(){
 		String data;
@@ -40,7 +50,7 @@ public class HawkEyeBlockBrokenCallback extends BaseCallback {
 			this.broken.put(blockId, (this.broken.containsKey(blockId)) ? this.broken.get(blockId) + 1 : 1);
 		}
 		
-		this.gotData = true;
+		this.complete = true;
 	}
 	
 }

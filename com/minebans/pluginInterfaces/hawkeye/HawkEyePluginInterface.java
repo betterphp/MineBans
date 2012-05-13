@@ -78,11 +78,11 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 		search.actions = Arrays.asList(DataType.CONTAINER_TRANSACTION);
 		search.worlds = worldNames;
 		
-		HawkEyeChestAccessCallback callback = new HawkEyeChestAccessCallback(); 
+		HawkEyeChestAccessCallback callback = new HawkEyeChestAccessCallback(plugin); 
 		
 		HawkEyeAPI.performSearch(callback, search, SearchDir.DESC);
 		
-		while (!callback.gotData){
+		while (!callback.complete){
 			synchronized (this){
 				try{
 					this.wait(50);
@@ -108,11 +108,11 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 		search.actions = Arrays.asList(DataType.BLOCK_PLACE);
 		search.worlds = worldNames;
 		
-		HawkEyeBlockPlacedCallback callback = new HawkEyeBlockPlacedCallback(); 
+		HawkEyeBlockPlacedCallback callback = new HawkEyeBlockPlacedCallback(plugin); 
 		
 		HawkEyeAPI.performSearch(callback, search, SearchDir.DESC);
 		
-		while (!callback.gotData){
+		while (!callback.complete){
 			synchronized (this){
 				try{
 					this.wait(50);
@@ -138,11 +138,11 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 		search.actions = Arrays.asList(DataType.BLOCK_BREAK);
 		search.worlds = worldNames;
 		
-		HawkEyeBlockBrokenCallback callback = new HawkEyeBlockBrokenCallback(); 
+		HawkEyeBlockBrokenCallback callback = new HawkEyeBlockBrokenCallback(plugin); 
 		
 		HawkEyeAPI.performSearch(callback, search, SearchDir.DESC);
 		
-		while (!callback.gotData){
+		while (!callback.complete){
 			synchronized (this){
 				try{
 					this.wait(50);
@@ -170,7 +170,7 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 		search.actions = Arrays.asList(DataType.BLOCK_PLACE);
 		search.worlds = worldNames;
 		
-		HawkEyeBlockPlacedCallback placeCallback = new HawkEyeBlockPlacedCallback(); 
+		HawkEyeBlockPlacedCallback placeCallback = new HawkEyeBlockPlacedCallback(plugin); 
 		
 		HawkEyeAPI.performSearch(placeCallback, search, SearchDir.DESC);
 		
@@ -179,14 +179,14 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 		search.actions = Arrays.asList(DataType.BLOCK_BREAK);
 		search.worlds = worldNames;
 		
-		HawkEyeBlockBrokenCallback breakCallback = new HawkEyeBlockBrokenCallback(); 
+		HawkEyeBlockBrokenCallback breakCallback = new HawkEyeBlockBrokenCallback(plugin); 
 		
 		HawkEyeAPI.performSearch(breakCallback, search, SearchDir.DESC);
 		
-		while (!placeCallback.gotData || !breakCallback.gotData){
+		while (!placeCallback.complete || !breakCallback.complete){
 			synchronized (this){
 				try{
-					this.wait(50);
+					this.wait(100);
 				}catch (InterruptedException e){
 					e.printStackTrace();
 				}

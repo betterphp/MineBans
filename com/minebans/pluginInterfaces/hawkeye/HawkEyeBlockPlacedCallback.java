@@ -4,21 +4,31 @@ import java.util.HashMap;
 
 import org.bukkit.Material;
 
+import com.minebans.MineBans;
+
 import uk.co.oliwali.HawkEye.callbacks.BaseCallback;
 import uk.co.oliwali.HawkEye.database.SearchQuery.SearchError;
 import uk.co.oliwali.HawkEye.entry.DataEntry;
 
 public class HawkEyeBlockPlacedCallback extends BaseCallback {
 	
-	public Boolean gotData;
+	private MineBans plugin;
+	
+	public Boolean complete;
 	public HashMap<Integer, Integer> placed;
 	
-	public HawkEyeBlockPlacedCallback(){
-		this.gotData = false;
+	public HawkEyeBlockPlacedCallback(MineBans plugin){
+		this.plugin = plugin;
+		
+		this.complete = false;
 		this.placed = new HashMap<Integer, Integer>();
 	}
 	
-	public void error(SearchError error, String message){  }
+	public void error(SearchError error, String message){
+		plugin.log.warn(plugin.formatMessage("HawkEye Error: " + error.name() + " " + message, false));
+		
+		this.complete = true;
+	}
 	
 	public void execute(){
 		String data;
@@ -32,18 +42,16 @@ public class HawkEyeBlockPlacedCallback extends BaseCallback {
 			start = data.lastIndexOf(" ") + 1;
 			end = data.lastIndexOf(":");
 			
-			if (start > 0){
-				if (end > 0){
-					blockId = Material.getMaterial(data.substring(start, end)).getId();
-				}else{
-					blockId = Material.getMaterial(data.substring(start)).getId();
-				}
-				
-				this.placed.put(blockId, (this.placed.containsKey(blockId)) ? this.placed.get(blockId) + 1 : 1);
+			if (end > 0 && end > start){
+				blockId = Material.getMaterial(data.substring(start, end)).getId();
+			}else{
+				blockId = Material.getMaterial(data.substring(start)).getId();
 			}
+			
+			this.placed.put(blockId, (this.placed.containsKey(blockId)) ? this.placed.get(blockId) + 1 : 1);
 		}
 		
-		this.gotData = true;
+		this.complete = true;
 	}
 	
 }
