@@ -73,11 +73,11 @@ public class MineBans extends BasePlugin {
 		}
 		
 		if (this.config.getBoolean(MineBansConfig.BLOCK_COMPROMISED_ACCOUNTS)){
-			this.pluginManager.registerEvents(new KnownCompromisedListener(), this);
+			this.pluginManager.registerEvents(new KnownCompromisedListener(this), this);
 		}
 		
 		if (this.config.getBoolean(MineBansConfig.USE_GROUP_BANS)){
-			this.pluginManager.registerEvents(new GroupBanListener(), this);
+			this.pluginManager.registerEvents(new GroupBanListener(this), this);
 		}
 		
 		for (BanReason banReason : BanReason.getAll()){

@@ -2,19 +2,18 @@ package com.minebans.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
 
 import com.minebans.MineBans;
 import com.minebans.MineBansPermission;
 
-public class UnbanExecutor implements CommandExecutor {
-	
-	private MineBans plugin;
+public class UnbanExecutor extends BaseCommandExecutor<MineBans> {
 	
 	public UnbanExecutor(MineBans plugin){
-		this.plugin = plugin;
+		super(plugin);
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){

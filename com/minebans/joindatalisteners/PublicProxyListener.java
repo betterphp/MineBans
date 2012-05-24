@@ -4,18 +4,21 @@ import javax.naming.NamingException;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
+
+import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
 import com.minebans.MineBans;
 import com.minebans.api.ConnectionDeniedReason;
 import com.minebans.events.PlayerLoginDataEvent;
 import com.minebans.util.DNSBLChecker;
 
-public class PublicProxyListener implements Listener {
+public class PublicProxyListener extends BaseListener<MineBans> {
 	
 	private DNSBLChecker dnsblChecker;
 	
 	public PublicProxyListener(MineBans plugin){
+		super(plugin);
+		
 		try{
 			this.dnsblChecker = new DNSBLChecker();
 			

@@ -2,18 +2,17 @@ package com.minebans.joindatalisteners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
+
+import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
 import com.minebans.MineBans;
 import com.minebans.api.ConnectionDeniedReason;
 import com.minebans.events.PlayerLoginDataEvent;
 
-public class PlayerBannedListener implements Listener {
-	
-	private MineBans plugin;
+public class PlayerBannedListener extends BaseListener<MineBans> {
 	
 	public PlayerBannedListener(MineBans plugin){
-		this.plugin = plugin;
+		super(plugin);
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL)

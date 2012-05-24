@@ -7,11 +7,12 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
 
 import com.minebans.MineBans;
 import com.minebans.MineBansConfig;
@@ -23,12 +24,10 @@ import com.minebans.api.SystemStatusData;
 import com.minebans.bans.BanReason;
 import com.minebans.bans.BanSeverity;
 
-public class MineBansExecutor implements CommandExecutor {
-	
-	private MineBans plugin;
+public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 	
 	public MineBansExecutor(MineBans plugin){
-		this.plugin = plugin;
+		super(plugin);
 	}
 	
 	public boolean onCommand(final CommandSender sender, Command command, String label, final String[] args){

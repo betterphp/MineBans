@@ -5,9 +5,10 @@ import java.net.SocketTimeoutException;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerPreLoginEvent;
+
+import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
 import com.minebans.api.APIResponseCallback;
 import com.minebans.api.ConnectionAllowedReason;
@@ -17,12 +18,10 @@ import com.minebans.events.PlayerConnectionAllowedEvent;
 import com.minebans.events.PlayerConnectionDeniedEvent;
 import com.minebans.events.PlayerLoginDataEvent;
 
-public class PlayerLoginListener implements Listener {
-	
-	private MineBans plugin;
+public class PlayerLoginListener extends BaseListener<MineBans> {
 	
 	public PlayerLoginListener(MineBans plugin){
-		this.plugin = plugin;
+		super(plugin);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)

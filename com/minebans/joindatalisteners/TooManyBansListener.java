@@ -2,7 +2,8 @@ package com.minebans.joindatalisteners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
+
+import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
 import com.minebans.MineBans;
 import com.minebans.MineBansConfig;
@@ -12,12 +13,10 @@ import com.minebans.bans.BanReason;
 import com.minebans.bans.BanSeverity;
 import com.minebans.events.PlayerLoginDataEvent;
 
-public class TooManyBansListener implements Listener {
-	
-	private MineBans plugin;
+public class TooManyBansListener extends BaseListener<MineBans> {
 	
 	public TooManyBansListener(MineBans plugin){
-		this.plugin = plugin;
+		super(plugin);
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL)
