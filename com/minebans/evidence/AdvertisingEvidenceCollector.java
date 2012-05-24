@@ -10,9 +10,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 
+import uk.co.jacekk.bukkit.baseplugin.util.ListUtils;
+
 import com.minebans.MineBans;
 import com.minebans.events.PlayerBanEvent;
-import com.minebans.util.ListUtils;
 
 public class AdvertisingEvidenceCollector extends EvidenceCollector implements Listener {
 	

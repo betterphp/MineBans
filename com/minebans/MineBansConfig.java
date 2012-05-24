@@ -3,10 +3,10 @@ package com.minebans;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import uk.co.jacekk.bukkit.baseplugin.config.PluginConfigKey;
+
 import com.minebans.bans.BanReason;
 import com.minebans.bans.BanSeverity;
-
-import com.minebans.util.PluginConfigKey;
 
 public enum MineBansConfig implements PluginConfigKey {
 	

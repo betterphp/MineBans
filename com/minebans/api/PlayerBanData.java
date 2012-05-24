@@ -7,9 +7,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import uk.co.jacekk.bukkit.baseplugin.util.ListUtils;
+
 import com.minebans.bans.BanReason;
 import com.minebans.bans.BanSeverity;
-import com.minebans.util.ListUtils;
 
 public class PlayerBanData {
 	

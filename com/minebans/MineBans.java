@@ -3,14 +3,11 @@ package com.minebans;
 import java.io.File;
 import java.util.ArrayList;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Server;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
+
+import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
+import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
 
 import com.minebans.api.APIInterface;
 import com.minebans.api.SystemStatusData;
@@ -29,19 +26,8 @@ import com.minebans.pluginInterfaces.AntiSpamInterface;
 import com.minebans.pluginInterfaces.ExploitInterface;
 import com.minebans.pluginInterfaces.LoggingInterface;
 import com.minebans.pluginapi.MineBansPluginAPI;
-import com.minebans.util.PluginConfig;
-import com.minebans.util.PluginLogger;
 
-public class MineBans extends JavaPlugin {
-	
-	private PluginDescriptionFile pdFile;
-	public PluginLogger log;
-	
-	public Server server;
-	public PluginManager pluginManager;
-	public BukkitScheduler scheduler;
-	
-	public PluginConfig config;
+public class MineBans extends BasePlugin {
 	
 	public LoggingInterface loggingPlugin;
 	public ExploitInterface exploitPlugin;
@@ -56,13 +42,6 @@ public class MineBans extends JavaPlugin {
 	public ArrayList<String> seenPlayers;
 	
 	public void onEnable(){
-		this.pdFile = this.getDescription();
-		this.log = new PluginLogger(this);
-		
-		this.server = this.getServer();
-		this.pluginManager = this.server.getPluginManager();
-		this.scheduler = this.server.getScheduler();
-		
 		if (this.server.getOnlineMode() == false){
 			this.log.fatal("Your server must be in online mode.");
 			this.setEnabled(false);
@@ -73,7 +52,7 @@ public class MineBans extends JavaPlugin {
 		
 		(new File(pluginFolder)).mkdirs();
 		
-		this.config = new PluginConfig(new File(pluginFolder + File.separator + "config.yml"), this.log);
+		this.config = new PluginConfig(new File(pluginFolder + File.separator + "config.yml"), MineBansConfig.values(), this.log);
 		
 		this.loggingPlugin = new LoggingInterface(this);
 		this.exploitPlugin = new ExploitInterface(this);
@@ -149,40 +128,11 @@ public class MineBans extends JavaPlugin {
 	}
 	
 	public String getVersion(){
-		return this.pdFile.getVersion();
+		return this.description.getVersion();
 	}
 	
 	public MineBansPluginAPI getPluginAPI(Plugin plugin){
 		return MineBansPluginAPI.getHandle(this, plugin);
-	}
-	
-	public String formatMessage(String message, boolean colour, boolean version){
-		StringBuilder line = new StringBuilder();
-		
-		if (colour){
-			line.append(ChatColor.BLUE);
-		}
-		
-		line.append("[");
-		line.append(this.pdFile.getName());
-		
-		if (version){
-			line.append(" v");
-			line.append(this.pdFile.getVersion());
-		}
-		
-		line.append("] ");
-		line.append(message);
-		
-		return line.toString();
-	}
-	
-	public String formatMessage(String message, boolean colour){
-		return this.formatMessage(message, colour, !colour);
-	}
-	
-	public String formatMessage(String message){
-		return this.formatMessage(message, true, false);
 	}
 	
 }
