@@ -42,17 +42,15 @@ public class MineBans extends BasePlugin {
 	public ArrayList<String> seenPlayers;
 	
 	public void onEnable(){
+		super.onEnable(true);
+		
 		if (this.server.getOnlineMode() == false){
 			this.log.fatal("Your server must be in online mode.");
 			this.setEnabled(false);
 			return;
 		}
 		
-		String pluginFolder = this.getDataFolder().getAbsolutePath();
-		
-		(new File(pluginFolder)).mkdirs();
-		
-		this.config = new PluginConfig(new File(pluginFolder + File.separator + "config.yml"), MineBansConfig.values(), this.log);
+		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), MineBansConfig.values(), this.log);
 		
 		this.loggingPlugin = new LoggingInterface(this);
 		this.exploitPlugin = new ExploitInterface(this);
