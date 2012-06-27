@@ -53,8 +53,6 @@ public class GuardianPluginInterface extends LoggingPluginInterface {
 				plugin.log.warn("To provide the best data Guardian should be set to log blocks placed for all worlds.");
 			}
 			
-			// Guardian does not have chest logging yet.
-			/*
 			if (worldConfig.isLogging(ActionType.INVENTORY_TAKE) == false){
 				plugin.log.warn("To provide the best data Guardian should be set to log items taken from inventories for all worlds.");
 			}
@@ -62,14 +60,43 @@ public class GuardianPluginInterface extends LoggingPluginInterface {
 			if (worldConfig.isLogging(ActionType.INVENTORY_ADD) == false){
 				plugin.log.warn("To provide the best data Guardian should be set to log items added to inventories for all worlds.");
 			}
-			*/
 		}
 		
 		return true;
 	}
 	
 	public HashMap<Integer, Integer> getChestAccess(String playerName){
-		return new HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> data = new HashMap<Integer, Integer>();
+		
+		// Guardian chest logging is still rather broken but this should work when it's fixed.
+		/*
+		QueryParams params = new QueryParams();
+		
+		params.players = Arrays.asList(playerName);
+		params.actions = Arrays.asList(ActionType.INVENTORY_ADD, ActionType.INVENTORY_TAKE);
+		params.worlds = plugin.server.getWorlds();
+		params.since = (System.currentTimeMillis() / 60000) - 1440;
+		params.limit = -1;
+		
+		params.needId = true;
+		
+		try{
+			for (Entry logEntry : this.guardian.getLog(params)){
+				int multi = (logEntry.getAction() == ActionType.INVENTORY_ADD) ? 1 : -1;
+				
+				int typeId = ((ItemEntry) logEntry).getTypeId();
+				int amount = ((ItemEntry) logEntry).getAmount() * multi;
+				
+				data.put(typeId, (data.containsKey(typeId)) ? data.get(typeId) + amount : amount);
+			}
+		}catch (SQLException e){
+			plugin.log.warn("Failed to lookup inventory changes. Please make sure Guardian is correctly configured.");
+			e.printStackTrace();
+		}
+		
+		*/
+		
+		return data;
 	}
 	
 	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
@@ -80,6 +107,7 @@ public class GuardianPluginInterface extends LoggingPluginInterface {
 		params.players = Arrays.asList(playerName);
 		params.actions = Arrays.asList(ActionType.BLOCK_PLACE);
 		params.worlds = plugin.server.getWorlds();
+		params.since = (System.currentTimeMillis() / 60000) - 1440;
 		params.limit = -1;
 		
 		params.needId = true;
@@ -108,6 +136,7 @@ public class GuardianPluginInterface extends LoggingPluginInterface {
 		params.players = Arrays.asList(playerName);
 		params.actions = Arrays.asList(ActionType.BLOCK_BREAK);
 		params.worlds = plugin.server.getWorlds();
+		params.since = (System.currentTimeMillis() / 60000) - 1440;
 		params.limit = -1;
 		
 		try{
@@ -137,6 +166,7 @@ public class GuardianPluginInterface extends LoggingPluginInterface {
 		params.players = Arrays.asList(playerName);
 		params.actions = Arrays.asList(ActionType.BLOCK_PLACE, ActionType.BLOCK_BREAK);
 		params.worlds = plugin.server.getWorlds();
+		params.since = (System.currentTimeMillis() / 60000) - 1440;
 		params.limit = -1;
 		
 		try{

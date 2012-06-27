@@ -97,6 +97,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 				params.world = world;
 				params.bct = BlockChangeType.CHESTACCESS;
 				params.limit = -1;
+				params.since = (int) ((System.currentTimeMillis() / 60000) - 1440);
 				
 				params.needChestAccess = true;
 				
@@ -138,6 +139,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 				params.world = world;
 				params.bct = BlockChangeType.CREATED;
 				params.limit = -1;
+				params.since = (int) ((System.currentTimeMillis() / 60000) - 1440);
 				
 				params.needType = true;
 				
@@ -166,6 +168,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 				params.world = world;
 				params.bct = BlockChangeType.DESTROYED;
 				params.limit = -1;
+				params.since = (int) ((System.currentTimeMillis() / 60000) - 1440);
 				
 				params.needType = true;
 				
@@ -197,6 +200,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 				params.world = world;
 				params.bct = BlockChangeType.BOTH;
 				params.limit = -1;
+				params.since = (int) ((System.currentTimeMillis() / 60000) - 1440);
 				
 				params.needType = true;
 				

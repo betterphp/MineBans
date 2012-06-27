@@ -1,6 +1,8 @@
 package com.minebans.pluginInterfaces.hawkeye;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -73,10 +75,15 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 			worldNames[i] = worlds.get(i).getName();
 		}
 		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(System.currentTimeMillis() - 86400000L);
+		
 		SearchParser search = new SearchParser();
 		search.players = Arrays.asList(playerName);
 		search.actions = Arrays.asList(DataType.CONTAINER_TRANSACTION);
 		search.worlds = worldNames;
+		search.dateFrom = format.format(cal);
 		
 		HawkEyeChestAccessCallback callback = new HawkEyeChestAccessCallback(plugin); 
 		
@@ -103,10 +110,15 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 			worldNames[i] = worlds.get(i).getName();
 		}
 		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(System.currentTimeMillis() - 86400000L);
+		
 		SearchParser search = new SearchParser();
 		search.players = Arrays.asList(playerName);
 		search.actions = Arrays.asList(DataType.BLOCK_PLACE);
 		search.worlds = worldNames;
+		search.dateFrom = format.format(cal);
 		
 		HawkEyeBlockPlacedCallback callback = new HawkEyeBlockPlacedCallback(plugin); 
 		
@@ -133,10 +145,15 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 			worldNames[i] = worlds.get(i).getName();
 		}
 		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(System.currentTimeMillis() - 86400000L);
+		
 		SearchParser search = new SearchParser();
 		search.players = Arrays.asList(playerName);
 		search.actions = Arrays.asList(DataType.BLOCK_BREAK);
 		search.worlds = worldNames;
+		search.dateFrom = format.format(cal);
 		
 		HawkEyeBlockBrokenCallback callback = new HawkEyeBlockBrokenCallback(plugin); 
 		
@@ -165,10 +182,15 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 			worldNames[i] = worlds.get(i).getName();
 		}
 		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(System.currentTimeMillis() - 86400000L);
+		
 		SearchParser search = new SearchParser();
 		search.players = Arrays.asList(playerName);
 		search.actions = Arrays.asList(DataType.BLOCK_PLACE);
 		search.worlds = worldNames;
+		search.dateFrom = format.format(cal);
 		
 		HawkEyeBlockPlacedCallback placeCallback = new HawkEyeBlockPlacedCallback(plugin); 
 		

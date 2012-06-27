@@ -38,8 +38,6 @@ public class HawkEyeChestAccessCallback extends BaseCallback {
 		for (DataEntry entry : results){
 			data = entry.getSqlData();
 			
-			System.out.println(data);
-			
 			mult = (data.startsWith("@")) ? -1 : 1;
 			
 			for (HashMap<String, Integer> compressedInv : InventoryUtil.interpretDifferenceString(data)){
