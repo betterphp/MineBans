@@ -9,6 +9,7 @@ import org.bukkit.World;
 import cc.co.evenprime.bukkit.nocheat.NoCheat;
 import cc.co.evenprime.bukkit.nocheat.config.ConfPaths;
 import cc.co.evenprime.bukkit.nocheat.config.NoCheatConfiguration;
+import cc.co.evenprime.bukkit.nocheat.data.Statistics;
 
 import com.minebans.MineBans;
 import com.minebans.MineBansConfig;
@@ -20,23 +21,23 @@ public class NoCheatPluginInterface extends ExploitPluginInterface {
 	private MineBans plugin;
 	private NoCheat nocheat;
 	private NoCheatDataCache data;
-	private HashMap<Integer, List<String>> reasonKeyMap;
+	private HashMap<BanReason, List<Statistics.Id>> reasonKeyMap;
 	
 	public NoCheatPluginInterface(MineBans plugin){
 		this.plugin = plugin;
 		this.nocheat = (NoCheat) plugin.pluginManager.getPlugin("NoCheat");
 		this.data = new NoCheatDataCache(plugin, this.nocheat);
-		this.reasonKeyMap = new HashMap<Integer, List<String>>();
+		this.reasonKeyMap = new HashMap<BanReason, List<Statistics.Id>>();
 		
 		plugin.scheduler.scheduleSyncRepeatingTask(plugin, this.data, 1200, 1200);
 		
-		this.reasonKeyMap.put(BanReason.FLY.getID(), Arrays.asList("moving.flying"));
-		this.reasonKeyMap.put(BanReason.SPEED.getID(), Arrays.asList("moving.running", "moving.morepackets", "moving.sneaking", "moving.swimming"));
-		this.reasonKeyMap.put(BanReason.BLOCK_REACH.getID(), Arrays.asList("blockbreak.reach", "blockplace.reach", "blockbreak.direction", "blockplace.direction"));
-		this.reasonKeyMap.put(BanReason.NOFALL.getID(), Arrays.asList("moving.nofal"));
-		this.reasonKeyMap.put(BanReason.NOSWING.getID(), Arrays.asList("fight.noswing", "blockbreak.noswing"));
-		this.reasonKeyMap.put(BanReason.PVP_CHEAT.getID(), Arrays.asList("fight.noswing", "fight.reach", "fight.direction", "fight.speed", "inventory.instantbow", "fight.godmode"));
-		this.reasonKeyMap.put(BanReason.ITEM_DROP.getID(), Arrays.asList("inventory.drop"));
+		this.reasonKeyMap.put(BanReason.FLY, Arrays.asList(Statistics.Id.MOV_FLYING));
+		this.reasonKeyMap.put(BanReason.SPEED, Arrays.asList(Statistics.Id.MOV_RUNNING, Statistics.Id.MOV_MOREPACKETS, Statistics.Id.MOV_SNEAKING, Statistics.Id.MOV_SWIMMING));
+		this.reasonKeyMap.put(BanReason.BLOCK_REACH, Arrays.asList(Statistics.Id.BB_REACH, Statistics.Id.BP_REACH, Statistics.Id.BB_DIRECTION, Statistics.Id.BP_DIRECTION));
+		this.reasonKeyMap.put(BanReason.NOFALL, Arrays.asList(Statistics.Id.MOV_NOFALL));
+		this.reasonKeyMap.put(BanReason.NOSWING, Arrays.asList(Statistics.Id.FI_NOSWING, Statistics.Id.BB_NOSWING));
+		this.reasonKeyMap.put(BanReason.PVP_CHEAT, Arrays.asList(Statistics.Id.FI_NOSWING, Statistics.Id.FI_REACH, Statistics.Id.FI_DIRECTION, Statistics.Id.FI_GODMODE, Statistics.Id.INV_BOW, Statistics.Id.INV_EAT, Statistics.Id.FI_SPEED));
+		this.reasonKeyMap.put(BanReason.ITEM_DROP, Arrays.asList(Statistics.Id.INV_DROP));
 	}
 	
 	public boolean pluginEnabled(){
@@ -176,8 +177,8 @@ public class NoCheatPluginInterface extends ExploitPluginInterface {
 		long current;
 		long max = 0L;
 		
-		for (String key : this.reasonKeyMap.get(reason.getID())){
-			current = this.data.getMaxViolationLevel(playerName, key);
+		for (Statistics.Id id : this.reasonKeyMap.get(reason)){
+			current = this.data.getMaxViolationLevel(playerName, id.toString());
 			
 			if (current > max){
 				max = current;
