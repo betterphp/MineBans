@@ -20,7 +20,7 @@ public class SpammerBanListener implements Listener {
 	public void onPlayerSpamDetected(PlayerSpamDetectedEvent event){
 		String lowerName = event.getPlayerName().toLowerCase();
 		
-		if (this.spammerList.contains(lowerName) == false){
+		if (!this.spammerList.contains(lowerName)){
 			this.spammerList.add(lowerName);
 		}
 	}

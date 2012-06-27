@@ -18,7 +18,7 @@ public class PlayerListStore {
 		this.storageFile = file;
 		this.playerNames = new ArrayList<String>();
 		
-		if (this.storageFile.exists() == false){
+		if (!this.storageFile.exists()){
 			try{
 				this.storageFile.createNewFile();
 			}catch (Exception e){
@@ -37,7 +37,7 @@ public class PlayerListStore {
 			while ((line = reader.readLine()) != null){
 				playerName = line.toLowerCase();
 				
-				if (this.playerNames.contains(playerName) == false){
+				if (!this.playerNames.contains(playerName)){
 					this.playerNames.add(playerName);
 				}
 			}
@@ -73,7 +73,7 @@ public class PlayerListStore {
 	public void add(String playerName){
 		playerName = playerName.toLowerCase();
 		
-		if (this.playerNames.contains(playerName) == false){
+		if (!this.playerNames.contains(playerName)){
 			this.playerNames.add(playerName);
 		}
 	}

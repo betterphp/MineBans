@@ -17,14 +17,14 @@ public class UnbanExecutor extends BaseCommandExecutor<MineBans> {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-		if (MineBansPermission.ADMIN_BAN.playerHasPermission(sender) == false){
+		if (!MineBansPermission.ADMIN_BAN.playerHasPermission(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return true;
 		}
 		
 		if (args.length == 0){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /unban <player_name>"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /unban wide_load"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /" + label + " <player_name>"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " wide_load"));
 			return true;
 		}
 		

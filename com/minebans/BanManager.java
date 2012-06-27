@@ -111,8 +111,8 @@ public class BanManager {
 		Player player = plugin.getServer().getPlayer(playerName);
 		
 		if (player != null){
-			double days = Math.floor(banDuration / 86400);
-			double hours = Math.round((banDuration - (days * 86400)) / 3600);
+			double days = Math.floor(banDuration / 86400.0d);
+			double hours = Math.round((banDuration - (days * 86400.0d)) / 3600.0d);
 			
 			player.kickPlayer("You have been banned from this server for " + days + " " + ((days == 1D) ? "day" : "days") + " and " + hours + " " + ((hours == 1D) ? "hour" : "hours"));
 		}

@@ -37,7 +37,7 @@ public class DefaultLoggingPluginInterface extends LoggingPluginInterface {
 	}
 	
 	public HashMap<Integer, Integer> getChestAccess(String playerName){
-		if (this.chestAccess.containsKey(playerName) == false){
+		if (!this.chestAccess.containsKey(playerName)){
 			return new HashMap<Integer, Integer>();
 		}
 		
@@ -45,7 +45,7 @@ public class DefaultLoggingPluginInterface extends LoggingPluginInterface {
 	}
 	
 	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
-		if (this.blocksPlaced.containsKey(playerName) == false){
+		if (!this.blocksPlaced.containsKey(playerName)){
 			return new HashMap<Integer, Integer>();
 		}
 		
@@ -53,7 +53,7 @@ public class DefaultLoggingPluginInterface extends LoggingPluginInterface {
 	}
 	
 	public HashMap<Integer, Integer> getBlocksBroken(String playerName){
-		if (this.blocksBroken.containsKey(playerName) == false){
+		if (!this.blocksBroken.containsKey(playerName)){
 			return new HashMap<Integer, Integer>();
 		}
 		

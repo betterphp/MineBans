@@ -25,7 +25,7 @@ public class LoggingInterface {
 		
 		plugin.log.info("Using " + this.pluginInterface.getPluginName() + " for player data, checking config.");
 		
-		if (this.pluginInterface.checkConfig() == false){
+		if (!this.pluginInterface.checkConfig()){
 			plugin.log.fatal(this.pluginInterface.getPluginName() + " minimum config was not met.");
 		}
 	}
@@ -35,7 +35,7 @@ public class LoggingInterface {
 	}
 	
 	public HashMap<Integer, Integer> getChestAccess(String playerName){
-		if (this.foundLoggingPlugin() == false){
+		if (!this.foundLoggingPlugin()){
 			return null;
 		}
 		
@@ -43,7 +43,7 @@ public class LoggingInterface {
 	}
 	
 	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
-		if (this.foundLoggingPlugin() == false){
+		if (!this.foundLoggingPlugin()){
 			return null;
 		}
 		
@@ -51,7 +51,7 @@ public class LoggingInterface {
 	}
 	
 	public HashMap<Integer, Integer> getBlocksBroken(String playerName){
-		if (this.foundLoggingPlugin() == false){
+		if (!this.foundLoggingPlugin()){
 			return null;
 		}
 		
@@ -59,7 +59,7 @@ public class LoggingInterface {
 	}
 	
 	public HashMap<String, HashMap<Integer, Integer>> getBlockChanges(String playerName){
-		if (this.foundLoggingPlugin() == false){
+		if (!this.foundLoggingPlugin()){
 			return null;
 		}
 		

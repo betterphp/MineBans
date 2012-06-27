@@ -16,14 +16,14 @@ public class ExemptExecutor extends BaseCommandExecutor<MineBans> {
 		super(plugin);
 	}
 	
-	public boolean onCommand(CommandSender sender, Command command, String string, String[] args){
-		if (MineBansPermission.ADMIN_EXEMPT.playerHasPermission(sender) == false){
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
+		if (!MineBansPermission.ADMIN_EXEMPT.playerHasPermission(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return true;
 		}
 		
 		if (args.length != 2){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /exempt <option> <player_name>"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /" + label + " <option> <player_name>"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Options:"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   add - Adds the player to the exempt list."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   remove - Removed the player from the exempt list."));
@@ -43,7 +43,7 @@ public class ExemptExecutor extends BaseCommandExecutor<MineBans> {
 			
 			sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been added to the exempt list."));
 		}else if (option.equalsIgnoreCase("remove") || option.equalsIgnoreCase("r")){
-			if (plugin.banManager.isExempt(playerName) == false){
+			if (!plugin.banManager.isExempt(playerName)){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + playerName + " is not on the exempt list."));
 				return true;
 			}
@@ -52,7 +52,7 @@ public class ExemptExecutor extends BaseCommandExecutor<MineBans> {
 			
 			sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the exempt list."));
 		}else{
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Invalid option, try /exempt for a list of options."));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Invalid option, try /" + label + " for a list of options."));
 			return true;
 		}
 		

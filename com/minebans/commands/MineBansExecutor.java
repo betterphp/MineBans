@@ -32,7 +32,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 	
 	public boolean onCommand(final CommandSender sender, Command command, String label, final String[] args){
 		if (args.length == 0){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /minebans <option> [args]"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /" + label + " <option> [args]"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Options:"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   status - Gets the status of the API."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   reasons - Lists all of the ban reasons."));
@@ -44,7 +44,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 		String option = args[0];
 		
 		if (option.equalsIgnoreCase("status") || option.equalsIgnoreCase("s")){
-			if (MineBansPermission.ADMIN_STATUS.playerHasPermission(sender) == false){
+			if (!MineBansPermission.ADMIN_STATUS.playerHasPermission(sender)){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 				return true;
 			}
@@ -96,7 +96,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 				
 			});
 		}else if (option.equalsIgnoreCase("reasons") || option.equalsIgnoreCase("r")){
-			if (MineBansPermission.ADMIN_BAN.playerHasPermission(sender) == false){
+			if (!MineBansPermission.ADMIN_BAN.playerHasPermission(sender)){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 				return true;
 			}
@@ -141,7 +141,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 				}
 			}
 		}else if (option.equalsIgnoreCase("lookup") || option.equalsIgnoreCase("l")){
-			if (MineBansPermission.ADMIN_LOOKUP.playerHasPermission(sender) == false){
+			if (!MineBansPermission.ADMIN_LOOKUP.playerHasPermission(sender)){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 				return true;
 			}
@@ -221,7 +221,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 				
 			});
 		}else if (option.equalsIgnoreCase("listtemp") || option.equalsIgnoreCase("lt")){
-			if (MineBansPermission.ADMIN_LISTTEMP.playerHasPermission(sender) == false){
+			if (!MineBansPermission.ADMIN_LISTTEMP.playerHasPermission(sender)){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 				return true;
 			}
@@ -234,7 +234,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 				sender.sendMessage(ChatColor.GREEN + "  " + playerName + " - " + plugin.banManager.getTempBanRemaining(playerName) / 3600 + " hours");
 			}
 		}else{
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Invalid option, see /minebans for a list of options."));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Invalid option, see /" + label + " for a list of options."));
 			return true;
 		}
 		

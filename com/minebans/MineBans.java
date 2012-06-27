@@ -44,7 +44,7 @@ public class MineBans extends BasePlugin {
 	public void onEnable(){
 		super.onEnable(true);
 		
-		if (this.server.getOnlineMode() == false){
+		if (!this.server.getOnlineMode()){
 			this.log.fatal("Your server must be in online mode.");
 			this.setEnabled(false);
 			return;
@@ -106,7 +106,7 @@ public class MineBans extends BasePlugin {
 		if (status == null){
 			this.log.warn("Failed to contact the API");
 		}else if (ping > 500){
-			this.log.warn("The API took longer than 500ms to reply, this is not a serious problem but due to a technical limitation,");
+			this.log.warn("The API took longer than 500ms to reply, this is not a serious problem but due to a technical limitation");
 			this.log.warn("the check with the API has to make the entire server wait until the request completes. If this takes longer");
 			this.log.warn("than 500ms it is assumed that the player is allowed to join and a check with a longer delay is scheduled.");
 			this.log.warn("This is done to prevent player joins causing noticeable server lag. The player may be online for a few seconds");

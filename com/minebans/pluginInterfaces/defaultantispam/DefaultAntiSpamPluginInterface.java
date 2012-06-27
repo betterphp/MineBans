@@ -35,7 +35,7 @@ public class DefaultAntiSpamPluginInterface extends AntiSpamPluginInterface {
 	}
 	
 	public int getMaxViolationLevel(String playerName){
-		if (this.maxViolationLevel.containsKey(playerName) == false){
+		if (!this.maxViolationLevel.containsKey(playerName)){
 			return 0;
 		}
 		

@@ -45,19 +45,19 @@ public class GuardianPluginInterface extends LoggingPluginInterface {
 			
 			plugin.log.info("Checking LogBlock config for '" + worldName + "'");
 			
-			if (worldConfig.isLogging(ActionType.BLOCK_BREAK) == false){
+			if (!worldConfig.isLogging(ActionType.BLOCK_BREAK)){
 				plugin.log.warn("To provide the best data Guardian should be set to log block breaks for all worlds.");
 			}
 			
-			if (worldConfig.isLogging(ActionType.BLOCK_PLACE) == false){
+			if (!worldConfig.isLogging(ActionType.BLOCK_PLACE)){
 				plugin.log.warn("To provide the best data Guardian should be set to log blocks placed for all worlds.");
 			}
 			
-			if (worldConfig.isLogging(ActionType.INVENTORY_TAKE) == false){
+			if (!worldConfig.isLogging(ActionType.INVENTORY_TAKE)){
 				plugin.log.warn("To provide the best data Guardian should be set to log items taken from inventories for all worlds.");
 			}
 			
-			if (worldConfig.isLogging(ActionType.INVENTORY_ADD) == false){
+			if (!worldConfig.isLogging(ActionType.INVENTORY_ADD)){
 				plugin.log.warn("To provide the best data Guardian should be set to log items added to inventories for all worlds.");
 			}
 		}

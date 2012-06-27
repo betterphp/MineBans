@@ -34,7 +34,7 @@ public class AdvertisingEvidenceCollector extends EvidenceCollector implements L
 		String playerName = event.getPlayer().getName();
 		HashMap<String, Integer> playerData;
 		
-		if (this.wordListLog.containsKey(playerName) == false){
+		if (!this.wordListLog.containsKey(playerName)){
 			playerData = new HashMap<String, Integer>();
 		}else{
 			playerData = this.wordListLog.get(playerName);
@@ -46,9 +46,7 @@ public class AdvertisingEvidenceCollector extends EvidenceCollector implements L
 			}
 		}
 		
-		if (playerData.size() > 0){
-			this.wordListLog.put(playerName, playerData);
-		}
+		this.wordListLog.put(playerName, playerData);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)

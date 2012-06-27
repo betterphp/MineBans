@@ -17,7 +17,7 @@ public class AntiSpamInterface {
 		
 		plugin.log.info("Using " + this.pluginInterface.getPluginName() + " for spam data, checking config.");
 		
-		if (this.pluginInterface.checkConfig() == false){
+		if (!this.pluginInterface.checkConfig()){
 			plugin.log.fatal(this.pluginInterface.getPluginName() + " minimum config was not met.");
 		}
 	}
@@ -27,7 +27,7 @@ public class AntiSpamInterface {
 	}
 	
 	public Integer getMaxViolationLevel(String playerName){
-		if (this.foundAntiSpamPlugin() == false){
+		if (!this.foundAntiSpamPlugin()){
 			return null;
 		}
 		

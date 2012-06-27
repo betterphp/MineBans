@@ -50,7 +50,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 			
 			plugin.log.info("Checking LogBlock config for '" + worldName + "'");
 			
-			if (worldConfigFile.exists() == false){
+			if (!worldConfigFile.exists()){
 				plugin.log.warn("To provide the best data LogBlock should be enabled for all worlds.");
 				break;
 			}
@@ -59,17 +59,17 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 				worldConfig.load(worldConfigFile);
 				
 				if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.GRIEF))){
-					if (worldConfig.getBoolean("logging.BLOCKBREAK") == false){
+					if (!worldConfig.getBoolean("logging.BLOCKBREAK")){
 						plugin.log.warn("To provide the best data LogBlock should be set to log block breaks for all worlds.");
 					}
 					
-					if (worldConfig.getBoolean("logging.BLOCKPLACE") == false){
+					if (!worldConfig.getBoolean("logging.BLOCKPLACE")){
 						plugin.log.warn("To provide the best data LogBlock should be set to log blocks placed for all worlds.");
 					}
 				}
 				
 				if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.THEFT))){
-					if (worldConfig.getBoolean("logging.CHESTACCESS") == false){
+					if (!worldConfig.getBoolean("logging.CHESTACCESS")){
 						plugin.log.warn("To provide the best data LogBlock should be set to log chest access for all worlds.");
 					}
 				}

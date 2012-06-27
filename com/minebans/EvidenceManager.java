@@ -20,7 +20,7 @@ public class EvidenceManager {
 	}
 	
 	public Object collectFor(BanReason reason, String playerName){
-		if (this.collectorMap.containsKey(reason) == false){
+		if (!this.collectorMap.containsKey(reason)){
 			return null;
 		}
 		

@@ -41,16 +41,15 @@ public class NoCheatDataCache implements Runnable, Listener {
 			playerName = player.getName();
 			playerData = this.nocheat.getPlayerData(playerName);
 			
-			if (this.data.containsKey(playerName) == false){
+			if (!this.data.containsKey(playerName)){
 				storedData = new HashMap<String, ArrayList<Long>>();
-				this.data.put(playerName, storedData);
 			}else{
 				storedData = this.data.get(playerName);
 			}
 			
 			for (String key : playerData.keySet()){
-				if (key.startsWith("nocheat.") == false){
-					if (storedData.containsKey(key) == false){
+				if (!key.startsWith("nocheat")){
+					if (!storedData.containsKey(key)){
 						storedValues = new ArrayList<Long>();
 					}else{
 						storedValues = storedData.get(key);

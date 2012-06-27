@@ -35,7 +35,7 @@ public class AbuseEvidenceCollector extends EvidenceCollector implements Listene
 		String playerName = event.getPlayer().getName();
 		HashMap<String, Integer> playerData;
 		
-		if (this.wordListLog.containsKey(playerName) == false){
+		if (!this.wordListLog.containsKey(playerName)){
 			playerData = new HashMap<String, Integer>();
 		}else{
 			playerData = this.wordListLog.get(playerName);
@@ -47,9 +47,7 @@ public class AbuseEvidenceCollector extends EvidenceCollector implements Listene
 			}
 		}
 		
-		if (playerData.size() > 0){
-			this.wordListLog.put(playerName, playerData);
-		}
+		this.wordListLog.put(playerName, playerData);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)

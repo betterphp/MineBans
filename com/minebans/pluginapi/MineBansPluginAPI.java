@@ -127,7 +127,7 @@ public class MineBansPluginAPI {
 	}
 	
 	public boolean globallyBanPlayer(String playerName, String issuedBy, BanReason reason){
-		if (plugin.seenPlayers.contains(playerName.toLowerCase()) == false && plugin.server.getOfflinePlayer(playerName).hasPlayedBefore() == false){
+		if (!plugin.seenPlayers.contains(playerName.toLowerCase()) && !plugin.server.getOfflinePlayer(playerName).hasPlayedBefore()){
 			return false;
 		}
 		
@@ -165,7 +165,7 @@ public class MineBansPluginAPI {
 	}
 	
 	public boolean unLocalBanPlayer(String playerName){
-		if (plugin.banManager.isLocallyBanned(playerName) == false){
+		if (!plugin.banManager.isLocallyBanned(playerName)){
 			return false;
 		}
 		
@@ -180,7 +180,7 @@ public class MineBansPluginAPI {
 	}
 	
 	public boolean unGlobalBanPlayer(String playerName, String issuedBy){
-		if (plugin.banManager.isGloballyBanned(playerName) == false){
+		if (!plugin.banManager.isGloballyBanned(playerName)){
 			return false;
 		}
 		
@@ -195,7 +195,7 @@ public class MineBansPluginAPI {
 	}
 	
 	public boolean unTempBanPlayer(String playerName){
-		if (plugin.banManager.isTempBanned(playerName) == false){
+		if (!plugin.banManager.isTempBanned(playerName)){
 			return false;
 		}
 		
@@ -210,7 +210,7 @@ public class MineBansPluginAPI {
 	}
 	
 	public boolean unBanPlayer(String playerName, String issuedBy){
-		if (this.isBanned(playerName) == false){
+		if (!this.isBanned(playerName)){
 			return false;
 		}
 		
@@ -236,7 +236,7 @@ public class MineBansPluginAPI {
 	}
 	
 	public boolean unExemptPlayer(String playerName){
-		if (this.isExempt(playerName) == false){
+		if (!this.isExempt(playerName)){
 			return false;
 		}
 		

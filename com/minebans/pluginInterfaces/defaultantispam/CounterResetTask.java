@@ -23,7 +23,7 @@ public class CounterResetTask implements Runnable {
 			
 			current = (messageCount.size() > 0) ? Collections.max(messageCount.values()) : 0;
 			
-			if (collector.maxViolationLevel.containsKey(playerName) == false || current > collector.maxViolationLevel.get(playerName)){
+			if (!collector.maxViolationLevel.containsKey(playerName) || current > collector.maxViolationLevel.get(playerName)){
 				collector.maxViolationLevel.put(playerName, current);
 			}
 		}

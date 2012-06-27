@@ -23,7 +23,7 @@ public class ChatListener implements Listener {
 		
 		HashMap<String, Integer> playerMessages;
 		
-		if (collector.messageCounter.containsKey(playerName) == false){
+		if (!collector.messageCounter.containsKey(playerName)){
 			playerMessages = new HashMap<String, Integer>();
 		}else{
 			playerMessages = collector.messageCounter.get(playerName);

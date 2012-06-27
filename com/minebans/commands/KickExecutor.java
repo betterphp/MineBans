@@ -16,18 +16,18 @@ public class KickExecutor extends BaseCommandExecutor<MineBans> {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-		if (MineBansPermission.ADMIN_KICK.playerHasPermission(sender) == false){
+		if (!MineBansPermission.ADMIN_KICK.playerHasPermission(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return true;
 		}
 		
 		if (args.length == 0){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Useage: /kick <player_name>"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /kick wide_load"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Useage: /" + label + " <player_name>"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " wide_load"));
 			return true;
 		}
 		
-		if (plugin.server.getOfflinePlayer(args[0]).isOnline() == false){
+		if (!plugin.server.getOfflinePlayer(args[0]).isOnline()){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + args[0] + " is not online."));
 			return true;
 		}

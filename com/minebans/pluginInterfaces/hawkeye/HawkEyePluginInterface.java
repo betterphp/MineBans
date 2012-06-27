@@ -42,17 +42,17 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 			config.load("plugins/HawkEye/config.yml");
 			
 			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.GRIEF))){
-				if (config.getBoolean("log.block-break") == false){
+				if (!config.getBoolean("log.block-break")){
 					plugin.log.warn("To provide the best data HawkEye should be set to log block breaks.");
 				}
 				
-				if (config.getBoolean("log.block-place") == false){
+				if (!config.getBoolean("log.block-place")){
 					plugin.log.warn("To provide the best data HawkEye should be set to log blocks placed.");
 				}
 			}
 			
 			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.THEFT))){
-				if (config.getBoolean("log.container-transaction") == false){
+				if (!config.getBoolean("log.container-transaction")){
 					plugin.log.warn("To provide the best data HawkEye should be set to log container transactions.");
 				}
 			}
@@ -200,6 +200,7 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 		search.players = Arrays.asList(playerName);
 		search.actions = Arrays.asList(DataType.BLOCK_BREAK);
 		search.worlds = worldNames;
+		search.dateFrom = format.format(cal);
 		
 		HawkEyeBlockBrokenCallback breakCallback = new HawkEyeBlockBrokenCallback(plugin); 
 		

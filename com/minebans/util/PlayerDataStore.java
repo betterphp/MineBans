@@ -19,7 +19,7 @@ public class PlayerDataStore {
 		this.storageFile = file;
 		this.playerData = new HashMap<String, String>();
 		
-		if (this.storageFile.exists() == false){
+		if (!this.storageFile.exists()){
 			try{
 				this.storageFile.createNewFile();
 			}catch (Exception e){
@@ -77,7 +77,7 @@ public class PlayerDataStore {
 	public void add(String playerName, String playerData){
 		playerName = playerName.toLowerCase();
 		
-		if (this.playerData.containsKey(playerName) == false){
+		if (!this.playerData.containsKey(playerName)){
 			this.playerData.put(playerName, playerData);
 		}
 	}
@@ -94,7 +94,7 @@ public class PlayerDataStore {
 	public String getData(String playerName){
 		playerName = playerName.toLowerCase();
 		
-		if (this.playerData.containsKey(playerName) == false){
+		if (!this.playerData.containsKey(playerName)){
 			return "";
 		}
 		

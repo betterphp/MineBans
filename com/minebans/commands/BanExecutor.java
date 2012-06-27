@@ -20,24 +20,24 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-		if (MineBansPermission.ADMIN_BAN.playerHasPermission(sender) == false){
+		if (!MineBansPermission.ADMIN_BAN.playerHasPermission(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return true;
 		}
 		
 		if (args.length == 0){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /ban <player_name> [reason / ban_duration]"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (local): /ban wide_load"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (global): /ban wide_load 2"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (global): /ban wide_load griefing"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (temporary): /ban wide_load 12h"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (temporary): /ban wide_load 7d"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /" + label + " <player_name> [reason / ban_duration]"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (local): /" + label + " wide_load"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (global): /" + label + " wide_load 2"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (global): /" + label + " wide_load griefing"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (temporary): /" + label + " wide_load 12h"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (temporary): /" + label + " wide_load 7d"));
 			return true;
 		}
 		
 		String playerName = args[0];
 		
-		if (plugin.server.getOnlineMode() == false){
+		if (!plugin.server.getOnlineMode()){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Your server must be running in online-mode."));
 			return true;
 		}
@@ -71,7 +71,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 			}else{
 				OfflinePlayer player = plugin.server.getOfflinePlayer(playerName);
 				
-				if (plugin.seenPlayers.contains(playerName.toLowerCase()) == false && player.isOnline() == false && player.hasPlayedBefore() == false){
+				if (!plugin.seenPlayers.contains(playerName.toLowerCase()) && !player.isOnline() && !player.hasPlayedBefore()){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot globally ban a player that has never connected to the server."));
 					return true;
 				}
@@ -94,7 +94,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 					return true;
 				}
 				
-				if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(reason)) == false){
+				if (!plugin.config.getBoolean(MineBansConfig.getReasonEnabled(reason))){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot ban a player for a reason not enabled on the server."));
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "See /minebans reasons for a list of available reasons."));
 					return true;
