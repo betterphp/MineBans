@@ -89,7 +89,7 @@ public class NoCheatPluginInterface extends ExploitPluginInterface {
 				}
 			}
 			
-			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.NOFALL))){
+			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.NOSWING))){
 				if (noCheatConfig.getBoolean(ConfPaths.BLOCKBREAK_NOSWING_CHECK) == false){
 					plugin.log.warn("To provide the best data NoCheat should to be set to check for block no-swing hacks in all worlds.");
 				}
@@ -163,7 +163,7 @@ public class NoCheatPluginInterface extends ExploitPluginInterface {
 				}
 				
 				if (noCheatConfig.getInt(ConfPaths.INVENTORY_DROP_LIMIT) < 100){
-					plugin.log.fatal("NoCheat must to be set to use an inventory drop limit no less than 15.");
+					plugin.log.fatal("NoCheat must to be set to use an inventory drop limit no less than 100.");
 					return false;
 				}
 			}
