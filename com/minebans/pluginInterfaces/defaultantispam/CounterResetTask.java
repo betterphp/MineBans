@@ -11,7 +11,7 @@ public class CounterResetTask implements Runnable {
 	public CounterResetTask(DefaultAntiSpamPluginInterface collector){
 		this.collector = collector;
 	}
-
+	
 	public void run(){
 		Integer current;
 		String playerName;

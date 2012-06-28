@@ -1,5 +1,5 @@
 name: MineBans
-version: 0.8.5
+version: 0.8.6
 main: com.minebans.MineBans
 softdepend: [LogBlock, HawkEye, Guardian, NoCheat, NoCheatPlus]
 commands:
