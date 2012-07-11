@@ -83,7 +83,7 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 		search.players = Arrays.asList(playerName);
 		search.actions = Arrays.asList(DataType.CONTAINER_TRANSACTION);
 		search.worlds = worldNames;
-		search.dateFrom = format.format(cal);
+		search.dateFrom = format.format(cal.getTime());
 		
 		HawkEyeChestAccessCallback callback = new HawkEyeChestAccessCallback(plugin); 
 		
@@ -118,7 +118,7 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 		search.players = Arrays.asList(playerName);
 		search.actions = Arrays.asList(DataType.BLOCK_PLACE);
 		search.worlds = worldNames;
-		search.dateFrom = format.format(cal);
+		search.dateFrom = format.format(cal.getTime());
 		
 		HawkEyeBlockPlacedCallback callback = new HawkEyeBlockPlacedCallback(plugin); 
 		
@@ -153,7 +153,7 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 		search.players = Arrays.asList(playerName);
 		search.actions = Arrays.asList(DataType.BLOCK_BREAK);
 		search.worlds = worldNames;
-		search.dateFrom = format.format(cal);
+		search.dateFrom = format.format(cal.getTime());
 		
 		HawkEyeBlockBrokenCallback callback = new HawkEyeBlockBrokenCallback(plugin); 
 		
@@ -190,7 +190,7 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 		search.players = Arrays.asList(playerName);
 		search.actions = Arrays.asList(DataType.BLOCK_PLACE);
 		search.worlds = worldNames;
-		search.dateFrom = format.format(cal);
+		search.dateFrom = format.format(cal.getTime());
 		
 		HawkEyeBlockPlacedCallback placeCallback = new HawkEyeBlockPlacedCallback(plugin); 
 		
@@ -200,7 +200,7 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 		search.players = Arrays.asList(playerName);
 		search.actions = Arrays.asList(DataType.BLOCK_BREAK);
 		search.worlds = worldNames;
-		search.dateFrom = format.format(cal);
+		search.dateFrom = format.format(cal.getTime());
 		
 		HawkEyeBlockBrokenCallback breakCallback = new HawkEyeBlockBrokenCallback(plugin); 
 		
