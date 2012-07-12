@@ -10,6 +10,7 @@ import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
 import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
 
 import com.minebans.api.APIInterface;
+import com.minebans.api.APIResponseCallback;
 import com.minebans.api.SystemStatusData;
 import com.minebans.bans.BanReason;
 import com.minebans.commands.BanExecutor;
@@ -68,10 +69,9 @@ public class MineBans extends BasePlugin {
 			Class.forName("org.bukkit.event.player.AsyncPlayerPreLoginEvent");
 			
 			this.pluginManager.registerEvents(new PlayerLoginListenerASync(this), this);
-			this.log.info("Using AsyncPlayerPreLoginEvent");
 		}catch (ClassNotFoundException e){
+			// TODO: Remove this with R4.1
 			this.pluginManager.registerEvents(new PlayerLoginListener(this), this);
-			this.log.info("Using PlayerPreLoginEvent");
 		}
 		
 		this.pluginManager.registerEvents(new PlayerBannedListener(this), this);
@@ -112,16 +112,27 @@ public class MineBans extends BasePlugin {
 		long ping = System.currentTimeMillis() - startTime;
 		
 		if (status == null){
-			this.log.warn("Failed to contact the API");
-		}else if (ping > 500){
-			this.log.warn("The API took longer than 500ms to reply, this is not a serious problem but due to a technical limitation");
-			this.log.warn("the check with the API has to make the entire server wait until the request completes. If this takes longer");
-			this.log.warn("than 500ms it is assumed that the player is allowed to join and a check with a longer delay is scheduled.");
-			this.log.warn("This is done to prevent player joins causing noticeable server lag. The player may be online for a few seconds");
-			this.log.warn("while the API request is still waiting, this is normal and nothing to worry about :)");
-			this.log.warn("Your API Responce Time: " + ping);
+			this.log.warn("The API failed to respond, checking for known problems...");
+			
+			this.api.lookupAPIStatusMessage(new APIResponseCallback(){
+				
+				public void onSuccess(String response){
+					MineBans.this.log.warn("Result: " + response);
+				}
+				
+				public void onFailure(Exception e){
+					MineBans.this.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 8 seconds.");
+					MineBans.this.log.warn("Result: Unable to get info, check your server.log");
+				}
+				
+			});
 		}else{
-			this.log.info("The API server responded to your request successfully.");
+			if (ping > 4000){
+				this.log.warn("The API took longer than 4 seconds to reply.");
+				this.log.warn("This is not a serious problem but players may experience longer than normal login times.");
+			}
+			
+			this.log.info("The API responded in " + ping + "ms");
 		}
 	}
 	
