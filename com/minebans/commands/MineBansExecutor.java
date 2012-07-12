@@ -88,7 +88,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 						
 						public void onFailure(Exception e){
 							plugin.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 8 seconds.");
-							sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Result: " + ChatColor.RED + "Unable to get info, check your server.log"));
+							sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Status: " + ChatColor.RED + "Unable to get info, check your server.log"));
 						}
 						
 					});

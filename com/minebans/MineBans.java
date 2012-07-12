@@ -117,12 +117,14 @@ public class MineBans extends BasePlugin {
 			this.api.lookupAPIStatusMessage(new APIResponseCallback(){
 				
 				public void onSuccess(String response){
-					MineBans.this.log.warn("Result: " + response);
+					MineBans.this.log.warn("Status: " + response);
 				}
 				
 				public void onFailure(Exception e){
-					MineBans.this.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 8 seconds.");
-					MineBans.this.log.warn("Result: Unable to get info, check your server.log");
+					e.printStackTrace();
+					
+					MineBans.this.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 10 seconds.");
+					MineBans.this.log.warn("Status: Unable to get info, check your server.log");
 				}
 				
 			});

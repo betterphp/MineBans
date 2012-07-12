@@ -27,10 +27,10 @@ public class APIInterface {
 	
 	public APIInterface(MineBans plugin){
 		try{
-//			this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(plugin.config.getString(MineBansConfig.API_KEY), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
-			this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(plugin.config.getString(MineBansConfig.API_KEY), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
+			this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(plugin.config.getString(MineBansConfig.API_KEY), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
+//			this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(plugin.config.getString(MineBansConfig.API_KEY), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
 			
-			this.statusURL = new URL("https://dl.dropbox.com/s/vjngx1qzvhvtcqz/minebans_status_message.txt");
+			this.statusURL = new URL("http://dl.dropbox.com/s/vjngx1qzvhvtcqz/minebans_status_message.txt");
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -49,7 +49,7 @@ public class APIInterface {
 	}
 	
 	public void lookupAPIStatusMessage(APIResponseCallback callback){
-		this.requestHandler.addRequest(new APIRequest(this.statusURL, null, callback, 8000));
+		this.requestHandler.addRequest(new APIRequest(this.statusURL, null, callback, 10000));
 	}
 	
 	@SuppressWarnings("unchecked")
