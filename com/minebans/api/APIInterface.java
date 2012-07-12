@@ -27,8 +27,8 @@ public class APIInterface {
 	
 	public APIInterface(MineBans plugin){
 		try{
-			this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(plugin.config.getString(MineBansConfig.API_KEY), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
-//			this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(plugin.config.getString(MineBansConfig.API_KEY), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
+//			this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(plugin.config.getString(MineBansConfig.API_KEY), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
+			this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(plugin.config.getString(MineBansConfig.API_KEY), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
 			
 			this.statusURL = new URL("https://dl.dropbox.com/s/vjngx1qzvhvtcqz/minebans_status_message.txt");
 		}catch (Exception e){
@@ -202,7 +202,7 @@ public class APIInterface {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public PlayerBanData getPlayerBans(final String playerName, final String issuedBy) throws SocketTimeoutException {
+	public PlayerBanData getPlayerBans(final String playerName, final String issuedBy, int timeout) throws SocketTimeoutException {
 		JSONObject json = new JSONObject();
 		
 		json.put("action", "get_player_bans");
@@ -210,7 +210,7 @@ public class APIInterface {
 		json.put("player_name", playerName);
 		
 		try{
-			return new PlayerBanData(this.requestHandler.processRequestDirect(new APIRequest(this.apiURL, json, 250)));
+			return new PlayerBanData(this.requestHandler.processRequestDirect(new APIRequest(this.apiURL, json, timeout)));
 		}catch (Exception e){
 			CommandSender sender = (issuedBy.equalsIgnoreCase("console")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
 			
@@ -238,8 +238,12 @@ public class APIInterface {
 		}
 	}
 	
+	public PlayerBanData getPlayerBans(final String playerName, final String issuedBy) throws SocketTimeoutException {
+		return this.getPlayerBans(playerName, issuedBy, 250);
+	}
+	
 	@SuppressWarnings("unchecked")
-	public PlayerInfoData getPlayerInfo(final String playerName, final String issuedBy) throws SocketTimeoutException {
+	public PlayerInfoData getPlayerInfo(final String playerName, final String issuedBy, int timeout) throws SocketTimeoutException {
 		JSONObject json = new JSONObject();
 		
 		json.put("action", "get_player_info");
@@ -247,7 +251,7 @@ public class APIInterface {
 		json.put("player_name", playerName);
 		
 		try{
-			return new PlayerInfoData(this.requestHandler.processRequestDirect(new APIRequest(this.apiURL, json, 250)));
+			return new PlayerInfoData(this.requestHandler.processRequestDirect(new APIRequest(this.apiURL, json, timeout)));
 		}catch (Exception e){
 			CommandSender sender = (issuedBy.equalsIgnoreCase("CONSOLE")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
 			
@@ -275,8 +279,12 @@ public class APIInterface {
 		}
 	}
 	
+	public PlayerInfoData getPlayerInfo(final String playerName, final String issuedBy) throws SocketTimeoutException {
+		return this.getPlayerInfo(playerName, issuedBy, 250);
+	}
+	
 	@SuppressWarnings("unchecked")
-	public PlayerJoinData getPlayerJoinInfo(final String playerName, final String issuedBy) throws SocketTimeoutException {
+	public PlayerJoinData getPlayerJoinInfo(final String playerName, final String issuedBy, int timeout) throws SocketTimeoutException {
 		JSONObject json = new JSONObject();
 		
 		json.put("action", "get_player_join_info");
@@ -284,7 +292,7 @@ public class APIInterface {
 		json.put("player_name", playerName);
 		
 		try{
-			return new PlayerJoinData(this.requestHandler.processRequestDirect(new APIRequest(this.apiURL, json, 500)));
+			return new PlayerJoinData(this.requestHandler.processRequestDirect(new APIRequest(this.apiURL, json, timeout)));
 		}catch (Exception e){
 			CommandSender sender = (issuedBy.equalsIgnoreCase("CONSOLE")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
 			
@@ -310,6 +318,10 @@ public class APIInterface {
 			
 			return null;
 		}
+	}
+	
+	public PlayerJoinData getPlayerJoinInfo(final String playerName, final String issuedBy) throws SocketTimeoutException {
+		return this.getPlayerJoinInfo(playerName, issuedBy, 500);
 	}
 	
 }
