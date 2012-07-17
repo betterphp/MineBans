@@ -2,9 +2,11 @@ package com.minebans.api;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.NetworkInterface;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,12 +29,18 @@ public class APIInterface {
 	
 	public APIInterface(MineBans plugin){
 		try{
-			this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(plugin.config.getString(MineBansConfig.API_KEY), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
-//			this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(plugin.config.getString(MineBansConfig.API_KEY), "UTF-8") + "&version = " + URLEncoder.encode(plugin.getVersion(), "UTF-8"));
+			String apiKey = plugin.config.getString(MineBansConfig.API_KEY);
+			String hwid = UUID.nameUUIDFromBytes(NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress()).toString();
+			String version = plugin.getVersion();
+			
+			this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&hwid=" + URLEncoder.encode(hwid, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
+//			this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&hwid=" + URLEncoder.encode(hwid, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
 			
 			this.statusURL = new URL("http://dl.dropbox.com/s/vjngx1qzvhvtcqz/minebans_status_message.txt");
 		}catch (Exception e){
-			e.printStackTrace();
+			plugin.log.fatal("Failed to create system ID: " + e.getMessage());
+			plugin.pluginManager.disablePlugin(plugin);
+			return;
 		}
 		
 		this.plugin = plugin;
