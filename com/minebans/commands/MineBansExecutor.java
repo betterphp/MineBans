@@ -105,6 +105,9 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			plugin.api.lookupLatestVersion(new APIResponseCallback(){
 				
 				public void onSuccess(String response){
+					plugin.log.info(plugin.getVersion());
+					plugin.log.info(response);
+					
 					if (plugin.getVersion().equals(response)){
 						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Up to date :D"));
 					}else{
