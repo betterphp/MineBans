@@ -17,8 +17,10 @@ public enum MineBansPermission {
 	ALERT_ON_KICK(		"minebans.alert.onkick",		PermissionDefault.TRUE,		"Players with this permission will be notified when a player is kicked."),
 	ALERT_ON_EXEMPT(	"minebans.alert.onexempt",		PermissionDefault.TRUE,		"Players with this permission will be notified when a player is added to the exempt list."),
 	ALERT_ON_UNEXEMPT(	"minebans.alert.onunexempt",	PermissionDefault.TRUE,		"Players with this permission will be notified when a player is removed from the exempt list."),
+	ALERT_ON_UPDATE(	"minebans.alert.onupdate",		PermissionDefault.OP,		"Players with this permission will be notified when a new version of the plugin is available."),
 	
 	ADMIN_STATUS(		"minebans.admin.status",		PermissionDefault.OP,		"Allows the player to check the status of the API."),
+	ADMIN_UPDATE(		"minebans.admin.update",		PermissionDefault.OP,		"Allows the player to check for new versions of the plugin."),
 	ADMIN_BAN(			"minebans.admin.ban",			PermissionDefault.OP,		"Allows the use of the /ban and /unban commands."),
 	ADMIN_KICK(			"minebans.admin.kick",			PermissionDefault.OP,		"Allows the use of the /kick command."),
 	ADMIN_EXEMPT(		"minebans.admin.exempt",		PermissionDefault.OP,		"Allows the use of the /exempt commands."),

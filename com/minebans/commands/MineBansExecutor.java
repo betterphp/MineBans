@@ -35,6 +35,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /" + label + " <option> [args]"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Options:"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   status - Gets the status of the API."));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   update - Checks for new versions of the plugin."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   reasons - Lists all of the ban reasons."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   lookup - Gets a summary of a players bans."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   listtemp - Lists all of the players that are temporarily banned."));
@@ -92,6 +93,29 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 						}
 						
 					});
+				}
+				
+			});
+		}else if (option.equalsIgnoreCase("update") || option.equalsIgnoreCase("u")){
+			if (!MineBansPermission.ADMIN_UPDATE.playerHasPermission(sender)){
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+				return true;
+			}
+			
+			plugin.api.lookupLatestVersion(new APIResponseCallback(){
+				
+				public void onSuccess(String response){
+					if (plugin.getVersion().equals(response)){
+						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Up to date :D"));
+					}else{
+						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "A new version is available, " + response));
+						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Get it from dev.bukkit.org/server-mods/minebans/files/"));
+					}
+				}
+				
+				public void onFailure(Exception e){
+					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Failed to fetch latest version"));
+					plugin.log.warn("Failed to fetch latest version: " + e.getMessage());
 				}
 				
 			});

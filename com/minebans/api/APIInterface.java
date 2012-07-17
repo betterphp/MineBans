@@ -8,11 +8,16 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.UUID;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.minebans.MineBans;
 import com.minebans.MineBansConfig;
@@ -24,6 +29,7 @@ public class APIInterface {
 	
 	private URL apiURL;
 	private URL statusURL;
+	private URL filesURL;
 	
 	private APIRequestHandler requestHandler;
 	
@@ -37,6 +43,7 @@ public class APIInterface {
 //			this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&hwid=" + URLEncoder.encode(hwid, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
 			
 			this.statusURL = new URL("http://dl.dropbox.com/s/vjngx1qzvhvtcqz/minebans_status_message.txt");
+			this.filesURL = new URL("http://dev.bukkit.org/server-mods/minebans/files.rss");
 		}catch (Exception e){
 			plugin.log.fatal("Failed to create system ID: " + e.getMessage());
 			plugin.pluginManager.disablePlugin(plugin);
@@ -68,6 +75,31 @@ public class APIInterface {
 		json.put("issued_by", issuedBy);
 		
 		this.requestHandler.addRequest(new APIRequest(this.apiURL, json, callback, 5000));
+	}
+	
+	public void lookupLatestVersion(final APIResponseCallback callback){
+		this.requestHandler.addRequest(new APIRequest(this.filesURL, null, new APIResponseCallback(){
+			
+			public void onSuccess(String response){
+				try{
+					Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(response);
+					
+					Node latestFile = document.getElementsByTagName("item").item(0);
+					NodeList children = latestFile.getChildNodes();
+					
+					String version = children.item(1).getTextContent().replaceAll("[a-zA-Z ]", "");
+					
+					callback.onSuccess(version);
+				}catch (Exception e){
+					this.onFailure(e);
+				}
+			}
+			
+			public void onFailure(Exception e){
+				callback.onFailure(e);
+			}
+			
+		}, 10000));
 	}
 	
 	@SuppressWarnings("unchecked")
