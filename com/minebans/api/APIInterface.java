@@ -1,6 +1,7 @@
 package com.minebans.api;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.NetworkInterface;
 import java.net.SocketTimeoutException;
@@ -18,6 +19,7 @@ import org.json.simple.parser.ParseException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import com.minebans.MineBans;
 import com.minebans.MineBansConfig;
@@ -82,7 +84,7 @@ public class APIInterface {
 			
 			public void onSuccess(String response){
 				try{
-					Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(response);
+					Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(response)));
 					
 					Node latestFile = document.getElementsByTagName("item").item(0);
 					NodeList children = latestFile.getChildNodes();
