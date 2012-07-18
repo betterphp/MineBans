@@ -7,6 +7,7 @@ import java.net.NetworkInterface;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Enumeration;
 import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -38,8 +39,24 @@ public class APIInterface {
 	public APIInterface(MineBans plugin){
 		try{
 			String apiKey = plugin.config.getString(MineBansConfig.API_KEY);
-			String hwid = UUID.nameUUIDFromBytes(NetworkInterface.getNetworkInterfaces().nextElement().getHardwareAddress()).toString();
+			String hwid = null;
 			String version = plugin.getVersion();
+			
+			for (Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces(); interfaces.hasMoreElements(); ){
+				NetworkInterface nic = interfaces.nextElement();
+				byte[] address = nic.getHardwareAddress();
+				
+				if (address != null){
+					hwid = UUID.nameUUIDFromBytes(address).toString();
+					break;
+				}
+			}
+			
+			if (hwid == null){
+				plugin.log.fatal("Failed to create system ID: No NIC found");
+				plugin.pluginManager.disablePlugin(plugin);
+				return;
+			}
 			
 			this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&hwid=" + URLEncoder.encode(hwid, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
 //			this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&hwid=" + URLEncoder.encode(hwid, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
@@ -47,7 +64,8 @@ public class APIInterface {
 			this.statusURL = new URL("http://dl.dropbox.com/s/vjngx1qzvhvtcqz/minebans_status_message.txt");
 			this.filesURL = new URL("http://dev.bukkit.org/server-mods/minebans/files.rss");
 		}catch (Exception e){
-			plugin.log.fatal("Failed to create system ID: " + e.getMessage());
+			plugin.log.fatal("Failed to create system ID");
+			e.printStackTrace();
 			plugin.pluginManager.disablePlugin(plugin);
 			return;
 		}

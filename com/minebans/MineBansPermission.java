@@ -10,7 +10,7 @@ import org.bukkit.permissions.PermissionDefault;
 
 public enum MineBansPermission {
 	
-	ALERT_ON_JOIN(		"minebans.alert.onjoin",		PermissionDefault.OP,		"Players with this permission will be shown a players ban summary when the join."),
+	ALERT_ON_JOIN(		"minebans.alert.onjoin",		PermissionDefault.OP,		"Players with this permission will be shown a players ban summary when a player joins join."),
 	ALERT_ON_API_FAIL(	"minebans.alert.onapifail",		PermissionDefault.OP,		"Players with this permission will be notified if a player joins before the API responds with their data."),
 	ALERT_ON_BAN(		"minebans.alert.onban",			PermissionDefault.TRUE,		"Players with this permission will be notified when a player is banned."),
 	ALERT_ON_UNBAN(		"minebans.alert.onunban",		PermissionDefault.TRUE,		"Players with this permission will be notified when a player is unbanned."),
