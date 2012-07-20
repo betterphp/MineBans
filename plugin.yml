@@ -1,7 +1,7 @@
 name: MineBans
-version: "0.10.2"
+version: "0.11"
 main: com.minebans.MineBans
-softdepend: [LogBlock, HawkEye, Guardian, NoCheat, NoCheatPlus]
+softdepend: [LogBlock, HawkEye, Guardian, SWatchdog, NoCheat, NoCheatPlus]
 commands:
     ban:
         description: Bans a player from the server.

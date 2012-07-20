@@ -7,6 +7,7 @@ import com.minebans.pluginInterfaces.defaultlogging.DefaultLoggingPluginInterfac
 import com.minebans.pluginInterfaces.guardian.GuardianPluginInterface;
 import com.minebans.pluginInterfaces.hawkeye.HawkEyePluginInterface;
 import com.minebans.pluginInterfaces.logblock.LogBlockPluginInterface;
+import com.minebans.pluginInterfaces.swatchdog.SWatchdogPluginInterface;
 
 public class LoggingInterface {
 	
@@ -19,7 +20,9 @@ public class LoggingInterface {
 			this.pluginInterface = new HawkEyePluginInterface(plugin);
 		}else if (plugin.pluginManager.isPluginEnabled("Guardian")){
 			this.pluginInterface = new GuardianPluginInterface(plugin);
-		}else{	
+		}else if (plugin.pluginManager.isPluginEnabled("SWatchdog")){
+			this.pluginInterface = new SWatchdogPluginInterface(plugin);
+		}else{
 			this.pluginInterface = new DefaultLoggingPluginInterface(plugin);
 		}
 		
