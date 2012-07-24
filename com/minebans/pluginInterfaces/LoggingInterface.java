@@ -3,6 +3,7 @@ package com.minebans.pluginInterfaces;
 import java.util.HashMap;
 
 import com.minebans.MineBans;
+import com.minebans.pluginInterfaces.coreprotect.CoreProtectPluginIntereface;
 import com.minebans.pluginInterfaces.defaultlogging.DefaultLoggingPluginInterface;
 import com.minebans.pluginInterfaces.guardian.GuardianPluginInterface;
 import com.minebans.pluginInterfaces.hawkeye.HawkEyePluginInterface;
@@ -22,6 +23,8 @@ public class LoggingInterface {
 			this.pluginInterface = new GuardianPluginInterface(plugin);
 		}else if (plugin.pluginManager.isPluginEnabled("SWatchdog")){
 			this.pluginInterface = new SWatchdogPluginInterface(plugin);
+		}else if (plugin.pluginManager.isPluginEnabled("CoreProtect")){
+			this.pluginInterface = new CoreProtectPluginIntereface(plugin);
 		}else{
 			this.pluginInterface = new DefaultLoggingPluginInterface(plugin);
 		}

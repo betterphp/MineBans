@@ -51,7 +51,8 @@ public class SWatchdogPluginInterface extends LoggingPluginInterface {
 				plugin.log.warn("To provide the best data SWatchdog should be set to log chest access.");
 			}
 		}catch (Exception e){
-			plugin.log.warn("Unable to check SWatchdog config: " + e.getMessage());
+			plugin.log.fatal("Unable to reasd SWatchdog config file");
+			e.printStackTrace();
 			return false;
 		}
 		
