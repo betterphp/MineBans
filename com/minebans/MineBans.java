@@ -65,17 +65,8 @@ public class MineBans extends BasePlugin {
 		
 		this.seenPlayers = new ArrayList<String>();
 		
-		try{
-			Class.forName("org.bukkit.event.player.AsyncPlayerPreLoginEvent");
-			
-			this.pluginManager.registerEvents(new PlayerLoginListenerASync(this), this);
-		}catch (ClassNotFoundException e){
-			// TODO: Remove this with R4.1
-			this.pluginManager.registerEvents(new PlayerLoginListener(this), this);
-		}
-		
+		this.pluginManager.registerEvents(new PlayerLoginListener(this), this);
 		this.pluginManager.registerEvents(new PlayerJoinListener(this), this);
-		
 		this.pluginManager.registerEvents(new PlayerBannedListener(this), this);
 		
 		if (this.config.getBoolean(MineBansConfig.BLOCK_PROXIES)){
