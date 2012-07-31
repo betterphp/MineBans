@@ -40,13 +40,15 @@ public class PlayerLoginListener extends BaseListener<MineBans> {
 			
 			PlayerLoginDataEvent loginDataEvent = new PlayerLoginDataEvent(playerName, playerAddress, joinData);
 			
-			plugin.pluginManager.callEvent(loginDataEvent);
-			
-			if (loginDataEvent.isConnectionPrevented()){
-				event.disallow(Result.KICK_OTHER, loginDataEvent.getKickMessage());
-				plugin.log.info(playerName + " (" + playerAddress + ") " + loginDataEvent.getLogMessage());
-				plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, loginDataEvent.getReason()));
-				return;
+			if (joinData != null){
+				plugin.pluginManager.callEvent(loginDataEvent);
+				
+				if (loginDataEvent.isConnectionPrevented()){
+					event.disallow(Result.KICK_OTHER, loginDataEvent.getKickMessage());
+					plugin.log.info(playerName + " (" + playerAddress + ") " + loginDataEvent.getLogMessage());
+					plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, loginDataEvent.getReason()));
+					return;
+				}
 			}
 		}catch (SocketTimeoutException ste){
 			plugin.log.warn("The API failed to respond even with a longer timeout, it might be down for some reason.");
