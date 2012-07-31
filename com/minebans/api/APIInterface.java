@@ -3,6 +3,7 @@ package com.minebans.api;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketTimeoutException;
 import java.net.URL;
@@ -39,23 +40,12 @@ public class APIInterface {
 	public APIInterface(MineBans plugin){
 		try{
 			String apiKey = plugin.config.getString(MineBansConfig.API_KEY);
-			String hwid = null;
+			String hwid = this.getHWID();
 			String version = plugin.getVersion();
 			
-			for (Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces(); interfaces.hasMoreElements(); ){
-				NetworkInterface nic = interfaces.nextElement();
-				byte[] address = nic.getHardwareAddress();
-				
-				if (address != null){
-					hwid = UUID.nameUUIDFromBytes(address).toString();
-					break;
-				}
-			}
-			
 			if (hwid == null){
-				plugin.log.fatal("Failed to create system ID: No NIC found");
+				plugin.log.fatal("Failed to create system ID");
 				plugin.pluginManager.disablePlugin(plugin);
-				return;
 			}
 			
 			this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&hwid=" + URLEncoder.encode(hwid, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
@@ -72,6 +62,45 @@ public class APIInterface {
 		
 		this.plugin = plugin;
 		this.startThread();
+	}
+	
+	private String getHWID(){
+		try{
+			StringBuilder fallback = new StringBuilder();
+			fallback.append(System.getProperty("os.name"));
+			fallback.append(InetAddress.getLocalHost().getHostName());
+			fallback.append(System.getProperty("os.arch"));
+			
+			String hwid = null;
+			
+			Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+			
+			while (interfaces.hasMoreElements()){
+				NetworkInterface nic = interfaces.nextElement();
+				
+				if (!nic.isLoopback()){
+					byte[] address = nic.getHardwareAddress();
+					
+					if (address != null){
+						return UUID.nameUUIDFromBytes(address).toString();
+					}
+					
+					Enumeration<InetAddress> addresses = nic.getInetAddresses();
+					
+					while (addresses.hasMoreElements()){
+						fallback.append(addresses.nextElement().getHostAddress());
+					}
+				}
+			}
+			
+			if (hwid == null){
+				return UUID.nameUUIDFromBytes(fallback.toString().getBytes()).toString();
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public void startThread(){
