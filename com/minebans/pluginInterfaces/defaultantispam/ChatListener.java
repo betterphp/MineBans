@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class ChatListener implements Listener {
@@ -16,11 +16,7 @@ public class ChatListener implements Listener {
 		this.collector = collector;
 	}
 	
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onPlayerChat(PlayerChatEvent event){
-		String playerName = event.getPlayer().getName();
-		String message = event.getMessage();
-		
+	private void onPlayerMessage(String playerName, String message){
 		HashMap<String, Integer> playerMessages;
 		
 		if (!collector.messageCounter.containsKey(playerName)){
@@ -35,8 +31,13 @@ public class ChatListener implements Listener {
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onPlayerChat(AsyncPlayerChatEvent event){
+		this.onPlayerMessage(event.getPlayer().getName(), event.getMessage());
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerCommand(PlayerCommandPreprocessEvent event){
-		this.onPlayerChat(event);
+		this.onPlayerMessage(event.getPlayer().getName(), event.getMessage());
 	}
 	
 }
