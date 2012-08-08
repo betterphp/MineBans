@@ -1,9 +1,8 @@
 package com.minebans.pluginInterfaces.nocheatplus;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 import org.bukkit.entity.Player;
 
@@ -18,7 +17,7 @@ import fr.neatmonster.nocheatplus.checks.moving.MovingData;
 
 public class NoCheatPlusCombinedData {
 	
-	private HashMap<BanReason, List<Double>> data;
+	private HashMap<BanReason, ArrayList<Double>> data;
 	
 	public NoCheatPlusCombinedData(Player player){
 		BlockBreakData blockBreakData = BlockBreakData.getData(player);
@@ -28,17 +27,79 @@ public class NoCheatPlusCombinedData {
 		InventoryData inventoryData = InventoryData.getData(player);
 		MovingData movingData = MovingData.getData(player);
 		
-		this.data.put(BanReason.FLY, Arrays.asList(movingData.survivalFlyVL));
-		this.data.put(BanReason.SPEED, Arrays.asList(movingData.morePacketsVL, movingData.morePacketsVehicleVL, movingData.survivalFlyVL, movingData.creativeFlyVL));
-		this.data.put(BanReason.BLOCK_REACH, Arrays.asList(blockBreakData.directionVL, blockBreakData.reachVL, blockPlaceData.directionVL, blockPlaceData.reachVL, blockInteractdata.directionVL, blockInteractdata.reachVL));
-		this.data.put(BanReason.NOFALL, Arrays.asList(movingData.noFallVL));
-		this.data.put(BanReason.NOSWING, Arrays.asList(blockBreakData.noSwingVL, blockPlaceData.noSwingVL, fightData.noSwingVL, blockInteractdata.noSwingVL));
-		this.data.put(BanReason.PVP_CHEAT, Arrays.asList(fightData.angleVL, fightData.criticalVL, fightData.directionVL, fightData.godModeVL, fightData.instantHealVL, fightData.knockbackVL, fightData.noSwingVL, fightData.reachVL, fightData.speedVL, inventoryData.instantBowVL));
-		this.data.put(BanReason.ITEM_DROP, Arrays.asList(inventoryData.dropVL));
+		ArrayList<Double> flyData = new ArrayList<Double>();
+		ArrayList<Double> speedData = new ArrayList<Double>();
+		ArrayList<Double> reachData = new ArrayList<Double>();
+		ArrayList<Double> nofallData = new ArrayList<Double>();
+		ArrayList<Double> noswingData = new ArrayList<Double>();
+		ArrayList<Double> pvpData = new ArrayList<Double>();
+		ArrayList<Double> dropData = new ArrayList<Double>();
+		
+		if (blockBreakData != null){
+			reachData.add(blockBreakData.directionVL);
+			reachData.add(blockBreakData.reachVL);
+			
+			noswingData.add(blockBreakData.noSwingVL);
+		}
+		
+		if (blockInteractdata != null){
+			reachData.add(blockInteractdata.directionVL);
+			reachData.add(blockInteractdata.reachVL);
+			
+			noswingData.add(blockInteractdata.noSwingVL);
+		}
+		
+		if (blockPlaceData != null){
+			reachData.add(blockPlaceData.directionVL);
+			reachData.add(blockPlaceData.reachVL);
+			
+			noswingData.add(blockPlaceData.noSwingVL);
+		}
+		
+		if (fightData != null){
+			pvpData.add(fightData.angleVL);
+			pvpData.add(fightData.criticalVL);
+			pvpData.add(fightData.directionVL);
+			pvpData.add(fightData.godModeVL);
+			pvpData.add(fightData.instantHealVL);
+			pvpData.add(fightData.knockbackVL);
+			pvpData.add(fightData.noSwingVL);
+			pvpData.add(fightData.reachVL);
+			pvpData.add(fightData.speedVL);
+			
+			noswingData.add(fightData.noSwingVL);
+		}
+		
+		if (inventoryData != null){
+			pvpData.add(inventoryData.instantBowVL);
+			
+			dropData.add(inventoryData.dropVL);
+		}
+		
+		if (movingData != null){
+			flyData.add(movingData.survivalFlyVL);
+			
+			speedData.add(movingData.morePacketsVL);
+			speedData.add(movingData.morePacketsVehicleVL);
+			speedData.add(movingData.survivalFlyVL);
+			speedData.add(movingData.creativeFlyVL);
+			
+			nofallData.add(movingData.noFallVL);
+		}
+		
+		this.data.put(BanReason.FLY, flyData);
+		this.data.put(BanReason.SPEED, speedData);
+		this.data.put(BanReason.BLOCK_REACH, reachData);
+		this.data.put(BanReason.NOFALL, nofallData);
+		this.data.put(BanReason.NOSWING, noswingData);
+		this.data.put(BanReason.PVP_CHEAT, pvpData);
+		this.data.put(BanReason.ITEM_DROP, dropData);
 	}
 	
-	public Double getMaxforReason(BanReason reason){
-		return Collections.max(this.data.get(reason));
+	public double getMaxforReason(BanReason reason){
+		ArrayList<Double> values = this.data.get(reason);
+		
+		return (!values.isEmpty()) ? Collections.max(values) : 0D;
 	}
 	
 }
