@@ -87,6 +87,8 @@ public class NoCheatPlusCombinedData {
 			nofallData.add(movingData.noFallVL);
 		}
 		
+		this.data = new HashMap<BanReason, ArrayList<Double>>();
+		
 		this.data.put(BanReason.FLY, flyData);
 		this.data.put(BanReason.SPEED, speedData);
 		this.data.put(BanReason.BLOCK_REACH, reachData);
