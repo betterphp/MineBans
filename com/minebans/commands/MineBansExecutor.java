@@ -108,8 +108,8 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 					if (plugin.getVersion().equals(response)){
 						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Up to date :D"));
 					}else{
-						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "A new version is available, " + response));
-						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Get it from dev.bukkit.org/server-mods/minebans/files/"));
+						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "A new version is available, v" + response));
+						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "http://dev.bukkit.org/server-mods/minebans/files/"));
 					}
 				}
 				

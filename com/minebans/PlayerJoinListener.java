@@ -25,8 +25,8 @@ public class PlayerJoinListener extends BaseListener<MineBans> {
 				
 				public void onSuccess(String response){
 					if (!plugin.getVersion().equals(response)){
-						player.sendMessage(plugin.formatMessage(ChatColor.RED + "A new version is available, " + response));
-						player.sendMessage(plugin.formatMessage(ChatColor.RED + "Get it from dev.bukkit.org/server-mods/minebans/files/"));
+						player.sendMessage(plugin.formatMessage(ChatColor.RED + "A new version is available, v" + response));
+						player.sendMessage(plugin.formatMessage(ChatColor.RED + "http://dev.bukkit.org/server-mods/minebans/files/"));
 					}
 				}
 				
