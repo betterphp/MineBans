@@ -8,6 +8,7 @@ import java.net.NetworkInterface;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.UUID;
 
@@ -68,7 +69,11 @@ public class APIInterface {
 		try{
 			StringBuilder fallback = new StringBuilder();
 			fallback.append(System.getProperty("os.name"));
-			fallback.append(InetAddress.getLocalHost().getHostName());
+			
+			try{
+				fallback.append(InetAddress.getLocalHost().getHostName());
+			}catch (UnknownHostException e){  }
+			
 			fallback.append(System.getProperty("os.arch"));
 			
 			String hwid = null;
