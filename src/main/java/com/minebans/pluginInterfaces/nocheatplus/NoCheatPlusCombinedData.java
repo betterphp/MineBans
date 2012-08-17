@@ -45,8 +45,6 @@ public class NoCheatPlusCombinedData {
 		if (blockInteractdata != null){
 			reachData.add(blockInteractdata.directionVL);
 			reachData.add(blockInteractdata.reachVL);
-			
-			noswingData.add(blockInteractdata.noSwingVL);
 		}
 		
 		if (blockPlaceData != null){
