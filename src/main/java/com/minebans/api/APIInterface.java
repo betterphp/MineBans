@@ -71,7 +71,11 @@ public class APIInterface {
 			fallback.append(System.getProperty("os.name"));
 			
 			try{
-				fallback.append(InetAddress.getLocalHost().getHostName());
+				InetAddress local = InetAddress.getLocalHost();
+				
+				if (local != null){
+					fallback.append(local.getHostName());
+				}
 			}catch (UnknownHostException e){  }
 			
 			fallback.append(System.getProperty("os.arch"));
