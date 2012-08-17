@@ -193,6 +193,34 @@ public class APIInterface {
 		this.requestHandler.addRequest(new APIRequest(this.apiURL, json, callback, 10000));
 	}
 	
+	private void handleException(Exception exception){
+		if (exception instanceof SocketTimeoutException){
+			plugin.log.fatal("The API failed to response in time.");
+		}else if (exception instanceof UnsupportedEncodingException || exception instanceof IOException){
+			plugin.log.fatal("Failed to contact the API (you should report this).");
+			exception.printStackTrace();
+		}else if (exception instanceof ParseException){
+			plugin.log.fatal("Failed to parse API response (you should report this).");
+			exception.printStackTrace();
+		}else if (exception instanceof APIException){
+			plugin.log.fatal("API Request Failed: " + ((APIException) exception).getResponse());
+		}else{
+			exception.printStackTrace();
+		}
+	}
+	
+	private void handleException(Exception exception, CommandSender sender){
+		this.handleException(exception);
+		
+		if (sender != null){
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "API request failed :("));
+			
+			if (exception instanceof APIException){
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Response: " + ((APIException) exception).getResponse()));
+			}
+		}
+	}
+	
 	@SuppressWarnings("unchecked")
 	public SystemStatusData getAPIStatus(String issuedBy){
 		JSONObject json = new JSONObject();
@@ -202,16 +230,8 @@ public class APIInterface {
 		
 		try{
 			return new SystemStatusData(this.requestHandler.processRequestDirect(new APIRequest(this.apiURL, json, 5000)));
-		}catch (SocketTimeoutException ste){
-			plugin.log.fatal("The API failed to respond in time.");
-		}catch (IOException ioe){
-			plugin.log.fatal("Failed to contact the API (you should report this).");
-			ioe.printStackTrace();
-		}catch (ParseException pe){
-			plugin.log.fatal("Failed to parse API response (you should report this).");
-			pe.printStackTrace();
-		}catch (APIException apie){
-			plugin.log.fatal("API Request Failed: " + ((APIException) apie).getResponse());
+		}catch (Exception exception){
+			this.handleException(exception);
 		}
 		
 		return null;
@@ -233,26 +253,8 @@ public class APIInterface {
 			
 			public void onSuccess(String response){  }
 			
-			public void onFailure(Exception e){
-				if (e instanceof SocketTimeoutException){
-					plugin.log.fatal("The API failed to response in time.");
-				}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
-					plugin.log.fatal("Failed to contact the API (you should report this).");
-					e.printStackTrace();
-				}else if (e instanceof ParseException){
-					plugin.log.fatal("Failed to parse API response (you should report this).");
-					e.printStackTrace();
-				}else if (e instanceof APIException){
-					plugin.log.fatal("API Request Failed: " + ((APIException) e).getResponse());
-				}
-				
-				if (sender != null){
-					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Failed to upload ban for '" + playerName + "'."));
-					
-					if (e instanceof APIException){
-						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Response: " + ((APIException) e).getResponse()));
-					}
-				}
+			public void onFailure(Exception exception){
+				APIInterface.this.handleException(exception, sender);
 			}
 			
 		}, 10000));
@@ -274,26 +276,8 @@ public class APIInterface {
 				plugin.banManager.unbanPlayerAPICallback(playerName);
 			}
 			
-			public void onFailure(Exception e){
-				if (e instanceof SocketTimeoutException){
-					plugin.log.fatal("The API failed to response in time.");
-				}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
-					plugin.log.fatal("Failed to contact the API (you should report this).");
-					e.printStackTrace();
-				}else if (e instanceof ParseException){
-					plugin.log.fatal("Failed to parse API response (you should report this).");
-					e.printStackTrace();
-				}else if (e instanceof APIException){
-					plugin.log.fatal("API Request Failed: " + ((APIException) e).getResponse());
-				}
-				
-				if (sender != null){
-					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Failed to remove global ban for '" + playerName + "'."));
-					
-					if (e instanceof APIException){
-						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Response: " + ((APIException) e).getResponse()));
-					}
-				}
+			public void onFailure(Exception exception){
+				APIInterface.this.handleException(exception, sender);
 			}
 			
 		}, 10000));
@@ -309,28 +293,10 @@ public class APIInterface {
 		
 		try{
 			return new PlayerBanData(this.requestHandler.processRequestDirect(new APIRequest(this.apiURL, json, timeout)));
-		}catch (Exception e){
+		}catch (Exception exception){
 			CommandSender sender = (issuedBy.equalsIgnoreCase("console")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
 			
-			if (e instanceof SocketTimeoutException){
-				throw (SocketTimeoutException) e;
-			}else if (e instanceof APIException){
-				plugin.log.fatal("Unable to contact the API. Response: " + ((APIException) e).getResponse());
-			}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
-				plugin.log.fatal("Failed to contact the API (you should report this).");
-				e.printStackTrace();
-			}else if (e instanceof ParseException){
-				plugin.log.fatal("Failed to parse API response (you should report this).");
-				e.printStackTrace();
-			}
-			
-			if (sender != null){
-				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Failed to fetch bans for '" + playerName + "'."));
-				
-				if (e instanceof APIException){
-					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Response: " + ((APIException) e).getResponse()));
-				}
-			}
+			APIInterface.this.handleException(exception, sender);
 			
 			return null;
 		}
@@ -350,28 +316,10 @@ public class APIInterface {
 		
 		try{
 			return new PlayerInfoData(this.requestHandler.processRequestDirect(new APIRequest(this.apiURL, json, timeout)));
-		}catch (Exception e){
+		}catch (Exception exception){
 			CommandSender sender = (issuedBy.equalsIgnoreCase("CONSOLE")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
 			
-			if (e instanceof SocketTimeoutException){
-				throw (SocketTimeoutException) e;
-			}else if (e instanceof APIException){
-				plugin.log.fatal("Unable to contact the API. Response: " + ((APIException) e).getResponse());
-			}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
-				plugin.log.fatal("Failed to contact the API (you should report this).");
-				e.printStackTrace();
-			}else if (e instanceof ParseException){
-				plugin.log.fatal("Failed to parse API response (you should report this).");
-				e.printStackTrace();
-			}
-			
-			if (sender != null){
-				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Failed to fetch info for '" + playerName + "'."));
-				
-				if (e instanceof APIException){
-					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Response: " + ((APIException) e).getResponse()));
-				}
-			}
+			APIInterface.this.handleException(exception, sender);
 			
 			return null;
 		}
@@ -391,28 +339,10 @@ public class APIInterface {
 		
 		try{
 			return new PlayerJoinData(this.requestHandler.processRequestDirect(new APIRequest(this.apiURL, json, timeout)));
-		}catch (Exception e){
+		}catch (Exception exception){
 			CommandSender sender = (issuedBy.equalsIgnoreCase("CONSOLE")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
 			
-			if (e instanceof SocketTimeoutException){
-				throw (SocketTimeoutException) e;
-			}else if (e instanceof APIException){
-				plugin.log.fatal("Unable to contact the API. Response: " + ((APIException) e).getResponse());
-			}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
-				plugin.log.fatal("Failed to contact the API (you should report this).");
-				e.printStackTrace();
-			}else if (e instanceof ParseException){
-				plugin.log.fatal("Failed to parse API response (you should report this).");
-				e.printStackTrace();
-			}
-			
-			if (sender != null){
-				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Failed to fetch info for '" + playerName + "'."));
-				
-				if (e instanceof APIException){
-					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Response: " + ((APIException) e).getResponse()));
-				}
-			}
+			APIInterface.this.handleException(exception, sender);
 			
 			return null;
 		}
