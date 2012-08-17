@@ -135,6 +135,8 @@ public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 								}
 							}
 						}
+						
+						raf.close();
 					}
 				}
 			}catch (Exception e){
