@@ -9,7 +9,7 @@ import org.bukkit.plugin.Plugin;
 import org.json.simple.parser.ParseException;
 
 import com.minebans.MineBans;
-import com.minebans.MineBansConfig;
+import com.minebans.Config;
 import com.minebans.api.APIResponseCallback;
 import com.minebans.api.PlayerBanData;
 import com.minebans.bans.BanReason;
@@ -131,7 +131,7 @@ public class MineBansPluginAPI {
 			return false;
 		}
 		
-		if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(reason)) == false){
+		if (plugin.config.getBoolean(Config.getReasonEnabled(reason)) == false){
 			return false;
 		}
 		

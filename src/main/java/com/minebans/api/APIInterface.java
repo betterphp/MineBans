@@ -25,7 +25,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import com.minebans.MineBans;
-import com.minebans.MineBansConfig;
+import com.minebans.Config;
 import com.minebans.bans.BanReason;
 
 public class APIInterface {
@@ -40,7 +40,7 @@ public class APIInterface {
 	
 	public APIInterface(MineBans plugin){
 		try{
-			String apiKey = plugin.config.getString(MineBansConfig.API_KEY);
+			String apiKey = plugin.config.getString(Config.API_KEY);
 			String hwid = this.getHWID();
 			String version = plugin.getVersion();
 			

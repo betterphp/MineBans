@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
 
 import com.minebans.MineBans;
-import com.minebans.MineBansConfig;
+import com.minebans.Config;
 import com.minebans.Permission;
 import com.minebans.bans.BanReason;
 
@@ -94,7 +94,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 					return true;
 				}
 				
-				if (!plugin.config.getBoolean(MineBansConfig.getReasonEnabled(reason))){
+				if (!plugin.config.getBoolean(Config.getReasonEnabled(reason))){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot ban a player for a reason not enabled on the server."));
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "See /minebans reasons for a list of available reasons."));
 					return true;

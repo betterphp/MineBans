@@ -50,7 +50,7 @@ public class MineBans extends BasePlugin {
 			return;
 		}
 		
-		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), MineBansConfig.values(), this.log);
+		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.values(), this.log);
 		
 		this.loggingPlugin = new LoggingInterface(this);
 		this.exploitPlugin = new ExploitInterface(this);
@@ -68,20 +68,20 @@ public class MineBans extends BasePlugin {
 		this.pluginManager.registerEvents(new PlayerJoinListener(this), this);
 		this.pluginManager.registerEvents(new PlayerBannedListener(this), this);
 		
-		if (this.config.getBoolean(MineBansConfig.BLOCK_PROXIES)){
+		if (this.config.getBoolean(Config.BLOCK_PROXIES)){
 			this.pluginManager.registerEvents(new PublicProxyListener(this), this);
 		}
 		
-		if (this.config.getBoolean(MineBansConfig.BLOCK_COMPROMISED_ACCOUNTS)){
+		if (this.config.getBoolean(Config.BLOCK_COMPROMISED_ACCOUNTS)){
 			this.pluginManager.registerEvents(new KnownCompromisedListener(this), this);
 		}
 		
-		if (this.config.getBoolean(MineBansConfig.USE_GROUP_BANS)){
+		if (this.config.getBoolean(Config.USE_GROUP_BANS)){
 			this.pluginManager.registerEvents(new GroupBanListener(this), this);
 		}
 		
 		for (BanReason banReason : BanReason.getAll()){
-			if (this.config.getBoolean(MineBansConfig.getReasonEnabled(banReason))){
+			if (this.config.getBoolean(Config.getReasonEnabled(banReason))){
 				this.pluginManager.registerEvents(new TooManyBansListener(this), this);
 				break;
 			}

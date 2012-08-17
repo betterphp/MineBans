@@ -15,7 +15,7 @@ import uk.co.oliwali.HawkEye.database.SearchQuery.SearchDir;
 import uk.co.oliwali.HawkEye.util.HawkEyeAPI;
 
 import com.minebans.MineBans;
-import com.minebans.MineBansConfig;
+import com.minebans.Config;
 import com.minebans.bans.BanReason;
 import com.minebans.pluginInterfaces.LoggingPluginInterface;
 
@@ -41,7 +41,7 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 		try{
 			config.load("plugins/HawkEye/config.yml");
 			
-			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.GRIEF))){
+			if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.GRIEF))){
 				if (!config.getBoolean("log.block-break")){
 					plugin.log.warn("To provide the best data HawkEye should be set to log block breaks.");
 				}
@@ -51,7 +51,7 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 				}
 			}
 			
-			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.THEFT))){
+			if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.THEFT))){
 				if (!config.getBoolean("log.container-transaction")){
 					plugin.log.warn("To provide the best data HawkEye should be set to log container transactions.");
 				}

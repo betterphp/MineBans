@@ -15,7 +15,7 @@ import org.json.simple.parser.ParseException;
 import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
 
 import com.minebans.MineBans;
-import com.minebans.MineBansConfig;
+import com.minebans.Config;
 import com.minebans.Permission;
 import com.minebans.api.APIException;
 import com.minebans.api.APIResponseCallback;
@@ -137,7 +137,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			for (i = 0; i < reasons.length; ++i){
 				reason = reasons[i];
 				
-				if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(reason))){
+				if (plugin.config.getBoolean(Config.getReasonEnabled(reason))){
 					line = new StringBuilder();
 					
 					keywords = reason.getKeywords();

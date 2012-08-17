@@ -8,7 +8,7 @@ import uk.co.jacekk.bukkit.baseplugin.config.PluginConfigKey;
 import com.minebans.bans.BanReason;
 import com.minebans.bans.BanSeverity;
 
-public enum MineBansConfig implements PluginConfigKey {
+public enum Config implements PluginConfigKey {
 	
 	API_KEY(							"api-key", 								"change this to the one from your control panel"),
 	
@@ -103,24 +103,24 @@ public enum MineBansConfig implements PluginConfigKey {
 	private Object defaultValue;
 	
 	private static LinkedHashMap<String, Object> defaultValues;
-	private static HashMap<String, MineBansConfig> keyLookupTable;
+	private static HashMap<String, Config> keyLookupTable;
 	
 	private static HashMap<BanReason, String> banReasonKeys;
 	private static HashMap<BanSeverity, String> banSeverityKeys;
 	
-	private MineBansConfig(String key, Object defaultValue){
+	private Config(String key, Object defaultValue){
 		this.key = key;
 		this.defaultValue = defaultValue;
 	}
 	
 	static{
 		defaultValues = new LinkedHashMap<String, Object>();
-		keyLookupTable = new HashMap<String, MineBansConfig>();
+		keyLookupTable = new HashMap<String, Config>();
 		
 		banReasonKeys = new HashMap<BanReason, String>();
 		banSeverityKeys = new HashMap<BanSeverity, String>();
 		
-		for (MineBansConfig entry : MineBansConfig.values()){
+		for (Config entry : Config.values()){
 			defaultValues.put(entry.getKey(), entry.getDefault());
 			keyLookupTable.put(entry.getKey(), entry);
 		}
@@ -151,15 +151,15 @@ public enum MineBansConfig implements PluginConfigKey {
 		return defaultValues;
 	}
 	
-	public static MineBansConfig getReasonEnabled(BanReason reason){
+	public static Config getReasonEnabled(BanReason reason){
 		return keyLookupTable.get("max-bans." + banReasonKeys.get(reason) + ".enabled");
 	}
 	
-	public static MineBansConfig getReasonLimit(BanReason reason, BanSeverity severity){
+	public static Config getReasonLimit(BanReason reason, BanSeverity severity){
 		return keyLookupTable.get("max-bans." + banReasonKeys.get(reason) + "." + banSeverityKeys.get(severity));
 	}
 	
-	public static MineBansConfig getTotalLimit(BanSeverity severity){
+	public static Config getTotalLimit(BanSeverity severity){
 		return keyLookupTable.get("max-bans.total." + banSeverityKeys.get(severity));
 	}
 	

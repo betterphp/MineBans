@@ -12,7 +12,7 @@ import cc.co.evenprime.bukkit.nocheat.config.NoCheatConfiguration;
 import cc.co.evenprime.bukkit.nocheat.data.Statistics;
 
 import com.minebans.MineBans;
-import com.minebans.MineBansConfig;
+import com.minebans.Config;
 import com.minebans.bans.BanReason;
 import com.minebans.pluginInterfaces.ExploitPluginInterface;
 
@@ -54,7 +54,7 @@ public class NoCheatPluginInterface extends ExploitPluginInterface {
 			
 			NoCheatConfiguration noCheatConfig = this.nocheat.getConfig(world).getConfiguration();
 			
-			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.FLY)) || plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.SPEED)) || plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.NOFALL))){
+			if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.FLY)) || plugin.config.getBoolean(Config.getReasonEnabled(BanReason.SPEED)) || plugin.config.getBoolean(Config.getReasonEnabled(BanReason.NOFALL))){
 				if (!noCheatConfig.getBoolean(ConfPaths.MOVING_RUNFLY_CHECK)){
 					plugin.log.warn("To provide the best data NoCheat should to be set to check running/flying for all worlds.");
 				}
@@ -63,13 +63,13 @@ public class NoCheatPluginInterface extends ExploitPluginInterface {
 					plugin.log.warn("To provide the best data NoCheat should be set to check for the player sending more move packets than normal in all worlds.");
 				}
 				
-				if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.NOFALL))){
+				if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.NOFALL))){
 					if (!noCheatConfig.getBoolean(ConfPaths.MOVING_RUNFLY_CHECKNOFALL)){
 						plugin.log.warn("To provide the best data NoCheat should be set to check for nofall in all worlds.");
 					}
 				}
 				
-				if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.FLY))){
+				if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.FLY))){
 					if (noCheatConfig.getBoolean(ConfPaths.MOVING_RUNFLY_FLYING_ALLOWALWAYS)){
 						plugin.log.warn("To provide the best data NoCheat should to be set to disallow flying.");
 					}
@@ -90,7 +90,7 @@ public class NoCheatPluginInterface extends ExploitPluginInterface {
 				}
 			}
 			
-			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.NOSWING))){
+			if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.NOSWING))){
 				if (!noCheatConfig.getBoolean(ConfPaths.BLOCKBREAK_NOSWING_CHECK)){
 					plugin.log.warn("To provide the best data NoCheat should to be set to check for block no-swing hacks in all worlds.");
 				}
@@ -100,14 +100,14 @@ public class NoCheatPluginInterface extends ExploitPluginInterface {
 				}
 			}
 			
-			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.PVP_CHEAT)) || plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.BLOCK_REACH))){
-				if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.BLOCK_REACH))){
+			if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.PVP_CHEAT)) || plugin.config.getBoolean(Config.getReasonEnabled(BanReason.BLOCK_REACH))){
+				if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.BLOCK_REACH))){
 					if (!noCheatConfig.getBoolean(ConfPaths.BLOCKBREAK_DIRECTION_CHECK) || !noCheatConfig.getBoolean(ConfPaths.BLOCKBREAK_REACH_CHECK)){
 						plugin.log.warn("To provide the best data NoCheat should to be set to check for block break reach and direction in all worlds.");
 					}
 				}
 				
-				if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.PVP_CHEAT))){
+				if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.PVP_CHEAT))){
 					if (!noCheatConfig.getBoolean(ConfPaths.FIGHT_DIRECTION_CHECK)){
 						plugin.log.warn("To provide the best data NoCheat should to be set to check PVP directions for all worlds.");
 					}
@@ -153,7 +153,7 @@ public class NoCheatPluginInterface extends ExploitPluginInterface {
 				}
 			}
 			
-			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.ITEM_DROP))){
+			if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.ITEM_DROP))){
 				if (!noCheatConfig.getBoolean(ConfPaths.INVENTORY_DROP_CHECK)){
 					plugin.log.warn("To provide the best data NoCheat should to be set to check player inventory drops for all worlds.");
 				}

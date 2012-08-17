@@ -5,7 +5,7 @@ import java.io.File;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.minebans.MineBans;
-import com.minebans.MineBansConfig;
+import com.minebans.Config;
 import com.minebans.bans.BanReason;
 import com.minebans.pluginInterfaces.ExploitPluginInterface;
 
@@ -40,7 +40,7 @@ public class NoCheatPlusPluginInterface extends ExploitPluginInterface {
 		try{
 			config.load(new File(this.noCheatPlus.getDataFolder().getAbsoluteFile() + File.separator + "config.yml"));
 			
-			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.FLY)) || plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.SPEED))){
+			if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.FLY)) || plugin.config.getBoolean(Config.getReasonEnabled(BanReason.SPEED))){
 				if (!config.getBoolean(ConfPaths.MOVING_SURVIVALFLY_CHECK)){
 					plugin.log.warn("To provide the best data NoCheatPlus should to be set to check flying.");
 				}
@@ -58,13 +58,13 @@ public class NoCheatPlusPluginInterface extends ExploitPluginInterface {
 				}
 			}
 			
-			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.NOFALL))){
+			if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.NOFALL))){
 				if (!config.getBoolean(ConfPaths.MOVING_NOFALL_CHECK)){
 					plugin.log.warn("To provide the best data NoCheatPlus should be set to check for nofall.");
 				}
 			}
 			
-			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.NOSWING))){
+			if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.NOSWING))){
 				if (!config.getBoolean(ConfPaths.BLOCKBREAK_NOSWING_CHECK)){
 					plugin.log.warn("To provide the best data NoCheatPlus should to be set to check for block no-swing hacks.");
 				}
@@ -74,13 +74,13 @@ public class NoCheatPlusPluginInterface extends ExploitPluginInterface {
 				}
 			}
 			
-			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.BLOCK_REACH))){
+			if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.BLOCK_REACH))){
 				if (!config.getBoolean(ConfPaths.BLOCKBREAK_DIRECTION_CHECK) || !config.getBoolean(ConfPaths.BLOCKBREAK_REACH_CHECK)){
 					plugin.log.warn("To provide the best data NoCheat should to be set to check for block break reach and direction.");
 				}
 			}
 			
-			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.PVP_CHEAT))){
+			if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.PVP_CHEAT))){
 				if (!config.getBoolean(ConfPaths.FIGHT_DIRECTION_CHECK)){
 					plugin.log.warn("To provide the best data NoCheat should to be set to check PVP directions.");
 				}
@@ -114,7 +114,7 @@ public class NoCheatPlusPluginInterface extends ExploitPluginInterface {
 				}
 			}
 			
-			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(BanReason.ITEM_DROP))){
+			if (plugin.config.getBoolean(Config.getReasonEnabled(BanReason.ITEM_DROP))){
 				if (!config.getBoolean(ConfPaths.INVENTORY_DROP_CHECK)){
 					plugin.log.warn("To provide the best data NoCheat should to be set to check player inventory drops.");
 				}

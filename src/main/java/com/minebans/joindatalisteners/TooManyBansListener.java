@@ -6,7 +6,7 @@ import org.bukkit.event.EventPriority;
 import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
 import com.minebans.MineBans;
-import com.minebans.MineBansConfig;
+import com.minebans.Config;
 import com.minebans.api.ConnectionDeniedReason;
 import com.minebans.api.PlayerBanData;
 import com.minebans.bans.BanReason;
@@ -26,9 +26,9 @@ public class TooManyBansListener extends BaseListener<MineBans> {
 		PlayerBanData banData = event.getJoinData().getBanData();
 		
 		for (BanReason banReason : banData.getBanReasons()){
-			if (plugin.config.getBoolean(MineBansConfig.getReasonEnabled(banReason))){
+			if (plugin.config.getBoolean(Config.getReasonEnabled(banReason))){
 				for (BanSeverity severity : banReason.getSeverties()){
-					limit = plugin.config.getLong(MineBansConfig.getReasonLimit(banReason, severity));
+					limit = plugin.config.getLong(Config.getReasonLimit(banReason, severity));
 					
 					if (limit != -1L && banData.get(banReason, severity) > limit){
 						event.setPreventConnection(true);
@@ -41,7 +41,7 @@ public class TooManyBansListener extends BaseListener<MineBans> {
 		}
 		
 		for (BanSeverity severity : BanSeverity.getAll()){
-			limit = plugin.config.getLong(MineBansConfig.getTotalLimit(severity));
+			limit = plugin.config.getLong(Config.getTotalLimit(severity));
 			
 			if (limit != -1L && banData.getTotal(severity) > limit){
 				event.setPreventConnection(true);
