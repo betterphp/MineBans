@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
 
 import com.minebans.MineBans;
-import com.minebans.MineBansPermission;
+import com.minebans.Permission;
 
 public class KickExecutor extends BaseCommandExecutor<MineBans> {
 	
@@ -16,7 +16,7 @@ public class KickExecutor extends BaseCommandExecutor<MineBans> {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-		if (!MineBansPermission.ADMIN_KICK.playerHasPermission(sender)){
+		if (!Permission.ADMIN_KICK.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return true;
 		}

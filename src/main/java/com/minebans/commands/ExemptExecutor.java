@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
 
 import com.minebans.MineBans;
-import com.minebans.MineBansPermission;
+import com.minebans.Permission;
 
 public class ExemptExecutor extends BaseCommandExecutor<MineBans> {
 	
@@ -17,7 +17,7 @@ public class ExemptExecutor extends BaseCommandExecutor<MineBans> {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-		if (!MineBansPermission.ADMIN_EXEMPT.playerHasPermission(sender)){
+		if (!Permission.ADMIN_EXEMPT.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return true;
 		}

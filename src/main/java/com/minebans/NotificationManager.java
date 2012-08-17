@@ -15,7 +15,7 @@ public class NotificationManager {
 	}
 	
 	public void sendBanNotification(String playerName, boolean log){
-		for (Player player : MineBansPermission.ALERT_ON_BAN.getPlayersWithPermission()){
+		for (Player player : Permission.ALERT_ON_BAN.getPlayersWith()){
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been banned from the server."));
 		}
 		
@@ -25,7 +25,7 @@ public class NotificationManager {
 	}
 	
 	public void sendBanNotification(String playerName, BanReason reason, boolean log){
-		for (Player player : MineBansPermission.ALERT_ON_BAN.getPlayersWithPermission()){
+		for (Player player : Permission.ALERT_ON_BAN.getPlayersWith()){
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been banned from the server."));
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Reason: " + reason.getDescription()));
 		}
@@ -40,7 +40,7 @@ public class NotificationManager {
 		double days = Math.floor(banDuration / 86400);
 		double hours = Math.round((banDuration - (days * 86400)) / 3600);
 		
-		for (Player player : MineBansPermission.ALERT_ON_BAN.getPlayersWithPermission()){
+		for (Player player : Permission.ALERT_ON_BAN.getPlayersWith()){
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been banned from the server for " + days + " " + ((days == 1D) ? "day" : "days") + " and " + hours + " " + ((hours == 1D) ? "hour" : "hours") + "."));
 		}
 		
@@ -50,7 +50,7 @@ public class NotificationManager {
 	}
 	
 	public void sendUnbanNotification(String playerName, boolean log){
-		for (Player player : MineBansPermission.ALERT_ON_UNBAN.getPlayersWithPermission()){
+		for (Player player : Permission.ALERT_ON_UNBAN.getPlayersWith()){
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been unbanned from the server."));
 		}
 		
@@ -60,7 +60,7 @@ public class NotificationManager {
 	}
 	
 	public void sendExemptListNotification(String playerName, boolean log){
-		for (Player player : MineBansPermission.ALERT_ON_EXEMPT.getPlayersWithPermission()){
+		for (Player player : Permission.ALERT_ON_EXEMPT.getPlayersWith()){
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been added to the exempt list."));
 		}
 		
@@ -70,7 +70,7 @@ public class NotificationManager {
 	}
 	
 	public void sendUnExemptListNotification(String playerName, boolean log){
-		for (Player player : MineBansPermission.ALERT_ON_UNEXEMPT.getPlayersWithPermission()){
+		for (Player player : Permission.ALERT_ON_UNEXEMPT.getPlayersWith()){
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the exempt list."));
 		}
 		
@@ -80,7 +80,7 @@ public class NotificationManager {
 	}
 	
 	public void sendKickNotification(String playerName, boolean log){
-		for (Player player : MineBansPermission.ALERT_ON_KICK.getPlayersWithPermission()){
+		for (Player player : Permission.ALERT_ON_KICK.getPlayersWith()){
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been kicked from the server."));
 		}
 		
@@ -96,13 +96,13 @@ public class NotificationManager {
 		
 		if (plugin.config.getBoolean(MineBansConfig.USE_COMPACT_JOIN_INFO)){
 			if (totalBans > 0L || last24 > 0L){
-				for (Player player : MineBansPermission.ALERT_ON_JOIN.getPlayersWithPermission()){
+				for (Player player : Permission.ALERT_ON_JOIN.getPlayersWith()){
 					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Summary for " + playerName + " Total: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans) + " Last 24 Hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
 				}
 			}
 		}else{
 			if (totalBans > 0L || last24 > 0L || removed > 0L){
-				for (Player player : MineBansPermission.ALERT_ON_JOIN.getPlayersWithPermission()){
+				for (Player player : Permission.ALERT_ON_JOIN.getPlayersWith()){
 					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Summary for " + playerName));
 					player.sendMessage(ChatColor.GREEN + "Total bans on record: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans);
 					player.sendMessage(ChatColor.GREEN + "Bans in the last 24 hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);

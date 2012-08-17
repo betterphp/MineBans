@@ -20,7 +20,7 @@ public class PlayerJoinListener extends BaseListener<MineBans> {
 	public void onPlayerJoin(PlayerJoinEvent event){
 		final Player player = event.getPlayer();
 		
-		if (MineBansPermission.ALERT_ON_UPDATE.playerHasPermission(player)){
+		if (Permission.ALERT_ON_UPDATE.has(player)){
 			plugin.api.lookupLatestVersion(new APIResponseCallback(){
 				
 				public void onSuccess(String response){

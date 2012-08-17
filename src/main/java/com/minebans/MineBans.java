@@ -3,7 +3,6 @@ package com.minebans;
 import java.io.File;
 import java.util.ArrayList;
 
-import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 
 import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
@@ -88,8 +87,8 @@ public class MineBans extends BasePlugin {
 			}
 		}
 		
-		for (MineBansPermission permission : MineBansPermission.values()){
-			this.pluginManager.addPermission(new Permission(permission.getNode(), permission.getDescription(), permission.getDefault()));
+		for (Permission permission : Permission.values()){
+			this.pluginManager.addPermission(new org.bukkit.permissions.Permission(permission.getNode(), permission.getDescription(), permission.getDefault()));
 		}
 		
 		this.getCommand("ban").setExecutor(new BanExecutor(this));

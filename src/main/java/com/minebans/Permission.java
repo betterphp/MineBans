@@ -8,7 +8,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 
-public enum MineBansPermission {
+import uk.co.jacekk.bukkit.baseplugin.permissions.PluginPermission;
+
+public enum Permission implements PluginPermission {
 	
 	ALERT_ON_JOIN(		"minebans.alert.onjoin",		PermissionDefault.OP,		"Players with this permission will be shown a players ban summary when a player joins join."),
 	ALERT_ON_API_FAIL(	"minebans.alert.onapifail",		PermissionDefault.OP,		"Players with this permission will be notified if a player joins before the API responds with their data."),
@@ -31,22 +33,26 @@ public enum MineBansPermission {
 	private PermissionDefault defaultValue;
 	private String description;
 	
-	private MineBansPermission(String node, PermissionDefault defaultValue, String description){
+	private Permission(String node, PermissionDefault defaultValue, String description){
 		this.node = node;
 		this.defaultValue = defaultValue;
 		this.description = description;
 	}
 	
-	public List<Player> getPlayersWithPermission(){
+	public List<Player> getPlayersWith(){
 		ArrayList<Player> players = new ArrayList<Player>();
 		
 		for (Player player : Bukkit.getServer().getOnlinePlayers()){
-			if (this.playerHasPermission(player)){
+			if (this.has(player)){
 				players.add(player);
 			}
 		}
 		
 		return players;
+	}
+	
+	public boolean has(CommandSender sender){
+		return sender.hasPermission(this.node);
 	}
 	
 	public String getNode(){
@@ -59,10 +65,6 @@ public enum MineBansPermission {
 	
 	public String getDescription(){
 		return this.description;
-	}
-	
-	public Boolean playerHasPermission(CommandSender sender){
-		return sender.hasPermission(this.node);
 	}
 	
 }

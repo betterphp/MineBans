@@ -10,7 +10,7 @@ import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
 
 import com.minebans.MineBans;
 import com.minebans.MineBansConfig;
-import com.minebans.MineBansPermission;
+import com.minebans.Permission;
 import com.minebans.bans.BanReason;
 
 public class BanExecutor extends BaseCommandExecutor<MineBans> {
@@ -20,7 +20,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-		if (!MineBansPermission.ADMIN_BAN.playerHasPermission(sender)){
+		if (!Permission.ADMIN_BAN.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return true;
 		}
