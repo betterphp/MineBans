@@ -69,54 +69,110 @@ public class PlayerBanData {
 		this((JSONObject) (new JSONParser()).parse(response));
 	}
 	
+	/**
+	 * @return	The data used to make up the join info for players.
+	 */
 	public HashMap<String, Long> getSummary(){
 		return this.summary;
 	}
 	
+	/**
+	 * @return The total number of bans a player has
+	 */
 	public Long getTotal(){
 		return this.summary.get("total");
 	}
 	
+	/**
+	 * @return The number of bans a player has received in the last 24 hours.
+	 */
 	public Long getLast24(){
 		return this.summary.get("last_24");
 	}
 	
+	/**
+	 * @return The numeber of bans that the player has had that have since been removed.
+	 */
 	public Long getRemoved(){
 		return this.summary.get("removed");
 	}
 	
+	/**
+	 * @return The number of bans the player has from servers with the same owner as this one.
+	 */
 	public Long getTotalGroupBans(){
 		return this.summary.get("group_bans");
 	}
 	
+	/**
+	 * @return The full ban data for the player, this is how many bans they have for each severity under each ban reason.
+	 */
 	public HashMap<BanReason, HashMap<BanSeverity, Long>> getBans(){
 		return this.bans;
 	}
 	
+	/**
+	 * @return All of the bans reasons that the player has bans for.
+	 */
 	public Set<BanReason> getBanReasons(){
 		return this.bans.keySet();
 	}
 	
+	/**
+	 * @return The number of different reasons that the player has been banned for.
+	 */
 	public Integer getTotalRulesBroken(){
 		return this.bans.size();
 	}
 	
+	/**
+	 * Fetches the number of bans the player has for the specific reason and severity.
+	 * 
+	 * @param reason	The BanReason.
+	 * @param severity	The BanSeverity.
+	 * @return			The number of bans.
+	 */
 	public Long get(BanReason reason, BanSeverity severity){
 		return this.bans.get(reason).get(severity);
 	}
 	
+	/**
+	 * Gets the number of bans the player has for the specific reason and severity.
+	 * 
+	 * @param reasonId	The ID of the BanReason.
+	 * @param severity	The BanSeverity.
+	 * @return			The number of bans.
+	 */
 	public Long get(Integer reasonId, BanSeverity severity){
 		return this.bans.get(BanReason.getFromID(reasonId)).get(severity);
 	}
 	
-	public Long getTotal(Integer reasonId){
-		return ListUtils.sumLongs(this.bans.get(BanReason.getFromID(reasonId)).values());
-	}
-	
+	/**
+	 * Gets the total number of bans that a player has for a specific reason.
+	 * 
+	 * @param reason	The BanReason.
+	 * @return			The total number of bans.
+	 */
 	public Long getTotal(BanReason reason){
 		return ListUtils.sumLongs(this.bans.get(reason).values());
 	}
 	
+	/**
+	 * Gets the total number of bans that a player has for a specific reason.
+	 * 
+	 * @param reasonId	The ID of the BanReason.
+	 * @return			The total number of bans.
+	 */
+	public Long getTotal(Integer reasonId){
+		return ListUtils.sumLongs(this.bans.get(BanReason.getFromID(reasonId)).values());
+	}
+	
+	/**
+	 * Gets the total number of bans that a player has for a specific severity.
+	 * 
+	 * @param severity	The BanSeverity.
+	 * @return			The total number of bans.
+	 */
 	public Long getTotal(BanSeverity severity){
 		Long total = 0L;
 		
