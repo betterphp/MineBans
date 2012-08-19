@@ -1,20 +1,25 @@
 package com.minebans.events;
 
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import com.minebans.bans.BanReason;
 
-public class PlayerGlobalBanEvent extends Event {
+public class PlayerGlobalBanEvent extends Event implements Cancellable {
 	
 	private static final HandlerList handlers = new HandlerList();
 	
 	private String playerName;
 	private BanReason reason;
 	
+	private boolean isCancelled;
+	
 	public PlayerGlobalBanEvent(String playerName, BanReason reason){
 		this.playerName = playerName;
 		this.reason = reason;
+		
+		this.isCancelled = false;
 	}
 	
 	public HandlerList getHandlers(){
@@ -31,6 +36,14 @@ public class PlayerGlobalBanEvent extends Event {
 	
 	public BanReason getBanReason(){
 		return this.reason;
+	}
+	
+	public boolean isCancelled(){
+		return this.isCancelled;
+	}
+	
+	public void setCancelled(boolean cancelled){
+		this.isCancelled = cancelled;
 	}
 	
 }

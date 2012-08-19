@@ -1,16 +1,21 @@
 package com.minebans.events;
 
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PlayerUnExemptEvent extends Event {
+public class PlayerUnExemptEvent extends Event implements Cancellable {
 	
 	private static final HandlerList handlers = new HandlerList();
 	
 	private String playerName;
 	
+	private boolean isCancelled;
+	
 	public PlayerUnExemptEvent(String playerName){
 		this.playerName = playerName;
+		
+		this.isCancelled = false;
 	}
 	
 	public HandlerList getHandlers(){
@@ -23,6 +28,14 @@ public class PlayerUnExemptEvent extends Event {
 	
 	public String getPlayerName(){
 		return this.playerName;
+	}
+	
+	public boolean isCancelled(){
+		return this.isCancelled;
+	}
+	
+	public void setCancelled(boolean cancelled){
+		this.isCancelled = cancelled;
 	}
 	
 }
