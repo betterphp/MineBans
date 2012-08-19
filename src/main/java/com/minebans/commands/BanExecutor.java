@@ -130,7 +130,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 					plugin.server.dispatchCommand(sender, cmd);
 				}
 			}else{
-				sender.sendMessage(plugin.formatMessage(ChatColor.ITALIC.toString() + ChatColor.GREEN + "/minebans exec " + ChatColor.RESET + ChatColor.GREEN + " will execute the following commands."));
+				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN.toString() + ChatColor.ITALIC + "/minebans exec" + ChatColor.RESET + ChatColor.GREEN + " will execute the following commands."));
 				
 				for (String cmd : cmds){
 					sender.sendMessage(ChatColor.GREEN + "  - /" + cmd);
