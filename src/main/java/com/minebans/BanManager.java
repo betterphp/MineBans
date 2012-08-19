@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.minebans.bans.BanReason;
@@ -47,7 +48,7 @@ public class BanManager {
 		Player player = plugin.server.getPlayer(playerName);
 		
 		if (player != null){
-			player.kickPlayer("You have been kicked from the server.");
+			player.kickPlayer(plugin.config.getString(Config.MESSAGE_KICK));
 			
 			plugin.notificationManager.sendKickNotification(playerName, log);
 		}
@@ -57,7 +58,7 @@ public class BanManager {
 		Player player = plugin.getServer().getPlayer(playerName);
 		
 		if (player != null){
-			player.kickPlayer("You have been banned from this server");
+			player.kickPlayer(plugin.config.getString(Config.MESSAGE_BAN));
 		}
 		
 		this.locallyBannedPlayers.add(playerName);
@@ -83,7 +84,7 @@ public class BanManager {
 		Player player = plugin.getServer().getPlayer(playerName);
 		
 		if (player != null){
-			player.kickPlayer("You have been banned from this server (appeal at minebans.com)");
+			player.kickPlayer(plugin.config.getString(Config.MESSAGE_BAN) + "\n" + ChatColor.RESET + "(appeal at minebans.com)");
 		}
 		
 		this.globallyBannedPlayers.add(playerName);
@@ -114,7 +115,7 @@ public class BanManager {
 			double days = Math.floor(banDuration / 86400.0d);
 			double hours = Math.round((banDuration - (days * 86400.0d)) / 3600.0d);
 			
-			player.kickPlayer("You have been banned from this server for " + days + " " + ((days == 1D) ? "day" : "days") + " and " + hours + " " + ((hours == 1D) ? "hour" : "hours"));
+			player.kickPlayer(plugin.config.getString(Config.MESSAGE_TEMPBAN) + days + " " + ((days == 1D) ? "day" : "days") + " and " + hours + " " + ((hours == 1D) ? "hour" : "hours"));
 		}
 		
 		this.tempBannedPlayers.add(playerName, new Long((System.currentTimeMillis() / 1000) + banDuration).toString());
@@ -196,7 +197,7 @@ public class BanManager {
 		Player player = plugin.getServer().getPlayer(playerName);
 		
 		if (player != null){
-			player.kickPlayer("You have been removed from the exempt list.");
+			player.kickPlayer(plugin.config.getString(Config.MESSAGE_UNEXEMPT));
 		}
 		
 		this.localExemptList.remove(playerName);

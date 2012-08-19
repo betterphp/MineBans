@@ -18,6 +18,11 @@ public enum Config implements PluginConfigKey {
 	BLOCK_PROXIES(						"block-public-proxies",					true),
 	BLOCK_COMPROMISED_ACCOUNTS(			"block-known-compromised-accounts",		true),
 	
+	MESSAGE_KICK(						"messages.kick",						"You have been kicked from the server."),
+	MESSAGE_BAN(						"messages.ban",							"You have been banned from the server."),
+	MESSAGE_TEMPBAN(					"messages.tempban",						"You have been banned from the server for "),
+	MESSAGE_UNEXEMPT(					"messages.unexempt",					"You have been removed from the exempt list."),
+	
 	MAX_BANS_TOTAL_TOTAL(				"max-bans.total.total",					15L),
 	MAX_BANS_TOTAL_CONFIRMED(			"max-bans.total.confirmed",				-1L),
 	MAX_BANS_TOTAL_UNCONFIRMED(			"max-bans.total.unconfirmed",			-1L),
