@@ -1,5 +1,7 @@
 package com.minebans.commands;
 
+import java.util.ArrayList;
+
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -52,6 +54,8 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 			return true;
 		}
 		
+		ArrayList<String> cmds = new ArrayList<String>();
+		
 		if (args.length == 2){
 			if (args[1].matches("\\d+[hd]{1}")){
 				int banDuration = ((args[1].charAt(args[1].length() - 1) == 'h') ? 3600 : 86400) * (Integer.parseInt(args[1].substring(0, args[1].length() - 1)));
@@ -68,6 +72,10 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 				
 				plugin.banManager.tempBanPlayer(playerName, banDuration, (sender instanceof Player));
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been temporarily banned for " + args[1] + "."));
+				
+				for (String cmd : plugin.config.getStringList(Config.TEMP_BAN_COMMANDS)){
+					cmds.add(cmd.replace("%player_name%", playerName));
+				}
 			}else{
 				OfflinePlayer player = plugin.server.getOfflinePlayer(playerName);
 				
@@ -102,10 +110,34 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 				
 				plugin.banManager.globallyBanPlayer(playerName, sender.getName(), reason, (sender instanceof Player));
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been globally banned."));
+				
+				for (String cmd : plugin.config.getStringList(Config.GLOBAL_BAN_COMMANDS)){
+					cmds.add(cmd.replace("%player_name%", playerName));
+				}
 			}
 		}else{
 			plugin.banManager.locallyBanPlayer(playerName, (sender instanceof Player));
 			sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been banned from the server."));
+			
+			for (String cmd : plugin.config.getStringList(Config.LOCAL_BAN_COMMANDS)){
+				cmds.add(cmd.replace("%player_name%", playerName));
+			}
+		}
+		
+		if (Permission.ADMIN_BAN_COMMAND.has(sender) && !cmds.isEmpty()){
+			if (plugin.config.getBoolean(Config.BAN_COMMANDS_AUTO)){
+				for (String cmd : cmds){
+					plugin.server.dispatchCommand(sender, cmd);
+				}
+			}else{
+				sender.sendMessage(plugin.formatMessage(ChatColor.ITALIC.toString() + ChatColor.GREEN + "/minebans exec " + ChatColor.RESET + ChatColor.GREEN + " will execute the following commands."));
+				
+				for (String cmd : cmds){
+					sender.sendMessage(ChatColor.GREEN + "  - /" + cmd);
+				}
+				
+				plugin.banCommands.put(sender.getName(), cmds);
+			}
 		}
 		
 		return true;

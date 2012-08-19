@@ -2,6 +2,7 @@ package com.minebans;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.bukkit.plugin.Plugin;
 
@@ -40,6 +41,7 @@ public class MineBans extends BasePlugin {
 	public APIInterface api;
 	
 	public ArrayList<String> seenPlayers;
+	public HashMap<String, ArrayList<String>> banCommands;
 	
 	public void onEnable(){
 		super.onEnable(true);
@@ -63,6 +65,7 @@ public class MineBans extends BasePlugin {
 		this.api = new APIInterface(this);
 		
 		this.seenPlayers = new ArrayList<String>();
+		this.banCommands = new HashMap<String, ArrayList<String>>();
 		
 		this.pluginManager.registerEvents(new PlayerLoginListener(this), this);
 		this.pluginManager.registerEvents(new PlayerJoinListener(this), this);

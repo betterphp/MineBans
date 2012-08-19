@@ -23,6 +23,11 @@ public enum Config implements PluginConfigKey {
 	MESSAGE_TEMPBAN(					"messages.tempban",						"You have been banned from the server for "),
 	MESSAGE_UNEXEMPT(					"messages.unexempt",					"You have been removed from the exempt list."),
 	
+	BAN_COMMANDS_AUTO(					"ban.commands.autoexec",				false),
+	GLOBAL_BAN_COMMANDS(				"ban.commands.global",					new String[]{"lb rb player %player_name% world world since 10.10.1010", "lb rb player %player_name% world world_nether since 10.10.1010"}),
+	LOCAL_BAN_COMMANDS(					"ban.commands.local",					new String[]{"lb rb player %player_name% world world since 10.10.1010", "lb rb player %player_name% world world_nether since 10.10.1010"}),
+	TEMP_BAN_COMMANDS(					"ban.commands.temp",					new String[]{"lb rb player %player_name% world world since 3600", "lb rb player %player_name% world world_nether since 3600"}),
+	
 	MAX_BANS_TOTAL_TOTAL(				"max-bans.total.total",					15L),
 	MAX_BANS_TOTAL_CONFIRMED(			"max-bans.total.confirmed",				-1L),
 	MAX_BANS_TOTAL_UNCONFIRMED(			"max-bans.total.unconfirmed",			-1L),

@@ -3,6 +3,7 @@ package com.minebans.commands;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -39,9 +40,11 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   reasons - Lists all of the ban reasons."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   lookup - Gets a summary of a players bans."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   listtemp - Lists all of the players that are temporarily banned."));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   exec - Executes the commands for the last ban made."));
 			return true;
 		}
 		
+		String senderName = sender.getName();
 		String option = args[0];
 		
 		if (option.equalsIgnoreCase("status") || option.equalsIgnoreCase("s")){
@@ -52,7 +55,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			
 			final long timeStart = System.currentTimeMillis();
 			
-			plugin.api.lookupAPIStatus(sender.getName(), new APIResponseCallback(){
+			plugin.api.lookupAPIStatus(senderName, new APIResponseCallback(){
 				
 				public void onSuccess(String response){
 					try{
@@ -176,7 +179,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 				return true;
 			}
 			
-			plugin.api.lookupPlayerBans(args[1], sender.getName(), new APIResponseCallback(){
+			plugin.api.lookupPlayerBans(args[1], senderName, new APIResponseCallback(){
 				
 				public void onSuccess(String response) {
 					PlayerBanData data;
@@ -257,6 +260,24 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			for (String playerName : playerNames){
 				sender.sendMessage(ChatColor.GREEN + "  " + playerName + " - " + plugin.banManager.getTempBanRemaining(playerName) / 3600 + " hours");
 			}
+		}else if (option.equalsIgnoreCase("exec") || option.equalsIgnoreCase("e")){
+			if (!Permission.ADMIN_BAN_COMMAND.has(sender)){
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+				return true;
+			}
+			
+			ArrayList<String> cmds = plugin.banCommands.get(senderName);
+			
+			if (cmds == null){
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "There are no commands to be executed."));
+				return true;
+			}
+			
+			for (String cmd : cmds){
+				plugin.server.dispatchCommand(sender, cmd);
+			}
+			
+			plugin.banCommands.remove(senderName);
 		}else{
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Invalid option, see /" + label + " for a list of options."));
 			return true;

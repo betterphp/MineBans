@@ -24,6 +24,7 @@ public enum Permission implements PluginPermission {
 	ADMIN_STATUS(		"minebans.admin.status",		PermissionDefault.OP,		"Allows the player to check the status of the API."),
 	ADMIN_UPDATE(		"minebans.admin.update",		PermissionDefault.OP,		"Allows the player to check for new versions of the plugin."),
 	ADMIN_BAN(			"minebans.admin.ban",			PermissionDefault.OP,		"Allows the use of the /ban and /unban commands."),
+	ADMIN_BAN_COMMAND(	"minebans.admin.bancommand",	PermissionDefault.OP,		"Allows the player to execute the configured commands when they ban a player"),
 	ADMIN_KICK(			"minebans.admin.kick",			PermissionDefault.OP,		"Allows the use of the /kick command."),
 	ADMIN_EXEMPT(		"minebans.admin.exempt",		PermissionDefault.OP,		"Allows the use of the /exempt commands."),
 	ADMIN_LOOKUP(		"minebans.admin.lookup",		PermissionDefault.OP,		"Allows the player to lookup the bans another player has."),
