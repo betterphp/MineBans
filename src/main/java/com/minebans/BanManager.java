@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.omg.CORBA.LocalObject;
 
 import com.minebans.bans.BanReason;
 import com.minebans.bans.BanType;
