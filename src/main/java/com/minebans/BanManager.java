@@ -279,9 +279,9 @@ public class BanManager {
 			if (this.getTempBanRemaining(playerName) == 0){
 				this.unTempBan(playerName, true);
 				return false;
-			}else{
-				return true;
 			}
+			
+			return true;
 		}
 		
 		return false;

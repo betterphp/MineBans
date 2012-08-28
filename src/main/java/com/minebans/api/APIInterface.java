@@ -284,7 +284,7 @@ public class APIInterface {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public PlayerBanData getPlayerBans(final String playerName, final String issuedBy, int timeout) throws SocketTimeoutException {
+	public PlayerBanData getPlayerBans(final String playerName, final String issuedBy, int timeout){
 		JSONObject json = new JSONObject();
 		
 		json.put("action", "get_player_bans");
@@ -302,12 +302,12 @@ public class APIInterface {
 		}
 	}
 	
-	public PlayerBanData getPlayerBans(final String playerName, final String issuedBy) throws SocketTimeoutException {
+	public PlayerBanData getPlayerBans(final String playerName, final String issuedBy){
 		return this.getPlayerBans(playerName, issuedBy, 250);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public PlayerInfoData getPlayerInfo(final String playerName, final String issuedBy, int timeout) throws SocketTimeoutException {
+	public PlayerInfoData getPlayerInfo(final String playerName, final String issuedBy, int timeout){
 		JSONObject json = new JSONObject();
 		
 		json.put("action", "get_player_info");
@@ -325,12 +325,12 @@ public class APIInterface {
 		}
 	}
 	
-	public PlayerInfoData getPlayerInfo(final String playerName, final String issuedBy) throws SocketTimeoutException {
+	public PlayerInfoData getPlayerInfo(final String playerName, final String issuedBy){
 		return this.getPlayerInfo(playerName, issuedBy, 250);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public PlayerJoinData getPlayerJoinInfo(final String playerName, final String issuedBy, int timeout) throws SocketTimeoutException {
+	public PlayerJoinData getPlayerJoinInfo(final String playerName, final String issuedBy, int timeout){
 		JSONObject json = new JSONObject();
 		
 		json.put("action", "get_player_join_info");
@@ -348,7 +348,7 @@ public class APIInterface {
 		}
 	}
 	
-	public PlayerJoinData getPlayerJoinInfo(final String playerName, final String issuedBy) throws SocketTimeoutException {
+	public PlayerJoinData getPlayerJoinInfo(final String playerName, final String issuedBy){
 		return this.getPlayerJoinInfo(playerName, issuedBy, 500);
 	}
 	

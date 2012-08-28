@@ -185,7 +185,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 					PlayerBanData data;
 					
 					try{
-						data = new PlayerBanData((JSONObject) ((JSONObject) (new JSONParser()).parse(response)));
+						data = new PlayerBanData((JSONObject) (new JSONParser()).parse(response));
 					}catch (ParseException e){
 						this.onFailure(e);
 						return;

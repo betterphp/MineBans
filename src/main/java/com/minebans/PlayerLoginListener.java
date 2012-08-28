@@ -1,7 +1,5 @@
 package com.minebans;
 
-import java.net.SocketTimeoutException;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
@@ -35,9 +33,9 @@ public class PlayerLoginListener extends BaseListener<MineBans> {
 			return;
 		}
 		
-		try{
-			PlayerJoinData joinData = plugin.api.getPlayerJoinInfo(playerName, "CONSOLE", 8000);
-			
+		PlayerJoinData joinData = plugin.api.getPlayerJoinInfo(playerName, "CONSOLE", 8000);
+		
+		if (joinData != null){
 			PlayerLoginDataEvent loginDataEvent = new PlayerLoginDataEvent(playerName, playerAddress, joinData);
 			
 			if (joinData != null){
@@ -50,7 +48,7 @@ public class PlayerLoginListener extends BaseListener<MineBans> {
 					return;
 				}
 			}
-		}catch (SocketTimeoutException ste){
+		}else{
 			plugin.log.warn("The API failed to respond even with a longer timeout, it might be down for some reason.");
 			
 			if (plugin.banManager.isLocallyBanned(playerName)){
