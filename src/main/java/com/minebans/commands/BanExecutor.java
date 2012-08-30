@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.CommandHandler;
 
 import com.minebans.MineBans;
 import com.minebans.Config;
@@ -21,10 +21,11 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 		super(plugin);
 	}
 	
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
+	@CommandHandler(names = {"ban", "b"}, description = "Bans a player from the server.", usage = "/ban [player_name] [reason_id/reason_keyword]")
+	public void ban(CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_BAN.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
-			return true;
+			return;
 		}
 		
 		if (args.length == 0){
@@ -34,24 +35,24 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (global): /" + label + " wide_load griefing"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (temporary): /" + label + " wide_load 12h"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (temporary): /" + label + " wide_load 7d"));
-			return true;
+			return;
 		}
 		
 		String playerName = args[0];
 		
 		if (!plugin.server.getOnlineMode()){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Your server must be running in online-mode."));
-			return true;
+			return;
 		}
 		
 		if (sender instanceof Player && playerName.equalsIgnoreCase(sender.getName())){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot ban yourself, that would be silly."));
-			return true;
+			return;
 		}
 		
 		if (plugin.banManager.isBanned(playerName)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + playerName + " has already been banned from this server."));
-			return true;
+			return;
 		}
 		
 		ArrayList<String> cmds = new ArrayList<String>();
@@ -62,12 +63,12 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 				
 				if (banDuration <= 0){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "The ban duration must be positive."));
-					return true;
+					return;
 				}
 				
 				if (banDuration > 604800){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot temp ban a player for longer than 1 week."));
-					return true;
+					return;
 				}
 				
 				plugin.banManager.tempBanPlayer(playerName, banDuration, (sender instanceof Player));
@@ -81,7 +82,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 				
 				if (!plugin.seenPlayers.contains(playerName.toLowerCase()) && !player.isOnline() && !player.hasPlayedBefore()){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot globally ban a player that has never connected to the server."));
-					return true;
+					return;
 				}
 				
 				BanReason reason = null;
@@ -99,13 +100,13 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 				if (reason == null){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "That ban reason is not valid, try using"));
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "/minebans reasons for a list of reasons."));
-					return true;
+					return;
 				}
 				
 				if (!plugin.config.getBoolean(Config.getReasonEnabled(reason))){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot ban a player for a reason not enabled on the server."));
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "See /minebans reasons for a list of available reasons."));
-					return true;
+					return;
 				}
 				
 				plugin.banManager.globallyBanPlayer(playerName, sender.getName(), reason, (sender instanceof Player));
@@ -139,8 +140,52 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 				plugin.banCommands.put(sender.getName(), cmds);
 			}
 		}
+	}
+	
+	@CommandHandler(names = {"unban", "ub"}, description = "Unbans a player.", usage = "/unban [player_name]")
+	public void unban(CommandSender sender, String label, String[] args){
+		if (!Permission.ADMIN_BAN.has(sender)){
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+			return;
+		}
 		
-		return true;
+		if (args.length == 0){
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /" + label + " <player_name>"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " wide_load"));
+			return;
+		}
+		
+		String playerName = args[0];
+		
+		if (plugin.banManager.isBanned(playerName) == false){
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + playerName + " has not been banned from this server."));
+			return;
+		}
+		
+		plugin.banManager.unbanPlayer(playerName, sender.getName(), (sender instanceof Player));
+		
+		sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been unbanned."));
+	}
+	
+	@CommandHandler(names = {"kick", "k"}, description = "Disconnects a player from the server.", usage = "/kick [player_name]")
+	public void kick(CommandSender sender, String label, String[] args){
+		if (!Permission.ADMIN_KICK.has(sender)){
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+			return;
+		}
+		
+		if (args.length == 0){
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Useage: /" + label + " <player_name>"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " wide_load"));
+			return;
+		}
+		
+		if (!plugin.server.getOfflinePlayer(args[0]).isOnline()){
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + args[0] + " is not online."));
+			return;
+		}
+		
+		plugin.banManager.kickPlayer(args[0], true);
 	}
 	
 }

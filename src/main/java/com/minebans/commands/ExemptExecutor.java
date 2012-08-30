@@ -1,11 +1,11 @@
 package com.minebans.commands;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.CommandHandler;
 
 import com.minebans.MineBans;
 import com.minebans.Permission;
@@ -16,10 +16,11 @@ public class ExemptExecutor extends BaseCommandExecutor<MineBans> {
 		super(plugin);
 	}
 	
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
+	@CommandHandler(names = {"exempt", "e", "be"}, description = "Used to manage the exempt list.", usage = "/exempt [option] [player_name]")
+	public void exempt(CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_EXEMPT.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
-			return true;
+			return;
 		}
 		
 		if (args.length != 2){
@@ -27,7 +28,7 @@ public class ExemptExecutor extends BaseCommandExecutor<MineBans> {
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Options:"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   add - Adds the player to the exempt list."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   remove - Removed the player from the exempt list."));
-			return true;
+			return;
 		}
 		
 		String option = args[0];
@@ -36,7 +37,7 @@ public class ExemptExecutor extends BaseCommandExecutor<MineBans> {
 		if (option.equalsIgnoreCase("add") || option.equalsIgnoreCase("a")){
 			if (plugin.banManager.isExempt(playerName)){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + playerName + " is already on the exempt list."));
-				return true;
+				return;
 			}
 			
 			plugin.banManager.exemptPlayer(playerName, (sender instanceof Player));
@@ -45,7 +46,7 @@ public class ExemptExecutor extends BaseCommandExecutor<MineBans> {
 		}else if (option.equalsIgnoreCase("remove") || option.equalsIgnoreCase("r")){
 			if (!plugin.banManager.isExempt(playerName)){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + playerName + " is not on the exempt list."));
-				return true;
+				return;
 			}
 			
 			plugin.banManager.unExemptPlayer(playerName, (sender instanceof Player));
@@ -53,10 +54,7 @@ public class ExemptExecutor extends BaseCommandExecutor<MineBans> {
 			sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the exempt list."));
 		}else{
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Invalid option, try /" + label + " for a list of options."));
-			return true;
 		}
-		
-		return true;
 	}
 	
 }

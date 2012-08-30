@@ -2,24 +2,3 @@ name: MineBans
 version: "0.13"
 main: com.minebans.MineBans
 softdepend: [LogBlock, HawkEye, Guardian, SWatchdog, CoreProtect, NoCheat, NoCheatPlus, MineBansAntiSpam]
-commands:
-    ban:
-        description: Bans a player from the server.
-        usage: /<command> <player_name> <reason_id / reason_keyword>
-        aliases: [b]
-    unban:
-        description: Unbans a player.
-        usage: /<command> <player_name>
-        aliases: [ub, uban]
-    kick:
-        description: Disconnects a player from the server.
-        usage: /<command> <player_name>
-        aliases: [k]
-    exempt:
-        description: Used to manage the exempt list.
-        usage: /<command> <option> <player_name>
-        aliases: [e, be]
-    minebans:
-        description: Provides various commands relating to the system.
-        usage: /<command> <option> [args]
-        aliases: [mb, mbans]

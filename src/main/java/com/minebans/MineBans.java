@@ -15,8 +15,6 @@ import com.minebans.api.SystemStatusData;
 import com.minebans.bans.BanReason;
 import com.minebans.commands.BanExecutor;
 import com.minebans.commands.MineBansExecutor;
-import com.minebans.commands.KickExecutor;
-import com.minebans.commands.UnbanExecutor;
 import com.minebans.commands.ExemptExecutor;
 import com.minebans.joindatalisteners.GroupBanListener;
 import com.minebans.joindatalisteners.KnownCompromisedListener;
@@ -94,11 +92,9 @@ public class MineBans extends BasePlugin {
 			this.pluginManager.addPermission(new org.bukkit.permissions.Permission(permission.getNode(), permission.getDescription(), permission.getDefault()));
 		}
 		
-		this.getCommand("ban").setExecutor(new BanExecutor(this));
-		this.getCommand("unban").setExecutor(new UnbanExecutor(this));
-		this.getCommand("kick").setExecutor(new KickExecutor(this));
-		this.getCommand("exempt").setExecutor(new ExemptExecutor(this));
-		this.getCommand("minebans").setExecutor(new MineBansExecutor(this));
+		this.commandManager.registerCommandExecutor(new BanExecutor(this));
+		this.commandManager.registerCommandExecutor(new ExemptExecutor(this));
+		this.commandManager.registerCommandExecutor(new MineBansExecutor(this));
 		
 		this.log.info("Enabled successfully, checking API server communication.");
 		
