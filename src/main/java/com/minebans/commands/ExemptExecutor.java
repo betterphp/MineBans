@@ -16,7 +16,7 @@ public class ExemptExecutor extends BaseCommandExecutor<MineBans> {
 		super(plugin);
 	}
 	
-	@CommandHandler(names = {"exempt", "e", "be"}, description = "Used to manage the exempt list.", usage = "/exempt [option] [player_name]")
+	@CommandHandler(names = {"exempt", "e", "be"}, description = "Used to manage the exempt list.", usage = "[option] [player_name]")
 	public void exempt(CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_EXEMPT.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));

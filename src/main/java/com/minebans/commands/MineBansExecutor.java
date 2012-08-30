@@ -31,7 +31,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 		super(plugin);
 	}
 	
-	@CommandHandler(names = {"minebans", "mbans", "mb"}, description = "Provides various commands relating to the system.", usage = "/minebans [option]")
+	@CommandHandler(names = {"minebans", "mbans", "mb"}, description = "Provides various commands relating to the system.", usage = "[option]")
 	public void minebans(final CommandSender sender, String label, final String[] args){
 		if (args.length == 0){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /" + label + " <option> [args]"));

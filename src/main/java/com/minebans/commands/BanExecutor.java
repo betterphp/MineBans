@@ -21,7 +21,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 		super(plugin);
 	}
 	
-	@CommandHandler(names = {"ban", "b"}, description = "Bans a player from the server.", usage = "/ban [player_name] [reason_id/reason_keyword]")
+	@CommandHandler(names = {"ban", "b"}, description = "Bans a player from the server.", usage = "[player_name] [reason_id/reason_keyword]")
 	public void ban(CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_BAN.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
