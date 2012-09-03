@@ -67,7 +67,7 @@ public class APIInterface {
 		APIRequest request = this.requestHandler.getCurrentRequest();
 		
 		if (request == null){
-			return "";
+			return "NONE";
 		}
 		
 		return request.requestKey;
