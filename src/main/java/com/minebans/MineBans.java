@@ -98,37 +98,42 @@ public class MineBans extends BasePlugin {
 		this.commandManager.registerCommandExecutor(new ExemptExecutor(this));
 		this.commandManager.registerCommandExecutor(new MineBansExecutor(this));
 		
-		this.log.info("Enabled successfully, checking API server communication.");
-		
-		long startTime = System.currentTimeMillis();
-		SystemStatusData status = this.api.getAPIStatus("CONSOLE");
-		long ping = System.currentTimeMillis() - startTime;
-		
-		if (status == null){
-			this.log.warn("The API failed to respond, checking for known problems...");
+		this.scheduler.scheduleAsyncDelayedTask(this, new Runnable(){
 			
-			this.api.lookupAPIStatusMessage(new APIResponseCallback(){
+			public void run(){
+				MineBans.this.log.info("Checking API server communication.");
 				
-				public void onSuccess(String response){
-					MineBans.this.log.warn("Status: " + response);
-				}
+				long startTime = System.currentTimeMillis();
+				SystemStatusData status = MineBans.this.api.getAPIStatus("CONSOLE");
+				long ping = System.currentTimeMillis() - startTime;
 				
-				public void onFailure(Exception e){
-					e.printStackTrace();
+				if (status == null){
+					MineBans.this.log.warn("The API failed to respond, checking for known problems...");
 					
-					MineBans.this.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 10 seconds.");
-					MineBans.this.log.warn("Status: Unable to get info, check your server.log");
+					MineBans.this.api.lookupAPIStatusMessage(new APIResponseCallback(){
+						
+						public void onSuccess(String response){
+							MineBans.this.log.warn("Status: " + response);
+						}
+						
+						public void onFailure(Exception e){
+							MineBans.this.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 10 seconds.");
+							
+							e.printStackTrace();
+						}
+						
+					});
+				}else{
+					if (ping > 4000){
+						MineBans.this.log.warn("The API took longer than 4 seconds to reply.");
+						MineBans.this.log.warn("This is not a serious problem but players may experience longer than normal login times.");
+					}
+					
+					MineBans.this.log.info("The API responded in " + ping + "ms");
 				}
-				
-			});
-		}else{
-			if (ping > 4000){
-				this.log.warn("The API took longer than 4 seconds to reply.");
-				this.log.warn("This is not a serious problem but players may experience longer than normal login times.");
 			}
 			
-			this.log.info("The API responded in " + ping + "ms");
-		}
+		}, 5L);
 	}
 	
 	public void onDisable(){

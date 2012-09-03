@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import org.json.simple.JSONObject;
 
+import com.minebans.MineBans;
+
 public class APIRequest {
 	
 	public URL url;
