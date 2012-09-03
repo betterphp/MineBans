@@ -3,14 +3,9 @@ package com.minebans.api;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.net.UnknownHostException;
-import java.util.Enumeration;
-import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -41,16 +36,10 @@ public class APIInterface {
 	public APIInterface(MineBans plugin){
 		try{
 			String apiKey = plugin.config.getString(Config.API_KEY);
-			String hwid = this.getHWID();
 			String version = plugin.getVersion();
 			
-			if (hwid == null){
-				plugin.log.fatal("Failed to create system ID");
-				plugin.pluginManager.disablePlugin(plugin);
-			}
-			
-			this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&hwid=" + URLEncoder.encode(hwid, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
-//			this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&hwid=" + URLEncoder.encode(hwid, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
+//			this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
+			this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
 			
 			this.statusURL = new URL("http://dl.dropbox.com/s/vjngx1qzvhvtcqz/minebans_status_message.txt");
 			this.filesURL = new URL("http://dev.bukkit.org/server-mods/minebans/files.rss");
@@ -65,53 +54,6 @@ public class APIInterface {
 		this.startThread();
 	}
 	
-	private String getHWID(){
-		try{
-			StringBuilder fallback = new StringBuilder();
-			fallback.append(System.getProperty("os.name"));
-			
-			try{
-				InetAddress local = InetAddress.getLocalHost();
-				
-				if (local != null){
-					fallback.append(local.getHostName());
-				}
-			}catch (UnknownHostException e){  }
-			
-			fallback.append(System.getProperty("os.arch"));
-			
-			String hwid = null;
-			
-			Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-			
-			while (interfaces.hasMoreElements()){
-				NetworkInterface nic = interfaces.nextElement();
-				
-				if (!nic.isLoopback()){
-					byte[] address = nic.getHardwareAddress();
-					
-					if (address != null){
-						return UUID.nameUUIDFromBytes(address).toString();
-					}
-					
-					Enumeration<InetAddress> addresses = nic.getInetAddresses();
-					
-					while (addresses.hasMoreElements()){
-						fallback.append(addresses.nextElement().getHostAddress());
-					}
-				}
-			}
-			
-			if (hwid == null){
-				return UUID.nameUUIDFromBytes(fallback.toString().getBytes()).toString();
-			}
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
-	
 	public void startThread(){
 		this.requestHandler = new APIRequestHandler(plugin);
 		this.requestHandler.start();
@@ -119,6 +61,16 @@ public class APIInterface {
 	
 	public void stopThread(){
 		this.requestHandler.interrupt();
+	}
+	
+	public String getCurrentRequestKey(){
+		APIRequest request = this.requestHandler.getCurrentRequest();
+		
+		if (request == null){
+			return "";
+		}
+		
+		return request.requestKey;
 	}
 	
 	public void lookupAPIStatusMessage(APIResponseCallback callback){

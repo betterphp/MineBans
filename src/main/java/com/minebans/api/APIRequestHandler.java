@@ -17,6 +17,7 @@ public class APIRequestHandler extends Thread implements Runnable {
 	private MineBans plugin;
 	
 	private ArrayBlockingQueue<APIRequest> requestStack;
+	private APIRequest currentRrequest;
 	
 	public APIRequestHandler(MineBans plugin){
 		this.plugin = plugin;
@@ -25,6 +26,8 @@ public class APIRequestHandler extends Thread implements Runnable {
 	}
 	
 	public String processRequestDirect(APIRequest request) throws UnsupportedEncodingException, SocketTimeoutException, IOException, APIException {
+		this.currentRrequest = request;
+		
 		URLConnection conn = request.url.openConnection();
 		
 		conn.setUseCaches(false);
@@ -58,6 +61,8 @@ public class APIRequestHandler extends Thread implements Runnable {
 			throw new APIException(response);
 		}
 		
+		this.currentRrequest = null;
+		
 		return response;
 	}
 	
@@ -77,6 +82,8 @@ public class APIRequestHandler extends Thread implements Runnable {
 				}catch (APIException e){
 					request.callback.onFailure(e);
 				}
+				
+				this.currentRrequest = null;
 			}catch (InterruptedException e1){
 				return;
 			}
@@ -92,6 +99,10 @@ public class APIRequestHandler extends Thread implements Runnable {
 		try{
 			this.requestStack.put(request);
 		}catch (InterruptedException e){  }
+	}
+	
+	public APIRequest getCurrentRequest(){
+		return this.currentRrequest;
 	}
 	
 }
