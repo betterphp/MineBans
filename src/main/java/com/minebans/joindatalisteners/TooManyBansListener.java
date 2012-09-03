@@ -26,7 +26,7 @@ public class TooManyBansListener extends BaseListener<MineBans> {
 		PlayerBanData banData = event.getJoinData().getBanData();
 		
 		for (BanReason banReason : banData.getBanReasons()){
-			if (plugin.config.getBoolean(Config.getReasonEnabled(banReason))){
+			if (plugin.config.getBoolean(Config.getReasonEnabled(banReason)) || !plugin.config.getBoolean(Config.MAX_BANS_TOTAL_IGNORE_DISABLED_RULES)){
 				for (BanSeverity severity : banReason.getSeverties()){
 					limit = plugin.config.getLong(Config.getReasonLimit(banReason, severity));
 					
