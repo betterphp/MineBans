@@ -12,8 +12,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
-import uk.co.jacekk.bukkit.baseplugin.command.CommandHandler;
+import uk.co.jacekk.bukkit.baseplugin.v1.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.v1.command.CommandHandler;
 
 import com.minebans.MineBans;
 import com.minebans.Config;

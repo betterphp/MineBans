@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.minebans.api.APIResponseCallback;
 
-import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.v1.event.BaseListener;
 
 public class PlayerJoinListener extends BaseListener<MineBans> {
 	
