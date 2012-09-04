@@ -15,7 +15,7 @@ public class RequestVerificationListener extends BaseListener<MineBans> {
 		super(plugin);
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onServerListPing(ServerListPingEvent event){
 		try{
 			InetAddress address = event.getAddress();
