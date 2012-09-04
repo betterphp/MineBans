@@ -5,8 +5,6 @@ import java.util.UUID;
 
 import org.json.simple.JSONObject;
 
-import com.minebans.MineBans;
-
 public class APIRequest {
 	
 	public URL url;
@@ -17,6 +15,7 @@ public class APIRequest {
 	public APIResponseCallback callback;
 	public String requestKey;
 	
+	@SuppressWarnings("unchecked")
 	public APIRequest(URL url, JSONObject json, int timeout){
 		this.url = url;
 		this.json = json;
