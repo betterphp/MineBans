@@ -30,42 +30,52 @@ public class APIRequestHandler extends Thread implements Runnable {
 	
 	@SuppressWarnings("unchecked")
 	public synchronized String processRequest(APIRequest<? extends APICallback> request) throws Exception {
-		URLConnection conn = request.getURL().openConnection();
+		this.currentRequest = request;
 		
-		conn.setUseCaches(false);
-		conn.setConnectTimeout(request.getTimeout());
-		conn.setReadTimeout(request.getTimeout());
+		String response;
 		
-		JSONObject requestData = request.getJSON();
-		
-		if (!requestData.isEmpty()){
-			conn.setDoOutput(true);
+		try{
+			URLConnection conn = request.getURL().openConnection();
 			
-			OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
+			conn.setUseCaches(false);
+			conn.setConnectTimeout(request.getTimeout());
+			conn.setReadTimeout(request.getTimeout());
 			
-			requestData.put("request_key", request.getRequestKey());
+			JSONObject requestData = request.getJSON();
 			
-			out.write("request_data=" + URLEncoder.encode(requestData.toJSONString(), "UTF-8"));
+			if (!requestData.isEmpty()){
+				conn.setDoOutput(true);
+				
+				OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
+				
+				requestData.put("request_key", request.getRequestKey());
+				
+				out.write("request_data=" + URLEncoder.encode(requestData.toJSONString(), "UTF-8"));
+				
+				out.flush();
+				out.close();
+			}
 			
-			out.flush();
-			out.close();
-		}
-		
-		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-		
-		String line;
-		StringBuilder buffer = new StringBuilder();
-		
-		while ((line = in.readLine()) != null){
-			buffer.append(line);
-		}
-		
-		String response = buffer.toString();
-		
-		in.close();
-		
-		if (response == null || response.startsWith("E")){
-			throw new APIException(response);
+			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			
+			String line;
+			StringBuilder buffer = new StringBuilder();
+			
+			while ((line = in.readLine()) != null){
+				buffer.append(line);
+			}
+			
+			response = buffer.toString();
+			
+			in.close();
+			
+			if (response == null || response.startsWith("E")){
+				throw new APIException(response);
+			}
+		}catch (Exception exception){
+			throw exception;
+		}finally{
+			this.currentRequest = null;
 		}
 		
 		return response;
