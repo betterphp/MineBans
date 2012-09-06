@@ -2,9 +2,14 @@ package com.minebans.api.callback;
 
 import org.json.simple.parser.ParseException;
 
+import com.minebans.MineBans;
 import com.minebans.api.data.PlayerJoinInfoData;
 
 public abstract class PlayerJoinInfoCallback extends APICallback {
+	
+	public PlayerJoinInfoCallback(MineBans plugin){
+		super(plugin);
+	}
 	
 	public void onSuccess(String response){
 		try{

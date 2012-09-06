@@ -57,7 +57,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			
 			final long timeStart = System.currentTimeMillis();
 			
-			(new StatusRequest(plugin, senderName)).process(new StatusCallback(){
+			(new StatusRequest(plugin, senderName)).process(new StatusCallback(plugin){
 				
 				public void onSuccess(StatusData data){
 					Double[] loadAvg = data.getLoadAvg();
@@ -72,7 +72,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 					if (!(exception instanceof APIException)){
 						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Checking for known problems..."));
 						
-						(new StatusMessageRequest(plugin)).process(new StatusMessageCallback(){
+						(new StatusMessageRequest(plugin)).process(new StatusMessageCallback(plugin){
 							
 							public void onSuccess(StatusMessageData data){
 								sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Result: " + data.getMessage()));
@@ -175,7 +175,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 				return;
 			}
 			
-			(new PlayerBansRequest(plugin, senderName, args[1])).process(new PlayerBansCallback(){
+			(new PlayerBansRequest(plugin, senderName, args[1])).process(new PlayerBansCallback(plugin){
 				
 				public void onSuccess(PlayerBansData data){
 					Long total = data.getTotal();

@@ -1,8 +1,13 @@
 package com.minebans.api.callback;
 
+import com.minebans.MineBans;
 import com.minebans.api.data.StatusMessageData;
 
 public abstract class StatusMessageCallback extends APICallback {
+	
+	public StatusMessageCallback(MineBans plugin){
+		super(plugin);
+	}
 	
 	public void onSuccess(String response){
 		this.onSuccess(new StatusMessageData(response));

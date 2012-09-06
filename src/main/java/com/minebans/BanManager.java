@@ -110,8 +110,7 @@ public class BanManager {
 			this.globallyBannedPlayers.add(playerName);
 			this.globallyBannedPlayers.save();
 			
-			
-			(new PlayerBanRequest(plugin, playerName, issuedBy, reason, plugin.evidenceManager.collectFor(reason, playerName))).process(new PlayerBanCallback(){
+			(new PlayerBanRequest(plugin, playerName, issuedBy, reason, plugin.evidenceManager.collectFor(reason, playerName))).process(new PlayerBanCallback(plugin){
 				
 				public void onFailure(Exception exception){
 					CommandSender sender = (issuedBy.equalsIgnoreCase("console")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
@@ -186,7 +185,7 @@ public class BanManager {
 	}
 	
 	public void unGlobalBan(String playerName, final String issuedBy){
-		(new PlayerUnbanRequest(plugin, playerName, issuedBy)).process(new PlayerUnbanCallback(){
+		(new PlayerUnbanRequest(plugin, playerName, issuedBy)).process(new PlayerUnbanCallback(plugin, playerName){
 			
 			public void onFailure(Exception exception){
 				CommandSender sender = (issuedBy.equalsIgnoreCase("console")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
