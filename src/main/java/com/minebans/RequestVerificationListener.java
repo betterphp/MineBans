@@ -20,7 +20,7 @@ public class RequestVerificationListener extends BaseListener<MineBans> {
 		try{
 			InetAddress address = event.getAddress();
 			
-			if (!address.isAnyLocalAddress() && address.getHostAddress().equals(InetAddress.getByName("minebans.com").getHostAddress())){
+			if ((!address.isAnyLocalAddress() && address.getHostAddress().equals(InetAddress.getByName("minebans.com").getHostAddress())) || MineBans.DEBUG_MODE){
 				StringBuilder message = new StringBuilder(32);
 				
 				for (byte b : MessageDigest.getInstance("MD5").digest((plugin.api.getCurrentRequestKey() + plugin.config.getString(Config.API_KEY)).getBytes("UTF-8"))){

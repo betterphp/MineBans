@@ -29,8 +29,11 @@ public class APIInterface {
 			String apiKey = plugin.config.getString(Config.API_KEY);
 			String version = plugin.getVersion();
 			
-//			this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
-			this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
+			if (MineBans.DEBUG_MODE){
+				this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
+			}else{
+				this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
+			}
 			
 			this.statusURL = new URL("http://dl.dropbox.com/s/vjngx1qzvhvtcqz/minebans_status_message.txt");
 		}catch (Exception e){

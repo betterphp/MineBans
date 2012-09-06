@@ -31,6 +31,8 @@ import com.minebans.pluginapi.MineBansPluginAPI;
 
 public class MineBans extends BasePlugin {
 	
+	public static final boolean DEBUG_MODE = true;
+	
 	public LoggingInterface loggingPlugin;
 	public ExploitInterface exploitPlugin;
 	public AntiSpamInterface antiSpamPlugin;
@@ -47,6 +49,12 @@ public class MineBans extends BasePlugin {
 	
 	public void onEnable(){
 		super.onEnable(true);
+		
+		if (DEBUG_MODE){
+			this.log.warn("========================= WARNING ==========================");
+			this.log.warn(" Debug mode active, do not use this on a production server!");
+			this.log.warn("============================================================");
+		}
 		
 		if (!this.server.getOnlineMode()){
 			this.log.fatal("Your server must be in online mode.");

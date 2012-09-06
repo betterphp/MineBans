@@ -69,6 +69,14 @@ public class APIRequestHandler extends Thread implements Runnable {
 			
 			in.close();
 			
+			if (MineBans.DEBUG_MODE){
+				plugin.log.info("======================== REQUEST DUMP =========================");
+				plugin.log.info(" URL: " + request.getURL().toString());
+				plugin.log.info(" Request: " + requestData.toJSONString());
+				plugin.log.info(" Response: " + response);
+				plugin.log.info("===============================================================");
+			}
+			
 			if (response == null || response.startsWith("E")){
 				throw new APIException(response);
 			}
