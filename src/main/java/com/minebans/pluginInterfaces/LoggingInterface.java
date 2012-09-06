@@ -1,6 +1,8 @@
 package com.minebans.pluginInterfaces;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import com.minebans.MineBans;
 import com.minebans.pluginInterfaces.coreprotect.CoreProtectPluginIntereface;
@@ -15,24 +17,35 @@ public class LoggingInterface {
 	private LoggingPluginInterface pluginInterface;
 	
 	public LoggingInterface(MineBans plugin){
-		if (plugin.pluginManager.isPluginEnabled("LogBlock")){
-			this.pluginInterface = new LogBlockPluginInterface(plugin);
-		}else if (plugin.pluginManager.isPluginEnabled("HawkEye")){
-			this.pluginInterface = new HawkEyePluginInterface(plugin);
-		}else if (plugin.pluginManager.isPluginEnabled("Guardian")){
-			this.pluginInterface = new GuardianPluginInterface(plugin);
-		}else if (plugin.pluginManager.isPluginEnabled("SWatchdog")){
-			this.pluginInterface = new SWatchdogPluginInterface(plugin);
-		}else if (plugin.pluginManager.isPluginEnabled("CoreProtect")){
-			this.pluginInterface = new CoreProtectPluginIntereface(plugin);
-		}else{
-			this.pluginInterface = new DefaultLoggingPluginInterface(plugin);
-		}
+		LinkedHashMap<String, Class<? extends LoggingPluginInterface>> suppportedPlugins = new LinkedHashMap<String, Class<? extends LoggingPluginInterface>>(8);
 		
-		plugin.log.info("Using " + this.pluginInterface.getPluginName() + " for player data, checking config.");
+		suppportedPlugins.put("LogBlock", LogBlockPluginInterface.class);
+		suppportedPlugins.put("HawkEye", HawkEyePluginInterface.class);
+		suppportedPlugins.put("Guardian", GuardianPluginInterface.class);
+		suppportedPlugins.put("SWatchdog", SWatchdogPluginInterface.class);
+		suppportedPlugins.put("CoreProtect", CoreProtectPluginIntereface.class);
 		
-		if (!this.pluginInterface.checkConfig()){
-			plugin.log.fatal(this.pluginInterface.getPluginName() + " minimum config was not met.");
+		suppportedPlugins.put("MineBans", DefaultLoggingPluginInterface.class);
+		
+		for (Entry<String, Class<? extends LoggingPluginInterface>> entry : suppportedPlugins.entrySet()){
+			String pluginName = entry.getKey();
+			Class<? extends LoggingPluginInterface> cls = entry.getValue();
+			
+			if (plugin.pluginManager.isPluginEnabled(pluginName)){
+				try{
+					this.pluginInterface = cls.getConstructor(MineBans.class).newInstance(plugin);
+					
+					plugin.log.info("Using " + this.pluginInterface.getPluginName() + " for player data, checking config.");
+					
+					if (!this.pluginInterface.checkConfig()){
+						plugin.log.fatal(this.pluginInterface.getPluginName() + " minimum config was not met.");
+					}
+					
+					break;
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	
