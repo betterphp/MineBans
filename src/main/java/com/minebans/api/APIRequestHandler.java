@@ -28,6 +28,7 @@ public class APIRequestHandler extends Thread implements Runnable {
 		this.requestStack = new ArrayBlockingQueue<APIRequest<? extends APICallback>>(256);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public synchronized String processRequest(APIRequest<? extends APICallback> request) throws Exception {
 		URLConnection conn = request.getURL().openConnection();
 		
@@ -41,6 +42,8 @@ public class APIRequestHandler extends Thread implements Runnable {
 			conn.setDoOutput(true);
 			
 			OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
+			
+			requestData.put("request_key", request.getRequestKey());
 			
 			out.write("request_data=" + URLEncoder.encode(requestData.toJSONString(), "UTF-8"));
 			
