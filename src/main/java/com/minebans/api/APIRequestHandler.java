@@ -38,7 +38,7 @@ public class APIRequestHandler extends Thread implements Runnable {
 		
 		JSONObject requestData = request.getJSON();
 		
-		if (requestData != null){
+		if (!requestData.isEmpty()){
 			conn.setDoOutput(true);
 			
 			OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());

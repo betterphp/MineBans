@@ -26,6 +26,7 @@ public abstract class APIRequest<Callback extends APICallback> {
 		this.plugin = plugin;
 		
 		this.url = url;
+		this.json = new JSONObject();
 		this.timeout = timeout;
 		
 		this.requestKey = UUID.randomUUID().toString();

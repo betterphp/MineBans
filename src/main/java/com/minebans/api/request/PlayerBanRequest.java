@@ -1,7 +1,5 @@
 package com.minebans.api.request;
 
-import org.json.simple.JSONObject;
-
 import com.minebans.MineBans;
 import com.minebans.api.callback.PlayerBanCallback;
 import com.minebans.bans.BanReason;
@@ -11,8 +9,6 @@ public class PlayerBanRequest extends APIRequest<PlayerBanCallback> {
 	@SuppressWarnings("unchecked")
 	public PlayerBanRequest(MineBans plugin, int timeout, String playerName, String issuedBy, BanReason reason, Object evidence){
 		super(plugin, plugin.api.getAPIURL(), timeout);
-		
-		this.json = new JSONObject();
 		
 		this.json.put("action", "ban_player");
 		this.json.put("issued_by", issuedBy);

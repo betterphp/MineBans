@@ -1,7 +1,5 @@
 package com.minebans.api.request;
 
-import org.json.simple.JSONObject;
-
 import com.minebans.MineBans;
 import com.minebans.api.callback.StatusCallback;
 import com.minebans.api.data.StatusData;
@@ -11,8 +9,6 @@ public class StatusRequest extends APIRequest<StatusCallback> {
 	@SuppressWarnings("unchecked")
 	public StatusRequest(MineBans plugin, int timeout, String issuedBy){
 		super(plugin, plugin.api.getAPIURL(), timeout);
-		
-		this.json = new JSONObject();
 		
 		this.json.put("action", "get_system_status");
 		this.json.put("issued_by", issuedBy);
