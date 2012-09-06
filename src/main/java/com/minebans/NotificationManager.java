@@ -3,7 +3,7 @@ package com.minebans;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import com.minebans.api.PlayerBanData;
+import com.minebans.api.data.PlayerBansData;
 import com.minebans.bans.BanReason;
 
 public class NotificationManager {
@@ -89,7 +89,7 @@ public class NotificationManager {
 		}
 	}
 	
-	public void sendJoinNotification(String playerName, PlayerBanData playerData){
+	public void sendJoinNotification(String playerName, PlayerBansData playerData){
 		Long totalBans	= playerData.getTotal();
 		Long last24 	= playerData.getLast24();
 		Long removed	= playerData.getRemoved();

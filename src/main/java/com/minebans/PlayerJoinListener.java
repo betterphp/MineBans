@@ -6,8 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import com.minebans.api.APIResponseCallback;
-
 import uk.co.jacekk.bukkit.baseplugin.v1.event.BaseListener;
 
 public class PlayerJoinListener extends BaseListener<MineBans> {
@@ -19,19 +17,26 @@ public class PlayerJoinListener extends BaseListener<MineBans> {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerJoin(PlayerJoinEvent event){
 		final Player player = event.getPlayer();
+		final String playerName = player.getName();
 		
 		if (Permission.ALERT_ON_UPDATE.has(player)){
-			plugin.api.lookupLatestVersion(new APIResponseCallback(){
+			plugin.scheduler.scheduleAsyncDelayedTask(plugin, new Runnable(){
 				
-				public void onSuccess(String response){
-					if (!plugin.getVersion().equals(response)){
-						player.sendMessage(plugin.formatMessage(ChatColor.RED + "A new version is available, v" + response));
-						player.sendMessage(plugin.formatMessage(ChatColor.RED + "http://dev.bukkit.org/server-mods/minebans/files/"));
+				public void run(){
+					if (plugin.updateChecker.updateNeeded()){
+						plugin.scheduler.scheduleSyncDelayedTask(plugin, new Runnable(){
+							
+							public void run(){
+								Player player = plugin.server.getPlayer(playerName);
+								
+								if (player != null){
+									player.sendMessage(plugin.formatMessage(ChatColor.RED + "A new version is available, v" + plugin.updateChecker.getVersion()));
+									player.sendMessage(plugin.formatMessage(ChatColor.RED + plugin.updateChecker.getLink()));
+								}
+							}
+							
+						});
 					}
-				}
-				
-				public void onFailure(Exception e){
-					plugin.log.warn("Failed to fetch latest version: " + e.getMessage());
 				}
 				
 			});

@@ -17,7 +17,7 @@ public class GroupBanListener extends BaseListener<MineBans> {
 	
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerLoginData(PlayerLoginDataEvent event){
-		if (event.getJoinData().getBanData().getTotalGroupBans() > 0){
+		if (event.getJoinData().getBansData().getTotalGroupBans() > 0){
 			event.setPreventConnection(true);
 			event.setReason(ConnectionDeniedReason.GROUP_BAN);
 			event.setKickMessage(ConnectionDeniedReason.GROUP_BAN.getKickMessage());

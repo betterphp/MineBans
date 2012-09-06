@@ -1,16 +1,11 @@
 package com.minebans.commands;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.baseplugin.v1.command.BaseCommandExecutor;
 import uk.co.jacekk.bukkit.baseplugin.v1.command.CommandHandler;
@@ -19,9 +14,15 @@ import com.minebans.MineBans;
 import com.minebans.Config;
 import com.minebans.Permission;
 import com.minebans.api.APIException;
-import com.minebans.api.APIResponseCallback;
-import com.minebans.api.PlayerBanData;
-import com.minebans.api.SystemStatusData;
+import com.minebans.api.callback.PlayerBansCallback;
+import com.minebans.api.callback.StatusCallback;
+import com.minebans.api.callback.StatusMessageCallback;
+import com.minebans.api.data.PlayerBansData;
+import com.minebans.api.data.StatusData;
+import com.minebans.api.data.StatusMessageData;
+import com.minebans.api.request.PlayerBansRequest;
+import com.minebans.api.request.StatusMessageRequest;
+import com.minebans.api.request.StatusRequest;
 import com.minebans.bans.BanReason;
 import com.minebans.bans.BanSeverity;
 
@@ -45,8 +46,8 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			return;
 		}
 		
-		String senderName = sender.getName();
-		String option = args[0];
+		final String senderName = sender.getName();
+		final String option = args[0];
 		
 		if (option.equalsIgnoreCase("status") || option.equalsIgnoreCase("s")){
 			if (!Permission.ADMIN_STATUS.has(sender)){
@@ -56,47 +57,34 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			
 			final long timeStart = System.currentTimeMillis();
 			
-			plugin.api.lookupAPIStatus(senderName, new APIResponseCallback(){
+			(new StatusRequest(plugin, senderName)).process(new StatusCallback(){
 				
-				public void onSuccess(String response){
-					try{
-						SystemStatusData status = new SystemStatusData(response);
-						Double[] loadAvg = status.getLoadAvg();
-						
-						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "The API responded in " + (status.getResponceTime() - timeStart) + "ms"));
-						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Server Load Average: " + ((loadAvg[0] > 8L) ? ChatColor.RED : ChatColor.GREEN) + loadAvg[0] + " " + loadAvg[1] + " " + loadAvg[2]));
-					}catch (ParseException e){
-						this.onFailure(e);
-					}
+				public void onSuccess(StatusData data){
+					Double[] loadAvg = data.getLoadAvg();
+					
+					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "The API responded in " + (data.getResponceTime() - timeStart) + "ms"));
+					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Server Load Average: " + ((loadAvg[0] > 8L) ? ChatColor.RED : ChatColor.GREEN) + loadAvg[0] + " " + loadAvg[1] + " " + loadAvg[2]));
 				}
 				
-				public void onFailure(Exception e){
-					if (e instanceof SocketTimeoutException){
-						plugin.log.fatal("The API failed to respond in time.");
-					}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
-						plugin.log.fatal("Failed to contact the API (you should report this).");
-						e.printStackTrace();
-					}else if (e instanceof ParseException){
-						plugin.log.fatal("Failed to parse API response (you should report this).");
-						e.printStackTrace();
-					}else if (e instanceof APIException){
-						plugin.log.fatal("API Request Failed: " + ((APIException) e).getResponse());
+				public void onFailure(Exception exception){
+					plugin.api.handleException(exception, sender);
+					
+					if (!(exception instanceof APIException)){
+						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Checking for known problems..."));
+						
+						(new StatusMessageRequest(plugin)).process(new StatusMessageCallback(){
+							
+							public void onSuccess(StatusMessageData data){
+								sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Result: " + data.getMessage()));
+							}
+							
+							public void onFailure(Exception e){
+								plugin.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 12 seconds.");
+								sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Status: " + ChatColor.RED + "Unable to get info, check your server.log"));
+							}
+							
+						});
 					}
-					
-					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "The API failed to respond, checking for known problems..."));
-					
-					plugin.api.lookupAPIStatusMessage(new APIResponseCallback(){
-						
-						public void onSuccess(String response){
-							sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Result: " + response));
-						}
-						
-						public void onFailure(Exception e){
-							plugin.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 8 seconds.");
-							sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Status: " + ChatColor.RED + "Unable to get info, check your server.log"));
-						}
-						
-					});
 				}
 				
 			});
@@ -106,20 +94,27 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 				return;
 			}
 			
-			plugin.api.lookupLatestVersion(new APIResponseCallback(){
+			plugin.scheduler.scheduleAsyncDelayedTask(plugin, new Runnable(){
 				
-				public void onSuccess(String response){
-					if (plugin.getVersion().equals(response)){
-						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Up to date :D"));
-					}else{
-						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "A new version is available, v" + response));
-						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "http://dev.bukkit.org/server-mods/minebans/files/"));
-					}
-				}
-				
-				public void onFailure(Exception e){
-					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Failed to fetch latest version"));
-					plugin.log.warn("Failed to fetch latest version: " + e.getMessage());
+				public void run(){
+					final boolean update = plugin.updateChecker.updateNeeded();
+					
+					plugin.scheduler.scheduleSyncDelayedTask(plugin, new Runnable(){
+						
+						public void run(){
+							Player player = plugin.server.getPlayer(senderName);
+							
+							if (player != null){
+								if (update){
+									player.sendMessage(plugin.formatMessage(ChatColor.RED + "A new version is available, v" + plugin.updateChecker.getVersion()));
+									player.sendMessage(plugin.formatMessage(ChatColor.RED + plugin.updateChecker.getLink()));
+								}else{
+									sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Up to date :D"));
+								}
+							}
+						}
+						
+					});
 				}
 				
 			});
@@ -180,18 +175,9 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 				return;
 			}
 			
-			plugin.api.lookupPlayerBans(args[1], senderName, new APIResponseCallback(){
+			(new PlayerBansRequest(plugin, senderName, args[1])).process(new PlayerBansCallback(){
 				
-				public void onSuccess(String response) {
-					PlayerBanData data;
-					
-					try{
-						data = new PlayerBanData((JSONObject) (new JSONParser()).parse(response));
-					}catch (ParseException e){
-						this.onFailure(e);
-						return;
-					}
-					
+				public void onSuccess(PlayerBansData data){
 					Long total = data.getTotal();
 					Long last24 = data.getLast24();
 					Long removed = data.getRemoved();
@@ -225,26 +211,8 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 					}
 				}
 				
-				public void onFailure(Exception e){
-					if (e instanceof SocketTimeoutException){
-						plugin.log.fatal("The API failed to respond in time.");
-					}else if (e instanceof UnsupportedEncodingException || e instanceof IOException){
-						plugin.log.fatal("Failed to contact the API (you should report this).");
-						e.printStackTrace();
-					}else if (e instanceof ParseException){
-						plugin.log.fatal("Failed to parse API response (you should report this).");
-						e.printStackTrace();
-					}else if (e instanceof APIException){
-						plugin.log.fatal("API Request Failed: " + ((APIException) e).getResponse());
-					}
-					
-					if (sender != null){
-						sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Failed to fetch bans for '" + args[1] + "'."));
-						
-						if (e instanceof APIException){
-							sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Response: " + ((APIException) e).getResponse()));
-						}
-					}
+				public void onFailure(Exception exception){
+					plugin.api.handleException(exception, sender);
 				}
 				
 			});

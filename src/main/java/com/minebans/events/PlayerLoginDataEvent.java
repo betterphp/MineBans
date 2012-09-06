@@ -4,7 +4,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import com.minebans.api.ConnectionDeniedReason;
-import com.minebans.api.PlayerJoinData;
+import com.minebans.api.data.PlayerJoinInfoData;
 
 public class PlayerLoginDataEvent extends Event {
 	
@@ -12,14 +12,14 @@ public class PlayerLoginDataEvent extends Event {
 	
 	private String playerName;
 	private String playerAdress;
-	private PlayerJoinData joinData;
+	private PlayerJoinInfoData joinData;
 	
 	private Boolean preventConnecton;
 	private ConnectionDeniedReason reason;
 	private String kickMessage;
 	private String logMessage;
 	
-	public PlayerLoginDataEvent(String playerName, String playerAddress, PlayerJoinData joinData){
+	public PlayerLoginDataEvent(String playerName, String playerAddress, PlayerJoinInfoData joinData){
 		this.playerName = playerName;
 		this.playerAdress = playerAddress;
 		this.joinData = joinData;
@@ -46,7 +46,7 @@ public class PlayerLoginDataEvent extends Event {
 		return this.playerAdress;
 	}
 	
-	public PlayerJoinData getJoinData(){
+	public PlayerJoinInfoData getJoinData(){
 		return this.joinData;
 	}
 	

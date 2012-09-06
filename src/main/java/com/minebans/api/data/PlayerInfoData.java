@@ -1,4 +1,4 @@
-package com.minebans.api;
+package com.minebans.api.data;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

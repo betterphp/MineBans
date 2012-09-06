@@ -1,4 +1,4 @@
-package com.minebans.api;
+package com.minebans.api.data;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -12,12 +12,12 @@ import uk.co.jacekk.bukkit.baseplugin.v1.util.ListUtils;
 import com.minebans.bans.BanReason;
 import com.minebans.bans.BanSeverity;
 
-public class PlayerBanData {
+public class PlayerBansData {
 	
 	private HashMap<String, Long> summary;
 	private HashMap<BanReason, HashMap<BanSeverity, Long>> bans;
 	
-	public PlayerBanData(JSONObject response){
+	public PlayerBansData(JSONObject response){
 		this.summary = new HashMap<String, Long>();
 		this.bans = new HashMap<BanReason, HashMap<BanSeverity, Long>>();
 		
@@ -65,7 +65,7 @@ public class PlayerBanData {
 		}
 	}
 	
-	public PlayerBanData(String response) throws ParseException {
+	public PlayerBansData(String response) throws ParseException {
 		this((JSONObject) (new JSONParser()).parse(response));
 	}
 	

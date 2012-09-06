@@ -4,9 +4,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.minebans.api.callback.PlayerBanCallback;
+import com.minebans.api.callback.PlayerUnbanCallback;
+import com.minebans.api.request.PlayerBanRequest;
+import com.minebans.api.request.PlayerUnbanRequest;
 import com.minebans.bans.BanReason;
 import com.minebans.bans.BanType;
 import com.minebans.events.PlayerBanEvent;
@@ -86,7 +92,7 @@ public class BanManager {
 		this.locallyBanPlayer(playerName, true, true);
 	}
 	
-	public void globallyBanPlayer(String playerName, String issuedBy, BanReason reason, boolean log, boolean notify){
+	public void globallyBanPlayer(String playerName, final String issuedBy, BanReason reason, boolean log, boolean notify){
 		PlayerGlobalBanEvent globalBanEvent = new PlayerGlobalBanEvent(playerName, reason);
 		PlayerBanEvent banEvent = new PlayerBanEvent(playerName, BanType.GLOBAL);
 		
@@ -104,7 +110,16 @@ public class BanManager {
 			this.globallyBannedPlayers.add(playerName);
 			this.globallyBannedPlayers.save();
 			
-			plugin.api.banPlayer(playerName, issuedBy, reason, plugin.evidenceManager.collectFor(reason, playerName));
+			
+			(new PlayerBanRequest(plugin, playerName, issuedBy, reason, plugin.evidenceManager.collectFor(reason, playerName))).process(new PlayerBanCallback(){
+				
+				public void onFailure(Exception exception){
+					CommandSender sender = (issuedBy.equalsIgnoreCase("console")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
+					
+					plugin.api.handleException(exception, sender);
+				}
+				
+			});
 			
 			if (notify){
 				plugin.notificationManager.sendBanNotification(playerName, reason, log);
@@ -170,8 +185,16 @@ public class BanManager {
 		}
 	}
 	
-	public void unGlobalBan(String playerName, String issuedBy){
-		plugin.api.unbanPlayer(playerName, issuedBy);
+	public void unGlobalBan(String playerName, final String issuedBy){
+		(new PlayerUnbanRequest(plugin, playerName, issuedBy)).process(new PlayerUnbanCallback(){
+			
+			public void onFailure(Exception exception){
+				CommandSender sender = (issuedBy.equalsIgnoreCase("console")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
+				
+				plugin.api.handleException(exception, sender);
+			}
+			
+		});
 	}
 	
 	public void unLocalBan(String playerName, boolean log){

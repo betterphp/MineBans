@@ -8,7 +8,7 @@ import uk.co.jacekk.bukkit.baseplugin.v1.event.BaseListener;
 import com.minebans.MineBans;
 import com.minebans.Config;
 import com.minebans.api.ConnectionDeniedReason;
-import com.minebans.api.PlayerBanData;
+import com.minebans.api.data.PlayerBansData;
 import com.minebans.bans.BanReason;
 import com.minebans.bans.BanSeverity;
 import com.minebans.events.PlayerLoginDataEvent;
@@ -23,7 +23,7 @@ public class TooManyBansListener extends BaseListener<MineBans> {
 	public void onPlayerLoginData(PlayerLoginDataEvent event){
 		Long limit;
 		
-		PlayerBanData banData = event.getJoinData().getBanData();
+		PlayerBansData banData = event.getJoinData().getBansData();
 		
 		for (BanReason banReason : banData.getBanReasons()){
 			if (plugin.config.getBoolean(Config.getReasonEnabled(banReason)) || !plugin.config.getBoolean(Config.MAX_BANS_TOTAL_IGNORE_DISABLED_RULES)){

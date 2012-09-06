@@ -1,45 +1,49 @@
 package com.minebans.api;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.SocketTimeoutException;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import org.json.simple.JSONObject;
+
 import com.minebans.MineBans;
+import com.minebans.api.callback.APICallback;
+import com.minebans.api.request.APIRequest;
 
 public class APIRequestHandler extends Thread implements Runnable {
 	
 	private MineBans plugin;
 	
-	private ArrayBlockingQueue<APIRequest> requestStack;
-	private APIRequest currentRrequest;
+	private ArrayBlockingQueue<APIRequest<? extends APICallback>> requestStack;
+	private volatile APIRequest<? extends APICallback> currentRequest;
 	
 	public APIRequestHandler(MineBans plugin){
+		super("MineBans API Thread");
+		
 		this.plugin = plugin;
 		
-		this.requestStack = new ArrayBlockingQueue<APIRequest>(500);
+		this.requestStack = new ArrayBlockingQueue<APIRequest<? extends APICallback>>(256);
 	}
 	
-	public String processRequestDirect(APIRequest request) throws UnsupportedEncodingException, SocketTimeoutException, IOException, APIException {
-		this.currentRrequest = request;
-		
-		URLConnection conn = request.url.openConnection();
+	public synchronized String processRequest(APIRequest<? extends APICallback> request) throws Exception {
+		URLConnection conn = request.getURL().openConnection();
 		
 		conn.setUseCaches(false);
-		conn.setConnectTimeout(request.timeout);
-		conn.setReadTimeout(request.timeout);
+		conn.setConnectTimeout(request.getTimeout());
+		conn.setReadTimeout(request.getTimeout());
 		
-		if (request.json != null){
+		JSONObject requestData = request.getJSON();
+		
+		if (requestData != null){
 			conn.setDoOutput(true);
 			
 			OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
 			
-			out.write("request_data=" + URLEncoder.encode(request.json.toJSONString(), "UTF-8"));
+			out.write("request_data=" + URLEncoder.encode(requestData.toJSONString(), "UTF-8"));
+			
 			out.flush();
 			out.close();
 		}
@@ -61,36 +65,26 @@ public class APIRequestHandler extends Thread implements Runnable {
 			throw new APIException(response);
 		}
 		
-		this.currentRrequest = null;
-		
 		return response;
 	}
 	
 	public void run(){
 		while (true){
 			try{
-				APIRequest request = this.requestStack.take();
+				APIRequest<? extends APICallback> request = this.requestStack.take();
 				
 				try{
-					request.callback.onSuccess(this.processRequestDirect(request));
-				}catch (UnsupportedEncodingException e){
-					request.callback.onFailure(e);
-				}catch (SocketTimeoutException e){
-					request.callback.onFailure(e);
-				}catch (IOException e){
-					request.callback.onFailure(e);
-				}catch (APIException e){
-					request.callback.onFailure(e);
+					request.onSuccess(this.processRequest(request));
+				}catch (Exception e){
+					request.onFailure(e);
 				}
-				
-				this.currentRrequest = null;
 			}catch (InterruptedException e1){
 				return;
 			}
 		}
 	}
 	
-	public void addRequest(APIRequest request){
+	public void addRequest(APIRequest<? extends APICallback> request){
 		// This is only to prevent accidental exponential queue growth DOSing the API.
 		if (this.requestStack.remainingCapacity() == 0){
 			plugin.log.warn("API request queue overloaded, waiting for some to complete.");
@@ -101,8 +95,8 @@ public class APIRequestHandler extends Thread implements Runnable {
 		}catch (InterruptedException e){  }
 	}
 	
-	public APIRequest getCurrentRequest(){
-		return this.currentRrequest;
+	public APIRequest<? extends APICallback> getCurrentRequest(){
+		return this.currentRequest;
 	}
 	
 }

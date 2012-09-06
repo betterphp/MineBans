@@ -6,12 +6,11 @@ import java.util.Map;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.json.simple.parser.ParseException;
 
 import com.minebans.MineBans;
 import com.minebans.Config;
-import com.minebans.api.APIResponseCallback;
-import com.minebans.api.PlayerBanData;
+import com.minebans.api.callback.PlayerBansCallback;
+import com.minebans.api.request.PlayerBansRequest;
 import com.minebans.bans.BanReason;
 import com.minebans.bans.BanType;
 
@@ -456,22 +455,8 @@ public class MineBansPluginAPI {
 	 * @param issuedBy		The name of the player to be made responsible for this lookup, they must have an account at minebans.com and be listed as a moderator for this server. This can be "CONSOLE" which makes the server admin responsible. 
 	 * @param callback		A {@link PluginAPIResponseCallback} to be used to handle the response.
 	 */
-	public void lookupPlayer(String playerName, String issuedBy, final PluginAPIResponseCallback callback){
-		plugin.api.lookupPlayerBans(playerName, issuedBy, new APIResponseCallback(){
-			
-			public void onSuccess(String response){
-				try{
-					callback.onSuccess(new PlayerBanData(response));
-				}catch (ParseException e){
-					callback.onFailure(e);
-				}
-			}
-			
-			public void onFailure(Exception e){
-				callback.onFailure(e);
-			}
-			
-		});
+	public void lookupPlayer(String playerName, String issuedBy, PlayerBansCallback callback){
+		(new PlayerBansRequest(plugin, issuedBy, playerName)).process(callback);
 	}
 	
 	/**
@@ -481,7 +466,7 @@ public class MineBansPluginAPI {
 	 * @param issuedBy	The name of the player to be made responsible for this lookup, they must have an account at minebans.com and be listed as a moderator for this server. This can be "CONSOLE" which makes the server admin responsible.
 	 * @param callback	A {@link PluginAPIResponseCallback} to be used to handle the response.
 	 */
-	public void lookupPlayer(Player player, String issuedBy, PluginAPIResponseCallback callback){
+	public void lookupPlayer(Player player, String issuedBy, PlayerBansCallback callback){
 		this.lookupPlayer(player.getName(), issuedBy, callback);
 	}
 	

@@ -7,7 +7,8 @@ import org.bukkit.event.player.PlayerPreLoginEvent.Result;
 
 import com.minebans.api.ConnectionAllowedReason;
 import com.minebans.api.ConnectionDeniedReason;
-import com.minebans.api.PlayerJoinData;
+import com.minebans.api.data.PlayerJoinInfoData;
+import com.minebans.api.request.PlayerJoinInfoRequest;
 import com.minebans.events.PlayerConnectionAllowedEvent;
 import com.minebans.events.PlayerConnectionDeniedEvent;
 import com.minebans.events.PlayerLoginDataEvent;
@@ -33,23 +34,21 @@ public class PlayerLoginListener extends BaseListener<MineBans> {
 			return;
 		}
 		
-		PlayerJoinData joinData = plugin.api.getPlayerJoinInfo(playerName, "CONSOLE", 8000);
+		PlayerJoinInfoData joinData = (new PlayerJoinInfoRequest(plugin, "CONSOLE", playerName)).process();
 		
 		if (joinData != null){
 			PlayerLoginDataEvent loginDataEvent = new PlayerLoginDataEvent(playerName, playerAddress, joinData);
 			
-			if (joinData != null){
-				plugin.pluginManager.callEvent(loginDataEvent);
-				
-				if (loginDataEvent.isConnectionPrevented()){
-					event.disallow(Result.KICK_OTHER, loginDataEvent.getKickMessage());
-					plugin.log.info(playerName + " (" + playerAddress + ") " + loginDataEvent.getLogMessage());
-					plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, loginDataEvent.getReason()));
-					return;
-				}
+			plugin.pluginManager.callEvent(loginDataEvent);
+			
+			if (loginDataEvent.isConnectionPrevented()){
+				event.disallow(Result.KICK_OTHER, loginDataEvent.getKickMessage());
+				plugin.log.info(playerName + " (" + playerAddress + ") " + loginDataEvent.getLogMessage());
+				plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, loginDataEvent.getReason()));
+				return;
 			}
 		}else{
-			plugin.log.warn("The API failed to respond even with a longer timeout, it might be down for some reason.");
+			plugin.log.warn("The API failed to respond, reverting to local only checks.");
 			
 			if (plugin.banManager.isLocallyBanned(playerName)){
 				event.disallow(Result.KICK_BANNED, ConnectionDeniedReason.LOCALLY_BANNED.getKickMessage());

@@ -8,10 +8,13 @@ import org.bukkit.plugin.Plugin;
 
 import uk.co.jacekk.bukkit.baseplugin.v1.BasePlugin;
 import uk.co.jacekk.bukkit.baseplugin.v1.config.PluginConfig;
+import uk.co.jacekk.bukkit.baseplugin.v1.update.BukkitDevUpdateChecker;
 
 import com.minebans.api.APIInterface;
-import com.minebans.api.APIResponseCallback;
-import com.minebans.api.SystemStatusData;
+import com.minebans.api.data.StatusData;
+import com.minebans.api.data.StatusMessageData;
+import com.minebans.api.request.StatusMessageRequest;
+import com.minebans.api.request.StatusRequest;
 import com.minebans.bans.BanReason;
 import com.minebans.commands.BanExecutor;
 import com.minebans.commands.MineBansExecutor;
@@ -37,6 +40,7 @@ public class MineBans extends BasePlugin {
 	public NotificationManager notificationManager;
 	
 	public APIInterface api;
+	public BukkitDevUpdateChecker updateChecker;
 	
 	public ArrayList<String> seenPlayers;
 	public HashMap<String, ArrayList<String>> banCommands;
@@ -61,6 +65,7 @@ public class MineBans extends BasePlugin {
 		this.notificationManager = new NotificationManager(this);
 		
 		this.api = new APIInterface(this);
+		this.updateChecker = new BukkitDevUpdateChecker(this, "http://dev.bukkit.org/server-mods/minebans/files.rss");
 		
 		this.seenPlayers = new ArrayList<String>();
 		this.banCommands = new HashMap<String, ArrayList<String>>();
@@ -98,35 +103,29 @@ public class MineBans extends BasePlugin {
 		this.commandManager.registerCommandExecutor(new ExemptExecutor(this));
 		this.commandManager.registerCommandExecutor(new MineBansExecutor(this));
 		
-		this.scheduler.scheduleAsyncDelayedTask(this, new Runnable(){
+		this.scheduler.scheduleSyncDelayedTask(this, new Runnable(){
 			
 			public void run(){
 				MineBans.this.log.info("Checking API server communication.");
 				
 				long startTime = System.currentTimeMillis();
-				SystemStatusData status = MineBans.this.api.getAPIStatus("CONSOLE");
-				long ping = System.currentTimeMillis() - startTime;
+				StatusData status = new StatusRequest(MineBans.this, "CONSOLE").process();
 				
 				if (status == null){
 					MineBans.this.log.warn("The API failed to respond, checking for known problems...");
 					
-					MineBans.this.api.lookupAPIStatusMessage(new APIResponseCallback(){
-						
-						public void onSuccess(String response){
-							MineBans.this.log.warn("Status: " + response);
-						}
-						
-						public void onFailure(Exception e){
-							MineBans.this.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 10 seconds.");
-							
-							e.printStackTrace();
-						}
-						
-					});
+					StatusMessageData data = (new StatusMessageRequest(MineBans.this)).process();
+					
+					if (data == null){
+						MineBans.this.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 12 seconds.");
+					}else{
+						MineBans.this.log.warn("Status: " + data.getMessage());
+					}
 				}else{
-					if (ping > 4000){
-						MineBans.this.log.warn("The API took longer than 4 seconds to reply.");
-						MineBans.this.log.warn("This is not a serious problem but players may experience longer than normal login times.");
+					long ping = status.getResponceTime() - startTime;
+					
+					if (ping > 5000){
+						MineBans.this.log.warn("The API took longer than 5 seconds to reply, players may experience slow logins.");
 					}
 					
 					MineBans.this.log.info("The API responded in " + ping + "ms");

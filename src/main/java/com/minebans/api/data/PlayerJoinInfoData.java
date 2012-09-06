@@ -1,20 +1,20 @@
-package com.minebans.api;
+package com.minebans.api.data;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class PlayerJoinData {
+public class PlayerJoinInfoData {
 	
 	private PlayerInfoData infoData;
-	private PlayerBanData banData;
+	private PlayerBansData bansData;
 	
-	public PlayerJoinData(JSONObject responce){
+	public PlayerJoinInfoData(JSONObject responce){
 		this.infoData = new PlayerInfoData(responce);
-		this.banData = new PlayerBanData(responce);
+		this.bansData = new PlayerBansData(responce);
 	}
 	
-	public PlayerJoinData(String response) throws ParseException {
+	public PlayerJoinInfoData(String response) throws ParseException {
 		this((JSONObject) (new JSONParser()).parse(response));
 	}
 	
@@ -22,8 +22,8 @@ public class PlayerJoinData {
 		return this.infoData;
 	}
 	
-	public PlayerBanData getBanData(){
-		return this.banData;
+	public PlayerBansData getBansData(){
+		return this.bansData;
 	}
 	
 }
