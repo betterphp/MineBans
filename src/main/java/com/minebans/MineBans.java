@@ -103,7 +103,7 @@ public class MineBans extends BasePlugin {
 		this.commandManager.registerCommandExecutor(new ExemptExecutor(this));
 		this.commandManager.registerCommandExecutor(new MineBansExecutor(this));
 		
-		this.scheduler.scheduleSyncDelayedTask(this, new Runnable(){
+		this.scheduler.scheduleAsyncDelayedTask(this, new Runnable(){
 			
 			public void run(){
 				MineBans.this.log.info("Checking API server communication.");
