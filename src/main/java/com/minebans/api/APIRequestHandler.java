@@ -6,6 +6,7 @@ import java.io.OutputStreamWriter;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Callable;
 
 import org.json.simple.JSONObject;
 
@@ -92,12 +93,28 @@ public class APIRequestHandler extends Thread implements Runnable {
 	public void run(){
 		while (true){
 			try{
-				APIRequest<? extends APICallback> request = this.requestStack.take();
+				final APIRequest<? extends APICallback> request = this.requestStack.take();
 				
 				try{
-					request.onSuccess(this.processRequest(request));
-				}catch (Exception e){
-					request.onFailure(e);
+					final String response = this.processRequest(request);
+					
+					plugin.scheduler.callSyncMethod(plugin, new Callable<Boolean>(){
+						
+						public Boolean call() throws Exception{
+							request.onSuccess(response);
+							return true;
+						}
+						
+					});
+				}catch (final Exception e){
+					plugin.scheduler.callSyncMethod(plugin, new Callable<Boolean>(){
+						
+						public Boolean call() throws Exception{
+							request.onFailure(e);
+							return true;
+						}
+						
+					});
 				}
 			}catch (InterruptedException e1){
 				return;
