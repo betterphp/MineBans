@@ -109,7 +109,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 								sender.sendMessage(plugin.formatMessage(ChatColor.RED + "A new version is available, v" + plugin.updateChecker.getVersion()));
 								sender.sendMessage(plugin.formatMessage(ChatColor.RED + plugin.updateChecker.getLink()));
 							}else{
-								sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Up to date :D"));
+								sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Up to date \\o/"));
 							}
 						}
 						
