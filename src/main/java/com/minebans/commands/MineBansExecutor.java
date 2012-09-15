@@ -106,15 +106,11 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 					plugin.scheduler.scheduleSyncDelayedTask(plugin, new Runnable(){
 						
 						public void run(){
-							Player player = plugin.server.getPlayer(senderName);
-							
-							if (player != null){
-								if (update){
-									player.sendMessage(plugin.formatMessage(ChatColor.RED + "A new version is available, v" + plugin.updateChecker.getVersion()));
-									player.sendMessage(plugin.formatMessage(ChatColor.RED + plugin.updateChecker.getLink()));
-								}else{
-									sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Up to date :D"));
-								}
+							if (update){
+								sender.sendMessage(plugin.formatMessage(ChatColor.RED + "A new version is available, v" + plugin.updateChecker.getVersion()));
+								sender.sendMessage(plugin.formatMessage(ChatColor.RED + plugin.updateChecker.getLink()));
+							}else{
+								sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Up to date :D"));
 							}
 						}
 						
