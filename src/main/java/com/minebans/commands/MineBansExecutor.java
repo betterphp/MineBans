@@ -2,8 +2,10 @@ package com.minebans.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -43,6 +45,8 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   lookup - Gets a summary of a players bans."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   listtemp - Lists all of the players that are temporarily banned."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   exec - Executes the commands for the last ban made."));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   import - Imports any bans made using other systems."));
+			
 			return;
 		}
 		
@@ -247,6 +251,19 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			}
 			
 			plugin.banCommands.remove(senderName);
+		}else if (option.equalsIgnoreCase("import") || option.equalsIgnoreCase("i")){
+			if (!Permission.ADMIN_IMPORT.has(sender)){
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+				return;
+			}
+			
+			Set<OfflinePlayer> players = plugin.server.getBannedPlayers();
+			
+			for (OfflinePlayer player : players){
+				plugin.banManager.locallyBanPlayer(player.getName(), true, false);
+			}
+			
+			sender.sendMessage(plugin.formatMessage(ChatColor.GREEN.toString() + players.size() + " bans have been imported"));
 		}else{
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Invalid option, see /" + label + " for a list of options."));
 		}
