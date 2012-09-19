@@ -1,4 +1,5 @@
 name: MineBans
-version: "0.13"
+version: "0.13.1"
 main: com.minebans.MineBans
 softdepend: [LogBlock, HawkEye, Guardian, SWatchdog, CoreProtect, NoCheat, NoCheatPlus, MineBansAntiSpam]
+loadbefore: [Essentials, CommandBook]
