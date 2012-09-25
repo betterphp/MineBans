@@ -23,18 +23,33 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 	
 	@CommandHandler(names = {"ban", "b"}, description = "Bans a player from the server.", usage = "[player_name] [reason_id/reason_keyword]")
 	public void ban(CommandSender sender, String label, String[] args){
-		if (!Permission.ADMIN_BAN.has(sender)){
+		boolean all = Permission.ADMIN_BAN.has(sender);
+		boolean global = Permission.ADMIN_BAN_GLOBAL.has(sender);
+		boolean local = Permission.ADMIN_BAN_LOCAL.has(sender);
+		boolean temp = Permission.ADMIN_BAN_TEMP.has(sender);
+		
+		if (!all && !global && !local && !temp){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return;
 		}
 		
 		if (args.length == 0){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /" + label + " <player_name> [reason / ban_duration]"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (local): /" + label + " wide_load"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (global): /" + label + " wide_load 2"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (global): /" + label + " wide_load griefing"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (temporary): /" + label + " wide_load 12h"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (temporary): /" + label + " wide_load 7d"));
+			
+			if (local){
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (local): /" + label + " wide_load"));
+			}
+			
+			if (global){
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (global): /" + label + " wide_load 2"));
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (global): /" + label + " wide_load griefing"));
+			}
+			
+			if (temp){
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (temporary): /" + label + " wide_load 12h"));
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example (temporary): /" + label + " wide_load 7d"));
+			}
+			
 			return;
 		}
 		
@@ -59,6 +74,11 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 		
 		if (args.length == 2){
 			if (args[1].matches("\\d+[hd]{1}")){
+				if (!temp){
+					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+					return;
+				}
+				
 				int banDuration = ((args[1].charAt(args[1].length() - 1) == 'h') ? 3600 : 86400) * (Integer.parseInt(args[1].substring(0, args[1].length() - 1)));
 				
 				if (banDuration <= 0){
@@ -78,6 +98,11 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 					cmds.add(cmd.replace("%player_name%", playerName));
 				}
 			}else{
+				if (!global){
+					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+					return;
+				}
+				
 				OfflinePlayer player = plugin.server.getOfflinePlayer(playerName);
 				
 				if (!plugin.seenPlayers.contains(playerName.toLowerCase()) && !player.isOnline() && !player.hasPlayedBefore()){
@@ -117,6 +142,11 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 				}
 			}
 		}else{
+			if (!local){
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+				return;
+			}
+			
 			plugin.banManager.locallyBanPlayer(playerName, (sender instanceof Player));
 			sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been banned from the server."));
 			
