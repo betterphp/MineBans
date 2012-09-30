@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 
-import uk.co.jacekk.bukkit.baseplugin.v1.permissions.PluginPermission;
+import uk.co.jacekk.bukkit.baseplugin.v2.permissions.PluginPermission;
 
 public enum Permission implements PluginPermission {
 	

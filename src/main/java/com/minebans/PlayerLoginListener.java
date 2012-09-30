@@ -13,7 +13,7 @@ import com.minebans.events.PlayerConnectionAllowedEvent;
 import com.minebans.events.PlayerConnectionDeniedEvent;
 import com.minebans.events.PlayerLoginDataEvent;
 
-import uk.co.jacekk.bukkit.baseplugin.v1.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.v2.event.BaseListener;
 
 public class PlayerLoginListener extends BaseListener<MineBans> {
 	

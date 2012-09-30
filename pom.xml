@@ -3,7 +3,7 @@
 	
 	<groupId>com.minebans</groupId>
 	<artifactId>MineBans</artifactId>
-	<version>0.13.1-SNAPSHOT</version>
+	<version>0.14-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
 	<name>MineBans</name>
@@ -37,14 +37,14 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.3.2-R0.1</version>
+			<version>1.3.2-R1.0</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>uk.co.jacekk.bukkit</groupId>
 			<artifactId>baseplugin</artifactId>
-			<version>1.0</version>
+			<version>2.0</version>
 			<scope>compile</scope>
 		</dependency>
 		

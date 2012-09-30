@@ -8,8 +8,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
-import uk.co.jacekk.bukkit.baseplugin.v1.command.BaseCommandExecutor;
-import uk.co.jacekk.bukkit.baseplugin.v1.command.CommandHandler;
+import uk.co.jacekk.bukkit.baseplugin.v2.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.v2.command.CommandHandler;
 
 import com.minebans.MineBans;
 import com.minebans.Config;
