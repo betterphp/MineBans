@@ -11,38 +11,37 @@ import java.util.HashMap;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import aux.aux.aux.aUx;
-import aux.aux.aux.aux;
-
 import com.minebans.MineBans;
 import com.minebans.pluginInterfaces.LoggingPluginInterface;
+import com.minerealm.core.CoreProtection;
+import com.minerealm.core.CoreProtectionConfig;
 
 public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 	
 	private MineBans plugin;
-	private aux coreProtect;
+	private CoreProtection coreProtect;
 	
 	private boolean useMySQL;
 	private String tablePrefix;
 	
 	public CoreProtectPluginIntereface(MineBans plugin){
 		this.plugin = plugin;
-		this.coreProtect = (aux) plugin.pluginManager.getPlugin("CoreProtect");
+		this.coreProtect = (CoreProtection) plugin.pluginManager.getPlugin("CoreProtect");
 		
 		try{
-			Field k = aux.class.getDeclaredField("k");
-			k.setAccessible(true);
-			Integer logType = (Integer) k.get(this.coreProtect);
+			Field useMySQL = CoreProtection.class.getDeclaredField("use_mysql");
+			useMySQL.setAccessible(true);
 			
-			this.useMySQL = (logType == 1);
+			this.useMySQL = ((Integer) useMySQL.get(this.coreProtect) == 1);
 		}catch (Exception e){
 			e.printStackTrace();
 		}
 		
 		try{
-			Field q = aux.class.getDeclaredField("q");
-			q.setAccessible(true);
-			this.tablePrefix = (String) q.get(this.coreProtect);
+			Field prefix = CoreProtection.class.getDeclaredField("prefix");
+			prefix.setAccessible(true);
+			
+			this.tablePrefix = (String) prefix.get(this.coreProtect);
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -82,7 +81,7 @@ public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 		HashMap<Integer, Integer> taken = new HashMap<Integer, Integer>();
 		
 		if (this.useMySQL){
-			Connection connection = aUx.Code(1);
+			Connection connection = CoreProtectionConfig.connect(1);
 			
 			try{
 				if (!connection.isClosed()){
@@ -154,7 +153,7 @@ public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 		Long minTimestamp = (System.currentTimeMillis() / 1000L) - 86400;
 		
 		if (this.useMySQL){
-			Connection connection = aUx.Code(1);
+			Connection connection = CoreProtectionConfig.connect(1);
 			
 			try{
 				if (!connection.isClosed()){
@@ -228,7 +227,7 @@ public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 		Long minTimestamp = (System.currentTimeMillis() / 1000L) - 86400;
 		
 		if (this.useMySQL){
-			Connection connection = aUx.Code(1);
+			Connection connection = CoreProtectionConfig.connect(1);
 			
 			try{
 				if (!connection.isClosed()){
@@ -304,7 +303,7 @@ public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 		Long minTimestamp = (System.currentTimeMillis() / 1000L) - 86400;
 		
 		if (this.useMySQL){
-			Connection connection = aUx.Code(1);
+			Connection connection = CoreProtectionConfig.connect(1);
 			
 			try{
 				if (!connection.isClosed()){

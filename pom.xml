@@ -52,42 +52,42 @@
 			<groupId>com.minebans.antispam</groupId>
 			<artifactId>MineBansAntiSpam</artifactId>
 			<version>0.4.3-SNAPSHOT</version>
-			<scope>provided</scope>
+			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>de.diddiz.LogBlock</groupId>
 			<artifactId>LogBlock</artifactId>
 			<version>1.58</version>
-			<scope>runtime</scope>
+			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.guardian</groupId>
 			<artifactId>Guardian</artifactId>
 			<version>82</version>
-			<scope>runtime</scope>
+			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>uk.co.oliwali.HawkEye</groupId>
 			<artifactId>HawkEye</artifactId>
 			<version>1.0.7b</version>
-			<scope>runtime</scope>
+			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>me.Sanzennin.SWatchdog</groupId>
 			<artifactId>SWatchdog</artifactId>
 			<version>1.15</version>
-			<scope>runtime</scope>
+			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.minerealm.core</groupId>
-			<artifactId>CoreProtect</artifactId>
-			<version>1.54</version>
-			<scope>runtime</scope>
+			<artifactId>CoreProtection</artifactId>
+			<version>1.54c</version>
+			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
