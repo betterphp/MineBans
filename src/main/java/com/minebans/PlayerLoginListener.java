@@ -69,6 +69,7 @@ public class PlayerLoginListener extends BaseListener<MineBans> {
 		}
 		
 		plugin.seenPlayers.add(playerName.toLowerCase());
+		plugin.notificationManager.sendJoinNotification(playerName, playerAddress, joinData);
 		
 		plugin.log.info(playerName + " (" + playerAddress + ") was allowed to join the server.");
 		plugin.pluginManager.callEvent(new PlayerConnectionAllowedEvent(playerName, ConnectionAllowedReason.PASSED_CHECKS));

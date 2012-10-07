@@ -47,6 +47,10 @@ public class MineBans extends BasePlugin {
 	public ArrayList<String> seenPlayers;
 	public HashMap<String, ArrayList<String>> banCommands;
 	
+	// String IP, List<String> playerNames
+	public HashMap<String, ArrayList<String>> playerIPs;
+	public HashMap<String, ArrayList<String>> bannedIPs;
+	
 	public void onEnable(){
 		super.onEnable(true);
 		
@@ -77,9 +81,11 @@ public class MineBans extends BasePlugin {
 		
 		this.seenPlayers = new ArrayList<String>();
 		this.banCommands = new HashMap<String, ArrayList<String>>();
+		this.bannedIPs = new HashMap<String, ArrayList<String>>();
 		
 		this.pluginManager.registerEvents(new PlayerLoginListener(this), this);
 		this.pluginManager.registerEvents(new PlayerJoinListener(this), this);
+		this.pluginManager.registerEvents(new PlayerIPListener(this), this);
 		this.pluginManager.registerEvents(new RequestVerificationListener(this), this);
 		
 		this.pluginManager.registerEvents(new PlayerBannedListener(this), this);

@@ -1,9 +1,14 @@
 package com.minebans;
 
+import java.util.ArrayList;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import com.minebans.antispam.data.PlayerData;
 import com.minebans.api.data.PlayerBansData;
+import com.minebans.api.data.PlayerInfoData;
+import com.minebans.api.data.PlayerJoinInfoData;
 import com.minebans.bans.BanReason;
 
 public class NotificationManager {
@@ -89,10 +94,16 @@ public class NotificationManager {
 		}
 	}
 	
-	public void sendJoinNotification(String playerName, PlayerBansData playerData){
-		Long totalBans	= playerData.getTotal();
-		Long last24 	= playerData.getLast24();
-		Long removed	= playerData.getRemoved();
+	public void sendJoinNotification(String playerName, String ipAddress, PlayerJoinInfoData playerData){
+		PlayerBansData bansData = playerData.getBansData();
+		PlayerInfoData infoData = playerData.getInfoData();
+		
+		Long totalBans = bansData.getTotal();
+		Long last24 = bansData.getLast24();
+		Long removed = bansData.getRemoved();
+		boolean compromised = infoData.isKnownCompromised();
+		
+		ArrayList<String> bannedAlts = plugin.bannedIPs.get(ipAddress);
 		
 		if (plugin.config.getBoolean(Config.USE_COMPACT_JOIN_INFO)){
 			if (totalBans > 0L || last24 > 0L){
@@ -101,12 +112,21 @@ public class NotificationManager {
 				}
 			}
 		}else{
-			if (totalBans > 0L || last24 > 0L || removed > 0L){
+			if (totalBans > 0L || last24 > 0L || removed > 0L || compromised || !bannedAlts.isEmpty()){
 				for (Player player : Permission.ALERT_ON_JOIN.getPlayersWith()){
 					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Summary for " + playerName));
 					player.sendMessage(ChatColor.GREEN + "Total bans on record: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans);
 					player.sendMessage(ChatColor.GREEN + "Bans in the last 24 hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
 					player.sendMessage(ChatColor.GREEN + "Bans that have been removed: " + ((removed <= 10L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + removed);
+					player.sendMessage(ChatColor.GREEN + "Kown compromised account: " + ((compromised) ? ChatColor.DARK_RED + "Yes" : ChatColor.GREEN + "No"));
+					
+					if (!bannedAlts.isEmpty()){
+						player.sendMessage(ChatColor.GREEN + "Recently banned players with the same IP:");
+						
+						for (String banned : bannedAlts){
+							player.sendMessage(ChatColor.GREEN + "  - " + banned);
+						}
+					}
 				}
 			}
 		}
