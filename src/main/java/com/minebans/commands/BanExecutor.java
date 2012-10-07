@@ -74,7 +74,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 		
 		if (args.length == 2){
 			if (args[1].matches("\\d+[hd]{1}")){
-				if (!temp){
+				if (!all && !temp){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 					return;
 				}
@@ -98,7 +98,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 					cmds.add(cmd.replace("%player_name%", playerName));
 				}
 			}else{
-				if (!global){
+				if (!all && !global){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 					return;
 				}
@@ -142,7 +142,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 				}
 			}
 		}else{
-			if (!local){
+			if (!all && !local){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 				return;
 			}
