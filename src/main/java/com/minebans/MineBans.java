@@ -31,7 +31,7 @@ import com.minebans.pluginapi.MineBansPluginAPI;
 
 public class MineBans extends BasePlugin {
 	
-	public static final boolean DEBUG_MODE = false;
+	public static final boolean DEBUG_MODE = true;
 	
 	public LoggingInterface loggingPlugin;
 	public ExploitInterface exploitPlugin;
@@ -81,6 +81,8 @@ public class MineBans extends BasePlugin {
 		
 		this.seenPlayers = new ArrayList<String>();
 		this.banCommands = new HashMap<String, ArrayList<String>>();
+		
+		this.playerIPs = new HashMap<String, ArrayList<String>>();
 		this.bannedIPs = new HashMap<String, ArrayList<String>>();
 		
 		this.pluginManager.registerEvents(new PlayerLoginListener(this), this);
