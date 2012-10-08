@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.baseplugin.v3.command.BaseCommandExecutor;
 import uk.co.jacekk.bukkit.baseplugin.v3.command.CommandHandler;
+import uk.co.jacekk.bukkit.baseplugin.v3.command.CommandTabCompletion;
 
 import com.minebans.MineBans;
 import com.minebans.Config;
@@ -22,6 +23,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 	}
 	
 	@CommandHandler(names = {"ban", "b"}, description = "Bans a player from the server.", usage = "[player_name] [reason_id/reason_keyword]")
+	@CommandTabCompletion({"<player>", "griefing|theft|spamming|pvpcheat|12h|1d|5d|7d"})
 	public void ban(CommandSender sender, String label, String[] args){
 		boolean all = Permission.ADMIN_BAN.has(sender);
 		boolean global = Permission.ADMIN_BAN_GLOBAL.has(sender);
@@ -173,6 +175,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 	}
 	
 	@CommandHandler(names = {"unban", "ub"}, description = "Unbans a player.", usage = "/unban [player_name]")
+	@CommandTabCompletion({"<player>"})
 	public void unban(CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_BAN.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
@@ -198,6 +201,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 	}
 	
 	@CommandHandler(names = {"kick", "k"}, description = "Disconnects a player from the server.", usage = "/kick [player_name]")
+	@CommandTabCompletion({"<player>"})
 	public void kick(CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_KICK.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));

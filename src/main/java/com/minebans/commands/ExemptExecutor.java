@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.baseplugin.v3.command.BaseCommandExecutor;
 import uk.co.jacekk.bukkit.baseplugin.v3.command.CommandHandler;
+import uk.co.jacekk.bukkit.baseplugin.v3.command.CommandTabCompletion;
 
 import com.minebans.MineBans;
 import com.minebans.Permission;
@@ -17,6 +18,7 @@ public class ExemptExecutor extends BaseCommandExecutor<MineBans> {
 	}
 	
 	@CommandHandler(names = {"exempt", "e", "be"}, description = "Used to manage the exempt list.", usage = "[option] [player_name]")
+	@CommandTabCompletion({"add|remove", "<player>"})
 	public void exempt(CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_EXEMPT.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));

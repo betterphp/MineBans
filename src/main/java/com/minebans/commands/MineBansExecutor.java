@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 
 import uk.co.jacekk.bukkit.baseplugin.v3.command.BaseCommandExecutor;
 import uk.co.jacekk.bukkit.baseplugin.v3.command.CommandHandler;
+import uk.co.jacekk.bukkit.baseplugin.v3.command.CommandTabCompletion;
 
 import com.minebans.MineBans;
 import com.minebans.Config;
@@ -34,6 +35,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 	}
 	
 	@CommandHandler(names = {"minebans", "mbans", "mb"}, description = "Provides various commands relating to the system.", usage = "[option]")
+	@CommandTabCompletion({"status|update|reasons|lookup|listtemp|exec|import"})
 	public void minebans(final CommandSender sender, String label, final String[] args){
 		if (args.length == 0){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /" + label + " <option> [args]"));
