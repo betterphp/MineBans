@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import uk.co.jacekk.bukkit.baseplugin.v2.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.v3.event.BaseListener;
 
 public class PlayerJoinListener extends BaseListener<MineBans> {
 	

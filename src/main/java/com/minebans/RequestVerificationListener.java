@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.server.ServerListPingEvent;
 
-import uk.co.jacekk.bukkit.baseplugin.v2.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.v3.event.BaseListener;
 
 public class RequestVerificationListener extends BaseListener<MineBans> {
 	
