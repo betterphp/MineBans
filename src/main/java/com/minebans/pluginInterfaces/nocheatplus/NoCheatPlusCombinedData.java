@@ -59,7 +59,6 @@ public class NoCheatPlusCombinedData {
 			pvpData.add(fightData.criticalVL);
 			pvpData.add(fightData.directionVL);
 			pvpData.add(fightData.godModeVL);
-			pvpData.add(fightData.instantHealVL);
 			pvpData.add(fightData.knockbackVL);
 			pvpData.add(fightData.noSwingVL);
 			pvpData.add(fightData.reachVL);
