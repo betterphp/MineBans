@@ -117,7 +117,7 @@ public class NotificationManager {
 					player.sendMessage(ChatColor.GREEN + "Total bans on record: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans);
 					player.sendMessage(ChatColor.GREEN + "Bans in the last 24 hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
 					player.sendMessage(ChatColor.GREEN + "Bans that have been removed: " + ((removed <= 10L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + removed);
-					player.sendMessage(ChatColor.GREEN + "Kown compromised account: " + ((compromised) ? ChatColor.DARK_RED + "Yes" : ChatColor.GREEN + "No"));
+					player.sendMessage(ChatColor.GREEN + "Known compromised account: " + ((compromised) ? ChatColor.DARK_RED + "Yes" : ChatColor.GREEN + "No"));
 					
 					if (bannedAlts != null && !bannedAlts.isEmpty()){
 						player.sendMessage(ChatColor.GREEN + "Recently banned players with the same IP:");
