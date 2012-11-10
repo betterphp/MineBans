@@ -94,6 +94,10 @@ public class NotificationManager {
 	}
 	
 	public void sendJoinNotification(String playerName, String ipAddress, PlayerJoinInfoData playerData){
+		if (playerData == null){
+			return;
+		}
+		
 		PlayerBansData bansData = playerData.getBansData();
 		PlayerInfoData infoData = playerData.getInfoData();
 		
