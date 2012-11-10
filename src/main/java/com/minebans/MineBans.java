@@ -6,9 +6,9 @@ import java.util.HashMap;
 
 import org.bukkit.plugin.Plugin;
 
-import uk.co.jacekk.bukkit.baseplugin.v4.BasePlugin;
-import uk.co.jacekk.bukkit.baseplugin.v4.config.PluginConfig;
-import uk.co.jacekk.bukkit.baseplugin.v4.update.BukkitDevUpdateChecker;
+import uk.co.jacekk.bukkit.baseplugin.v5.BasePlugin;
+import uk.co.jacekk.bukkit.baseplugin.v5.config.PluginConfig;
+import uk.co.jacekk.bukkit.baseplugin.v5.update.BukkitDevUpdateChecker;
 
 import com.minebans.api.APIInterface;
 import com.minebans.api.data.StatusData;
@@ -66,7 +66,7 @@ public class MineBans extends BasePlugin {
 			return;
 		}
 		
-		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.values(), this.log);
+		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.class, this.log);
 		
 		this.loggingPlugin = new LoggingInterface(this);
 		this.exploitPlugin = new ExploitInterface(this);
@@ -111,7 +111,7 @@ public class MineBans extends BasePlugin {
 			}
 		}
 		
-		this.permissionManager.registerPermissions(Permission.values());
+		this.permissionManager.registerPermissions(Permission.class);
 		
 		this.commandManager.registerCommandExecutor(new BanExecutor(this));
 		this.commandManager.registerCommandExecutor(new ExemptExecutor(this));

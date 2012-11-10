@@ -1,139 +1,139 @@
 package com.minebans;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
-import uk.co.jacekk.bukkit.baseplugin.v4.config.PluginConfigKey;
+import uk.co.jacekk.bukkit.baseplugin.v5.config.PluginConfigKey;
 
 import com.minebans.bans.BanReason;
 import com.minebans.bans.BanSeverity;
 
-public enum Config implements PluginConfigKey {
+public class Config {
 	
-	API_KEY(								"api-key", 								"change this to the one from your control panel"),
+	public static final PluginConfigKey API_KEY	= new PluginConfigKey("api-key", "change this to the one from your control panel");
 	
-	USE_COMPACT_JOIN_INFO(					"use-compact-join-info",				false),
-	USE_GROUP_BANS(							"use-group-bans",						true),
+	public static final PluginConfigKey USE_COMPACT_JOIN_INFO		= new PluginConfigKey("use-compact-join-info", false);
+	public static final PluginConfigKey USE_GROUP_BANS			= new PluginConfigKey("use-group-bans", true);
 	
-	BLOCK_PROXIES(							"block-public-proxies",					true),
-	BLOCK_COMPROMISED_ACCOUNTS(				"block-known-compromised-accounts",		true),
+	public static final PluginConfigKey BLOCK_PROXIES					= new PluginConfigKey("block-public-proxies", true);
+	public static final PluginConfigKey BLOCK_COMPROMISED_ACCOUNTS	= new PluginConfigKey("block-known-compromised-accounts", true);
 	
-	MESSAGE_KICK(							"messages.kick",						"You have been kicked from the server."),
-	MESSAGE_BAN(							"messages.ban",							"You have been banned from the server."),
-	MESSAGE_TEMPBAN(						"messages.tempban",						"You have been banned from the server for "),
-	MESSAGE_UNEXEMPT(						"messages.unexempt",					"You have been removed from the exempt list."),
+	public static final PluginConfigKey MESSAGE_KICK			= new PluginConfigKey("messages.kick", "You have been kicked from the server.");
+	public static final PluginConfigKey MESSAGE_BAN			= new PluginConfigKey("messages.ban", "You have been banned from the server.");
+	public static final PluginConfigKey MESSAGE_TEMPBAN		= new PluginConfigKey("messages.tempban", "You have been banned from the server for ");
+	public static final PluginConfigKey MESSAGE_UNEXEMPT		= new PluginConfigKey("messages.unexempt", "You have been removed from the exempt list.");
 	
-	BAN_COMMANDS_AUTO(						"ban.commands.autoexec",				false),
-	GLOBAL_BAN_COMMANDS(					"ban.commands.global",					new String[]{"lb rb player %player_name% world world since 10.10.1010", "lb rb player %player_name% world world_nether since 10.10.1010"}),
-	LOCAL_BAN_COMMANDS(						"ban.commands.local",					new String[]{"lb rb player %player_name% world world since 10.10.1010", "lb rb player %player_name% world world_nether since 10.10.1010"}),
-	TEMP_BAN_COMMANDS(						"ban.commands.temp",					new String[]{"lb rb player %player_name% world world since 3600", "lb rb player %player_name% world world_nether since 3600"}),
+	public static final PluginConfigKey BAN_COMMANDS_AUTO		= new PluginConfigKey("ban.commands.autoexec", false);
+	public static final PluginConfigKey GLOBAL_BAN_COMMANDS	= new PluginConfigKey("ban.commands.global", new String[]{"lb rb player %player_name% world world since 10.10.1010", "lb rb player %player_name% world world_nether since 10.10.1010"});
+	public static final PluginConfigKey LOCAL_BAN_COMMANDS	= new PluginConfigKey("ban.commands.local", new String[]{"lb rb player %player_name% world world since 10.10.1010", "lb rb player %player_name% world world_nether since 10.10.1010"});
+	public static final PluginConfigKey TEMP_BAN_COMMANDS		= new PluginConfigKey("ban.commands.temp", new String[]{"lb rb player %player_name% world world since 3600", "lb rb player %player_name% world world_nether since 3600"});
 	
-	MAX_BANS_TOTAL_IGNORE_DISABLED_RULES(	"max-bans.total.ignore-disabled-rules",	true),
-	MAX_BANS_TOTAL_TOTAL(					"max-bans.total.total",					15L),
-	MAX_BANS_TOTAL_CONFIRMED(				"max-bans.total.confirmed",				-1L),
-	MAX_BANS_TOTAL_UNCONFIRMED(				"max-bans.total.unconfirmed",			-1L),
-	MAX_BANS_TOTAL_LOW(						"max-bans.total.low",					-1L),
-	MAX_BANS_TOTAL_MEDIUM(					"max-bans.total.medium",				5L),
-	MAX_BANS_TOTAL_HIGH(					"max-bans.total.high",					5L),
+	public static final PluginConfigKey MAX_BANS_TOTAL_IGNORE_DISABLED_RULES	= new PluginConfigKey("max-bans.total.ignore-disabled-rules", true);
+	public static final PluginConfigKey MAX_BANS_TOTAL_TOTAL					= new PluginConfigKey("max-bans.total.total", 15L);
+	public static final PluginConfigKey MAX_BANS_TOTAL_CONFIRMED				= new PluginConfigKey("max-bans.total.confirmed", -1L);
+	public static final PluginConfigKey MAX_BANS_TOTAL_UNCONFIRMED			= new PluginConfigKey("max-bans.total.unconfirmed", -1L);
+	public static final PluginConfigKey MAX_BANS_TOTAL_LOW					= new PluginConfigKey("max-bans.total.low", -1L);
+	public static final PluginConfigKey MAX_BANS_TOTAL_MEDIUM					= new PluginConfigKey("max-bans.total.medium", 5L);
+	public static final PluginConfigKey MAX_BANS_TOTAL_HIGH					= new PluginConfigKey("max-bans.total.high", 5L);
 		
-	MAX_BANS_THEFT_ENABLED(					"max-bans.theft.enabled",				true),
-	MAX_BANS_THEFT_TOTAL(					"max-bans.theft.total",					15L),
-	MAX_BANS_THEFT_CONFIRMED(				"max-bans.theft.confirmed",				-1L),
-	MAX_BANS_THEFT_UNCONFIRMED(				"max-bans.theft.unconfirmed",			-1L),
-	MAX_BANS_THEFT_LOW(						"max-bans.theft.low",					-1L),
-	MAX_BANS_THEFT_MEDIUM(					"max-bans.theft.medium",				5L),
-	MAX_BANS_THEFT_HIGH(					"max-bans.theft.high",					5L),
+	public static final PluginConfigKey MAX_BANS_THEFT_ENABLED		= new PluginConfigKey("max-bans.theft.enabled", true);
+	public static final PluginConfigKey MAX_BANS_THEFT_TOTAL			= new PluginConfigKey("max-bans.theft.total", 15L);
+	public static final PluginConfigKey MAX_BANS_THEFT_CONFIRMED		= new PluginConfigKey("max-bans.theft.confirmed", -1L);
+	public static final PluginConfigKey MAX_BANS_THEFT_UNCONFIRMED	= new PluginConfigKey("max-bans.theft.unconfirmed",	-1L);
+	public static final PluginConfigKey MAX_BANS_THEFT_LOW			= new PluginConfigKey("max-bans.theft.low", -1L);
+	public static final PluginConfigKey MAX_BANS_THEFT_MEDIUM			= new PluginConfigKey("max-bans.theft.medium", 5L);
+	public static final PluginConfigKey MAX_BANS_THEFT_HIGH			= new PluginConfigKey("max-bans.theft.high", 5L);
 	
-	MAX_BANS_GRIEF_ENABLED(					"max-bans.grief.enabled",				true),
-	MAX_BANS_GRIEF_TOTAL(					"max-bans.grief.total",					15L),
-	MAX_BANS_GRIEF_CONFIRMED(				"max-bans.grief.confirmed",				-1L),
-	MAX_BANS_GRIEF_UNCONFIRMED(				"max-bans.grief.unconfirmed",			-1L),
-	MAX_BANS_GRIEF_LOW(						"max-bans.grief.low",					-1L),
-	MAX_BANS_GRIEF_MEDIUM(					"max-bans.grief.medium",				5L),
-	MAX_BANS_GRIEF_HIGH(					"max-bans.grief.high",					5L),
+	public static final PluginConfigKey MAX_BANS_GRIEF_ENABLED		= new PluginConfigKey("max-bans.grief.enabled", true);
+	public static final PluginConfigKey MAX_BANS_GRIEF_TOTAL			= new PluginConfigKey("max-bans.grief.total", 15L);
+	public static final PluginConfigKey MAX_BANS_GRIEF_CONFIRMED		= new PluginConfigKey("max-bans.grief.confirmed", -1L);
+	public static final PluginConfigKey MAX_BANS_GRIEF_UNCONFIRMED	= new PluginConfigKey("max-bans.grief.unconfirmed", -1L);
+	public static final PluginConfigKey MAX_BANS_GRIEF_LOW			= new PluginConfigKey("max-bans.grief.low", -1L);
+	public static final PluginConfigKey MAX_BANS_GRIEF_MEDIUM			= new PluginConfigKey("max-bans.grief.medium", 5L);
+	public static final PluginConfigKey MAX_BANS_GRIEF_HIGH			= new PluginConfigKey("max-bans.grief.high", 5L);
 	
-	MAX_BANS_XRAY_ENABLED(					"max-bans.x-ray.enabled",				true),
-	MAX_BANS_XRAY_TOTAL(					"max-bans.x-ray.total",					15L),
-	MAX_BANS_XRAY_CONFIRMED(				"max-bans.x-ray.confirmed",				-1L),
-	MAX_BANS_XRAY_UNCONFIRMED(				"max-bans.x-ray.unconfirmed",			-1L),
-	MAX_BANS_XRAY_LOW(						"max-bans.x-ray.low",					-1L),
-	MAX_BANS_XRAY_MEDIUM(					"max-bans.x-ray.medium",				5L),
-	MAX_BANS_XRAY_HIGH(						"max-bans.x-ray.high",					5L),
+	public static final PluginConfigKey MAX_BANS_XRAY_ENABLED			= new PluginConfigKey("max-bans.x-ray.enabled", true);
+	public static final PluginConfigKey MAX_BANS_XRAY_TOTAL			= new PluginConfigKey("max-bans.x-ray.total", 15L);
+	public static final PluginConfigKey MAX_BANS_XRAY_CONFIRMED		= new PluginConfigKey("max-bans.x-ray.confirmed", -1L);
+	public static final PluginConfigKey MAX_BANS_XRAY_UNCONFIRMED		= new PluginConfigKey("max-bans.x-ray.unconfirmed", -1L);
+	public static final PluginConfigKey MAX_BANS_XRAY_LOW				= new PluginConfigKey("max-bans.x-ray.low", -1L);
+	public static final PluginConfigKey MAX_BANS_XRAY_MEDIUM			= new PluginConfigKey("max-bans.x-ray.medium", 5L);
+	public static final PluginConfigKey MAX_BANS_XRAY_HIGH			= new PluginConfigKey("max-bans.x-ray.high", 5L);
 	
-	MAX_BANS_ABUSE_ENABLED(					"max-bans.abuse.enabled",				false),
-	MAX_BANS_ABUSE_TOTAL(					"max-bans.abuse.total",					-1L),
-	MAX_BANS_ABUSE_CONFIRMED(				"max-bans.abuse.confirmed",				10L),
-	MAX_BANS_ABUSE_UNCONFIRMED(				"max-bans.abuse.unconfirmed",			-1L),
+	public static final PluginConfigKey MAX_BANS_ABUSE_ENABLED		= new PluginConfigKey("max-bans.abuse.enabled", false);
+	public static final PluginConfigKey MAX_BANS_ABUSE_TOTAL			= new PluginConfigKey("max-bans.abuse.total", -1L);
+	public static final PluginConfigKey MAX_BANS_ABUSE_CONFIRMED		= new PluginConfigKey("max-bans.abuse.confirmed", 10L);
+	public static final PluginConfigKey MAX_BANS_ABUSE_UNCONFIRMED	= new PluginConfigKey("max-bans.abuse.unconfirmed", -1L);
 	
-	MAX_BANS_ADVERTISING_ENABLED(			"max-bans.advertising.enabled",			false),
-	MAX_BANS_ADVERTISING_TOTAL(				"max-bans.advertising.total",			-1L),
-	MAX_BANS_ADVERTISING_CONFIRMED(			"max-bans.advertising.confirmed",		10L),
-	MAX_BANS_ADVERTISING_UNCONFIRMED(		"max-bans.advertising.unconfirmed",		-1L),
+	public static final PluginConfigKey MAX_BANS_ADVERTISING_ENABLED		= new PluginConfigKey("max-bans.advertising.enabled", false);
+	public static final PluginConfigKey MAX_BANS_ADVERTISING_TOTAL		= new PluginConfigKey("max-bans.advertising.total", -1L);
+	public static final PluginConfigKey MAX_BANS_ADVERTISING_CONFIRMED	= new PluginConfigKey("max-bans.advertising.confirmed", 10L);
+	public static final PluginConfigKey MAX_BANS_ADVERTISING_UNCONFIRMED	= new PluginConfigKey("max-bans.advertising.unconfirmed", -1L);
 	
-	MAX_BANS_FLY_ENABLED(					"max-bans.fly.enabled",					true),
-	MAX_BANS_FLY_TOTAL(						"max-bans.fly.total",					-1L),
-	MAX_BANS_FLY_CONFIRMED(					"max-bans.fly.confirmed",				10L),
-	MAX_BANS_FLY_UNCONFIRMED(				"max-bans.fly.unconfirmed",				-1L),
+	public static final PluginConfigKey MAX_BANS_FLY_ENABLED		= new PluginConfigKey("max-bans.fly.enabled", true);
+	public static final PluginConfigKey MAX_BANS_FLY_TOTAL		= new PluginConfigKey("max-bans.fly.total", -1L);
+	public static final PluginConfigKey MAX_BANS_FLY_CONFIRMED	= new PluginConfigKey("max-bans.fly.confirmed", 10L);
+	public static final PluginConfigKey MAX_BANS_FLY_UNCONFIRMED	= new PluginConfigKey("max-bans.fly.unconfirmed", -1L);
 	
-	MAX_BANS_MOVE_SPEED_ENABLED(			"max-bans.movement-speed.enabled",		true),
-	MAX_BANS_MOVE_SPEED_TOTAL(				"max-bans.movement-speed.total",		-1L),
-	MAX_BANS_MOVE_SPEED_CONFIRMED(			"max-bans.movement-speed.confirmed",	10L),
-	MAX_BANS_MOVE_SPEED_UNCONFIRMED(		"max-bans.movement-speed.unconfirmed",	-1L),
+	public static final PluginConfigKey MAX_BANS_MOVE_SPEED_ENABLED		= new PluginConfigKey("max-bans.movement-speed.enabled", true);
+	public static final PluginConfigKey MAX_BANS_MOVE_SPEED_TOTAL			= new PluginConfigKey("max-bans.movement-speed.total", -1L);
+	public static final PluginConfigKey MAX_BANS_MOVE_SPEED_CONFIRMED		= new PluginConfigKey("max-bans.movement-speed.confirmed", 10L);
+	public static final PluginConfigKey MAX_BANS_MOVE_SPEED_UNCONFIRMED	= new PluginConfigKey("max-bans.movement-speed.unconfirmed", -1L);
 	
-	MAX_BANS_BLOCK_REACH_ENABLED(			"max-bans.block-reach.enabled",			true),
-	MAX_BANS_BLOCK_REACH_TOTAL(				"max-bans.block-reach.total",			-1L),
-	MAX_BANS_BLOCK_REACH_CONFIRMED(			"max-bans.block-reach.confirmed",		10L),
-	MAX_BANS_BLOCK_REACH_UNCONFIRMED(		"max-bans.block-reach.unconfirmed",		-1L),
+	public static final PluginConfigKey MAX_BANS_BLOCK_REACH_ENABLED		= new PluginConfigKey("max-bans.block-reach.enabled", true);
+	public static final PluginConfigKey MAX_BANS_BLOCK_REACH_TOTAL		= new PluginConfigKey("max-bans.block-reach.total", -1L);
+	public static final PluginConfigKey MAX_BANS_BLOCK_REACH_CONFIRMED	= new PluginConfigKey("max-bans.block-reach.confirmed", 10L);
+	public static final PluginConfigKey MAX_BANS_BLOCK_REACH_UNCONFIRMED	= new PluginConfigKey("max-bans.block-reach.unconfirmed", -1L);
 	
-	MAX_BANS_NOFALL_ENABLED(				"max-bans.nofall.enabled",				true),
-	MAX_BANS_NOFALL_TOTAL(					"max-bans.nofall.total",				-1L),
-	MAX_BANS_NOFALL_CONFIRMED(				"max-bans.nofall.confirmed",			10L),
-	MAX_BANS_NOFALL_UNCONFIRMED(			"max-bans.nofall.unconfirmed",			-1L),
+	public static final PluginConfigKey MAX_BANS_NOFALL_ENABLED		= new PluginConfigKey("max-bans.nofall.enabled", true);
+	public static final PluginConfigKey MAX_BANS_NOFALL_TOTAL			= new PluginConfigKey("max-bans.nofall.total", -1L);
+	public static final PluginConfigKey MAX_BANS_NOFALL_CONFIRMED		= new PluginConfigKey("max-bans.nofall.confirmed", 10L);
+	public static final PluginConfigKey MAX_BANS_NOFALL_UNCONFIRMED	= new PluginConfigKey("max-bans.nofall.unconfirmed", -1L);
 	
-	MAX_BANS_NOSWING_ENABLED(				"max-bans.noswing.enabled",				false),
-	MAX_BANS_NOSWING_TOTAL(					"max-bans.noswing.total",				-1L),
-	MAX_BANS_NOSWING_CONFIRMED(				"max-bans.noswing.confirmed",			10L),
-	MAX_BANS_NOSWING_UNCONFIRMED(			"max-bans.noswing.unconfirmed",			-1L),
+	public static final PluginConfigKey MAX_BANS_NOSWING_ENABLED		= new PluginConfigKey("max-bans.noswing.enabled", false);
+	public static final PluginConfigKey MAX_BANS_NOSWING_TOTAL		= new PluginConfigKey("max-bans.noswing.total", -1L);
+	public static final PluginConfigKey MAX_BANS_NOSWING_CONFIRMED	= new PluginConfigKey("max-bans.noswing.confirmed",	 10L);
+	public static final PluginConfigKey MAX_BANS_NOSWING_UNCONFIRMED	= new PluginConfigKey("max-bans.noswing.unconfirmed", -1L);
 	
-	MAX_BANS_PVP_CHEATS_ENABLED(			"max-bans.pvp-cheats.enabled",			false),
-	MAX_BANS_PVP_CHEATS_TOTAL(				"max-bans.pvp-cheats.total",			-1L),
-	MAX_BANS_PVP_CHEATS_CONFIRMED(			"max-bans.pvp-cheats.confirmed",		10L),
-	MAX_BANS_PVP_CHEATS_UNCONFIRMED(		"max-bans.pvp-cheats.unconfirmed",		-1L),
+	public static final PluginConfigKey MAX_BANS_PVP_CHEATS_ENABLED		= new PluginConfigKey("max-bans.pvp-cheats.enabled", false);
+	public static final PluginConfigKey MAX_BANS_PVP_CHEATS_TOTAL			= new PluginConfigKey("max-bans.pvp-cheats.total", -1L);
+	public static final PluginConfigKey MAX_BANS_PVP_CHEATS_CONFIRMED		= new PluginConfigKey("max-bans.pvp-cheats.confirmed", 10L);
+	public static final PluginConfigKey MAX_BANS_PVP_CHEATS_UNCONFIRMED	= new PluginConfigKey("max-bans.pvp-cheats.unconfirmed", -1L);
 	
-	MAX_BANS_CHAT_SPAM_ENABLED(				"max-bans.chat-spam.enabled",			true),
-	MAX_BANS_CHAT_SPAM_TOTAL(				"max-bans.chat-spam.total",				-1L),
-	MAX_BANS_CHAT_SPAM_CONFIRMED(			"max-bans.chat-spam.confirmed",			10L),
-	MAX_BANS_CHAT_SPAM_UNCONFIRMED(			"max-bans.chat-spam.unconfirmed",		-1L),
+	public static final PluginConfigKey MAX_BANS_CHAT_SPAM_ENABLED		= new PluginConfigKey("max-bans.chat-spam.enabled",	 true);
+	public static final PluginConfigKey MAX_BANS_CHAT_SPAM_TOTAL			= new PluginConfigKey("max-bans.chat-spam.total", -1L);
+	public static final PluginConfigKey MAX_BANS_CHAT_SPAM_CONFIRMED		= new PluginConfigKey("max-bans.chat-spam.confirmed", 10L);
+	public static final PluginConfigKey MAX_BANS_CHAT_SPAM_UNCONFIRMED	= new PluginConfigKey("max-bans.chat-spam.unconfirmed", -1L);
 	
-	MAX_BANS_ITEM_DROP_ENABLED(				"max-bans.item-drop.enabled",			true),
-	MAX_BANS_ITEM_DROP_TOTAL(				"max-bans.item-drop.total",				-1L),
-	MAX_BANS_ITEM_DROP_CONFIRMED(			"max-bans.item-drop.confirmed",			10L),
-	MAX_BANS_ITEM_DROP_UNCONFIRMED(			"max-bans.item-drop.unconfirmed",		-1L);
+	public static final PluginConfigKey MAX_BANS_ITEM_DROP_ENABLED		= new PluginConfigKey("max-bans.item-drop.enabled", true);
+	public static final PluginConfigKey MAX_BANS_ITEM_DROP_TOTAL			= new PluginConfigKey("max-bans.item-drop.total", -1L);
+	public static final PluginConfigKey MAX_BANS_ITEM_DROP_CONFIRMED		= new PluginConfigKey("max-bans.item-drop.confirmed", 10L);
+	public static final PluginConfigKey MAX_BANS_ITEM_DROP_UNCONFIRMED	= new PluginConfigKey("max-bans.item-drop.unconfirmed", -1L);
 	
-	private String key;
-	private Object defaultValue;
-	
-	private static LinkedHashMap<String, Object> defaultValues;
-	private static HashMap<String, Config> keyLookupTable;
+//	private static LinkedHashMap<String, Object> defaultValues;
+	private static HashMap<String, PluginConfigKey> keyLookupTable;
 	
 	private static HashMap<BanReason, String> banReasonKeys;
 	private static HashMap<BanSeverity, String> banSeverityKeys;
 	
-	private Config(String key, Object defaultValue){
-		this.key = key;
-		this.defaultValue = defaultValue;
-	}
-	
 	static{
-		defaultValues = new LinkedHashMap<String, Object>();
-		keyLookupTable = new HashMap<String, Config>();
+//		defaultValues = new LinkedHashMap<String, Object>();
+		keyLookupTable = new HashMap<String, PluginConfigKey>();
 		
 		banReasonKeys = new HashMap<BanReason, String>();
 		banSeverityKeys = new HashMap<BanSeverity, String>();
 		
-		for (Config entry : Config.values()){
-			defaultValues.put(entry.getKey(), entry.getDefault());
-			keyLookupTable.put(entry.getKey(), entry);
+		for (Field field : Config.class.getDeclaredFields()){
+			if (field.getType().equals(PluginConfigKey.class)){
+				try{
+					PluginConfigKey key = (PluginConfigKey) field.get(null);
+					
+				//	defaultValues.put(entry.getKey(), entry.getDefault());
+					keyLookupTable.put(key.getKey(), key);
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		banReasonKeys.put(BanReason.THEFT, "theft");
@@ -158,28 +158,22 @@ public enum Config implements PluginConfigKey {
 		banSeverityKeys.put(BanSeverity.HIGH, "high");
 	}
 	
+	/*
 	public static LinkedHashMap<String, Object> getAll(){
 		return defaultValues;
 	}
+	*/
 	
-	public static Config getReasonEnabled(BanReason reason){
+	public static PluginConfigKey getReasonEnabled(BanReason reason){
 		return keyLookupTable.get("max-bans." + banReasonKeys.get(reason) + ".enabled");
 	}
 	
-	public static Config getReasonLimit(BanReason reason, BanSeverity severity){
+	public static PluginConfigKey getReasonLimit(BanReason reason, BanSeverity severity){
 		return keyLookupTable.get("max-bans." + banReasonKeys.get(reason) + "." + banSeverityKeys.get(severity));
 	}
 	
-	public static Config getTotalLimit(BanSeverity severity){
+	public static PluginConfigKey getTotalLimit(BanSeverity severity){
 		return keyLookupTable.get("max-bans.total." + banSeverityKeys.get(severity));
-	}
-	
-	public String getKey(){
-		return this.key;
-	}
-	
-	public Object getDefault(){
-		return this.defaultValue;
 	}
 	
 }

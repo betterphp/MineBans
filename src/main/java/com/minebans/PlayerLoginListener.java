@@ -3,7 +3,7 @@ package com.minebans;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
-import org.bukkit.event.player.PlayerPreLoginEvent.Result;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 
 import com.minebans.api.ConnectionAllowedReason;
 import com.minebans.api.ConnectionDeniedReason;
@@ -13,7 +13,7 @@ import com.minebans.events.PlayerConnectionAllowedEvent;
 import com.minebans.events.PlayerConnectionDeniedEvent;
 import com.minebans.events.PlayerLoginDataEvent;
 
-import uk.co.jacekk.bukkit.baseplugin.v4.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.v5.event.BaseListener;
 
 public class PlayerLoginListener extends BaseListener<MineBans> {
 	
@@ -23,7 +23,7 @@ public class PlayerLoginListener extends BaseListener<MineBans> {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event){
-		if (event.getResult() != Result.ALLOWED) return;
+		if (event.getLoginResult() != Result.ALLOWED) return;
 		
 		final String playerAddress = event.getAddress().getHostAddress();
 		final String playerName = event.getName();
