@@ -50,14 +50,18 @@ public class BanManager {
 		this.localExemptList.load();
 	}
 	
-	public void kickPlayer(String playerName, boolean log){
+	public void kickPlayer(String playerName, boolean log, String message){
 		Player player = plugin.server.getPlayer(playerName);
 		
 		if (player != null){
-			player.kickPlayer(plugin.config.getString(Config.MESSAGE_KICK));
+			player.kickPlayer(message);
 			
 			plugin.notificationManager.sendKickNotification(playerName, log);
 		}
+	}
+	
+	public void kickPlayer(String playerName, boolean log){
+		this.kickPlayer(playerName, log, plugin.config.getString(Config.MESSAGE_KICK));
 	}
 	
 	public void locallyBanPlayer(String playerName, boolean log, boolean notify){

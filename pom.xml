@@ -3,7 +3,7 @@
 	
 	<groupId>com.minebans</groupId>
 	<artifactId>MineBans</artifactId>
-	<version>0.14.2-SNAPSHOT</version>
+	<version>0.14.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
 	<name>MineBans</name>
@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.4.2-R0.2</version>
+			<version>1.4.4-R0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		

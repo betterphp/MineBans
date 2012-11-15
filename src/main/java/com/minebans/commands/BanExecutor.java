@@ -22,7 +22,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 		super(plugin);
 	}
 	
-	@CommandHandler(names = {"ban", "b"}, description = "Bans a player from the server.", usage = "[player_name] [reason_id/reason_keyword]")
+	@CommandHandler(names = {"ban", "b"}, description = "Bans a player from the server.", usage = "<player_name> [reason_id/reason_keyword]")
 	@CommandTabCompletion({"<player>", "griefing|theft|spamming|pvpcheat|12h|1d|5d|7d"})
 	public void ban(CommandSender sender, String label, String[] args){
 		boolean all = Permission.ADMIN_BAN.has(sender);
@@ -174,7 +174,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 		}
 	}
 	
-	@CommandHandler(names = {"unban", "ub"}, description = "Unbans a player.", usage = "/unban [player_name]")
+	@CommandHandler(names = {"unban", "ub"}, description = "Unbans a player.", usage = "<player_name>")
 	@CommandTabCompletion({"<player>"})
 	public void unban(CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_BAN.has(sender)){
@@ -200,7 +200,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 		sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been unbanned."));
 	}
 	
-	@CommandHandler(names = {"kick", "k"}, description = "Disconnects a player from the server.", usage = "/kick [player_name]")
+	@CommandHandler(names = {"kick", "k"}, description = "Disconnects a player from the server.", usage = "<player_name> [reason]")
 	@CommandTabCompletion({"<player>"})
 	public void kick(CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_KICK.has(sender)){
@@ -209,8 +209,9 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 		}
 		
 		if (args.length == 0){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Useage: /" + label + " <player_name>"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Useage: /" + label + " <player_name> [reason]"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " wide_load"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " wide_load doing bad things :("));
 			return;
 		}
 		
@@ -219,7 +220,20 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 			return;
 		}
 		
-		plugin.banManager.kickPlayer(args[0], true);
+		if (args.length == 1){
+			plugin.banManager.kickPlayer(args[0], true);
+		}else{
+			StringBuilder message = new StringBuilder();
+			
+			message.append(args[1]);
+			
+			for (int i = 2; i < args.length; ++i){
+				message.append(' ');
+				message.append(args[i]);
+			}
+			
+			plugin.banManager.kickPlayer(args[0], true, message.toString());
+		}
 	}
 	
 }
