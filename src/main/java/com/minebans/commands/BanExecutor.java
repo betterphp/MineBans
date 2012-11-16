@@ -81,15 +81,18 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 					return;
 				}
 				
+				String maxDurationString = plugin.config.getString(Config.MAX_TEMP_BAN_DURATION);
+				
 				int banDuration = ((args[1].charAt(args[1].length() - 1) == 'h') ? 3600 : 86400) * (Integer.parseInt(args[1].substring(0, args[1].length() - 1)));
+				int maxDuration = ((maxDurationString.charAt(maxDurationString.length() - 1) == 'h') ? 3600 : 86400) * (Integer.parseInt(maxDurationString.substring(0, maxDurationString.length() - 1)));
 				
 				if (banDuration <= 0){
 					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "The ban duration must be positive."));
 					return;
 				}
 				
-				if (banDuration > 604800){
-					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot temp ban a player for longer than 1 week."));
+				if (banDuration > maxDuration){
+					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot temp ban a player for longer than " + maxDurationString + "."));
 					return;
 				}
 				

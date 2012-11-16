@@ -24,6 +24,7 @@ public class Config {
 	public static final PluginConfigKey MESSAGE_UNEXEMPT		= new PluginConfigKey("messages.unexempt", "You have been removed from the exempt list.");
 	
 	public static final PluginConfigKey BAN_COMMANDS_AUTO		= new PluginConfigKey("ban.commands.autoexec", false);
+	public static final PluginConfigKey MAX_TEMP_BAN_DURATION	= new PluginConfigKey("ban.max-temp-duration", "7d");
 	public static final PluginConfigKey GLOBAL_BAN_COMMANDS	= new PluginConfigKey("ban.commands.global", new String[]{"lb rb player %player_name% world world since 10.10.1010", "lb rb player %player_name% world world_nether since 10.10.1010"});
 	public static final PluginConfigKey LOCAL_BAN_COMMANDS	= new PluginConfigKey("ban.commands.local", new String[]{"lb rb player %player_name% world world since 10.10.1010", "lb rb player %player_name% world world_nether since 10.10.1010"});
 	public static final PluginConfigKey TEMP_BAN_COMMANDS		= new PluginConfigKey("ban.commands.temp", new String[]{"lb rb player %player_name% world world since 3600", "lb rb player %player_name% world world_nether since 3600"});
