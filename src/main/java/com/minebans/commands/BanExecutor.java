@@ -200,40 +200,4 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 		sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been unbanned."));
 	}
 	
-	@CommandHandler(names = {"kick", "k"}, description = "Disconnects a player from the server.", usage = "<player_name> [reason]")
-	@CommandTabCompletion({"<player>"})
-	public void kick(CommandSender sender, String label, String[] args){
-		if (!Permission.ADMIN_KICK.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
-			return;
-		}
-		
-		if (args.length == 0){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Useage: /" + label + " <player_name> [reason]"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " wide_load"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " wide_load doing bad things :("));
-			return;
-		}
-		
-		if (!plugin.server.getOfflinePlayer(args[0]).isOnline()){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + args[0] + " is not online."));
-			return;
-		}
-		
-		if (args.length == 1){
-			plugin.banManager.kickPlayer(args[0], true);
-		}else{
-			StringBuilder message = new StringBuilder();
-			
-			message.append(args[1]);
-			
-			for (int i = 2; i < args.length; ++i){
-				message.append(' ');
-				message.append(args[i]);
-			}
-			
-			plugin.banManager.kickPlayer(args[0], true, message.toString());
-		}
-	}
-	
 }

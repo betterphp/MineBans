@@ -17,6 +17,7 @@ import com.minebans.api.request.StatusMessageRequest;
 import com.minebans.api.request.StatusRequest;
 import com.minebans.bans.BanReason;
 import com.minebans.commands.BanExecutor;
+import com.minebans.commands.KickExecutor;
 import com.minebans.commands.MineBansExecutor;
 import com.minebans.commands.ExemptExecutor;
 import com.minebans.joindatalisteners.GroupBanListener;
@@ -114,6 +115,7 @@ public class MineBans extends BasePlugin {
 		this.permissionManager.registerPermissions(Permission.class);
 		
 		this.commandManager.registerCommandExecutor(new BanExecutor(this));
+		this.commandManager.registerCommandExecutor(new KickExecutor(this));
 		this.commandManager.registerCommandExecutor(new ExemptExecutor(this));
 		this.commandManager.registerCommandExecutor(new MineBansExecutor(this));
 		
