@@ -23,7 +23,15 @@ public class PlayerLoginListener extends BaseListener<MineBans> {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event){
-		if (event.getLoginResult() != Result.ALLOWED) return;
+		try{
+			if (!AsyncPlayerPreLoginEvent.class.getDeclaredMethod("getResult").invoke(event).toString().equals("ALLOWED")){
+				return;
+			}
+		}catch (Exception e){
+			if (event.getLoginResult() != Result.ALLOWED){
+				return;
+			}
+		}
 		
 		final String playerAddress = event.getAddress().getHostAddress();
 		final String playerName = event.getName();
