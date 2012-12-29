@@ -37,12 +37,10 @@ public class BanManager {
 	public BanManager(MineBans plugin){
 		this.plugin = plugin;
 		
-		String pluginFolder = plugin.getDataFolder().getAbsolutePath();
-		
-		this.globallyBannedPlayers = new PlayerListStore(new File(pluginFolder + File.separator + "globally-banned-players.txt"));
-		this.locallyBannedPlayers = new PlayerListStore(new File(pluginFolder + File.separator + "locally-banned-players.txt"));
-		this.tempBannedPlayers = new PlayerDataStore(new File(pluginFolder + File.separator + "temp-banned-players.txt"));
-		this.localExemptList = new PlayerListStore(new File(pluginFolder + File.separator + "ban-exceptions.txt"));
+		this.globallyBannedPlayers = new PlayerListStore(new File(plugin.getBaseDirPath() + File.separator + "globally-banned-players.txt"));
+		this.locallyBannedPlayers = new PlayerListStore(new File(plugin.getBaseDirPath() + File.separator + "locally-banned-players.txt"));
+		this.tempBannedPlayers = new PlayerDataStore(new File(plugin.getBaseDirPath() + File.separator + "temp-banned-players.txt"));
+		this.localExemptList = new PlayerListStore(new File(plugin.getBaseDirPath() + File.separator + "ban-exceptions.txt"));
 		
 		this.globallyBannedPlayers.load();
 		this.locallyBannedPlayers.load();

@@ -104,6 +104,8 @@ public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 							taken.put(blockId, (taken.containsKey(blockId)) ? taken.get(blockId) + amount :  amount);
 						}
 					}
+					
+					result.close();
 				}
 			}catch (SQLException e){
 				plugin.log.warn("Failed to get data from CoreProtect (MySQL)");
@@ -170,6 +172,8 @@ public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 						Integer blockId = result.getInt("type");
 						placed.put(blockId, (placed.containsKey(blockId)) ? placed.get(blockId) + 1 : 1);
 					}
+					
+					result.close();
 				}
 			}catch (SQLException e){
 				plugin.log.warn("Failed to get data from CoreProtect (MySQL)");
@@ -244,6 +248,8 @@ public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 						Integer blockId = result.getInt("type");
 						broken.put(blockId, (broken.containsKey(blockId)) ? broken.get(blockId) + 1 : 1);
 					}
+					
+					result.close();
 				}
 			}catch (SQLException e){
 				plugin.log.warn("Failed to get data from CoreProtect (MySQL)");
@@ -325,6 +331,8 @@ public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 							placed.put(blockId, (placed.containsKey(blockId)) ? placed.get(blockId) + 1 : 1);
 						}
 					}
+					
+					result.close();
 				}
 			}catch (SQLException e){
 				plugin.log.warn("Failed to get data from CoreProtect (MySQL)");

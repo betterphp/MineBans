@@ -6,9 +6,9 @@ import java.util.HashMap;
 
 import org.bukkit.plugin.Plugin;
 
-import uk.co.jacekk.bukkit.baseplugin.v5.BasePlugin;
-import uk.co.jacekk.bukkit.baseplugin.v5.config.PluginConfig;
-import uk.co.jacekk.bukkit.baseplugin.v5.update.BukkitDevUpdateChecker;
+import uk.co.jacekk.bukkit.baseplugin.v7.BasePlugin;
+import uk.co.jacekk.bukkit.baseplugin.v7.config.PluginConfig;
+import uk.co.jacekk.bukkit.baseplugin.v7.update.BukkitDevUpdateChecker;
 
 import com.minebans.api.APIInterface;
 import com.minebans.api.data.StatusData;
@@ -119,7 +119,7 @@ public class MineBans extends BasePlugin {
 		this.commandManager.registerCommandExecutor(new ExemptExecutor(this));
 		this.commandManager.registerCommandExecutor(new MineBansExecutor(this));
 		
-		this.scheduler.scheduleAsyncDelayedTask(this, new Runnable(){
+		this.scheduler.runTaskLaterAsynchronously(this, new Runnable(){
 			
 			public void run(){
 				MineBans.this.log.info("Checking API server communication.");
@@ -148,7 +148,7 @@ public class MineBans extends BasePlugin {
 				}
 			}
 			
-		}, 5L);
+		}, 20L);
 	}
 	
 	public void onDisable(){

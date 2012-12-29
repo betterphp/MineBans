@@ -4,9 +4,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import uk.co.jacekk.bukkit.baseplugin.v5.command.BaseCommandExecutor;
-import uk.co.jacekk.bukkit.baseplugin.v5.command.CommandHandler;
-import uk.co.jacekk.bukkit.baseplugin.v5.command.CommandTabCompletion;
+import uk.co.jacekk.bukkit.baseplugin.v7.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.v7.command.CommandHandler;
+import uk.co.jacekk.bukkit.baseplugin.v7.command.CommandTabCompletion;
 
 import com.minebans.MineBans;
 import com.minebans.Permission;

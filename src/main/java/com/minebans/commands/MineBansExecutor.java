@@ -8,9 +8,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
-import uk.co.jacekk.bukkit.baseplugin.v5.command.BaseCommandExecutor;
-import uk.co.jacekk.bukkit.baseplugin.v5.command.CommandHandler;
-import uk.co.jacekk.bukkit.baseplugin.v5.command.CommandTabCompletion;
+import uk.co.jacekk.bukkit.baseplugin.v7.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.v7.command.CommandHandler;
+import uk.co.jacekk.bukkit.baseplugin.v7.command.CommandTabCompletion;
 
 import com.minebans.MineBans;
 import com.minebans.Config;
@@ -99,7 +99,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 				return;
 			}
 			
-			plugin.scheduler.scheduleAsyncDelayedTask(plugin, new Runnable(){
+			plugin.scheduler.runTaskAsynchronously(plugin, new Runnable(){
 				
 				public void run(){
 					final boolean update = plugin.updateChecker.updateNeeded();
