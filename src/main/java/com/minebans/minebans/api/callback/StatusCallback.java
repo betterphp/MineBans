@@ -1,7 +1,5 @@
 package com.minebans.minebans.api.callback;
 
-import org.json.simple.parser.ParseException;
-
 import com.minebans.minebans.MineBans;
 import com.minebans.minebans.api.data.StatusData;
 
@@ -12,11 +10,7 @@ public abstract class StatusCallback extends APICallback {
 	}
 	
 	public void onSuccess(String response){
-		try{
-			this.onSuccess(new StatusData(response));
-		}catch (ParseException e){
-			this.onFailure(e);
-		}
+		this.onSuccess(new StatusData(response));
 	}
 	
 	public abstract void onSuccess(StatusData data);

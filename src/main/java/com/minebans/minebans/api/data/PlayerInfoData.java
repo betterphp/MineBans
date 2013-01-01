@@ -1,23 +1,22 @@
 package com.minebans.minebans.api.data;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import com.google.gson.Gson;
+import com.google.gson.internal.StringMap;
 
 public class PlayerInfoData {
 	
 	private Boolean isKnownCompromised;
 	private Boolean shouldUnban;
 	
-	public PlayerInfoData(JSONObject response){
-		JSONObject data = (JSONObject) response.get("player_info");
+	public PlayerInfoData(StringMap<?> response){
+		StringMap<?> data = (StringMap<?>) response.get("player_info");
 		
 		this.isKnownCompromised = (Boolean) data.get("known_compromised");
 		this.shouldUnban = (Boolean) data.get("should_unban");
 	}
 	
-	public PlayerInfoData(String response) throws ParseException {
-		this((JSONObject) (new JSONParser()).parse(response));
+	public PlayerInfoData(String response){
+		this((new Gson()).fromJson(response, StringMap.class));
 	}
 	
 	public Boolean isKnownCompromised(){

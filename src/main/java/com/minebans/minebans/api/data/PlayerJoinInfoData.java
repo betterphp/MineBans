@@ -1,21 +1,20 @@
 package com.minebans.minebans.api.data;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import com.google.gson.Gson;
+import com.google.gson.internal.StringMap;
 
 public class PlayerJoinInfoData {
 	
 	private PlayerInfoData infoData;
 	private PlayerBansData bansData;
 	
-	public PlayerJoinInfoData(JSONObject responce){
+	public PlayerJoinInfoData(StringMap<?> responce){
 		this.infoData = new PlayerInfoData(responce);
 		this.bansData = new PlayerBansData(responce);
 	}
 	
-	public PlayerJoinInfoData(String response) throws ParseException {
-		this((JSONObject) (new JSONParser()).parse(response));
+	public PlayerJoinInfoData(String response){
+		this((new Gson()).fromJson(response, StringMap.class));
 	}
 	
 	public PlayerInfoData getInfoData(){

@@ -3,42 +3,37 @@ package com.minebans.minebans.api.data;
 import java.util.HashMap;
 import java.util.Set;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import uk.co.jacekk.bukkit.baseplugin.v7.util.ListUtils;
 
+import com.google.gson.Gson;
+import com.google.gson.internal.StringMap;
 import com.minebans.minebans.bans.BanReason;
 import com.minebans.minebans.bans.BanSeverity;
 
+// TODO: Create ResponseData objects for each of these
+// TODO: Create tests to check the parsing of API responses
 public class PlayerBansData {
 	
 	private HashMap<String, Long> summary;
 	private HashMap<BanReason, HashMap<BanSeverity, Long>> bans;
 	
-	public PlayerBansData(JSONObject response){
+	public PlayerBansData(StringMap<?> response){
 		this.summary = new HashMap<String, Long>();
 		this.bans = new HashMap<BanReason, HashMap<BanSeverity, Long>>();
 		
-		JSONObject playerInfo = (JSONObject) response.get("player_info");
-		JSONObject totalBans = (JSONObject) playerInfo.get("total_bans");
-		
-		JSONObject banReasonInfo;
-		HashMap<BanSeverity, Long> banReasonData;
-		
-		Long confirmed, unconfirmed, low, medium, high;
+		StringMap<?> playerInfo = (StringMap<?>) response.get("player_info");
+		StringMap<?> totalBans = (StringMap<?>) playerInfo.get("total_bans");
 		
 		for (Object banReasonId : totalBans.keySet()){
-			banReasonInfo = (JSONObject) totalBans.get(banReasonId);
-			banReasonData = new HashMap<BanSeverity, Long>();
+			StringMap<Long> banReasonInfo = (StringMap<Long>) totalBans.get(banReasonId);
+			HashMap<BanSeverity, Long> banReasonData = new HashMap<BanSeverity, Long>();
 			
-			low = (banReasonInfo.containsKey(BanSeverity.LOW.getID().toString())) ? (Long)banReasonInfo.get(BanSeverity.LOW.getID().toString()) : 0L;
-			medium = (banReasonInfo.containsKey(BanSeverity.MEDIUM.getID().toString())) ? (Long)banReasonInfo.get(BanSeverity.MEDIUM.getID().toString()) : 0L;
-			high = (banReasonInfo.containsKey(BanSeverity.HIGH.getID().toString())) ? (Long)banReasonInfo.get(BanSeverity.HIGH.getID().toString()) : 0L;
+			Long low = (banReasonInfo.containsKey(BanSeverity.LOW.getID().toString())) ? banReasonInfo.get(BanSeverity.LOW.getID().toString()) : 0L;
+			Long medium = (banReasonInfo.containsKey(BanSeverity.MEDIUM.getID().toString())) ? banReasonInfo.get(BanSeverity.MEDIUM.getID().toString()) : 0L;
+			Long high = (banReasonInfo.containsKey(BanSeverity.HIGH.getID().toString())) ? banReasonInfo.get(BanSeverity.HIGH.getID().toString()) : 0L;
 			
-			unconfirmed = (banReasonInfo.containsKey(BanSeverity.UNCONFIRMED.getID().toString())) ? (Long)banReasonInfo.get(BanSeverity.UNCONFIRMED.getID().toString()) : 0L;
-			confirmed = low + medium + high;
+			Long unconfirmed = (banReasonInfo.containsKey(BanSeverity.UNCONFIRMED.getID().toString())) ? (Long)banReasonInfo.get(BanSeverity.UNCONFIRMED.getID().toString()) : 0L;
+			Long confirmed = low + medium + high;
 			
 			banReasonData.put(BanSeverity.TOTAL, confirmed + unconfirmed);
 			banReasonData.put(BanSeverity.CONFIRMED, confirmed);
@@ -51,12 +46,12 @@ public class PlayerBansData {
 		}
 		
 		if (playerInfo.containsKey("ban_summary")){
-			JSONObject banSummary = (JSONObject) playerInfo.get("ban_summary");
+			StringMap<Long> banSummary = (StringMap<Long>) playerInfo.get("ban_summary");
 			
-			this.summary.put("total", (banSummary.containsKey("total")) ? (Long) banSummary.get("total") : 0L);
-			this.summary.put("last_24", (banSummary.containsKey("last_24")) ? (Long) banSummary.get("last_24") : 0L);
-			this.summary.put("removed", (banSummary.containsKey("removed")) ? (Long) banSummary.get("removed") : 0L);
-			this.summary.put("group_bans", (banSummary.containsKey("group_bans")) ? (Long) banSummary.get("group_bans") : 0L);
+			this.summary.put("total", (banSummary.containsKey("total")) ? banSummary.get("total") : 0L);
+			this.summary.put("last_24", (banSummary.containsKey("last_24")) ? banSummary.get("last_24") : 0L);
+			this.summary.put("removed", (banSummary.containsKey("removed")) ? banSummary.get("removed") : 0L);
+			this.summary.put("group_bans", (banSummary.containsKey("group_bans")) ? banSummary.get("group_bans") : 0L);
 		}else{
 			this.summary.put("total", 0L);
 			this.summary.put("last_24", 0L);
@@ -65,8 +60,8 @@ public class PlayerBansData {
 		}
 	}
 	
-	public PlayerBansData(String response) throws ParseException {
-		this((JSONObject) (new JSONParser()).parse(response));
+	public PlayerBansData(String response){
+		this((new Gson()).fromJson(response, StringMap.class));
 	}
 	
 	/**

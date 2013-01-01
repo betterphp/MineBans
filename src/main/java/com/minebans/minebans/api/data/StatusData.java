@@ -1,16 +1,15 @@
 package com.minebans.minebans.api.data;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import com.google.gson.Gson;
+import com.google.gson.internal.StringMap;
 
 public class StatusData {
 	
 	private Double[] loagAvg;
 	private long responceTime;
 	
-	public StatusData(JSONObject apiResponse){
-		JSONObject load = (JSONObject) apiResponse.get("load_avg");
+	public StatusData(StringMap<?> response){
+		StringMap<Double> load = (StringMap<Double>) response.get("load_avg");
 		
 		this.loagAvg = new Double[3];
 		
@@ -21,8 +20,8 @@ public class StatusData {
 		this.responceTime = System.currentTimeMillis();
 	}
 	
-	public StatusData(String response) throws ParseException {
-		this((JSONObject) (new JSONParser()).parse(response));
+	public StatusData(String response){
+		this((new Gson()).fromJson(response, StringMap.class));
 	}
 	
 	public Double[] getLoadAvg(){
