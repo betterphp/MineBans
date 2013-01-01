@@ -2,12 +2,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>com.minebans</groupId>
-	<artifactId>MineBans</artifactId>
+	<artifactId>minebans</artifactId>
 	<version>0.15-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
 	<name>MineBans</name>
-	<url>http://minebans.com/</url>
+	<url>http://dev.bukkit.org/server-mods/minebans/</url>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,14 +37,14 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.4.6-R0.2-SNAPSHOT</version>
+			<version>1.4.6-R0.3</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>uk.co.jacekk.bukkit</groupId>
 			<artifactId>baseplugin</artifactId>
-			<version>7.0-SNAPSHOT</version>
+			<version>7.0</version>
 			<scope>compile</scope>
 		</dependency>
 		
@@ -108,7 +108,7 @@
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<directory>${basedir}/target</directory>
-		<finalName>${project.artifactId}-${project.version}</finalName>
+		<finalName>${project.name}</finalName>
 		
 		<resources>
 			<resource>
@@ -137,7 +137,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<finalName>${project.artifactId}-${project.version}</finalName>
+					<finalName>${project.name}</finalName>
 					<artifactSet>
 						<includes>
 							<include>uk.co.jacekk.bukkit:baseplugin</include>
