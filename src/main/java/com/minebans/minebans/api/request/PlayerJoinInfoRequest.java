@@ -21,7 +21,7 @@ public class PlayerJoinInfoRequest extends APIRequest<PlayerJoinInfoCallback> {
 	
 	public PlayerJoinInfoData process(){
 		try{
-			return new PlayerJoinInfoData(plugin.api.getRequestHandler().processRequest(this));
+			return PlayerJoinInfoData.fromString(plugin.api.getRequestHandler().processRequest(this));
 		}catch (Exception e){
 			plugin.api.handleException(e);
 			

@@ -1,31 +1,23 @@
 package com.minebans.minebans.api.data;
 
-import com.google.gson.Gson;
-import com.google.gson.internal.StringMap;
+import java.util.LinkedHashMap;
 
-public class StatusData {
+public class StatusData extends APIData {
 	
-	private Double[] loagAvg;
-	private long responceTime;
+	private LinkedHashMap<String, Double> load_avg;
 	
-	public StatusData(StringMap<?> response){
-		StringMap<Double> load = (StringMap<Double>) response.get("load_avg");
-		
-		this.loagAvg = new Double[3];
-		
-		this.loagAvg[0] = Double.parseDouble(load.get("0").toString());
-		this.loagAvg[1] = Double.parseDouble(load.get("1").toString());
-		this.loagAvg[2] = Double.parseDouble(load.get("2").toString());
-		
+	private transient long responceTime;
+	
+	private StatusData(){
 		this.responceTime = System.currentTimeMillis();
 	}
 	
-	public StatusData(String response){
-		this((new Gson()).fromJson(response, StringMap.class));
+	public static StatusData fromString(String response){
+		return gson.fromJson(response, StatusData.class);
 	}
 	
-	public Double[] getLoadAvg(){
-		return this.loagAvg;
+	public Double[] getLoadAverage(){
+		return this.load_avg.values().toArray(new Double[0]);
 	}
 	
 	public long getResponceTime(){

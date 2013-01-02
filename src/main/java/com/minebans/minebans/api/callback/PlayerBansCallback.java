@@ -10,7 +10,7 @@ public abstract class PlayerBansCallback extends APICallback {
 	}
 	
 	public void onSuccess(String response){
-		this.onSuccess(new PlayerBansData(response));
+		this.onSuccess(PlayerBansData.fromString(response));
 	}
 	
 	public abstract void onSuccess(PlayerBansData data);

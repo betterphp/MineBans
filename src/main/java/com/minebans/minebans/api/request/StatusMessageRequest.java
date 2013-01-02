@@ -16,7 +16,7 @@ public class StatusMessageRequest extends APIRequest<StatusMessageCallback> {
 	
 	public StatusMessageData process(){
 		try{
-			return new StatusMessageData(plugin.api.getRequestHandler().processRequest(this));
+			return StatusMessageData.fromString(plugin.api.getRequestHandler().processRequest(this));
 		}catch (Exception e){
 			plugin.api.handleException(e);
 			

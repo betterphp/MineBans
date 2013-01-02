@@ -21,7 +21,7 @@ public class PlayerInfoRequest extends APIRequest<PlayerInfoCallback> {
 	
 	public PlayerInfoData process(){
 		try{
-			return new PlayerInfoData(plugin.api.getRequestHandler().processRequest(this));
+			return PlayerInfoData.fromString(plugin.api.getRequestHandler().processRequest(this));
 		}catch (Exception e){
 			plugin.api.handleException(e);
 			

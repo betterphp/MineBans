@@ -10,7 +10,7 @@ public abstract class StatusCallback extends APICallback {
 	}
 	
 	public void onSuccess(String response){
-		this.onSuccess(new StatusData(response));
+		this.onSuccess(StatusData.fromString(response));
 	}
 	
 	public abstract void onSuccess(StatusData data);

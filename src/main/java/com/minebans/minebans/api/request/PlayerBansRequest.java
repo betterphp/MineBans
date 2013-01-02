@@ -21,7 +21,7 @@ public class PlayerBansRequest extends APIRequest<PlayerBansCallback> {
 	
 	public PlayerBansData process(){
 		try{
-			return new PlayerBansData(plugin.api.getRequestHandler().processRequest(this));
+			return PlayerBansData.fromString(plugin.api.getRequestHandler().processRequest(this));
 		}catch (Exception e){
 			plugin.api.handleException(e);
 			

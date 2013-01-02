@@ -20,7 +20,7 @@ public class StatusRequest extends APIRequest<StatusCallback> {
 	
 	public StatusData process(){
 		try{
-			return new StatusData(plugin.api.getRequestHandler().processRequest(this));
+			return StatusData.fromString(plugin.api.getRequestHandler().processRequest(this));
 		}catch (Exception e){
 			plugin.api.handleException(e);
 			

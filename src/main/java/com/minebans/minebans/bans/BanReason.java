@@ -56,7 +56,9 @@ public enum BanReason {
 		this.severities = severities;
 		this.evidenceCollector = evidenceCollector;
 		
-		this.plugin = (MineBans) Bukkit.getServer().getPluginManager().getPlugin("MineBans");
+		if (Bukkit.getServer() != null){
+			this.plugin = (MineBans) Bukkit.getServer().getPluginManager().getPlugin("MineBans");
+		}
 	}
 	
 	static {

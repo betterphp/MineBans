@@ -65,7 +65,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			(new StatusRequest(plugin, senderName)).process(new StatusCallback(plugin){
 				
 				public void onSuccess(StatusData data){
-					Double[] loadAvg = data.getLoadAvg();
+					Double[] loadAvg = data.getLoadAverage();
 					
 					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "The API responded in " + (data.getResponceTime() - timeStart) + "ms"));
 					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Server Load Average: " + ((loadAvg[0] > 8L) ? ChatColor.RED : ChatColor.GREEN) + loadAvg[0] + " " + loadAvg[1] + " " + loadAvg[2]));

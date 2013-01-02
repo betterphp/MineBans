@@ -25,13 +25,16 @@ public class StatusDataTest {
 			?>
 		 */
 		
-		StatusData data = new StatusData("{\"status\":true,\"load_avg\":{\"0\":0.12,\"1\":1.45,\"2\":3.44}}");
+		StatusData data = StatusData.fromString("{\"status\":true,\"load_avg\":{\"0\":0.12,\"1\":1.45,\"2\":3.44}}");
 		
-		Double[] loadAvg = data.getLoadAvg();
+		Double[] loadAvg = data.getLoadAverage();
 		
 		Assert.assertTrue(loadAvg[0].equals(0.12));
 		Assert.assertTrue(loadAvg[1].equals(1.45));
 		Assert.assertTrue(loadAvg[2].equals(3.44));
+		
+		Assert.assertNotNull(data.getResponceTime());
+		Assert.assertFalse(data.getResponceTime() == 0L);
 	}
 	
 }

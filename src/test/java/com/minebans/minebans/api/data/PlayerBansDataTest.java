@@ -38,7 +38,7 @@ public class PlayerBansDataTest {
 			?>
 		 */
 		
-		PlayerBansData data = new PlayerBansData("{\"status\":true,\"player_info\":{\"total_bans\":{\"0\":{\"0\":1,\"1\":6,\"2\":11,\"3\":16},\"1\":{\"0\":2,\"1\":7,\"2\":12,\"3\":17},\"2\":{\"0\":3,\"1\":8,\"2\":13,\"3\":18},\"3\":{\"0\":4,\"1\":9,\"2\":14,\"3\":19},\"4\":{\"0\":5,\"1\":10,\"2\":15,\"3\":20}},\"ban_summary\":{\"total\":100,\"last_24\":10,\"removed\":40,\"group_bans\":10}}}");
+		PlayerBansData data = PlayerBansData.fromString("{\"status\":true,\"player_info\":{\"total_bans\":{\"0\":{\"0\":1,\"1\":6,\"2\":11,\"3\":16},\"1\":{\"0\":2,\"1\":7,\"2\":12,\"3\":17},\"2\":{\"0\":3,\"1\":8,\"2\":13,\"3\":18},\"3\":{\"0\":4,\"1\":9,\"2\":14,\"3\":19},\"4\":{\"0\":5,\"1\":10,\"2\":15,\"3\":20}},\"ban_summary\":{\"total\":100,\"last_24\":10,\"removed\":40,\"group_bans\":10}}}");
 		
 		Assert.assertTrue(data.get(BanReason.THEFT, BanSeverity.LOW) == 6);
 		Assert.assertTrue(data.get(BanReason.THEFT, BanSeverity.MEDIUM) == 11);

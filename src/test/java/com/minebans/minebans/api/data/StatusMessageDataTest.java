@@ -7,7 +7,7 @@ public class StatusMessageDataTest {
 	
 	@Test
 	public void restResponseProcessing(){
-		StatusMessageData data = new StatusMessageData("test");
+		StatusMessageData data = StatusMessageData.fromString("test");
 		
 		Assert.assertTrue(data.getMessage().equals("test"));
 	}

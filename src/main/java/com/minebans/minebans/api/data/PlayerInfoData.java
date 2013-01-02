@@ -1,30 +1,28 @@
 package com.minebans.minebans.api.data;
 
-import com.google.gson.Gson;
-import com.google.gson.internal.StringMap;
+import com.google.gson.JsonObject;
 
-public class PlayerInfoData {
+public class PlayerInfoData extends APIData {
 	
-	private Boolean isKnownCompromised;
-	private Boolean shouldUnban;
+	private boolean known_compromised;
+	private boolean should_unban;
 	
-	public PlayerInfoData(StringMap<?> response){
-		StringMap<?> data = (StringMap<?>) response.get("player_info");
+	private PlayerInfoData(){
 		
-		this.isKnownCompromised = (Boolean) data.get("known_compromised");
-		this.shouldUnban = (Boolean) data.get("should_unban");
 	}
 	
-	public PlayerInfoData(String response){
-		this((new Gson()).fromJson(response, StringMap.class));
+	public static PlayerInfoData fromString(String response){
+		JsonObject object = parser.parse(response).getAsJsonObject();
+		
+		return gson.fromJson(object.get("player_info"), PlayerInfoData.class);
 	}
 	
 	public Boolean isKnownCompromised(){
-		return this.isKnownCompromised;
+		return this.known_compromised;
 	}
 	
 	public Boolean shouldUnban(){
-		return this.shouldUnban;
+		return this.should_unban;
 	}
 	
 }

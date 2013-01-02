@@ -10,7 +10,7 @@ public abstract class PlayerInfoCallback extends APICallback {
 	}
 	
 	public void onSuccess(String response){
-		this.onSuccess(new PlayerInfoData(response));
+		this.onSuccess(PlayerInfoData.fromString(response));
 	}
 	
 	public abstract void onSuccess(PlayerInfoData data);

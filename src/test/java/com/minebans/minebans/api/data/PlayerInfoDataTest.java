@@ -24,12 +24,12 @@ public class PlayerInfoDataTest {
 			?>
 		 */
 		
-		PlayerInfoData data = new PlayerInfoData("{\"status\":true,\"player_info\":{\"known_compromised\":true,\"should_unban\":true}}");
+		PlayerInfoData data = PlayerInfoData.fromString("{\"status\":true,\"player_info\":{\"known_compromised\":true,\"should_unban\":true}}");
 		
 		Assert.assertTrue(data.isKnownCompromised());
 		Assert.assertTrue(data.shouldUnban());
 		
-		data = new PlayerInfoData("{\"status\":true,\"player_info\":{\"known_compromised\":false,\"should_unban\":false}}");
+		data = PlayerInfoData.fromString("{\"status\":true,\"player_info\":{\"known_compromised\":false,\"should_unban\":false}}");
 		
 		Assert.assertFalse(data.isKnownCompromised());
 		Assert.assertFalse(data.shouldUnban());
