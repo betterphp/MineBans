@@ -3,7 +3,7 @@ package com.minebans.minebans.joindatalisteners;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import uk.co.jacekk.bukkit.baseplugin.v7.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.v8.event.BaseListener;
 
 import com.minebans.minebans.MineBans;
 import com.minebans.minebans.api.ConnectionDeniedReason;

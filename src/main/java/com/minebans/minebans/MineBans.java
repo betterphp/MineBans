@@ -6,9 +6,9 @@ import java.util.HashMap;
 
 import org.bukkit.plugin.Plugin;
 
-import uk.co.jacekk.bukkit.baseplugin.v7.BasePlugin;
-import uk.co.jacekk.bukkit.baseplugin.v7.config.PluginConfig;
-import uk.co.jacekk.bukkit.baseplugin.v7.update.BukkitDevUpdateChecker;
+import uk.co.jacekk.bukkit.baseplugin.v8.BasePlugin;
+import uk.co.jacekk.bukkit.baseplugin.v8.config.PluginConfig;
+import uk.co.jacekk.bukkit.baseplugin.v8.update.BukkitDevUpdateChecker;
 
 import com.minebans.minebans.api.APIInterface;
 import com.minebans.minebans.api.data.StatusData;
