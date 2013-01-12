@@ -62,51 +62,51 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>de.diddiz.LogBlock</groupId>
-			<artifactId>LogBlock</artifactId>
-			<version>1.60</version>
+			<groupId>dev.bukkit.org.server-mods</groupId>
+			<artifactId>logblock</artifactId>
+			<version>1.61</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>org.guardian</groupId>
-			<artifactId>Guardian</artifactId>
-			<version>82</version>
+			<groupId>dev.bukkit.org.server-mods</groupId>
+			<artifactId>swatchdog</artifactId>
+			<version>1.18</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>uk.co.oliwali.HawkEye</groupId>
-			<artifactId>HawkEye</artifactId>
-			<version>1.0.7b</version>
+			<groupId>dev.bukkit.org.server-mods</groupId>
+			<artifactId>coreprotect</artifactId>
+			<version>1.74</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>me.Sanzennin.SWatchdog</groupId>
-			<artifactId>SWatchdog</artifactId>
-			<version>1.15</version>
+			<groupId>dev.bukkit.org.server-mods</groupId>
+			<artifactId>nocheat</artifactId>
+			<version>3.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>net.coreprotect</groupId>
-			<artifactId>CoreProtect</artifactId>
-			<version>1.60</version>
+			<groupId>dev.bukkit.org.server-mods</groupId>
+			<artifactId>nocheat-classic</artifactId>
+			<version>3.6.4</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>cc.co.evenprime.bukkit.nocheat</groupId>
-			<artifactId>NoCheat</artifactId>
-			<version>3.50</version>
+			<groupId>dev.bukkit.org.server-mods</groupId>
+			<artifactId>nocheatplus</artifactId>
+			<version>3.8.8-b301</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>fr.neatmonster.nocheatplus</groupId>
-			<artifactId>NoCheatPlus</artifactId>
-			<version>3.8.1-259</version>
+			<groupId>dev.bukkit.org.server-mods</groupId>
+			<artifactId>anticheat</artifactId>
+			<version>1.5.3</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
