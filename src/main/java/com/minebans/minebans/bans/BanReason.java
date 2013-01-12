@@ -24,21 +24,22 @@ import com.minebans.minebans.evidence.XrayEvidenceCollector;
 
 public enum BanReason {
 	
-	THEFT(0,		"Stealing from another player",			Arrays.asList("thief", "theft", "stealing", "steal"),		Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED, BanSeverity.LOW, BanSeverity.MEDIUM, BanSeverity.HIGH), 	TheftEvidenceCollector.class),
-	GRIEF(1,		"Destroying another players building",	Arrays.asList("griefing", "grief"),							Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED, BanSeverity.LOW, BanSeverity.MEDIUM, BanSeverity.HIGH),	GriefEvidenceCollector.class),
-	ABUSE(2,		"Being excessively abusive",			Arrays.asList("abuse", "abusive", "swearing"),				Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															AbuseEvidenceCollector.class),
-	ADVERTISING(3,	"Advertising a product or service",		Arrays.asList("advertising", "ads", "advert"),				Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															AdvertisingEvidenceCollector.class),
-	XRAY(4,			"Using an x-ray mod",					Arrays.asList("x-ray", "xray", "x-raying", "xraying"),		Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED, BanSeverity.LOW, BanSeverity.MEDIUM, BanSeverity.HIGH),	XrayEvidenceCollector.class),
-	FLY(5,			"Using a fly mod",						Arrays.asList("fly", "flymod", "flying"),					Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															FlyingEvidenceCollector.class),
-	SPEED(6,		"Using a movement speed",				Arrays.asList("speed", "sprint", "fakesneak"),				Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															SpeedEvidenceCollector.class),
-	BLOCK_REACH(7,	"Using a block reach",					Arrays.asList("reach", "block-reach"),						Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															BlockReachEvidenceCollector.class),
-	NOFALL(8,		"Avoiding fall damage",					Arrays.asList("nofall", "no-fall"),							Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															NoFallEvidenceCollector.class),
-	NOSWING(9,		"Unfair a no-swing mod",				Arrays.asList("noswing", "no-swing"),						Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															NoSwingEvidenceCollector.class),
-	PVP_CHEAT(10,	"Using PVP mods to gain an advantage",	Arrays.asList("pvpcheat", "pvp", "kill"),					Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															PvpCheatEvidenceCollector.class),
-	SPAM(11,		"Chat or command spam",					Arrays.asList("spam", "spaming"),							Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															SpamEvidenceCollector.class),
-	ITEM_DROP(12,	"Item drop",							Arrays.asList("drop", "dropping", "items"),					Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															DropEvidenceCollector.class);
+	THEFT(0,		"stealing",				"stealing from another player",			Arrays.asList("thief", "theft", "stealing", "steal"),		Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED, BanSeverity.LOW, BanSeverity.MEDIUM, BanSeverity.HIGH), 	TheftEvidenceCollector.class),
+	GRIEF(1,		"griefing",				"destroying another players building",	Arrays.asList("griefing", "grief"),							Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED, BanSeverity.LOW, BanSeverity.MEDIUM, BanSeverity.HIGH),	GriefEvidenceCollector.class),
+	ABUSE(2,		"being abusive",		"being excessively abusive",			Arrays.asList("abuse", "abusive", "swearing"),				Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															AbuseEvidenceCollector.class),
+	ADVERTISING(3,	"advertising",			"advertising a product or service",		Arrays.asList("advertising", "ads", "advert"),				Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															AdvertisingEvidenceCollector.class),
+	XRAY(4,			"using x-ray",			"using an x-ray mod",					Arrays.asList("x-ray", "xray", "x-raying", "xraying"),		Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED, BanSeverity.LOW, BanSeverity.MEDIUM, BanSeverity.HIGH),	XrayEvidenceCollector.class),
+	FLY(5,			"flying",				"using a fly mod",						Arrays.asList("fly", "flymod", "flying"),					Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															FlyingEvidenceCollector.class),
+	SPEED(6,		"using a speed mod",	"using a movement speed mod",			Arrays.asList("speed", "sprint", "fakesneak"),				Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															SpeedEvidenceCollector.class),
+	BLOCK_REACH(7,	"reach mod",			"using a block reach",					Arrays.asList("reach", "block-reach"),						Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															BlockReachEvidenceCollector.class),
+	NOFALL(8,		"no-fall",				"avoiding fall damage",					Arrays.asList("nofall", "no-fall"),							Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															NoFallEvidenceCollector.class),
+	NOSWING(9,		"no-swing",				"unfair a no-swing mod",				Arrays.asList("noswing", "no-swing"),						Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															NoSwingEvidenceCollector.class),
+	PVP_CHEAT(10,	"PVP cheats",			"using PVP mods to gain an advantage",	Arrays.asList("pvpcheat", "pvp", "kill"),					Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															PvpCheatEvidenceCollector.class),
+	SPAM(11,		"spamming",				"chat or command spam",					Arrays.asList("spam", "spaming"),							Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															SpamEvidenceCollector.class),
+	ITEM_DROP(12,	"item drop",			"dropping a large number of items",		Arrays.asList("drop", "dropping", "items"),					Arrays.asList(BanSeverity.TOTAL, BanSeverity.CONFIRMED, BanSeverity.UNCONFIRMED),															DropEvidenceCollector.class);
 	
 	private int id;
+	private String shortDescription;
 	private String description;
 	private List<String> keywords;
 	private List<BanSeverity> severities;
@@ -49,9 +50,10 @@ public enum BanReason {
 	private static BanReason[] idLookupTable;
 	private static HashMap<String, BanReason> keywordLookupTable;
 	
-	private BanReason(int id, String description, List<String> keywords, List<BanSeverity> severities, Class<?> evidenceCollector){
+	private BanReason(int id, String shortDescription, String description, List<String> keywords, List<BanSeverity> severities, Class<?> evidenceCollector){
 		this.id = id;
 		this.description = description;
+		this.shortDescription = shortDescription;
 		this.keywords = keywords;
 		this.severities = severities;
 		this.evidenceCollector = evidenceCollector;
@@ -92,6 +94,10 @@ public enum BanReason {
 	
 	public String getDescription(){
 		return this.description;
+	}
+	
+	public String getShortDescription(){
+		return this.shortDescription;
 	}
 	
 	public List<String> getKeywords(){
