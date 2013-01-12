@@ -13,6 +13,7 @@ public class Config {
 	public static final PluginConfigKey API_KEY								= new PluginConfigKey("api-key", "change this to the one from your control panel");
 	
 	public static final PluginConfigKey USE_COMPACT_JOIN_INFO					= new PluginConfigKey("use-compact-join-info", false);
+	public static final PluginConfigKey IGNORE_REMOVED_BANS					= new PluginConfigKey("ignore-removed-bans", false);
 	public static final PluginConfigKey USE_GROUP_BANS						= new PluginConfigKey("use-group-bans", true);
 	
 	public static final PluginConfigKey BLOCK_PROXIES							= new PluginConfigKey("block-public-proxies", true);

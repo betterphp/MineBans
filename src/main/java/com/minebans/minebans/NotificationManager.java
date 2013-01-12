@@ -115,7 +115,7 @@ public class NotificationManager {
 				}
 			}
 		}else{
-			if (totalBans > 0L || last24 > 0L || removed > 0L || compromised || (bannedAlts != null && !bannedAlts.isEmpty())){
+			if (totalBans > 0L || last24 > 0L || (removed > 0L && !plugin.config.getBoolean(Config.IGNORE_REMOVED_BANS)) || compromised || (bannedAlts != null && !bannedAlts.isEmpty())){
 				for (Player player : Permission.ALERT_ON_JOIN.getPlayersWith()){
 					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Summary for " + playerName));
 					player.sendMessage(ChatColor.GREEN + "Total bans on record: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans);
