@@ -19,10 +19,24 @@ public class Config {
 	public static final PluginConfigKey BLOCK_PROXIES							= new PluginConfigKey("block-public-proxies", true);
 	public static final PluginConfigKey BLOCK_COMPROMISED_ACCOUNTS			= new PluginConfigKey("block-known-compromised-accounts", true);
 	
-	public static final PluginConfigKey MESSAGE_KICK							= new PluginConfigKey("messages.kick", "You have been kicked from the server.");
-	public static final PluginConfigKey MESSAGE_BAN							= new PluginConfigKey("messages.ban", "You have been banned from the server.");
-	public static final PluginConfigKey MESSAGE_TEMPBAN						= new PluginConfigKey("messages.tempban", "You have been banned from the server for ");
-	public static final PluginConfigKey MESSAGE_UNEXEMPT						= new PluginConfigKey("messages.unexempt", "You have been removed from the exempt list.");
+	public static final PluginConfigKey MESSAGE_KICK_PLAYER					= new PluginConfigKey("messages.kick.player", "You have been kicked from the server.");
+	public static final PluginConfigKey MESSAGE_KICK_SERVER					= new PluginConfigKey("messages.kick.server", "&c%player_name% &ahas been kicked by %admin_name%");
+	
+	public static final PluginConfigKey MESSAGE_LOCAL_BAN_PLAYER				= new PluginConfigKey("messages.local-ban.player", "You have been banned from the server");
+	public static final PluginConfigKey MESSAGE_LOCAL_BAN_SERVER				= new PluginConfigKey("messages.local-ban.server", "&c%player_name% &ahas been banned by %admin_name%");
+	
+	public static final PluginConfigKey MESSAGE_GLOBAL_BAN_PLAYER				= new PluginConfigKey("messages.global-ban.player", "You have been banned from the server for %short_reason%");
+	public static final PluginConfigKey MESSAGE_GLOBAL_BAN_SERVER				= new PluginConfigKey("messages.global-ban.server", "&c%player_name% &ahas been banned by %admin_name% for &c%short_reason%");
+	
+	public static final PluginConfigKey MESSAGE_TEMP_BAN_PLAYER				= new PluginConfigKey("messages.temp-ban.player", "You have been banned from the server for %duration%");
+	public static final PluginConfigKey MESSAGE_TEMP_BAN_SERVER				= new PluginConfigKey("messages.temp-ban.server", "&c%player_name% &ahas been banned by %admin_name% for &c%duration%");
+	
+	public static final PluginConfigKey MESSAGE_UNBAN_SERVER					= new PluginConfigKey("messages.unban.server", "&c%player_name% &ahas been unbanned by %admin_name%");
+	
+	public static final PluginConfigKey MESSAGE_EXEMPT_SERVER					= new PluginConfigKey("messages.exempt.server", "&c%player_name% &ahas been been added to the exempt list by %admin_name%");
+	
+	public static final PluginConfigKey MESSAGE_UNEXEMPT_PLAYER				= new PluginConfigKey("messages.unexempt.player", "You have been removed from the exempt list");
+	public static final PluginConfigKey MESSAGE_UNEXEMPT_SERVER				= new PluginConfigKey("messages.unexempt.server", "&c%player_name% &ahas been removed from the exempt list by %admin_name%"); 
 	
 	public static final PluginConfigKey BAN_COMMANDS_AUTO						= new PluginConfigKey("ban.commands.autoexec", false);
 	public static final PluginConfigKey MAX_TEMP_BAN_DURATION					= new PluginConfigKey("ban.max-temp-duration", "7d");

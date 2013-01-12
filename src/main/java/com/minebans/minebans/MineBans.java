@@ -32,6 +32,7 @@ import com.minebans.minebans.pluginapi.MineBansPluginAPI;
 
 public class MineBans extends BasePlugin {
 	
+	public static MineBans INSTANCE;
 	public static final boolean DEBUG_MODE = false;
 	
 	public LoggingInterface loggingPlugin;
@@ -40,7 +41,6 @@ public class MineBans extends BasePlugin {
 	
 	public BanManager banManager;
 	public EvidenceManager evidenceManager;
-	public NotificationManager notificationManager;
 	
 	public APIInterface api;
 	public BukkitDevUpdateChecker updateChecker;
@@ -54,6 +54,8 @@ public class MineBans extends BasePlugin {
 	
 	public void onEnable(){
 		super.onEnable(true);
+		
+		INSTANCE = this;
 		
 		if (DEBUG_MODE){
 			this.log.warn("========================= WARNING ==========================");
@@ -75,7 +77,6 @@ public class MineBans extends BasePlugin {
 		
 		this.banManager = new BanManager(this);
 		this.evidenceManager = new EvidenceManager(this);
-		this.notificationManager = new NotificationManager(this);
 		
 		this.api = new APIInterface(this);
 		this.updateChecker = new BukkitDevUpdateChecker(this, "http://dev.bukkit.org/server-mods/minebans/files.rss");
@@ -155,6 +156,8 @@ public class MineBans extends BasePlugin {
 		if (this.api != null){
 			this.api.stopThread();
 		}
+		
+		INSTANCE = null;
 		
 		this.log.info("Disabled.");
 	}

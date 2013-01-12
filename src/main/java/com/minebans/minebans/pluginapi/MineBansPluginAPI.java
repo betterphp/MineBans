@@ -202,7 +202,7 @@ public class MineBansPluginAPI {
 	 * @return				True
 	 */
 	public boolean locallyBanPlayer(String playerName){
-		plugin.banManager.locallyBanPlayer(playerName, false, false);
+		plugin.banManager.locallyBanPlayer(playerName, this.pluginName, false, false);
 		plugin.log.info(playerName + " was locally banned by the plugin '" + this.pluginName + "'");
 		return true;
 	}
@@ -268,7 +268,7 @@ public class MineBansPluginAPI {
 			return false;
 		}
 		
-		plugin.banManager.tempBanPlayer(playerName, banDuration, false, false);
+		plugin.banManager.tempBanPlayer(playerName, this.pluginName, banDuration, false, false);
 		plugin.log.info(playerName + " was temporarily banned by the plugin '" + this.pluginName + "'");
 		
 		return true;
@@ -296,7 +296,7 @@ public class MineBansPluginAPI {
 			return false;
 		}
 		
-		plugin.banManager.unLocalBan(playerName, false);
+		plugin.banManager.unLocalBan(playerName, this.pluginName, false);
 		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pluginName + "'");
 		
 		return true;
@@ -353,7 +353,7 @@ public class MineBansPluginAPI {
 			return false;
 		}
 		
-		plugin.banManager.unTempBan(playerName, false);
+		plugin.banManager.unTempBan(playerName, this.pluginName, false);
 		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pluginName + "'");
 		
 		return true;
@@ -405,7 +405,7 @@ public class MineBansPluginAPI {
 	 * @return				True.
 	 */
 	public boolean exemptPlayer(String playerName){
-		plugin.banManager.exemptPlayer(playerName, false);
+		plugin.banManager.exemptPlayer(playerName, this.pluginName, false);
 		plugin.log.info(playerName + " was added to the exempt list by the plugin '" + this.pluginName + "'");
 		
 		return true;
@@ -432,7 +432,7 @@ public class MineBansPluginAPI {
 			return false;
 		}
 		
-		plugin.banManager.unExemptPlayer(playerName, false);
+		plugin.banManager.unExemptPlayer(playerName, this.pluginName, false);
 		plugin.log.info(playerName + " was removed from thes exempt list by the plugin '" + this.pluginName + "'");
 		
 		return true;

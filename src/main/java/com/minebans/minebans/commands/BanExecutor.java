@@ -14,6 +14,7 @@ import uk.co.jacekk.bukkit.baseplugin.v8.command.CommandTabCompletion;
 
 import com.minebans.minebans.Config;
 import com.minebans.minebans.MineBans;
+import com.minebans.minebans.NotificationManager;
 import com.minebans.minebans.Permission;
 import com.minebans.minebans.bans.BanReason;
 
@@ -76,6 +77,11 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 		}
 		
 		String playerName = args[0];
+		String issuedBy = sender.getName();
+		
+		if (issuedBy.equals("CONSOLE")){
+			issuedBy = "console";
+		}
 		
 		if (!plugin.server.getOnlineMode()){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Your server must be running in online-mode."));
@@ -116,8 +122,8 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 					return;
 				}
 				
-				plugin.banManager.tempBanPlayer(playerName, banDuration, (sender instanceof Player));
-				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been temporarily banned for " + args[1] + "."));
+				plugin.banManager.tempBanPlayer(playerName, issuedBy, banDuration, (sender instanceof Player));
+				sender.sendMessage(plugin.formatMessage(NotificationManager.parseNotification(plugin.config.getString(Config.MESSAGE_TEMP_BAN_SERVER), playerName, issuedBy, null, banDuration)));
 				
 				for (String cmd : plugin.config.getStringList(Config.TEMP_BAN_COMMANDS)){
 					cmds.add(cmd.replace("%player_name%", playerName));
@@ -160,7 +166,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 				}
 				
 				plugin.banManager.globallyBanPlayer(playerName, sender.getName(), reason, (sender instanceof Player));
-				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been globally banned."));
+				sender.sendMessage(plugin.formatMessage(NotificationManager.parseNotification(plugin.config.getString(Config.MESSAGE_GLOBAL_BAN_SERVER), playerName, issuedBy, reason, 0)));
 				
 				for (String cmd : plugin.config.getStringList(Config.GLOBAL_BAN_COMMANDS)){
 					cmds.add(cmd.replace("%player_name%", playerName));
@@ -172,8 +178,8 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 				return;
 			}
 			
-			plugin.banManager.locallyBanPlayer(playerName, (sender instanceof Player));
-			sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been banned from the server."));
+			plugin.banManager.locallyBanPlayer(playerName, issuedBy, (sender instanceof Player));
+			sender.sendMessage(plugin.formatMessage(NotificationManager.parseNotification(plugin.config.getString(Config.MESSAGE_LOCAL_BAN_SERVER), playerName, issuedBy, null, 0)));
 			
 			for (String cmd : plugin.config.getStringList(Config.LOCAL_BAN_COMMANDS)){
 				cmds.add(cmd.replace("%player_name%", playerName));
@@ -212,15 +218,20 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 		}
 		
 		String playerName = args[0];
+		String issuedBy = sender.getName();
+		
+		if (issuedBy.equals("CONSOLE")){
+			issuedBy = "console";
+		}
 		
 		if (plugin.banManager.isBanned(playerName) == false){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + playerName + " has not been banned from this server."));
 			return;
 		}
 		
-		plugin.banManager.unbanPlayer(playerName, sender.getName(), (sender instanceof Player));
+		plugin.banManager.unbanPlayer(playerName, issuedBy, (sender instanceof Player));
 		
-		sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been unbanned."));
+		sender.sendMessage(plugin.formatMessage(NotificationManager.parseNotification(plugin.config.getString(Config.MESSAGE_UNBAN_SERVER), playerName, issuedBy, null, 0)));
 	}
 	
 }

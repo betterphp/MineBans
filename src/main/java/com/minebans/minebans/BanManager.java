@@ -49,21 +49,21 @@ public class BanManager {
 		this.localExemptList.load();
 	}
 	
-	public void kickPlayer(String playerName, boolean log, String message){
+	public void kickPlayer(String playerName, String issuedBy, boolean log, String message){
 		Player player = plugin.server.getPlayer(playerName);
 		
 		if (player != null){
 			player.kickPlayer(message);
 			
-			plugin.notificationManager.sendKickNotification(playerName, log);
+			NotificationManager.sendKickNotification(playerName, issuedBy, log);
 		}
 	}
 	
-	public void kickPlayer(String playerName, boolean log){
-		this.kickPlayer(playerName, log, plugin.config.getString(Config.MESSAGE_KICK));
+	public void kickPlayer(String playerName, String issuedBy, boolean log){
+		this.kickPlayer(playerName, issuedBy, log, plugin.config.getString(Config.MESSAGE_KICK_PLAYER));
 	}
 	
-	public void locallyBanPlayer(String playerName, boolean log, boolean notify){
+	public void locallyBanPlayer(String playerName, String issuedBy, boolean log, boolean notify){
 		PlayerLocalBanEvent localBanEvent = new PlayerLocalBanEvent(playerName);
 		PlayerBanEvent banEvent = new PlayerBanEvent(playerName, BanType.LOCAL);
 		
@@ -75,24 +75,24 @@ public class BanManager {
 			Player player = plugin.getServer().getPlayer(playerName);
 			
 			if (player != null){
-				player.kickPlayer(plugin.config.getString(Config.MESSAGE_BAN));
+				player.kickPlayer(NotificationManager.parseNotification(plugin.config.getString(Config.MESSAGE_LOCAL_BAN_PLAYER), playerName, issuedBy, null, 0));
 			}
 			
 			this.locallyBannedPlayers.add(playerName);
 			this.locallyBannedPlayers.save();
 			
 			if (notify){
-				plugin.notificationManager.sendBanNotification(playerName, log);
+				NotificationManager.sendBanNotification(playerName, issuedBy, log);
 			}
 		}
 	}
 	
-	public void locallyBanPlayer(String playerName, boolean log){
-		this.locallyBanPlayer(playerName, log, true);
+	public void locallyBanPlayer(String playerName, String issuedBy, boolean log){
+		this.locallyBanPlayer(playerName, issuedBy, log, true);
 	}
 	
-	public void locallyBanPlayer(String playerName){
-		this.locallyBanPlayer(playerName, true, true);
+	public void locallyBanPlayer(String playerName, String issuedBy){
+		this.locallyBanPlayer(playerName, issuedBy, true, true);
 	}
 	
 	public void globallyBanPlayer(String playerName, final String issuedBy, BanReason reason, boolean log, boolean notify){
@@ -107,7 +107,7 @@ public class BanManager {
 			Player player = plugin.getServer().getPlayer(playerName);
 			
 			if (player != null){
-				player.kickPlayer(plugin.config.getString(Config.MESSAGE_BAN) + "\n" + ChatColor.RESET + "(appeal at minebans.com)");
+				player.kickPlayer(NotificationManager.parseNotification(plugin.config.getString(Config.MESSAGE_GLOBAL_BAN_PLAYER), playerName, issuedBy, reason, 0) + "\n" + ChatColor.RESET + "(appeal at minebans.com)");
 			}
 			
 			this.globallyBannedPlayers.add(playerName);
@@ -124,7 +124,7 @@ public class BanManager {
 			});
 			
 			if (notify){
-				plugin.notificationManager.sendBanNotification(playerName, reason, log);
+				NotificationManager.sendBanNotification(playerName, issuedBy, reason, log);
 			}
 		}
 	}
@@ -137,8 +137,8 @@ public class BanManager {
 		this.globallyBanPlayer(playerName, issuedBy, reason, true, true);
 	}
 	
-	public void tempBanPlayer(String playerName, int banDuration, boolean log, boolean notify){
-		PlayerTempBanEvent tempBanEvent = new PlayerTempBanEvent(playerName, banDuration);
+	public void tempBanPlayer(String playerName, String issuedBy, int duration, boolean log, boolean notify){
+		PlayerTempBanEvent tempBanEvent = new PlayerTempBanEvent(playerName, duration);
 		PlayerBanEvent banEvent = new PlayerBanEvent(playerName, BanType.TEMP);
 		
 		plugin.pluginManager.callEvent(tempBanEvent);
@@ -149,31 +149,28 @@ public class BanManager {
 			Player player = plugin.getServer().getPlayer(playerName);
 			
 			if (player != null){
-				double days = Math.floor(banDuration / 86400.0d);
-				double hours = Math.round((banDuration - (days * 86400.0d)) / 3600.0d);
-				
-				player.kickPlayer(plugin.config.getString(Config.MESSAGE_TEMPBAN) + days + " " + ((days == 1D) ? "day" : "days") + " and " + hours + " " + ((hours == 1D) ? "hour" : "hours"));
+				player.kickPlayer(NotificationManager.parseNotification(plugin.config.getString(Config.MESSAGE_TEMP_BAN_PLAYER), playerName, issuedBy, null, duration));
 			}
 			
-			this.tempBannedPlayers.add(playerName, new Long((System.currentTimeMillis() / 1000) + banDuration).toString());
+			this.tempBannedPlayers.add(playerName, new Long((System.currentTimeMillis() / 1000) + duration).toString());
 			this.tempBannedPlayers.save();
 			
 			if (notify){
-				plugin.notificationManager.sendBanNotification(playerName, banDuration, log);
+				NotificationManager.sendBanNotification(playerName, issuedBy, duration, log);
 			}
 		}
 	}
 	
-	public void tempBanPlayer(String playerName, int banDuration, boolean log){
-		this.tempBanPlayer(playerName, banDuration, log, true);
+	public void tempBanPlayer(String playerName, String issuedBy, int banDuration, boolean log){
+		this.tempBanPlayer(playerName, issuedBy, banDuration, log, true);
 	}
 	
-	public void tempBanPlayer(String playerName, int banDuration){
-		this.tempBanPlayer(playerName, banDuration, true, true);
+	public void tempBanPlayer(String playerName, String issuedBy, int banDuration){
+		this.tempBanPlayer(playerName, issuedBy, banDuration, true, true);
 	}
 	
 	// NOTE: Called by APIInterface.java to remove the player only if the request completed correctly.
-	public void unbanPlayerAPICallback(String playerName){
+	public void unbanPlayerAPICallback(String playerName, String issuedBy){
 		if (this.globallyBannedPlayers.contains(playerName)){
 			PlayerUnbanEvent unbanEvent = new PlayerUnbanEvent(playerName, BanType.GLOBAL);
 			plugin.pluginManager.callEvent(unbanEvent);
@@ -182,13 +179,13 @@ public class BanManager {
 				this.globallyBannedPlayers.remove(playerName);
 				this.globallyBannedPlayers.save();
 				
-				plugin.notificationManager.sendUnbanNotification(playerName, true);
+				NotificationManager.sendUnbanNotification(playerName, issuedBy, true);
 			}
 		}
 	}
 	
 	public void unGlobalBan(String playerName, final String issuedBy){
-		(new PlayerUnbanRequest(plugin, playerName, issuedBy)).process(new PlayerUnbanCallback(plugin, playerName){
+		(new PlayerUnbanRequest(plugin, playerName, issuedBy)).process(new PlayerUnbanCallback(plugin, playerName, issuedBy){
 			
 			public void onFailure(Exception exception){
 				CommandSender sender = (issuedBy.equalsIgnoreCase("console")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
@@ -199,7 +196,7 @@ public class BanManager {
 		});
 	}
 	
-	public void unLocalBan(String playerName, boolean log){
+	public void unLocalBan(String playerName, String issuedBy, boolean log){
 		PlayerUnbanEvent unbanEvent = new PlayerUnbanEvent(playerName, BanType.LOCAL);
 		plugin.pluginManager.callEvent(unbanEvent);
 		
@@ -207,11 +204,11 @@ public class BanManager {
 			this.locallyBannedPlayers.remove(playerName);
 			this.locallyBannedPlayers.save();
 			
-			plugin.notificationManager.sendUnbanNotification(playerName, log);
+			NotificationManager.sendUnbanNotification(playerName, issuedBy, log);
 		}
 	}
 	
-	public void unTempBan(String playerName, boolean log){
+	public void unTempBan(String playerName, String issuedBy, boolean log){
 		PlayerUnbanEvent unbanEvent = new PlayerUnbanEvent(playerName, BanType.TEMP);
 		plugin.pluginManager.callEvent(unbanEvent);
 		
@@ -219,7 +216,7 @@ public class BanManager {
 			this.tempBannedPlayers.remove(playerName);
 			this.tempBannedPlayers.save();
 			
-			plugin.notificationManager.sendUnbanNotification(playerName, log);
+			NotificationManager.sendUnbanNotification(playerName, issuedBy, log);
 		}
 	}
 	
@@ -227,9 +224,9 @@ public class BanManager {
 		if (this.isGloballyBanned(playerName)){
 			this.unGlobalBan(playerName, issuedBy);
 		}else if (this.isLocallyBanned(playerName)){
-			this.unLocalBan(playerName, log);
+			this.unLocalBan(playerName, issuedBy, log);
 		}else if (this.isTempBanned(playerName)){
-			this.unTempBan(playerName, log);
+			this.unTempBan(playerName, issuedBy, log);
 		}
 	}
 	
@@ -237,7 +234,7 @@ public class BanManager {
 		this.unbanPlayer(playerName, issuedBy, true);
 	}
 	
-	public void exemptPlayer(String playerName, boolean log){
+	public void exemptPlayer(String playerName, String issuedBy, boolean log){
 		PlayerExemptEvent exemptEvent = new PlayerExemptEvent(playerName);
 		plugin.pluginManager.callEvent(exemptEvent);
 		
@@ -245,15 +242,15 @@ public class BanManager {
 			this.localExemptList.add(playerName);
 			this.localExemptList.save();
 			
-			plugin.notificationManager.sendExemptListNotification(playerName, log);
+			NotificationManager.sendExemptListNotification(playerName, issuedBy, log);
 		}
 	}
 	
-	public void exemptPlayer(String playerName){
-		this.exemptPlayer(playerName, true);
+	public void exemptPlayer(String playerName, String issuedBy){
+		this.exemptPlayer(playerName, issuedBy, true);
 	}
 	
-	public void unExemptPlayer(String playerName, boolean log){
+	public void unExemptPlayer(String playerName, String issuedBy, boolean log){
 		PlayerUnExemptEvent unExemptEvent = new PlayerUnExemptEvent(playerName); 
 		plugin.pluginManager.callEvent(unExemptEvent);
 		
@@ -261,18 +258,18 @@ public class BanManager {
 			Player player = plugin.getServer().getPlayer(playerName);
 			
 			if (player != null){
-				player.kickPlayer(plugin.config.getString(Config.MESSAGE_UNEXEMPT));
+				player.kickPlayer(plugin.config.getString(Config.MESSAGE_UNEXEMPT_PLAYER));
 			}
 			
 			this.localExemptList.remove(playerName);
 			this.localExemptList.save();
 			
-			plugin.notificationManager.sendUnExemptListNotification(playerName, log);
+			NotificationManager.sendUnExemptListNotification(playerName, issuedBy, log);
 		}
 	}
 	
-	public void unExemptPlayer(String playerName){
-		this.unExemptPlayer(playerName, true);
+	public void unExemptPlayer(String playerName, String issuedBy){
+		this.unExemptPlayer(playerName, issuedBy, true);
 	}
 	
 	public void checkExpiredTempBans(){
@@ -302,7 +299,7 @@ public class BanManager {
 	public boolean isTempBanned(String playerName){
 		if (this.tempBannedPlayers.contains(playerName)){
 			if (this.getTempBanRemaining(playerName) == 0){
-				this.unTempBan(playerName, true);
+				this.unTempBan(playerName, "expired", true);
 				return false;
 			}
 			

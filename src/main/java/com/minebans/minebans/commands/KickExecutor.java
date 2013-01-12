@@ -3,7 +3,9 @@ package com.minebans.minebans.commands;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import com.minebans.minebans.Config;
 import com.minebans.minebans.MineBans;
+import com.minebans.minebans.NotificationManager;
 import com.minebans.minebans.Permission;
 
 import uk.co.jacekk.bukkit.baseplugin.v8.command.BaseCommandExecutor;
@@ -36,8 +38,15 @@ public class KickExecutor extends BaseCommandExecutor<MineBans> {
 			return;
 		}
 		
+		String playerName = args[0];
+		String issuedBy = sender.getName();
+		
+		if (issuedBy.equals("CONSOLE")){
+			issuedBy = "console";
+		}
+		
 		if (args.length == 1){
-			plugin.banManager.kickPlayer(args[0], true);
+			plugin.banManager.kickPlayer(playerName, issuedBy, true);
 		}else{
 			StringBuilder message = new StringBuilder();
 			
@@ -48,7 +57,9 @@ public class KickExecutor extends BaseCommandExecutor<MineBans> {
 				message.append(args[i]);
 			}
 			
-			plugin.banManager.kickPlayer(args[0], true, message.toString());
+			plugin.banManager.kickPlayer(playerName, issuedBy, true, message.toString());
+			
+			sender.sendMessage(plugin.formatMessage(NotificationManager.parseNotification(plugin.config.getString(Config.MESSAGE_KICK_SERVER), playerName, issuedBy, null, 0)));
 		}
 	}
 	

@@ -8,7 +8,9 @@ import uk.co.jacekk.bukkit.baseplugin.v8.command.BaseCommandExecutor;
 import uk.co.jacekk.bukkit.baseplugin.v8.command.CommandHandler;
 import uk.co.jacekk.bukkit.baseplugin.v8.command.CommandTabCompletion;
 
+import com.minebans.minebans.Config;
 import com.minebans.minebans.MineBans;
+import com.minebans.minebans.NotificationManager;
 import com.minebans.minebans.Permission;
 
 public class ExemptExecutor extends BaseCommandExecutor<MineBans> {
@@ -35,6 +37,11 @@ public class ExemptExecutor extends BaseCommandExecutor<MineBans> {
 		
 		String option = args[0];
 		String playerName = args[1];
+		String issuedBy = sender.getName();
+		
+		if (issuedBy.equals("CONSOLE")){
+			issuedBy = "console";
+		}
 		
 		if (option.equalsIgnoreCase("add") || option.equalsIgnoreCase("a")){
 			if (plugin.banManager.isExempt(playerName)){
@@ -42,18 +49,18 @@ public class ExemptExecutor extends BaseCommandExecutor<MineBans> {
 				return;
 			}
 			
-			plugin.banManager.exemptPlayer(playerName, (sender instanceof Player));
+			plugin.banManager.exemptPlayer(playerName, issuedBy, (sender instanceof Player));
 			
-			sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been added to the exempt list."));
+			sender.sendMessage(plugin.formatMessage(NotificationManager.parseNotification(plugin.config.getString(Config.MESSAGE_EXEMPT_SERVER), playerName, issuedBy, null, 0)));
 		}else if (option.equalsIgnoreCase("remove") || option.equalsIgnoreCase("r")){
 			if (!plugin.banManager.isExempt(playerName)){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + playerName + " is not on the exempt list."));
 				return;
 			}
 			
-			plugin.banManager.unExemptPlayer(playerName, (sender instanceof Player));
+			plugin.banManager.unExemptPlayer(playerName, issuedBy, (sender instanceof Player));
 			
-			sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the exempt list."));
+			sender.sendMessage(plugin.formatMessage(NotificationManager.parseNotification(plugin.config.getString(Config.MESSAGE_UNEXEMPT_SERVER), playerName, issuedBy, null, 0)));
 		}else{
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Invalid option, try /" + label + " for a list of options."));
 		}

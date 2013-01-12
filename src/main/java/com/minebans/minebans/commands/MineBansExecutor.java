@@ -254,10 +254,16 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 				return;
 			}
 			
+			String issuedBy = sender.getName();
+			
+			if (issuedBy.equals("CONSOLE")){
+				issuedBy = "console";
+			}
+			
 			Set<OfflinePlayer> players = plugin.server.getBannedPlayers();
 			
 			for (OfflinePlayer player : players){
-				plugin.banManager.locallyBanPlayer(player.getName(), true, false);
+				plugin.banManager.locallyBanPlayer(player.getName(), issuedBy, true, false);
 			}
 			
 			sender.sendMessage(plugin.formatMessage(ChatColor.GREEN.toString() + players.size() + " bans have been imported"));
