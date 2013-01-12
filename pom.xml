@@ -91,13 +91,6 @@
 		
 		<dependency>
 			<groupId>dev.bukkit.org.server-mods</groupId>
-			<artifactId>nocheat</artifactId>
-			<version>3.5.0</version>
-			<scope>compile</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>dev.bukkit.org.server-mods</groupId>
 			<artifactId>nocheat-classic</artifactId>
 			<version>3.6.4</version>
 			<scope>compile</scope>
