@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import com.minebans.minebans.MineBans;
 import com.minebans.minebans.pluginInterfaces.coreprotect.CoreProtectPluginIntereface;
 import com.minebans.minebans.pluginInterfaces.defaultlogging.DefaultLoggingPluginInterface;
-import com.minebans.minebans.pluginInterfaces.guardian.GuardianPluginInterface;
 import com.minebans.minebans.pluginInterfaces.hawkeye.HawkEyePluginInterface;
 import com.minebans.minebans.pluginInterfaces.logblock.LogBlockPluginInterface;
 import com.minebans.minebans.pluginInterfaces.swatchdog.SWatchdogPluginInterface;
@@ -21,7 +20,6 @@ public class LoggingInterface {
 		
 		suppportedPlugins.put("LogBlock", LogBlockPluginInterface.class);
 		suppportedPlugins.put("HawkEye", HawkEyePluginInterface.class);
-		suppportedPlugins.put("Guardian", GuardianPluginInterface.class);
 		suppportedPlugins.put("SWatchdog", SWatchdogPluginInterface.class);
 		suppportedPlugins.put("CoreProtect", CoreProtectPluginIntereface.class);
 		
