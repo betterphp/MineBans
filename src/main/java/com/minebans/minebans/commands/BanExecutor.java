@@ -1,6 +1,7 @@
 package com.minebans.minebans.commands;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -22,8 +23,27 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 		super(plugin);
 	}
 	
+	public List<String> banReasonCompletor(CommandSender sender, String[] args){
+		ArrayList<String> values = new ArrayList<String>();
+		
+		for (BanReason reason : BanReason.getAll()){
+			if (plugin.config.getBoolean(Config.getReasonEnabled(reason))){
+				values.add(reason.getKeywords().get(0));
+			}
+		}
+		
+		values.add("2h");
+		values.add("12h");
+		values.add("1d");
+		values.add("2d");
+		values.add("5d");
+		values.add("7d");
+		
+		return values;
+	}
+	
 	@CommandHandler(names = {"ban", "b"}, description = "Bans a player from the server.", usage = "<player_name> [reason_id/reason_keyword]")
-	@CommandTabCompletion({"<player>", "griefing|theft|spamming|pvpcheat|12h|1d|5d|7d"})
+	@CommandTabCompletion({"<player>", "[banReasonCompletor]"})
 	public void ban(CommandSender sender, String label, String[] args){
 		boolean all = Permission.ADMIN_BAN.has(sender);
 		boolean global = Permission.ADMIN_BAN_GLOBAL.has(sender);
