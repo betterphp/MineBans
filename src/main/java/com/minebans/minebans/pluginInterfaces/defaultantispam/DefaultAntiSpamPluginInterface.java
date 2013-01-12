@@ -20,20 +20,24 @@ public class DefaultAntiSpamPluginInterface extends AntiSpamPluginInterface {
 		plugin.scheduler.scheduleSyncRepeatingTask(plugin, new CounterResetTask(this), 200, 200);
 	}
 	
+	@Override
 	public boolean pluginEnabled(){
 		// This is not really a plugin ...
 		return true;
 	}
 	
+	@Override
 	public String getPluginName(){
 		return "DefaultAntiSpam";
 	}
 	
+	@Override
 	public boolean checkConfig(){
 		// ... and there is no config.
 		return true;
 	}
 	
+	@Override
 	public int getMaxViolationLevel(String playerName){
 		if (!this.maxViolationLevel.containsKey(playerName)){
 			return 0;

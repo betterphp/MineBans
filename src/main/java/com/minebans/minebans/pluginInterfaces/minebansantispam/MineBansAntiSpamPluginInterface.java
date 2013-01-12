@@ -19,19 +19,23 @@ public class MineBansAntiSpamPluginInterface extends AntiSpamPluginInterface {
 		plugin.pluginManager.registerEvents(new SpammerBanListener(this.detectedSpammers), plugin);
 	}
 	
+	@Override
 	public boolean pluginEnabled(){
 		return plugin.pluginManager.isPluginEnabled("MineBansAntiSpam");
 	}
 	
+	@Override
 	public String getPluginName(){
 		return "MineBansAntiSpam";
 	}
 	
+	@Override
 	public boolean checkConfig(){
 		// There is no config ;)
 		return true;
 	}
 	
+	@Override
 	public int getMaxViolationLevel(String playerName){
 		return (this.detectedSpammers.contains(playerName.toLowerCase())) ? 20 : 0;
 	}

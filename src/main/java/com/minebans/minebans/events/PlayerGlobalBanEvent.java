@@ -38,10 +38,12 @@ public class PlayerGlobalBanEvent extends Event implements Cancellable {
 		return this.reason;
 	}
 	
+	@Override
 	public boolean isCancelled(){
 		return this.isCancelled;
 	}
 	
+	@Override
 	public void setCancelled(boolean cancelled){
 		this.isCancelled = cancelled;
 	}

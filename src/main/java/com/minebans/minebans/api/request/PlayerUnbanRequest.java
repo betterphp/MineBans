@@ -18,12 +18,14 @@ public class PlayerUnbanRequest extends APIRequest<PlayerUnbanCallback> {
 		this(plugin, 8000, playerName, issuedBy);
 	}
 	
+	@Override
 	public void onSuccess(String response){
 		synchronized (this.callback){
 			this.callback.onSuccess(response);
 		}
 	}
 	
+	@Override
 	public void onFailure(Exception e){
 		synchronized (this.callback){
 			this.callback.onFailure(e);

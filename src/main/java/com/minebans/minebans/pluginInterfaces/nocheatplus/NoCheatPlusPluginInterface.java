@@ -26,14 +26,17 @@ public class NoCheatPlusPluginInterface extends ExploitPluginInterface {
 		plugin.scheduler.scheduleSyncRepeatingTask(plugin, this.data, 1200L, 1200L);
 	}
 	
+	@Override
 	public boolean pluginEnabled(){
 		return (this.noCheatPlus != null);
 	}
 	
+	@Override
 	public String getPluginName(){
 		return "NoCheatPlus";
 	}
 	
+	@Override
 	public boolean checkConfig(){
 		YamlConfiguration config = new YamlConfiguration();
 		
@@ -136,6 +139,7 @@ public class NoCheatPlusPluginInterface extends ExploitPluginInterface {
 		}
 	}
 	
+	@Override
 	public long getMaxViolationLevel(String playerName, BanReason reason){
 		return Math.round(this.data.getMaxViolationLevel(playerName, reason));
 	}

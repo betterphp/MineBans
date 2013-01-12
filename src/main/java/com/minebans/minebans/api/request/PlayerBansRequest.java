@@ -29,12 +29,14 @@ public class PlayerBansRequest extends APIRequest<PlayerBansCallback> {
 		}
 	}
 	
+	@Override
 	public void onSuccess(String response){
 		synchronized (this.callback){
 			this.callback.onSuccess(response);
 		}
 	}
 	
+	@Override
 	public void onFailure(Exception e){
 		synchronized (this.callback){
 			this.callback.onFailure(e);

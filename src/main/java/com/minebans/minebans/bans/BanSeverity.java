@@ -16,7 +16,7 @@ public enum BanSeverity {
 	
 	BanSeverity(){ }
 	
-	BanSeverity(Integer id){
+	private BanSeverity(Integer id){
 		this.id = id;
 	}
 	

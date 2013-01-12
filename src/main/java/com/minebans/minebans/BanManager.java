@@ -9,6 +9,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import uk.co.jacekk.bukkit.baseplugin.v8.storage.DataStore;
+import uk.co.jacekk.bukkit.baseplugin.v8.storage.ListStore;
+
 import com.minebans.minebans.api.callback.PlayerBanCallback;
 import com.minebans.minebans.api.callback.PlayerUnbanCallback;
 import com.minebans.minebans.api.request.PlayerBanRequest;
@@ -22,25 +25,23 @@ import com.minebans.minebans.events.PlayerLocalBanEvent;
 import com.minebans.minebans.events.PlayerTempBanEvent;
 import com.minebans.minebans.events.PlayerUnExemptEvent;
 import com.minebans.minebans.events.PlayerUnbanEvent;
-import com.minebans.minebans.util.PlayerDataStore;
-import com.minebans.minebans.util.PlayerListStore;
 
 public class BanManager {
 	
 	private MineBans plugin;
 	
-	private PlayerListStore globallyBannedPlayers;
-	private PlayerListStore locallyBannedPlayers;
-	private PlayerDataStore tempBannedPlayers;
-	private PlayerListStore localExemptList;
+	private ListStore globallyBannedPlayers;
+	private ListStore locallyBannedPlayers;
+	private DataStore tempBannedPlayers;
+	private ListStore localExemptList;
 	
 	public BanManager(MineBans plugin){
 		this.plugin = plugin;
 		
-		this.globallyBannedPlayers = new PlayerListStore(new File(plugin.getBaseDirPath() + File.separator + "globally-banned-players.txt"));
-		this.locallyBannedPlayers = new PlayerListStore(new File(plugin.getBaseDirPath() + File.separator + "locally-banned-players.txt"));
-		this.tempBannedPlayers = new PlayerDataStore(new File(plugin.getBaseDirPath() + File.separator + "temp-banned-players.txt"));
-		this.localExemptList = new PlayerListStore(new File(plugin.getBaseDirPath() + File.separator + "ban-exceptions.txt"));
+		this.globallyBannedPlayers = new ListStore(new File(plugin.getBaseDirPath() + File.separator + "globally-banned-players.txt"), true);
+		this.locallyBannedPlayers = new ListStore(new File(plugin.getBaseDirPath() + File.separator + "locally-banned-players.txt"), true);
+		this.tempBannedPlayers = new DataStore(new File(plugin.getBaseDirPath() + File.separator + "temp-banned-players.txt"), true);
+		this.localExemptList = new ListStore(new File(plugin.getBaseDirPath() + File.separator + "ban-exceptions.txt"), true);
 		
 		this.globallyBannedPlayers.load();
 		this.locallyBannedPlayers.load();
@@ -275,23 +276,23 @@ public class BanManager {
 	}
 	
 	public void checkExpiredTempBans(){
-		for (String playerName : new ArrayList<String>(this.tempBannedPlayers.getPlayerNames())){
+		for (String playerName : this.tempBannedPlayers.getKeys()){
 			this.isTempBanned(playerName);
 		}
 	}
 	
 	public List<String> getLocallyBannedPlayers(){
-		return new ArrayList<String>(this.locallyBannedPlayers.getPlayerNames());
+		return new ArrayList<String>(this.locallyBannedPlayers.getAll());
 	}
 	
 	public List<String> getGloballyBannedPlayers(){
-		return new ArrayList<String>(this.globallyBannedPlayers.getPlayerNames());
+		return new ArrayList<String>(this.globallyBannedPlayers.getAll());
 	}
 	
 	public List<String> getTempBannedPlayers(){
 		this.checkExpiredTempBans();
 		
-		return new ArrayList<String>(this.tempBannedPlayers.getPlayerNames());
+		return new ArrayList<String>(this.tempBannedPlayers.getKeys());
 	}
 	
 	public boolean isLocallyBanned(String playerName){

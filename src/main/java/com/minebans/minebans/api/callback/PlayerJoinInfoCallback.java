@@ -9,6 +9,7 @@ public abstract class PlayerJoinInfoCallback extends APICallback {
 		super(plugin);
 	}
 	
+	@Override
 	public void onSuccess(String response){
 		this.onSuccess(PlayerJoinInfoData.fromString(response));
 	}

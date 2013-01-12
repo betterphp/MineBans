@@ -59,6 +59,7 @@ public class AbuseEvidenceCollector extends EvidenceCollector implements Listene
 		}
 	}
 	
+	@Override
 	public Integer collect(String playerName){
 		if (this.wordListLog.containsKey(playerName) == false){
 			return 0;

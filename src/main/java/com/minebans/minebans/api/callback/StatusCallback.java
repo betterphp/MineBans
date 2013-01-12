@@ -9,6 +9,7 @@ public abstract class StatusCallback extends APICallback {
 		super(plugin);
 	}
 	
+	@Override
 	public void onSuccess(String response){
 		this.onSuccess(StatusData.fromString(response));
 	}

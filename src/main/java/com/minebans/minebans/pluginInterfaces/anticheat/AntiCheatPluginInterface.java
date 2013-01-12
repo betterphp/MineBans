@@ -34,12 +34,12 @@ public class AntiCheatPluginInterface extends ExploitPluginInterface {
 	public boolean pluginEnabled(){
 		return plugin.pluginManager.isPluginEnabled(this.getPluginName());
 	}
-
+	
 	@Override
 	public String getPluginName(){
 		return "AntiCheat";
 	}
-
+	
 	@Override
 	public boolean checkConfig(){
 		return true;

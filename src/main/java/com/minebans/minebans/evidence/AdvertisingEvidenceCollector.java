@@ -58,6 +58,7 @@ public class AdvertisingEvidenceCollector extends EvidenceCollector implements L
 		}
 	}
 	
+	@Override
 	public Integer collect(String playerName){
 		if (this.wordListLog.containsKey(playerName) == false){
 			return 0;

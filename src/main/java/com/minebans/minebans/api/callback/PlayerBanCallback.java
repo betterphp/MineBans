@@ -8,6 +8,7 @@ public abstract class PlayerBanCallback extends APICallback {
 		super(plugin);
 	}
 	
+	@Override
 	public void onSuccess(String response){  }
 	
 	public abstract void onFailure(Exception exception);

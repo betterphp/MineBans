@@ -29,14 +29,17 @@ public class SWatchdogPluginInterface extends LoggingPluginInterface {
 		this.watchdog = (SWatchdog) plugin.pluginManager.getPlugin("SWatchdog");
 	}
 	
+	@Override
 	public boolean pluginEnabled(){
 		return (this.watchdog != null);
 	}
 	
+	@Override
 	public String getPluginName(){
 		return "SWatchdog";
 	}
 	
+	@Override
 	public boolean checkConfig(){
 		Properties config = new Properties();
 		
@@ -59,11 +62,13 @@ public class SWatchdogPluginInterface extends LoggingPluginInterface {
 		return true;
 	}
 	
+	@Override
 	public HashMap<Integer, Integer> getChestAccess(String playerName){
 		// SWatchdog doesn't have chest logging :(
 		return new HashMap<Integer, Integer>();
 	}
 	
+	@Override
 	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
 		File folder = new File("plugins/SWatchdog");
 		
@@ -120,6 +125,7 @@ public class SWatchdogPluginInterface extends LoggingPluginInterface {
 		return placed;
 	}
 	
+	@Override
 	public HashMap<Integer, Integer> getBlocksBroken(String playerName){
 		File folder = new File("plugins/SWatchdog");
 		
@@ -176,6 +182,7 @@ public class SWatchdogPluginInterface extends LoggingPluginInterface {
 		return broken;
 	}
 	
+	@Override
 	public HashMap<String, HashMap<Integer, Integer>> getBlockChanges(String playerName){
 		HashMap<String, HashMap<Integer, Integer>> data = new HashMap<String, HashMap<Integer, Integer>>();
 		

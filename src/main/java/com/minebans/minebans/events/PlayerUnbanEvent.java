@@ -38,10 +38,12 @@ public class PlayerUnbanEvent extends Event implements Cancellable {
 		return this.banType;
 	}
 	
+	@Override
 	public boolean isCancelled(){
 		return this.isCancelled;
 	}
 	
+	@Override
 	public void setCancelled(boolean cancelled){
 		this.isCancelled = cancelled;
 	}

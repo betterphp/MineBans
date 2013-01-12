@@ -22,20 +22,24 @@ public class DefaultLoggingPluginInterface extends LoggingPluginInterface {
 		plugin.pluginManager.registerEvents(new InventoryListener(this), plugin);
 	}
 	
+	@Override
 	public boolean pluginEnabled(){
 		// This is not really a plugin ...
 		return true;
 	}
 	
+	@Override
 	public String getPluginName(){
 		return "DefaultLoggingPlugin";
 	}
 	
+	@Override
 	public boolean checkConfig(){
 		// ... and it has no config.
 		return true;
 	}
 	
+	@Override
 	public HashMap<Integer, Integer> getChestAccess(String playerName){
 		if (!this.chestAccess.containsKey(playerName)){
 			return new HashMap<Integer, Integer>();
@@ -44,6 +48,7 @@ public class DefaultLoggingPluginInterface extends LoggingPluginInterface {
 		return this.chestAccess.get(playerName);
 	}
 	
+	@Override
 	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
 		if (!this.blocksPlaced.containsKey(playerName)){
 			return new HashMap<Integer, Integer>();
@@ -52,6 +57,7 @@ public class DefaultLoggingPluginInterface extends LoggingPluginInterface {
 		return this.blocksPlaced.get(playerName);
 	}
 	
+	@Override
 	public HashMap<Integer, Integer> getBlocksBroken(String playerName){
 		if (!this.blocksBroken.containsKey(playerName)){
 			return new HashMap<Integer, Integer>();
@@ -60,6 +66,7 @@ public class DefaultLoggingPluginInterface extends LoggingPluginInterface {
 		return this.blocksBroken.get(playerName);
 	}
 	
+	@Override
 	public HashMap<String, HashMap<Integer, Integer>> getBlockChanges(String playerName){
 		HashMap<String, HashMap<Integer, Integer>> data = new HashMap<String, HashMap<Integer, Integer>>();
 		

@@ -28,14 +28,17 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 		this.logblock = (LogBlock) plugin.pluginManager.getPlugin("LogBlock");
 	}
 	
+	@Override
 	public boolean pluginEnabled(){
 		return (this.logblock != null);
 	}
 	
+	@Override
 	public String getPluginName(){
 		return "LogBlock";
 	}
 	
+	@Override
 	public boolean checkConfig(){
 		String worldName;
 		String lbFolder = this.logblock.getDataFolder().getAbsolutePath();
@@ -83,6 +86,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 		return true;
 	}
 	
+	@Override
 	public HashMap<Integer, Integer> getChestAccess(String playerName){
 		HashMap<Integer, Integer> data = new HashMap<Integer, Integer>();
 		
@@ -128,6 +132,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 		return data;
 	}
 	
+	@Override
 	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
 		HashMap<Integer, Integer> placed = new HashMap<Integer, Integer>();
 		
@@ -157,6 +162,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 		return placed;
 	}
 	
+	@Override
 	public HashMap<Integer, Integer> getBlocksBroken(String playerName){
 		HashMap<Integer, Integer> broken = new HashMap<Integer, Integer>();
 		
@@ -186,6 +192,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 		return broken;
 	}
 	
+	@Override
 	public HashMap<String, HashMap<Integer, Integer>> getBlockChanges(String playerName){
 		HashMap<String, HashMap<Integer, Integer>> data = new HashMap<String, HashMap<Integer, Integer>>();
 		

@@ -9,6 +9,7 @@ public abstract class PlayerBansCallback extends APICallback {
 		super(plugin);
 	}
 	
+	@Override
 	public void onSuccess(String response){
 		this.onSuccess(PlayerBansData.fromString(response));
 	}

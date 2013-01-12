@@ -11,6 +11,7 @@ public class BlockReachEvidenceCollector extends EvidenceCollector {
 		this.plugin = plugin;
 	}
 	
+	@Override
 	public Long collect(String playerName){
 		return plugin.exploitPlugin.getMaxViolationLevel(playerName, BanReason.BLOCK_REACH);
 	}

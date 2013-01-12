@@ -49,7 +49,7 @@ public enum BanReason {
 	private static BanReason[] idLookupTable;
 	private static HashMap<String, BanReason> keywordLookupTable;
 	
-	BanReason(int id, String description, List<String> keywords, List<BanSeverity> severities, Class<?> evidenceCollector){
+	private BanReason(int id, String description, List<String> keywords, List<BanSeverity> severities, Class<?> evidenceCollector){
 		this.id = id;
 		this.description = description;
 		this.keywords = keywords;

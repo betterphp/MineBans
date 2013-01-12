@@ -30,10 +30,12 @@ public class PlayerUnExemptEvent extends Event implements Cancellable {
 		return this.playerName;
 	}
 	
+	@Override
 	public boolean isCancelled(){
 		return this.isCancelled;
 	}
 	
+	@Override
 	public void setCancelled(boolean cancelled){
 		this.isCancelled = cancelled;
 	}

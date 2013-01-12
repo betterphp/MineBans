@@ -28,6 +28,7 @@ public class XrayEvidenceCollector extends EvidenceCollector {
 					  );
 	}
 	
+	@Override
 	public HashMap<String, HashMap<Integer, ?>> collect(String playerName){
 		HashMap<String, HashMap<Integer, ?>> data = new HashMap<String, HashMap<Integer, ?>>();
 		HashMap<Integer, Integer> totals = new HashMap<Integer, Integer>();

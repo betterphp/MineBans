@@ -48,14 +48,17 @@ public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 		}
 	}
 	
+	@Override
 	public boolean pluginEnabled(){
 		return (this.coreProtect != null);
 	}
 	
+	@Override
 	public String getPluginName(){
 		return "CoreProtect";
 	}
 	
+	@Override
 	public boolean checkConfig(){
 		YamlConfiguration config = new YamlConfiguration();
 		
@@ -78,6 +81,7 @@ public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 		return true;
 	}
 	
+	@Override
 	public HashMap<Integer, Integer> getChestAccess(String playerName){
 		HashMap<Integer, Integer> taken = new HashMap<Integer, Integer>();
 		
@@ -151,6 +155,7 @@ public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 		return taken;
 	}
 	
+	@Override
 	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
 		HashMap<Integer, Integer> placed = new HashMap<Integer, Integer>();
 		Long minTimestamp = (System.currentTimeMillis() / 1000L) - 86400;
@@ -227,6 +232,7 @@ public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 		return placed;
 	}
 	
+	@Override
 	public HashMap<Integer, Integer> getBlocksBroken(String playerName){
 		HashMap<Integer, Integer> broken = new HashMap<Integer, Integer>();
 		Long minTimestamp = (System.currentTimeMillis() / 1000L) - 86400;
@@ -303,6 +309,7 @@ public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 		return broken;
 	}
 	
+	@Override
 	public HashMap<String, HashMap<Integer, Integer>> getBlockChanges(String playerName){
 		HashMap<Integer, Integer> broken = new HashMap<Integer, Integer>();
 		HashMap<Integer, Integer> placed = new HashMap<Integer, Integer>();

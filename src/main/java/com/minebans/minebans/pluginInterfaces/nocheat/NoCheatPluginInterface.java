@@ -40,14 +40,17 @@ public class NoCheatPluginInterface extends ExploitPluginInterface {
 		this.reasonKeyMap.put(BanReason.ITEM_DROP, Arrays.asList(Statistics.Id.INV_DROP));
 	}
 	
+	@Override
 	public boolean pluginEnabled(){
 		return (this.plugin != null);
 	}
 	
+	@Override
 	public String getPluginName(){
 		return "NoCheat";
 	}
 	
+	@Override
 	public boolean checkConfig(){
 		for (World world : plugin.server.getWorlds()){
 			plugin.log.info("Checking NoCheat config for '" + world.getName() + "'");
@@ -173,6 +176,7 @@ public class NoCheatPluginInterface extends ExploitPluginInterface {
 		return true;
 	}
 	
+	@Override
 	public long getMaxViolationLevel(String playerName, BanReason reason){
 		long current;
 		long max = 0L;

@@ -11,6 +11,7 @@ public class PvpCheatEvidenceCollector extends EvidenceCollector {
 		this.plugin = plugin;
 	}
 	
+	@Override
 	public Long collect(String playerName){
 		return plugin.exploitPlugin.getMaxViolationLevel(playerName, BanReason.PVP_CHEAT);
 	}

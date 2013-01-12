@@ -29,12 +29,14 @@ public class PlayerJoinInfoRequest extends APIRequest<PlayerJoinInfoCallback> {
 		}
 	}
 	
+	@Override
 	public void onSuccess(String response){
 		synchronized (this.callback){
 			this.callback.onSuccess(response);
 		}
 	}
 	
+	@Override
 	public void onFailure(Exception e){
 		synchronized (this.callback){
 			this.callback.onFailure(e);

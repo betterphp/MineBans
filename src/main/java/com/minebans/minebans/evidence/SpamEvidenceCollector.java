@@ -10,6 +10,7 @@ public class SpamEvidenceCollector extends EvidenceCollector {
 		this.plugin = plugin;
 	}
 	
+	@Override
 	public Integer collect(String playerName){
 		return plugin.antiSpamPlugin.getMaxViolationLevel(playerName);
 	}

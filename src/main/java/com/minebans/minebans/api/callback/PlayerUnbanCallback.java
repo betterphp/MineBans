@@ -12,6 +12,7 @@ public abstract class PlayerUnbanCallback extends APICallback {
 		this.playerName = playerName;
 	}
 	
+	@Override
 	public void onSuccess(String response){
 		plugin.banManager.unbanPlayerAPICallback(this.playerName);
 	}
