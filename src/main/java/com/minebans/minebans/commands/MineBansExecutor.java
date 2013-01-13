@@ -16,12 +16,16 @@ import com.minebans.minebans.Config;
 import com.minebans.minebans.MineBans;
 import com.minebans.minebans.Permission;
 import com.minebans.minebans.api.APIException;
+import com.minebans.minebans.api.callback.OpenAppealsCallback;
 import com.minebans.minebans.api.callback.PlayerBansCallback;
 import com.minebans.minebans.api.callback.StatusCallback;
 import com.minebans.minebans.api.callback.StatusMessageCallback;
+import com.minebans.minebans.api.data.OpenAppealsData;
+import com.minebans.minebans.api.data.OpenAppealsData.AppealData;
 import com.minebans.minebans.api.data.PlayerBansData;
 import com.minebans.minebans.api.data.StatusData;
 import com.minebans.minebans.api.data.StatusMessageData;
+import com.minebans.minebans.api.request.OpenAppealsRequest;
 import com.minebans.minebans.api.request.PlayerBansRequest;
 import com.minebans.minebans.api.request.StatusMessageRequest;
 import com.minebans.minebans.api.request.StatusRequest;
@@ -47,6 +51,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   listtemp - Lists all of the players that are temporarily banned."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   exec - Executes the commands for the last ban made."));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   import - Imports any bans made using other systems."));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   appeals - Lists open ban appeals for this server."));
 			
 			return;
 		}
@@ -64,6 +69,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			
 			(new StatusRequest(plugin, senderName)).process(new StatusCallback(plugin){
 				
+				@Override
 				public void onSuccess(StatusData data){
 					Double[] loadAvg = data.getLoadAverage();
 					
@@ -71,6 +77,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Server Load Average: " + ((loadAvg[0] > 8L) ? ChatColor.RED : ChatColor.GREEN) + loadAvg[0] + " " + loadAvg[1] + " " + loadAvg[2]));
 				}
 				
+				@Override
 				public void onFailure(Exception exception){
 					plugin.api.handleException(exception, sender);
 					
@@ -106,6 +113,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 					
 					plugin.scheduler.scheduleSyncDelayedTask(plugin, new Runnable(){
 						
+						@Override
 						public void run(){
 							if (update){
 								sender.sendMessage(plugin.formatMessage(ChatColor.RED + "A new version is available, v" + plugin.updateChecker.getVersion()));
@@ -178,6 +186,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			
 			(new PlayerBansRequest(plugin, senderName, args[1])).process(new PlayerBansCallback(plugin){
 				
+				@Override
 				public void onSuccess(PlayerBansData data){
 					Long total = data.getTotal();
 					Long last24 = data.getLast24();
@@ -212,6 +221,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 					}
 				}
 				
+				@Override
 				public void onFailure(Exception exception){
 					plugin.api.handleException(exception, sender);
 				}
@@ -267,6 +277,36 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			}
 			
 			sender.sendMessage(plugin.formatMessage(ChatColor.GREEN.toString() + players.size() + " bans have been imported"));
+		}else if (option.equalsIgnoreCase("appeals") || option.equalsIgnoreCase("a")){
+			if (!Permission.ADMIN_APPEALS.has(sender)){
+				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+				return;
+			}
+			
+			new OpenAppealsRequest(plugin, sender.getName()).process(new OpenAppealsCallback(plugin){
+				
+				@Override
+				public void onSuccess(OpenAppealsData data){
+					List<AppealData> appeals = data.getAppeals();
+					int total = appeals.size();
+					
+					if (total == 1){
+						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "There is 1 open ban appeal"));
+					}else{
+						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "There are " + total + " open ban appeals"));
+					}
+					
+					for (AppealData appeal : appeals){
+						sender.sendMessage(ChatColor.GREEN + " " + appeal.getPlayerName() + " - " + appeal.getBanReason().getShortDescription());
+					}
+				}
+				
+				@Override
+				public void onFailure(Exception exception){
+					plugin.api.handleException(exception, sender);
+				}
+				
+			});
 		}else{
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Invalid option, see /" + label + " for a list of options."));
 		}

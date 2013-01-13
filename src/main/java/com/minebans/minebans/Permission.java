@@ -27,5 +27,6 @@ public class Permission {
 	public static final PluginPermission ADMIN_LOOKUP			= new PluginPermission("minebans.admin.lookup",		PermissionDefault.OP,		"Allows the player to lookup the bans another player has.");
 	public static final PluginPermission ADMIN_LISTTEMP		= new PluginPermission("minebans.admin.listtemp",	PermissionDefault.OP,		"Allows the player to list all of the temporary bans.");
 	public static final PluginPermission ADMIN_IMPORT			= new PluginPermission("minebans.admin.import",		PermissionDefault.OP,		"Allows the player to import existing bans.");
+	public static final PluginPermission ADMIN_APPEALS		= new PluginPermission("minebans.admin.appeals",	PermissionDefault.OP,		"Allows the player to view open ban appeals.");
 	
 }

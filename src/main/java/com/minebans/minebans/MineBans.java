@@ -33,7 +33,7 @@ import com.minebans.minebans.pluginapi.MineBansPluginAPI;
 public class MineBans extends BasePlugin {
 	
 	public static MineBans INSTANCE;
-	public static final boolean DEBUG_MODE = false;
+	public static final boolean DEBUG_MODE = true;
 	
 	public LoggingInterface loggingPlugin;
 	public ExploitInterface exploitPlugin;

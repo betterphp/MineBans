@@ -20,6 +20,10 @@ public class PlayerJoinListener extends BaseListener<MineBans> {
 		if (Permission.ALERT_ON_UPDATE.has(player)){
 			plugin.server.dispatchCommand(player, "minebans update");
 		}
+		
+		if (Permission.ADMIN_APPEALS.has(player)){
+			plugin.server.dispatchCommand(player, "minebans appeals");
+		}
 	}
 	
 }
