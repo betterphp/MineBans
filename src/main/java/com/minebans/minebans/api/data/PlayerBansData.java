@@ -41,7 +41,9 @@ public class PlayerBansData extends APIData {
 		JsonObject object = parser.parse(response).getAsJsonObject();
 		JsonObject playerInfo = object.get("player_info").getAsJsonObject();
 		
-		data.summary = gson.fromJson(playerInfo.get("ban_summary"), BanSummaryData.class);
+		if (playerInfo.has("ban_summary")){
+			data.summary = gson.fromJson(playerInfo.get("ban_summary"), BanSummaryData.class);
+		}
 		
 		TotalBansData totalData = gson.fromJson(playerInfo, TotalBansData.class);
 		
@@ -92,6 +94,7 @@ public class PlayerBansData extends APIData {
 	 * @return The number of bans the player has from servers with the same owner as this one.
 	 */
 	public Long getTotalGroupBans(){
+		System.out.println(this.summary);
 		return this.summary.group_bans;
 	}
 	
