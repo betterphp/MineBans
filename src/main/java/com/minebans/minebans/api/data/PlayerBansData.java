@@ -94,7 +94,6 @@ public class PlayerBansData extends APIData {
 	 * @return The number of bans the player has from servers with the same owner as this one.
 	 */
 	public Long getTotalGroupBans(){
-		System.out.println(this.summary);
 		return this.summary.group_bans;
 	}
 	
