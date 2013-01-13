@@ -119,7 +119,9 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 								sender.sendMessage(plugin.formatMessage(ChatColor.RED + "A new version is available, v" + plugin.updateChecker.getVersion()));
 								sender.sendMessage(plugin.formatMessage(ChatColor.RED + plugin.updateChecker.getLink()));
 							}else{
-								sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Up to date \\o/"));
+								if (args.length < 2 || !args[1].equals("-q")){
+									sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Up to date \\o/"));
+								}
 							}
 						}
 						
@@ -289,6 +291,10 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 				public void onSuccess(OpenAppealsData data){
 					List<AppealData> appeals = data.getAppeals();
 					int total = appeals.size();
+					
+					if (args.length == 2 && args[1].equals("-q") && total == 0){
+						return;
+					}
 					
 					if (total == 1){
 						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "There is 1 open ban appeal"));
