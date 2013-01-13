@@ -6,7 +6,7 @@ import org.junit.Test;
 public class StatusDataTest {
 	
 	@Test
-	public void restResponseProcessing(){
+	public void testResponseProcessing(){
 		/*	PHP script to produce the test JSON
 			
 			<?php

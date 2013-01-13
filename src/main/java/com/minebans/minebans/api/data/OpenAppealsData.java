@@ -13,7 +13,7 @@ public class OpenAppealsData extends APIData {
 	public class AppealData {
 		
 		private String player_name;
-		private String ban_reason_id;
+		private Integer ban_reason_id;
 		private BanReason ban_reason;
 		
 		public String getPlayerName(){
@@ -26,7 +26,7 @@ public class OpenAppealsData extends APIData {
 		
 	}
 	
-	public ArrayList<AppealData> appeals;
+	private ArrayList<AppealData> appeals;
 	
 	private OpenAppealsData(){
 		this.appeals = new ArrayList<AppealData>();
@@ -40,7 +40,7 @@ public class OpenAppealsData extends APIData {
 		for (Entry<String, JsonElement> entry : object.get("disputes").getAsJsonObject().entrySet()){
 			AppealData data = gson.fromJson(entry.getValue(), AppealData.class);
 			
-			data.ban_reason = BanReason.getFromID(Integer.parseInt(data.ban_reason_id));
+			data.ban_reason = BanReason.getFromID(data.ban_reason_id);
 			
 			appealsData.appeals.add(data);
 		}
