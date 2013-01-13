@@ -30,7 +30,7 @@ public class OpenAppealsDataTest {
 			?>
 		*/
 		
-		OpenAppealsData data = OpenAppealsData.fromString("{\"status\":true,\"disputes\":{\"0\":{\"player_name\":\"test_1\",\"ban_reason_id\":1},\"1\":{\"player_name\":\"test_2\",\"ban_reason_id\":2},\"2\":{\"player_name\":\"test_3\",\"ban_reason_id\":3}}}");
+		OpenAppealsData data = OpenAppealsData.fromString("{\"status\":true,\"disputes\":{\"0\":{\"player_name\":\"test_1\",\"ban_reason_id\":\"1\"},1:{\"player_name\":\"test_2\",\"ban_reason_id\":2},\"2\":{\"player_name\":\"test_3\",\"ban_reason_id\":3}}}");
 		
 		List<AppealData> appeals = data.getAppeals();
 		
