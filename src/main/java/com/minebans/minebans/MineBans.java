@@ -64,7 +64,9 @@ public class MineBans extends BasePlugin {
 		}
 		
 		if (!this.server.getOnlineMode()){
-			this.log.fatal("Your server must be in online mode.");
+			this.log.fatal("================================ WARNING ================================");
+			this.log.fatal(" Your server must have online-mode=true to use MineBans, plugin disabled");
+			this.log.fatal("=========================================================================");
 			this.setEnabled(false);
 			return;
 		}
