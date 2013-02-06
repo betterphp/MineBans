@@ -10,7 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import uk.co.jacekk.bukkit.baseplugin.v8.util.ListUtils;
+import uk.co.jacekk.bukkit.baseplugin.v9.util.ListUtils;
 
 import com.minebans.minebans.MineBans;
 import com.minebans.minebans.events.PlayerBanEvent;

@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import com.minebans.minebans.events.PlayerBanEvent;
 import com.minebans.minebans.events.PlayerUnbanEvent;
 
-import uk.co.jacekk.bukkit.baseplugin.v8.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.v9.event.BaseListener;
 
 public class PlayerIPListener extends BaseListener<MineBans> {
 	

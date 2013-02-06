@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import uk.co.jacekk.bukkit.baseplugin.v8.util.ChatUtils;
+import uk.co.jacekk.bukkit.baseplugin.v9.util.ChatUtils;
 
 import com.minebans.minebans.api.data.PlayerBansData;
 import com.minebans.minebans.api.data.PlayerInfoData;
