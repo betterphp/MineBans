@@ -1,9 +1,12 @@
 package com.minebans.minebans;
 
 import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.plugin.Plugin;
 
 import uk.co.jacekk.bukkit.baseplugin.v9.BasePlugin;
@@ -121,6 +124,27 @@ public class MineBans extends BasePlugin {
 		this.commandManager.registerCommandExecutor(new KickExecutor(this));
 		this.commandManager.registerCommandExecutor(new ExemptExecutor(this));
 		this.commandManager.registerCommandExecutor(new MineBansExecutor(this));
+		
+		this.scheduler.runTaskLater(this, new Runnable(){
+			
+			public void run(){
+				try{
+					ServerListPingEvent testPing = new ServerListPingEvent(InetAddress.getLocalHost(), "MineBans Test", 0, 20);
+					
+					MineBans.this.pluginManager.callEvent(testPing);
+					
+					if (!testPing.getMotd().equals("MineBans Test")){
+						MineBans.this.log.warn("============================= WARNING ==============================");
+						MineBans.this.log.warn("   Another plugin has changed the MOTD, this may cause conflicts!");
+						MineBans.this.log.warn(" If you get E10 from MineBans please try disabling any MOTD plugins.");
+						MineBans.this.log.warn("====================================================================");
+					}
+				}catch (UnknownHostException e){
+					e.printStackTrace();
+				}
+			}
+			
+		}, 20L);
 		
 		this.scheduler.runTaskLaterAsynchronously(this, new Runnable(){
 			
