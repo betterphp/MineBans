@@ -2,5 +2,5 @@ name: "${project.name}"
 version: "${project.version}"
 main: "${project.groupId}.${project.artifactId}.${project.name}"
 website: "${project.url}"
-softdepend: [LogBlock, HawkEye, SWatchdog, CoreProtect, NoCheat, NoCheatPlus, AntiCheat, MineBansAntiSpam]
+softdepend: [LogBlock, HawkEye, SWatchdog, CoreProtect, Prism, NoCheat, NoCheatPlus, AntiCheat, MineBansAntiSpam]
 loadbefore: [Essentials, CommandBook]

@@ -9,6 +9,7 @@ import com.minebans.minebans.pluginInterfaces.coreprotect.CoreProtectPluginInter
 import com.minebans.minebans.pluginInterfaces.defaultlogging.DefaultLoggingPluginInterface;
 import com.minebans.minebans.pluginInterfaces.hawkeye.HawkEyePluginInterface;
 import com.minebans.minebans.pluginInterfaces.logblock.LogBlockPluginInterface;
+import com.minebans.minebans.pluginInterfaces.prism.PrismPluginInterface;
 import com.minebans.minebans.pluginInterfaces.swatchdog.SWatchdogPluginInterface;
 
 public class LoggingInterface {
@@ -22,6 +23,7 @@ public class LoggingInterface {
 		suppportedPlugins.put("HawkEye", HawkEyePluginInterface.class);
 		suppportedPlugins.put("SWatchdog", SWatchdogPluginInterface.class);
 		suppportedPlugins.put("CoreProtect", CoreProtectPluginIntereface.class);
+		suppportedPlugins.put("Prism", PrismPluginInterface.class);
 		
 		suppportedPlugins.put("MineBans", DefaultLoggingPluginInterface.class);
 		
