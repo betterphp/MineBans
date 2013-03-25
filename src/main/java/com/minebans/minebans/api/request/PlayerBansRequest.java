@@ -2,7 +2,6 @@ package com.minebans.minebans.api.request;
 
 import com.minebans.minebans.MineBans;
 import com.minebans.minebans.api.callback.PlayerBansCallback;
-import com.minebans.minebans.api.data.PlayerBansData;
 
 public class PlayerBansRequest extends APIRequest<PlayerBansCallback> {
 	
@@ -17,16 +16,6 @@ public class PlayerBansRequest extends APIRequest<PlayerBansCallback> {
 	
 	public PlayerBansRequest(MineBans plugin, String issuedBy, String playerName){
 		this(plugin, 8000, issuedBy, playerName);
-	}
-	
-	public PlayerBansData process(){
-		try{
-			return PlayerBansData.fromString(plugin.api.getRequestHandler().processRequest(this));
-		}catch (Exception e){
-			plugin.api.handleException(e);
-			
-			return null;
-		}
 	}
 	
 	@Override

@@ -3,7 +3,7 @@ package com.minebans.minebans;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
-import uk.co.jacekk.bukkit.baseplugin.v9.config.PluginConfigKey;
+import uk.co.jacekk.bukkit.baseplugin.v9_1.config.PluginConfigKey;
 
 import com.minebans.minebans.bans.BanReason;
 import com.minebans.minebans.bans.BanSeverity;
@@ -11,6 +11,7 @@ import com.minebans.minebans.bans.BanSeverity;
 public class Config {
 	
 	public static final PluginConfigKey API_KEY									= new PluginConfigKey("api-key", "change this to the one from your control panel");
+	public static final PluginConfigKey BUNGEE_CORD_MODE						= new PluginConfigKey("bungee-cord-mode", false);
 	
 	public static final PluginConfigKey USE_COMPACT_JOIN_INFO					= new PluginConfigKey("use-compact-join-info", false);
 	public static final PluginConfigKey IGNORE_REMOVED_BANS						= new PluginConfigKey("ignore-removed-bans", false);

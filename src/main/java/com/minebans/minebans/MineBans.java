@@ -9,11 +9,13 @@ import java.util.HashMap;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.plugin.Plugin;
 
-import uk.co.jacekk.bukkit.baseplugin.v9.BasePlugin;
-import uk.co.jacekk.bukkit.baseplugin.v9.config.PluginConfig;
-import uk.co.jacekk.bukkit.baseplugin.v9.update.BukkitDevUpdateChecker;
+import uk.co.jacekk.bukkit.baseplugin.v9_1.BasePlugin;
+import uk.co.jacekk.bukkit.baseplugin.v9_1.config.PluginConfig;
+import uk.co.jacekk.bukkit.baseplugin.v9_1.update.BukkitDevUpdateChecker;
 
 import com.minebans.minebans.api.APIInterface;
+import com.minebans.minebans.api.callback.StatusCallback;
+import com.minebans.minebans.api.callback.StatusMessageCallback;
 import com.minebans.minebans.api.data.StatusData;
 import com.minebans.minebans.api.data.StatusMessageData;
 import com.minebans.minebans.api.request.StatusMessageRequest;
@@ -36,7 +38,7 @@ import com.minebans.minebans.pluginapi.MineBansPluginAPI;
 public class MineBans extends BasePlugin {
 	
 	public static MineBans INSTANCE;
-	public static final boolean DEBUG_MODE = false;
+	public static final boolean DEBUG_MODE = true;
 	
 	public LoggingInterface loggingPlugin;
 	public ExploitInterface exploitPlugin;
@@ -66,15 +68,15 @@ public class MineBans extends BasePlugin {
 			this.log.warn("============================================================");
 		}
 		
-		if (!this.server.getOnlineMode()){
-			this.log.fatal("================================ WARNING ================================");
-			this.log.fatal(" Your server must have online-mode=true to use MineBans, plugin disabled");
-			this.log.fatal("=========================================================================");
+		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.class, this.log);
+		
+		if (!this.config.getBoolean(Config.BUNGEE_CORD_MODE) && !this.server.getOnlineMode()){
+			this.log.warn("======================== WARNING ========================");
+			this.log.warn(" Your server must have online-mode=true to use MineBans!");
+			this.log.warn("=========================================================");
 			this.setEnabled(false);
 			return;
 		}
-		
-		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.class, this.log);
 		
 		this.loggingPlugin = new LoggingInterface(this);
 		this.exploitPlugin = new ExploitInterface(this);
@@ -146,26 +148,14 @@ public class MineBans extends BasePlugin {
 			
 		}, 20L);
 		
-		this.scheduler.runTaskLaterAsynchronously(this, new Runnable(){
+		if (!this.config.getBoolean(Config.BUNGEE_CORD_MODE)){
+			final long startTime = System.currentTimeMillis();
 			
-			public void run(){
-				MineBans.this.log.info("Checking API server communication.");
+			(new StatusRequest(MineBans.this, "CONSOLE")).process(new StatusCallback(MineBans.this){
 				
-				long startTime = System.currentTimeMillis();
-				StatusData status = new StatusRequest(MineBans.this, "CONSOLE").process();
-				
-				if (status == null){
-					MineBans.this.log.warn("The API failed to respond, checking for known problems...");
-					
-					StatusMessageData data = (new StatusMessageRequest(MineBans.this)).process();
-					
-					if (data == null){
-						MineBans.this.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 12 seconds.");
-					}else{
-						MineBans.this.log.warn("Status: " + data.getMessage());
-					}
-				}else{
-					long ping = status.getResponceTime() - startTime;
+				@Override
+				public void onSuccess(StatusData data){
+					long ping = data.getResponceTime() - startTime;
 					
 					if (ping > 5000){
 						MineBans.this.log.warn("The API took longer than 5 seconds to reply, players may experience slow logins.");
@@ -173,9 +163,28 @@ public class MineBans extends BasePlugin {
 					
 					MineBans.this.log.info("The API responded in " + ping + "ms");
 				}
-			}
-			
-		}, 20L);
+				
+				@Override
+				public void onFailure(Exception exception){
+					plugin.log.warn("The API failed to respond, checking for known problems...");
+					
+					(new StatusMessageRequest(MineBans.this)).process(new StatusMessageCallback(plugin){
+						
+						@Override
+						public void onSuccess(StatusMessageData data){
+							plugin.log.warn("Status: " + data.getMessage());
+						}
+						
+						@Override
+						public void onFailure(Exception exception){
+							plugin.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 12 seconds.");
+						}
+						
+					});
+				}
+				
+			});
+		}
 	}
 	
 	public void onDisable(){

@@ -2,7 +2,6 @@ package com.minebans.minebans.api.request;
 
 import com.minebans.minebans.MineBans;
 import com.minebans.minebans.api.callback.OpenAppealsCallback;
-import com.minebans.minebans.api.data.OpenAppealsData;
 
 public class OpenAppealsRequest extends APIRequest<OpenAppealsCallback> {
 	
@@ -16,16 +15,6 @@ public class OpenAppealsRequest extends APIRequest<OpenAppealsCallback> {
 	
 	public OpenAppealsRequest(MineBans plugin, String issuedBy){
 		this(plugin, 8000, issuedBy);
-	}
-	
-	public OpenAppealsData process(){
-		try{
-			return OpenAppealsData.fromString(plugin.api.getRequestHandler().processRequest(this));
-		}catch (Exception e){
-			plugin.api.handleException(e);
-			
-			return null;
-		}
 	}
 	
 	@Override

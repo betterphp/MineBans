@@ -9,8 +9,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import uk.co.jacekk.bukkit.baseplugin.v9.storage.DataStore;
-import uk.co.jacekk.bukkit.baseplugin.v9.storage.ListStore;
+import uk.co.jacekk.bukkit.baseplugin.v9_1.storage.DataStore;
+import uk.co.jacekk.bukkit.baseplugin.v9_1.storage.ListStore;
 
 import com.minebans.minebans.api.callback.PlayerBanCallback;
 import com.minebans.minebans.api.callback.PlayerUnbanCallback;

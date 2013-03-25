@@ -2,7 +2,6 @@ package com.minebans.minebans.api.request;
 
 import com.minebans.minebans.MineBans;
 import com.minebans.minebans.api.callback.StatusCallback;
-import com.minebans.minebans.api.data.StatusData;
 
 public class StatusRequest extends APIRequest<StatusCallback> {
 	
@@ -16,16 +15,6 @@ public class StatusRequest extends APIRequest<StatusCallback> {
 	
 	public StatusRequest(MineBans plugin, String issuedBy){
 		this(plugin, 8000, issuedBy);
-	}
-	
-	public StatusData process(){
-		try{
-			return StatusData.fromString(plugin.api.getRequestHandler().processRequest(this));
-		}catch (Exception e){
-			plugin.api.handleException(e);
-			
-			return null;
-		}
 	}
 	
 	@Override
