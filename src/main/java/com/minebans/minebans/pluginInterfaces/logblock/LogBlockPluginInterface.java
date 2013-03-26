@@ -132,9 +132,8 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 		return data;
 	}
 	
-	@Override
-	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
-		HashMap<Integer, Integer> placed = new HashMap<Integer, Integer>();
+	private HashMap<Integer, Integer> getBlockChanges(String playerName, BlockChangeType type){
+		HashMap<Integer, Integer> blocks = new HashMap<Integer, Integer>();
 		
 		for (World world : plugin.server.getWorlds()){
 			try{
@@ -142,14 +141,14 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 				
 				params.setPlayer(playerName);
 				params.world = world;
-				params.bct = BlockChangeType.CREATED;
+				params.bct = type;
 				params.limit = -1;
 				params.since = (int) ((System.currentTimeMillis() / 60000) - 1440);
 				
 				params.needType = true;
 				
 				for (BlockChange change : this.logblock.getBlockChanges(params)){
-					placed.put(change.type, (placed.containsKey(change.replaced)) ? placed.get(change.type) + 1 : 1);
+					blocks.put(change.type, (blocks.containsKey(change.replaced)) ? blocks.get(change.type) + 1 : 1);
 				}
 			}catch (NullPointerException e){
 				// This happens when LB is not enabled for a world, we can ignore that.
@@ -159,75 +158,25 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 			}
 		}
 		
-		return placed;
+		return blocks;
+	}
+	
+	@Override
+	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
+		return this.getBlockChanges(playerName, BlockChangeType.CREATED);
 	}
 	
 	@Override
 	public HashMap<Integer, Integer> getBlocksBroken(String playerName){
-		HashMap<Integer, Integer> broken = new HashMap<Integer, Integer>();
-		
-		for (World world : plugin.server.getWorlds()){
-			try{
-				QueryParams params = new QueryParams(this.logblock);
-				
-				params.setPlayer(playerName);
-				params.world = world;
-				params.bct = BlockChangeType.DESTROYED;
-				params.limit = -1;
-				params.since = (int) ((System.currentTimeMillis() / 60000) - 1440);
-				
-				params.needType = true;
-				
-				for (BlockChange change : this.logblock.getBlockChanges(params)){
-					broken.put(change.replaced, (broken.containsKey(change.replaced)) ? broken.get(change.replaced) + 1 : 1);
-				}
-			}catch (NullPointerException e){
-				// This happens when LB is not enabled for a world, we can ignore that.
-			}catch (Exception e){
-				plugin.log.warn("LogBlock lookup failed.");
-				e.printStackTrace();
-			}
-		}
-		
-		return broken;
+		return this.getBlockChanges(playerName, BlockChangeType.DESTROYED);
 	}
 	
 	@Override
 	public HashMap<String, HashMap<Integer, Integer>> getBlockChanges(String playerName){
 		HashMap<String, HashMap<Integer, Integer>> data = new HashMap<String, HashMap<Integer, Integer>>();
 		
-		HashMap<Integer, Integer> broken = new HashMap<Integer, Integer>();
-		HashMap<Integer, Integer> placed = new HashMap<Integer, Integer>();
-		
-		for (World world : plugin.server.getWorlds()){
-			try{
-				QueryParams params = new QueryParams(this.logblock);
-				
-				params.setPlayer(playerName);
-				params.world = world;
-				params.bct = BlockChangeType.BOTH;
-				params.limit = -1;
-				params.since = (int) ((System.currentTimeMillis() / 60000) - 1440);
-				
-				params.needType = true;
-				
-				for (BlockChange change : this.logblock.getBlockChanges(params)){
-					if (change.type == 0){
-						broken.put(change.replaced, (broken.containsKey(change.replaced)) ? broken.get(change.replaced) + 1 : 1);
-					}else{
-						placed.put(change.type, (placed.containsKey(change.type)) ? placed.get(change.type) + 1 : 1);
-					}
-				}
-			}catch (NullPointerException e){
-				// This happens when LB is not enabled for a world, we can ignore that.
-			}catch (Exception e){
-				plugin.log.warn("LogBlock lookup failed.");
-				e.printStackTrace();
-			}
-		}
-		
-		data.put("broken", broken);
-		data.put("placed", placed);
+		data.put("broken", this.getBlocksBroken(playerName));
+		data.put("placed", this.getBlocksPlaced(playerName));
 		
 		return data;
 	}

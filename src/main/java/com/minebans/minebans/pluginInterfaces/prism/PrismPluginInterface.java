@@ -87,17 +87,16 @@ public class PrismPluginInterface extends LoggingPluginInterface {
 		return data;
 	}
 	
-	@Override
-	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
-		HashMap<Integer, Integer> placed = new HashMap<Integer, Integer>();
+	private HashMap<Integer, Integer> getBlockChanges(String playerName, String type){
+		HashMap<Integer, Integer> blocks = new HashMap<Integer, Integer>();
 		
 		QueryParameters parameters = new QueryParameters();
 		parameters.addPlayerName(playerName);
-		parameters.addActionType("block-place");
+		parameters.addActionType(type);
 		parameters.addFlag(Flag.NO_GROUP);
 		parameters.setSinceTime((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date(System.currentTimeMillis() - 86400000)));
 		
-		ActionsQuery action = new ActionsQuery(prism);
+		ActionsQuery action = new ActionsQuery(this.prism);
 		QueryResult result = action.lookup(parameters);
 		
 		List<Handler> actions = result.getActionResults();
@@ -106,72 +105,29 @@ public class PrismPluginInterface extends LoggingPluginInterface {
 			for (Handler handler : actions){
 				int blockId = handler.getBlockId();
 				
-				placed.put(blockId, (placed.containsKey(blockId)) ? placed.get(blockId) + 1 : 1);
+				blocks.put(blockId, (blocks.containsKey(blockId)) ? blocks.get(blockId) + 1 : 1);
 			}
 		}
 		
-		return placed;
+		return blocks;
+	}
+	
+	@Override
+	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
+		return this.getBlockChanges(playerName, "block-place");
 	}
 	
 	@Override
 	public HashMap<Integer, Integer> getBlocksBroken(String playerName){
-		HashMap<Integer, Integer> broken = new HashMap<Integer, Integer>();
-		
-		QueryParameters parameters = new QueryParameters();
-		parameters.addPlayerName(playerName);
-		parameters.addActionType("block-break");
-		parameters.addFlag(Flag.NO_GROUP);
-		parameters.setSinceTime((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date(System.currentTimeMillis() - 86400000)));
-		
-		ActionsQuery action = new ActionsQuery(prism);
-		QueryResult result = action.lookup(parameters);
-		
-		List<Handler> actions = result.getActionResults();
-		
-		if (actions != null){
-			for (Handler handler : actions){
-				int blockId = handler.getBlockId();
-				
-				broken.put(blockId, (broken.containsKey(blockId)) ? broken.get(blockId) + 1 : 1);
-			}
-		}
-		
-		return broken;
+		return this.getBlockChanges(playerName, "block-break");
 	}
 	
 	@Override
 	public HashMap<String, HashMap<Integer, Integer>> getBlockChanges(String playerName){
 		HashMap<String, HashMap<Integer, Integer>> data = new HashMap<String, HashMap<Integer, Integer>>();
 		
-		HashMap<Integer, Integer> broken = new HashMap<Integer, Integer>();
-		HashMap<Integer, Integer> placed = new HashMap<Integer, Integer>();
-		
-		QueryParameters parameters = new QueryParameters();
-		parameters.addPlayerName(playerName);
-		parameters.addActionType("block-place");
-		parameters.addActionType("block-break");
-		parameters.addFlag(Flag.NO_GROUP);
-		parameters.setSinceTime((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date(System.currentTimeMillis() - 86400000)));
-		
-		ActionsQuery action = new ActionsQuery(prism);
-		QueryResult result = action.lookup(parameters);
-		
-		List<Handler> actions = result.getActionResults();
-		
-		if (actions != null){
-			for (Handler handler : actions){
-				int blockId = handler.getBlockId();
-				
-				if (handler.getType().getName().equals("block-break")){
-					broken.put(blockId, (broken.containsKey(blockId)) ? broken.get(blockId) + 1 : 1);
-				}else{
-					placed.put(blockId, (placed.containsKey(blockId)) ? placed.get(blockId) + 1 : 1);
-				}
-			}
-		}
-		
-		data.put("broken", broken);
-		data.put("placed", placed);
+		data.put("broken", this.getBlocksBroken(playerName));
+		data.put("placed", this.getBlocksPlaced(playerName));
 		
 		return data;
 	}

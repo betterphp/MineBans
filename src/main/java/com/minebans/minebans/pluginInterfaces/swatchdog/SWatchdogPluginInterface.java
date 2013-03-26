@@ -68,19 +68,8 @@ public class SWatchdogPluginInterface extends LoggingPluginInterface {
 		return new HashMap<Integer, Integer>();
 	}
 	
-	@Override
-	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
-		File folder = new File("plugins/SWatchdog");
-		
-		String[] files = folder.list(new FilenameFilter(){
-			
-			public boolean accept(File dir, String name){
-				return (name.startsWith("placed.") && name.endsWith(".txt"));
-			}
-			
-		});
-		
-		HashMap<Integer, Integer> placed = new HashMap<Integer, Integer>();
+	private HashMap<Integer, Integer> getBlockChanges(String playerName, File folder, String[] files){
+		HashMap<Integer, Integer> blocks = new HashMap<Integer, Integer>();
 		
 		Long ageLimit = System.currentTimeMillis() - 86400000;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm/dd/MM/yyyy");
@@ -104,7 +93,7 @@ public class SWatchdogPluginInterface extends LoggingPluginInterface {
 							Long time = dateFormat.parse(parts[5]).getTime();
 							
 							if (time > ageLimit){
-								placed.put(blockId, (placed.containsKey(blockId)) ? placed.get(blockId) + 1 : 1);
+								blocks.put(blockId, (blocks.containsKey(blockId)) ? blocks.get(blockId) + 1 : 1);
 							}
 						}
 					}
@@ -122,7 +111,22 @@ public class SWatchdogPluginInterface extends LoggingPluginInterface {
 			}
 		}
 		
-		return placed;
+		return blocks;
+	}
+	
+	@Override
+	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
+		File folder = new File("plugins/SWatchdog");
+		
+		String[] files = folder.list(new FilenameFilter(){
+			
+			public boolean accept(File dir, String name){
+				return (name.startsWith("placed.") && name.endsWith(".txt"));
+			}
+			
+		});
+		
+		return this.getBlockChanges(playerName, folder, files);
 	}
 	
 	@Override
@@ -137,49 +141,7 @@ public class SWatchdogPluginInterface extends LoggingPluginInterface {
 			
 		});
 		
-		HashMap<Integer, Integer> broken = new HashMap<Integer, Integer>();
-		
-		Long ageLimit = System.currentTimeMillis() - 86400000;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm/dd/MM/yyyy");
-		
-		for (String name : files){
-			File file = new File(folder.getAbsolutePath() + File.separator + name);
-			
-			if (file.lastModified() > ageLimit){
-				try{
-					BufferedReader reader = new BufferedReader(new FileReader(file));
-					String line;
-					
-					while ((line = reader.readLine()) != null){
-						String[] parts = line.split("\\.");
-						
-						if (parts[4].equalsIgnoreCase(playerName)){
-							int breakPos = parts[3].indexOf(":");
-							
-							String blockName = (breakPos != -1) ? parts[3].substring(0, breakPos) : parts[3];
-							Integer blockId = Material.getMaterial(blockName).getId();
-							Long time = dateFormat.parse(parts[5]).getTime();
-							
-							if (time > ageLimit){
-								broken.put(blockId, (broken.containsKey(blockId)) ? broken.get(blockId) + 1 : 1);
-							}
-						}
-					}
-					
-					reader.close();
-				}catch (FileNotFoundException e){
-					// This won't ever happen, silly Java !
-				}catch (IOException e){
-					plugin.log.warn("Failed reading file, " + file.getAbsolutePath());
-					e.printStackTrace();
-				}catch (ParseException e){
-					plugin.log.warn("Failed to parse date in file, " + file.getAbsolutePath());
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		return broken;
+		return this.getBlockChanges(playerName, folder, files);
 	}
 	
 	@Override
@@ -189,7 +151,7 @@ public class SWatchdogPluginInterface extends LoggingPluginInterface {
 		data.put("broken", this.getBlocksBroken(playerName));
 		data.put("placed", this.getBlocksPlaced(playerName));
 		
-		return null;
+		return data;
 	}
 	
 }
