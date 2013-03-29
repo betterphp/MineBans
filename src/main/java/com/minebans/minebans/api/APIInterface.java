@@ -22,7 +22,7 @@ public class APIInterface {
 	private URL apiURL;
 	private URL statusURL;
 	
-	private BukkitAPIRequestHandler requestHandler;
+	private APIRequestHandler requestHandler;
 	
 	public APIInterface(MineBans plugin){
 		try{
@@ -55,12 +55,13 @@ public class APIInterface {
 	}
 	
 	public void startThread(){
-		if (plugin.config.getBoolean(Config.BUNGEE_CORD_MODE)){
-			
+		if (plugin.config.getBoolean(Config.BUNGEE_CORD_MODE_ENABLED)){
+			this.requestHandler = new BungeeCordAPIRequestHandler(plugin);
 		}else{
 			this.requestHandler = new BukkitAPIRequestHandler(plugin);
-			this.requestHandler.start();
 		}
+		
+		this.requestHandler.start();
 	}
 	
 	public void stopThread(){
@@ -77,7 +78,7 @@ public class APIInterface {
 		return request.getRequestKey();
 	}
 	
-	public BukkitAPIRequestHandler getRequestHandler(){
+	public APIRequestHandler getRequestHandler(){
 		return this.requestHandler;
 	}
 	

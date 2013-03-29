@@ -5,8 +5,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.Callable;
 
 import org.json.simple.JSONObject;
 
@@ -14,18 +12,10 @@ import com.minebans.minebans.MineBans;
 import com.minebans.minebans.api.callback.APICallback;
 import com.minebans.minebans.api.request.APIRequest;
 
-public class BukkitAPIRequestHandler extends Thread implements APIRequestHandler {
-	
-	private MineBans plugin;
-	
-	private ArrayBlockingQueue<APIRequest<? extends APICallback>> requestStack;
-	private volatile APIRequest<? extends APICallback> currentRequest;
+public class BukkitAPIRequestHandler extends APIRequestHandler {
 	
 	public BukkitAPIRequestHandler(MineBans plugin){
-		super("MineBans API Thread");
-		
-		this.plugin = plugin;
-		this.requestStack = new ArrayBlockingQueue<APIRequest<? extends APICallback>>(256);
+		super(plugin, "MineBans Bukkit API Thread");
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -72,6 +62,7 @@ public class BukkitAPIRequestHandler extends Thread implements APIRequestHandler
 			
 			if (MineBans.DEBUG_MODE){
 				plugin.log.info("======================== REQUEST DUMP =========================");
+				plugin.log.info(" Method: Bukkit Direct Connection");
 				plugin.log.info(" URL: " + request.getURL().toString());
 				plugin.log.info(" Request: " + requestData.toJSONString());
 				plugin.log.info(" Response: " + response);
@@ -88,55 +79,6 @@ public class BukkitAPIRequestHandler extends Thread implements APIRequestHandler
 		}
 		
 		return response;
-	}
-	
-	public void run(){
-		while (true){
-			try{
-				final APIRequest<? extends APICallback> request = this.requestStack.take();
-				
-				try{
-					final String response = this.processRequest(request);
-					
-					plugin.scheduler.callSyncMethod(plugin, new Callable<Boolean>(){
-						
-						public Boolean call() throws Exception{
-							request.onSuccess(response);
-							return true;
-						}
-						
-					});
-				}catch (final Exception e){
-					plugin.scheduler.callSyncMethod(plugin, new Callable<Boolean>(){
-						
-						public Boolean call() throws Exception{
-							request.onFailure(e);
-							return true;
-						}
-						
-					});
-				}
-			}catch (InterruptedException e1){
-				return;
-			}
-		}
-	}
-	
-	@Override
-	public void addRequest(APIRequest<? extends APICallback> request){
-		// This is only to prevent accidental exponential queue growth DOSing the API.
-		if (this.requestStack.remainingCapacity() == 0){
-			plugin.log.warn("API request queue overloaded, waiting for some to complete.");
-		}
-		
-		try{
-			this.requestStack.put(request);
-		}catch (InterruptedException e){  }
-	}
-	
-	@Override
-	public APIRequest<? extends APICallback> getCurrentRequest(){
-		return this.currentRequest;
 	}
 	
 }

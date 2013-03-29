@@ -46,11 +46,6 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 	@CommandHandler(names = {"ban", "b"}, description = "Bans a player from the server.", usage = "<player_name> [reason_id/reason_keyword]")
 	@CommandTabCompletion({"<player>", "[banReasonCompletor]"})
 	public void ban(CommandSender sender, String label, String[] args){
-		if (!(sender instanceof Player) && plugin.config.getBoolean(Config.BUNGEE_CORD_MODE)){
-			sender.sendMessage(ChatColor.RED + "This command is not available to the console when using BungeeCord");
-			return;
-		}
-		
 		boolean all = Permission.ADMIN_BAN.has(sender);
 		boolean global = Permission.ADMIN_BAN_GLOBAL.has(sender);
 		boolean local = Permission.ADMIN_BAN_LOCAL.has(sender);
@@ -211,11 +206,6 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 	@CommandHandler(names = {"unban", "ub"}, description = "Unbans a player.", usage = "<player_name>")
 	@CommandTabCompletion({"<player>"})
 	public void unban(CommandSender sender, String label, String[] args){
-		if (!(sender instanceof Player) && plugin.config.getBoolean(Config.BUNGEE_CORD_MODE)){
-			sender.sendMessage(ChatColor.RED + "This command is not available to the console when using BungeeCord");
-			return;
-		}
-		
 		if (!Permission.ADMIN_BAN.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return;

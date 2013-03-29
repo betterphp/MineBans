@@ -57,6 +57,7 @@ public class MineBans extends BasePlugin {
 	public HashMap<String, ArrayList<String>> playerIPs;
 	public HashMap<String, ArrayList<String>> bannedIPs;
 	
+	@Override
 	public void onEnable(){
 		super.onEnable(true);
 		
@@ -70,7 +71,7 @@ public class MineBans extends BasePlugin {
 		
 		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.class, this.log);
 		
-		if (!this.config.getBoolean(Config.BUNGEE_CORD_MODE) && !this.server.getOnlineMode()){
+		if (!this.config.getBoolean(Config.BUNGEE_CORD_MODE_ENABLED) && !this.server.getOnlineMode()){
 			this.log.warn("======================== WARNING ========================");
 			this.log.warn(" Your server must have online-mode=true to use MineBans!");
 			this.log.warn("=========================================================");
@@ -148,45 +149,44 @@ public class MineBans extends BasePlugin {
 			
 		}, 20L);
 		
-		if (!this.config.getBoolean(Config.BUNGEE_CORD_MODE)){
-			final long startTime = System.currentTimeMillis();
+		final long startTime = System.currentTimeMillis();
+		
+		(new StatusRequest(MineBans.this, "CONSOLE")).process(new StatusCallback(this){
 			
-			(new StatusRequest(MineBans.this, "CONSOLE")).process(new StatusCallback(MineBans.this){
+			@Override
+			public void onSuccess(StatusData data){
+				long ping = data.getResponceTime() - startTime;
 				
-				@Override
-				public void onSuccess(StatusData data){
-					long ping = data.getResponceTime() - startTime;
+				if (ping > 5000){
+					plugin.log.warn("The API took longer than 5 seconds to reply, players may experience slow logins.");
+				}
+				
+				plugin.log.info("The API responded in " + ping + "ms");
+			}
+			
+			@Override
+			public void onFailure(Exception exception){
+				plugin.log.warn("The API failed to respond, checking for known problems...");
+				
+				(new StatusMessageRequest(MineBans.this)).process(new StatusMessageCallback(plugin){
 					
-					if (ping > 5000){
-						MineBans.this.log.warn("The API took longer than 5 seconds to reply, players may experience slow logins.");
+					@Override
+					public void onSuccess(StatusMessageData data){
+						plugin.log.warn("Status: " + data.getMessage());
 					}
 					
-					MineBans.this.log.info("The API responded in " + ping + "ms");
-				}
-				
-				@Override
-				public void onFailure(Exception exception){
-					plugin.log.warn("The API failed to respond, checking for known problems...");
+					@Override
+					public void onFailure(Exception exception){
+						plugin.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 12 seconds.");
+					}
 					
-					(new StatusMessageRequest(MineBans.this)).process(new StatusMessageCallback(plugin){
-						
-						@Override
-						public void onSuccess(StatusMessageData data){
-							plugin.log.warn("Status: " + data.getMessage());
-						}
-						
-						@Override
-						public void onFailure(Exception exception){
-							plugin.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 12 seconds.");
-						}
-						
-					});
-				}
-				
-			});
-		}
+				});
+			}
+			
+		});
 	}
 	
+	@Override
 	public void onDisable(){
 		if (this.api != null){
 			this.api.stopThread();

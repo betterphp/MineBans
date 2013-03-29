@@ -11,7 +11,10 @@ import com.minebans.minebans.bans.BanSeverity;
 public class Config {
 	
 	public static final PluginConfigKey API_KEY									= new PluginConfigKey("api-key", "change this to the one from your control panel");
-	public static final PluginConfigKey BUNGEE_CORD_MODE						= new PluginConfigKey("bungee-cord-mode", false);
+	public static final PluginConfigKey BUNGEE_CORD_MODE_ENABLED				= new PluginConfigKey("bungee-cord-mode.enabled", false);
+	public static final PluginConfigKey BUNGEE_CORD_MODE_AUTH_STR				= new PluginConfigKey("bungee-cord-mode.auth-str", "CHANGE_ME");
+	public static final PluginConfigKey BUNGEE_CORD_MODE_ADDRESS				= new PluginConfigKey("bungee-cord-mode.address", "127.0.0.1");
+	public static final PluginConfigKey BUNGEE_CORD_MODE_PORT					= new PluginConfigKey("bungee-cord-mode.port", 8000);
 	
 	public static final PluginConfigKey USE_COMPACT_JOIN_INFO					= new PluginConfigKey("use-compact-join-info", false);
 	public static final PluginConfigKey IGNORE_REMOVED_BANS						= new PluginConfigKey("ignore-removed-bans", false);

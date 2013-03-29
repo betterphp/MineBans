@@ -7,7 +7,6 @@ import java.util.Set;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.baseplugin.v9_1.command.BaseCommandExecutor;
 import uk.co.jacekk.bukkit.baseplugin.v9_1.command.CommandHandler;
@@ -81,11 +80,6 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 	
 	@SubCommandHandler(parent = "minebans", name = "status")
 	public void minebansStatus(final CommandSender sender, String label, String[] args){
-		if (!(sender instanceof Player) && plugin.config.getBoolean(Config.BUNGEE_CORD_MODE)){
-			sender.sendMessage(ChatColor.RED + "This command is not available to the console when using BungeeCord");
-			return;
-		}
-		
 		if (!Permission.ADMIN_STATUS.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return;
@@ -212,11 +206,6 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 	@SubCommandHandler(parent = "minebans", name = "lookup")
 	@CommandTabCompletion({"<player>"})
 	public void minebansLookup(final CommandSender sender, String label, final String[] args){
-		if (!(sender instanceof Player) && plugin.config.getBoolean(Config.BUNGEE_CORD_MODE)){
-			sender.sendMessage(ChatColor.RED + "This command is not available to the console when using BungeeCord");
-			return;
-		}
-		
 		if (!Permission.ADMIN_LOOKUP.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return;
@@ -293,11 +282,6 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 	
 	@SubCommandHandler(parent = "minebans", name = "exec")
 	public void minebansExec(final CommandSender sender, String label, String[] args){
-		if (!(sender instanceof Player) && plugin.config.getBoolean(Config.BUNGEE_CORD_MODE)){
-			sender.sendMessage(ChatColor.RED + "This command is not available to the console when using BungeeCord");
-			return;
-		}
-		
 		if (!Permission.ADMIN_BAN_COMMAND.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return;
@@ -343,11 +327,6 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 	
 	@SubCommandHandler(parent = "minebans", name = "appeals")
 	public void minebansAppeals(final CommandSender sender, String label, final String[] args){
-		if (!(sender instanceof Player) && plugin.config.getBoolean(Config.BUNGEE_CORD_MODE)){
-			sender.sendMessage(ChatColor.RED + "This command is not available to the console when using BungeeCord");
-			return;
-		}
-		
 		if (!Permission.ADMIN_APPEALS.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return;
