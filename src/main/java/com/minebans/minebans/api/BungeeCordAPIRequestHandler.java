@@ -16,6 +16,7 @@ import com.minebans.minebans.api.request.APIRequest;
 public class BungeeCordAPIRequestHandler extends APIRequestHandler {
 	
 	private Socket proxy;
+	private String authStr;
 	
 	public BungeeCordAPIRequestHandler(MineBans plugin){
 		super(plugin, "MineBans BungeeCord API Thread");
@@ -26,6 +27,8 @@ public class BungeeCordAPIRequestHandler extends APIRequestHandler {
 			plugin.log.fatal("Failed to communicate with proxy");
 			e.printStackTrace();
 		}
+		
+		this.authStr = plugin.config.getString(Config.BUNGEE_CORD_MODE_AUTH_STR);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -60,6 +63,7 @@ public class BungeeCordAPIRequestHandler extends APIRequestHandler {
 			BufferedReader input = new BufferedReader(new InputStreamReader(this.proxy.getInputStream()));
 			PrintWriter output = new PrintWriter(this.proxy.getOutputStream(), true);
 			
+			output.println(this.authStr);
 			output.println(request.getURL().toString());
 			output.println(data);
 			output.println(motd.toString());
