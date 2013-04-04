@@ -19,6 +19,11 @@
 		</repository>
 		
 		<repository>
+			<id>jacekk-repo</id>
+			<url>http://bukkit.jacekk.co.uk:8000/plugin/repository/everything/</url>
+		</repository>
+		
+		<repository>
 			<id>plugin-repo</id>
 			<!-- NOTE: This just redirects to the dev.bukkit.org download links. -->
 			<url>http://bukkit.jacekk.co.uk/plugin_repo/repo/</url>
