@@ -8,9 +8,9 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import uk.co.jacekk.bukkit.baseplugin.v9_1.command.BaseCommandExecutor;
-import uk.co.jacekk.bukkit.baseplugin.v9_1.command.CommandHandler;
-import uk.co.jacekk.bukkit.baseplugin.v9_1.command.CommandTabCompletion;
+import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.CommandHandler;
+import uk.co.jacekk.bukkit.baseplugin.command.CommandTabCompletion;
 
 import com.minebans.minebans.Config;
 import com.minebans.minebans.MineBans;

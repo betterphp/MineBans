@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import uk.co.jacekk.bukkit.baseplugin.v9_1.util.ListUtils;
+import uk.co.jacekk.bukkit.baseplugin.util.ListUtils;
 
 import com.google.gson.JsonObject;
 import com.minebans.minebans.bans.BanReason;

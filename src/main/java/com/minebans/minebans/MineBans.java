@@ -9,9 +9,9 @@ import java.util.HashMap;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.plugin.Plugin;
 
-import uk.co.jacekk.bukkit.baseplugin.v9_1.BasePlugin;
-import uk.co.jacekk.bukkit.baseplugin.v9_1.config.PluginConfig;
-import uk.co.jacekk.bukkit.baseplugin.v9_1.update.BukkitDevUpdateChecker;
+import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
+import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
+import uk.co.jacekk.bukkit.baseplugin.update.BukkitDevUpdateChecker;
 
 import com.minebans.minebans.api.APIInterface;
 import com.minebans.minebans.api.callback.StatusCallback;

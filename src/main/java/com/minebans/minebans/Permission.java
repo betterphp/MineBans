@@ -2,7 +2,7 @@ package com.minebans.minebans;
 
 import org.bukkit.permissions.PermissionDefault;
 
-import uk.co.jacekk.bukkit.baseplugin.v9_1.permissions.PluginPermission;
+import uk.co.jacekk.bukkit.baseplugin.permissions.PluginPermission;
 
 public class Permission {
 	

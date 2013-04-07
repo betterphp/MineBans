@@ -5,7 +5,7 @@ import javax.naming.NamingException;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import uk.co.jacekk.bukkit.baseplugin.v9_1.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 
 import com.minebans.minebans.MineBans;
 import com.minebans.minebans.api.ConnectionDeniedReason;

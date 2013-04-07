@@ -8,9 +8,9 @@ import com.minebans.minebans.MineBans;
 import com.minebans.minebans.NotificationManager;
 import com.minebans.minebans.Permission;
 
-import uk.co.jacekk.bukkit.baseplugin.v9_1.command.BaseCommandExecutor;
-import uk.co.jacekk.bukkit.baseplugin.v9_1.command.CommandHandler;
-import uk.co.jacekk.bukkit.baseplugin.v9_1.command.CommandTabCompletion;
+import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.CommandHandler;
+import uk.co.jacekk.bukkit.baseplugin.command.CommandTabCompletion;
 
 public class KickExecutor extends BaseCommandExecutor<MineBans> {
 	
