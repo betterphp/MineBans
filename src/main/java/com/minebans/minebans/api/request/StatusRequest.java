@@ -5,12 +5,14 @@ import com.minebans.minebans.api.callback.StatusCallback;
 
 public class StatusRequest extends APIRequest<StatusCallback> {
 	
-	@SuppressWarnings("unchecked")
+	protected String action;
+	protected String issued_by;
+	
 	public StatusRequest(MineBans plugin, int timeout, String issuedBy){
 		super(plugin, plugin.api.getAPIURL(), timeout);
 		
-		this.json.put("action", "get_system_status");
-		this.json.put("issued_by", issuedBy);
+		this.action = "get_system_status";
+		this.issued_by = issuedBy;
 	}
 	
 	public StatusRequest(MineBans plugin, String issuedBy){

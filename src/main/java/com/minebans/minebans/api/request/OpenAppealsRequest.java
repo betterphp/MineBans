@@ -5,12 +5,14 @@ import com.minebans.minebans.api.callback.OpenAppealsCallback;
 
 public class OpenAppealsRequest extends APIRequest<OpenAppealsCallback> {
 	
-	@SuppressWarnings("unchecked")
+	protected String action;
+	protected String issued_by;
+	
 	public OpenAppealsRequest(MineBans plugin, int timeout, String issuedBy){
 		super(plugin, plugin.api.getAPIURL(), timeout);
 		
-		this.json.put("action", "get_open_appeals");
-		this.json.put("issued_by", issuedBy);
+		this.action = "get_open_appeals";
+		this.issued_by = issuedBy;
 	}
 	
 	public OpenAppealsRequest(MineBans plugin, String issuedBy){

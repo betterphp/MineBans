@@ -6,8 +6,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.security.MessageDigest;
 
-import org.json.simple.JSONObject;
-
 import com.minebans.minebans.Config;
 import com.minebans.minebans.MineBans;
 import com.minebans.minebans.api.callback.APICallback;
@@ -31,7 +29,6 @@ public class BungeeCordAPIRequestHandler extends APIRequestHandler {
 		this.authStr = plugin.config.getString(Config.BUNGEE_CORD_MODE_AUTH_STR);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public String processRequest(APIRequest<? extends APICallback> request) throws Exception {
 		this.currentRequest = request;
@@ -51,21 +48,14 @@ public class BungeeCordAPIRequestHandler extends APIRequestHandler {
 				motd.append(hex);
 			}
 			
-			String data = "";
-			
-			JSONObject requestData = request.getJSON();
-			
-			if (!requestData.isEmpty()){
-				requestData.put("request_key", request.getRequestKey());
-				data = requestData.toJSONString();
-			}
+			String json = this.gson.toJson(request);
 			
 			BufferedReader input = new BufferedReader(new InputStreamReader(this.proxy.getInputStream()));
 			PrintWriter output = new PrintWriter(this.proxy.getOutputStream(), true);
 			
 			output.println(this.authStr);
 			output.println(request.getURL().toString());
-			output.println(data);
+			output.println(json);
 			output.println(motd.toString());
 			
 			String line;
@@ -84,7 +74,7 @@ public class BungeeCordAPIRequestHandler extends APIRequestHandler {
 				plugin.log.info("======================== REQUEST DUMP =========================");
 				plugin.log.info(" Method: BungeeCord Proxy");
 				plugin.log.info(" URL: " + request.getURL().toString());
-				plugin.log.info(" Request: " + requestData.toJSONString());
+				plugin.log.info(" Request: " + json);
 				plugin.log.info(" Response: " + response);
 				plugin.log.info("===============================================================");
 			}

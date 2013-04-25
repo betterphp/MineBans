@@ -5,13 +5,16 @@ import com.minebans.minebans.api.callback.PlayerBansCallback;
 
 public class PlayerBansRequest extends APIRequest<PlayerBansCallback> {
 	
-	@SuppressWarnings("unchecked")
+	protected String action;
+	protected String issued_by;
+	protected String player_name;
+	
 	public PlayerBansRequest(MineBans plugin, int timeout, String issuedBy, String playerName){
 		super(plugin, plugin.api.getAPIURL(), timeout);
 		
-		this.json.put("action", "get_player_bans");
-		this.json.put("issued_by", issuedBy);
-		this.json.put("player_name", playerName);
+		this.action = "get_player_bans";
+		this.issued_by = issuedBy;
+		this.player_name = playerName;
 	}
 	
 	public PlayerBansRequest(MineBans plugin, String issuedBy, String playerName){

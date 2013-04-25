@@ -3,6 +3,7 @@ package com.minebans.minebans.api;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
 
+import com.google.gson.Gson;
 import com.minebans.minebans.MineBans;
 import com.minebans.minebans.api.callback.APICallback;
 import com.minebans.minebans.api.request.APIRequest;
@@ -10,6 +11,7 @@ import com.minebans.minebans.api.request.APIRequest;
 public abstract class APIRequestHandler extends Thread {
 	
 	protected MineBans plugin;
+	protected Gson gson;
 	protected ArrayBlockingQueue<APIRequest<? extends APICallback>> requestStack;
 	protected volatile APIRequest<? extends APICallback> currentRequest;
 	
@@ -17,6 +19,7 @@ public abstract class APIRequestHandler extends Thread {
 		super(name);
 		
 		this.plugin = plugin;
+		this.gson = new Gson();
 		this.requestStack = new ArrayBlockingQueue<APIRequest<? extends APICallback>>(256);
 	}
 	

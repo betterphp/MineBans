@@ -3,33 +3,29 @@ package com.minebans.minebans.api.request;
 import java.net.URL;
 import java.util.UUID;
 
-import org.json.simple.JSONObject;
-
 import com.minebans.minebans.MineBans;
 import com.minebans.minebans.api.callback.APICallback;
 
 public abstract class APIRequest<Callback extends APICallback> {
 	
-	protected MineBans plugin;
+	protected transient MineBans plugin;
 	
-	protected URL url;
-	protected JSONObject json;
-	protected Integer timeout;
+	protected transient URL url;
+	protected transient Integer timeout;
 	
-	private String requestKey;
-	private Boolean complete;
-	private Integer attempts;
+	protected String request_key; // Bad naming conventions for JSON backward compatibility :(
+	private transient Boolean complete;
+	private transient Integer attempts;
 	
-	protected Callback callback;
+	protected transient Callback callback;
 	
 	public APIRequest(MineBans plugin, URL url, int timeout){
 		this.plugin = plugin;
 		
 		this.url = url;
-		this.json = new JSONObject();
 		this.timeout = timeout;
 		
-		this.requestKey = UUID.randomUUID().toString();
+		this.request_key = UUID.randomUUID().toString();
 		this.complete = false;
 		this.attempts = 0;
 	}
@@ -40,12 +36,6 @@ public abstract class APIRequest<Callback extends APICallback> {
 		}
 	}
 	
-	public JSONObject getJSON(){
-		synchronized (this.json){
-			return this.json;
-		}
-	}
-	
 	public int getTimeout(){
 		synchronized (this.timeout){
 			return this.timeout;
@@ -53,8 +43,8 @@ public abstract class APIRequest<Callback extends APICallback> {
 	}
 	
 	public String getRequestKey(){
-		synchronized (this.requestKey){
-			return this.requestKey;
+		synchronized (this.request_key){
+			return this.request_key;
 		}
 	}
 	

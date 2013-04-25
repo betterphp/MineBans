@@ -6,15 +6,20 @@ import com.minebans.minebans.bans.BanReason;
 
 public class PlayerBanRequest extends APIRequest<PlayerBanCallback> {
 	
-	@SuppressWarnings("unchecked")
+	protected String action;
+	protected String issued_by;
+	protected String player_name;
+	protected int reason;
+	protected Object evidence;
+	
 	public PlayerBanRequest(MineBans plugin, int timeout, String playerName, String issuedBy, BanReason reason, Object evidence){
 		super(plugin, plugin.api.getAPIURL(), timeout);
 		
-		this.json.put("action", "ban_player");
-		this.json.put("issued_by", issuedBy);
-		this.json.put("player_name", playerName);
-		this.json.put("reason", reason.getID());
-		this.json.put("evidence", evidence);
+		this.action = "ban_player";
+		this.issued_by = issuedBy;
+		this.player_name = playerName;
+		this.reason = reason.getID();
+		this.evidence = evidence;
 	}
 	
 	public PlayerBanRequest(MineBans plugin, String playerName, String issuedBy, BanReason reason, Object evidence){
