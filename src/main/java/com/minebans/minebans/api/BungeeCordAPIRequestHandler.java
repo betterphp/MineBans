@@ -13,18 +13,10 @@ import com.minebans.minebans.api.request.APIRequest;
 
 public class BungeeCordAPIRequestHandler extends APIRequestHandler {
 	
-	private Socket proxy;
 	private String authStr;
 	
 	public BungeeCordAPIRequestHandler(MineBans plugin){
 		super(plugin, "MineBans BungeeCord API Thread");
-		
-		try{
-			this.proxy = new Socket(plugin.config.getString(Config.BUNGEE_CORD_MODE_ADDRESS), plugin.config.getInt(Config.BUNGEE_CORD_MODE_PORT));
-		}catch (Exception e){
-			plugin.log.fatal("Failed to communicate with proxy");
-			e.printStackTrace();
-		}
 		
 		this.authStr = plugin.config.getString(Config.BUNGEE_CORD_MODE_AUTH_STR);
 	}
@@ -50,13 +42,16 @@ public class BungeeCordAPIRequestHandler extends APIRequestHandler {
 			
 			String json = this.gson.toJson(request);
 			
-			BufferedReader input = new BufferedReader(new InputStreamReader(this.proxy.getInputStream()));
-			PrintWriter output = new PrintWriter(this.proxy.getOutputStream(), true);
+			Socket proxy = new Socket(plugin.config.getString(Config.BUNGEE_CORD_MODE_ADDRESS), plugin.config.getInt(Config.BUNGEE_CORD_MODE_PORT));
+			
+			PrintWriter output = new PrintWriter(proxy.getOutputStream(), true);
 			
 			output.println(this.authStr);
 			output.println(request.getURL().toString());
 			output.println(json);
 			output.println(motd.toString());
+			
+			BufferedReader input = new BufferedReader(new InputStreamReader(proxy.getInputStream()));
 			
 			String line;
 			StringBuilder buffer = new StringBuilder();
@@ -69,6 +64,8 @@ public class BungeeCordAPIRequestHandler extends APIRequestHandler {
 			
 			input.close();
 			output.close();
+			
+			proxy.close();
 			
 			if (MineBans.DEBUG_MODE){
 				plugin.log.info("======================== REQUEST DUMP =========================");

@@ -83,7 +83,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 			issuedBy = "console";
 		}
 		
-		if (!plugin.server.getOnlineMode()){
+		if (!plugin.server.getOnlineMode() && !plugin.config.getBoolean(Config.BUNGEE_CORD_MODE_ENABLED)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Your server must be running in online-mode."));
 			return;
 		}
