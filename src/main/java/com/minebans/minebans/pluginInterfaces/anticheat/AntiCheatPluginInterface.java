@@ -21,6 +21,8 @@ public class AntiCheatPluginInterface extends ExploitPluginInterface {
 	public AntiCheatPluginInterface(MineBans plugin){
 		this.plugin = plugin;
 		
+		this.reasonKeyMap = new HashMap<BanReason, List<CheckType>>();
+		
 		this.reasonKeyMap.put(BanReason.FLY, Arrays.asList(CheckType.ZOMBE_FLY, CheckType.FLY, CheckType.WATER_WALK, CheckType.SPIDER));
 		this.reasonKeyMap.put(BanReason.SPEED, Arrays.asList(CheckType.SPRINT, CheckType.SPEED, CheckType.SNEAK));
 		this.reasonKeyMap.put(BanReason.BLOCK_REACH, Arrays.asList(CheckType.LONG_REACH));
