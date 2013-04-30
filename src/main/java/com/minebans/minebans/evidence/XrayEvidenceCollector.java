@@ -24,7 +24,9 @@ public class XrayEvidenceCollector extends EvidenceCollector {
 						Material.DIAMOND_ORE.getId(),
 						Material.REDSTONE_ORE.getId(),
 						Material.LAPIS_ORE.getId(),
-						Material.MOSSY_COBBLESTONE.getId()
+						Material.MOSSY_COBBLESTONE.getId(),
+						Material.EMERALD_ORE.getId(),
+						Material.QUARTZ_ORE.getId()
 					  );
 	}
 	
