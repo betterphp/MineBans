@@ -148,7 +148,9 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 				params.needType = true;
 				
 				for (BlockChange change : this.logblock.getBlockChanges(params)){
-					blocks.put(change.type, (blocks.containsKey(change.replaced)) ? blocks.get(change.type) + 1 : 1);
+					int blockType = (type == BlockChangeType.CREATED) ? change.type : change.replaced;
+					
+					blocks.put(blockType, (blocks.containsKey(blockType)) ? blocks.get(blockType) + 1 : 1);
 				}
 			}catch (NullPointerException e){
 				// This happens when LB is not enabled for a world, we can ignore that.
