@@ -193,8 +193,6 @@ public class MineBans extends BasePlugin {
 		}
 		
 		INSTANCE = null;
-		
-		this.log.info("Disabled.");
 	}
 	
 	public String getVersion(){
