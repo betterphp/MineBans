@@ -453,7 +453,7 @@ public class MineBansPluginAPI {
 	 * 
 	 * @param playerName	The name of the player to be looked up.
 	 * @param issuedBy		The name of the player to be made responsible for this lookup, they must have an account at minebans.com and be listed as a moderator for this server. This can be "CONSOLE" which makes the server admin responsible. 
-	 * @param callback		A {@link PluginAPIResponseCallback} to be used to handle the response.
+	 * @param callback		A {@link PlayerBansCallback} to be used to handle the response.
 	 */
 	public void lookupPlayer(String playerName, String issuedBy, PlayerBansCallback callback){
 		(new PlayerBansRequest(plugin, issuedBy, playerName)).process(callback);
@@ -464,7 +464,7 @@ public class MineBansPluginAPI {
 	 * 
 	 * @param player	The player to be looked up.
 	 * @param issuedBy	The name of the player to be made responsible for this lookup, they must have an account at minebans.com and be listed as a moderator for this server. This can be "CONSOLE" which makes the server admin responsible.
-	 * @param callback	A {@link PluginAPIResponseCallback} to be used to handle the response.
+	 * @param callback	A {@link PlayerBansCallback} to be used to handle the response.
 	 */
 	public void lookupPlayer(Player player, String issuedBy, PlayerBansCallback callback){
 		this.lookupPlayer(player.getName(), issuedBy, callback);
