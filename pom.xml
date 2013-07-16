@@ -13,8 +13,8 @@
 		<upload.dbo.category>bukkit-plugins</upload.dbo.category>
 		<upload.dbo.slug>minebans</upload.dbo.slug>
 		
-		<baseplugin.version>12</baseplugin.version>
-		<baseplugin.package>12</baseplugin.package>
+		<baseplugin.version>13</baseplugin.version>
+		<baseplugin.package>13</baseplugin.package>
 	</properties>
 	
 	<repositories>
@@ -30,8 +30,7 @@
 		
 		<repository>
 			<id>plugin-repo</id>
-			<!-- NOTE: This just redirects to the dev.bukkit.org download links. -->
-			<url>http://bukkit.jacekk.co.uk/plugin_repo/repo/</url>
+			<url>http://bukkit.jacekk.co.uk/plugin_repo/</url>
 		</repository>
 	</repositories>
 	
@@ -46,7 +45,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.5.2-R1.0</version>
+			<version>1.6.2-R0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		
@@ -72,56 +71,56 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>dev.bukkit.org.server-mods</groupId>
+			<groupId>org.bukkit.dev</groupId>
 			<artifactId>logblock</artifactId>
 			<version>1.70</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>dev.bukkit.org.server-mods</groupId>
+			<groupId>org.bukkit.dev</groupId>
 			<artifactId>swatchdog</artifactId>
 			<version>1.18</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>dev.bukkit.org.server-mods</groupId>
+			<groupId>org.bukkit.dev</groupId>
 			<artifactId>coreprotect</artifactId>
 			<version>2.05</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>dev.bukkit.org.server-mods</groupId>
+			<groupId>org.bukkit.dev</groupId>
 			<artifactId>hawkeye-reload</artifactId>
 			<version>1.1.0</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>dev.bukkit.org.server-mods</groupId>
+			<groupId>org.bukkit.dev</groupId>
 			<artifactId>prism</artifactId>
 			<version>1.5.6</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>dev.bukkit.org.server-mods</groupId>
+			<groupId>org.bukkit.dev</groupId>
 			<artifactId>nocheat-classic</artifactId>
 			<version>3.6.4</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>dev.bukkit.org.server-mods</groupId>
+			<groupId>org.bukkit.dev</groupId>
 			<artifactId>nocheatplus</artifactId>
 			<version>3.8.9-b353</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>dev.bukkit.org.server-mods</groupId>
+			<groupId>org.bukkit.dev</groupId>
 			<artifactId>anticheat</artifactId>
 			<version>1.5.5</version>
 			<scope>compile</scope>
