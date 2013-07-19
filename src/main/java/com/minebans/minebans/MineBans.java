@@ -172,7 +172,8 @@ public class MineBans extends BasePlugin {
 			
 			@Override
 			public void onFailure(Exception exception){
-				plugin.log.warn("The API failed to respond, checking for known problems...");
+				plugin.log.warn("The API failed to respond: " + exception.getMessage());
+				plugin.log.warn("Checking for known problems...");
 				
 				(new StatusMessageRequest(MineBans.this)).process(new StatusMessageCallback(plugin){
 					
