@@ -10,6 +10,7 @@ import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.plugin.Plugin;
 
 import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
+import uk.co.jacekk.bukkit.baseplugin.command.CommandRegistrationException;
 import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
 import uk.co.jacekk.bukkit.baseplugin.update.BukkitDevUpdateChecker;
 
@@ -123,10 +124,15 @@ public class MineBans extends BasePlugin {
 		
 		this.permissionManager.registerPermissions(Permission.class);
 		
-		this.commandManager.registerCommandExecutor(new BanExecutor(this));
-		this.commandManager.registerCommandExecutor(new KickExecutor(this));
-		this.commandManager.registerCommandExecutor(new ExemptExecutor(this));
-		this.commandManager.registerCommandExecutor(new MineBansExecutor(this));
+		try{
+			this.commandManager.registerCommandExecutor(new BanExecutor(this));
+			this.commandManager.registerCommandExecutor(new KickExecutor(this));
+			this.commandManager.registerCommandExecutor(new ExemptExecutor(this));
+			this.commandManager.registerCommandExecutor(new MineBansExecutor(this));
+		}catch (CommandRegistrationException e){
+			this.log.fatal(e.getMessage());
+			this.log.fatal("Some commands may not work, check for plugins with conflicting commands");
+		}
 		
 		this.scheduler.runTaskLater(this, new Runnable(){
 			
