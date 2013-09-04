@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
-import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
@@ -25,13 +24,13 @@ public class DNSBLChecker {
 		this.cachedIPs = new ArrayList<String>();
 		
 		this.dnsbls = new ArrayList<String>();
-		this.types = new String[]{"A"};
+		this.types = new String[]{"A", "TXT"};
 		
 		Hashtable<String, String> env = new Hashtable<String, String>();
 		
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.dns.DnsContextFactory");	   
-		env.put("com.sun.jndi.dns.timeout.initial", "150");
-		env.put("com.sun.jndi.dns.timeout.retries", "1");
+		env.put("com.sun.jndi.dns.timeout.initial", "1000");
+		env.put("com.sun.jndi.dns.timeout.retries", "4");
 		env.put(Context.PROVIDER_URL, "dns://8.8.8.8 dns://8.8.4.4");
 		
 		this.ictx = new InitialDirContext(env);
@@ -53,15 +52,11 @@ public class DNSBLChecker {
 		String[] parts = ip.split("\\.");
 		String reversedAddress = parts[3] + "." + parts[2] + "." + parts[1] + "." + parts[0];
 		
-		Attribute attribute;
-		Attributes attributes;
-		
 		for (String service : this.dnsbls){
 			try{
-				attributes = this.ictx.getAttributes(reversedAddress + "." + service, this.types);
-				attribute = attributes.get("A");
+				Attributes attributes = this.ictx.getAttributes(reversedAddress + "." + service, this.types);
 				
-				if (attribute != null){
+				if (attributes.get("A") != null || attributes.get("TXT") != null){
 					return true;
 				}
 			}catch (Exception e){  }
