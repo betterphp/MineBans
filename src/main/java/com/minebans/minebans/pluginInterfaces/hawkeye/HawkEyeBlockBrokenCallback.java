@@ -25,7 +25,7 @@ public class HawkEyeBlockBrokenCallback extends BaseCallback {
 	}
 	
 	public void error(SearchError error, String message){
-		plugin.log.warn(plugin.formatMessage("HawkEye Error: " + error.name() + " " + message, false));
+		plugin.log.warn("HawkEye Error: " + error.name() + " " + message);
 		
 		this.complete = true;
 	}

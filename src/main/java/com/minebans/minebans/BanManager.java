@@ -50,7 +50,7 @@ public class BanManager {
 	}
 	
 	public void kickPlayer(String playerName, String issuedBy, boolean log, String message){
-		Player player = plugin.server.getPlayer(playerName);
+		Player player = plugin.getServer().getPlayer(playerName);
 		
 		if (player != null){
 			player.kickPlayer(message);
@@ -67,9 +67,9 @@ public class BanManager {
 		PlayerLocalBanEvent localBanEvent = new PlayerLocalBanEvent(playerName);
 		PlayerBanEvent banEvent = new PlayerBanEvent(playerName, BanType.LOCAL);
 		
-		plugin.pluginManager.callEvent(localBanEvent);
+		plugin.getServer().getPluginManager().callEvent(localBanEvent);
 		banEvent.setCancelled(localBanEvent.isCancelled());
-		plugin.pluginManager.callEvent(banEvent);
+		plugin.getServer().getPluginManager().callEvent(banEvent);
 		
 		if (!banEvent.isCancelled()){
 			Player player = plugin.getServer().getPlayer(playerName);
@@ -99,9 +99,9 @@ public class BanManager {
 		PlayerGlobalBanEvent globalBanEvent = new PlayerGlobalBanEvent(playerName, reason);
 		PlayerBanEvent banEvent = new PlayerBanEvent(playerName, BanType.GLOBAL);
 		
-		plugin.pluginManager.callEvent(globalBanEvent);
+		plugin.getServer().getPluginManager().callEvent(globalBanEvent);
 		banEvent.setCancelled(globalBanEvent.isCancelled());
-		plugin.pluginManager.callEvent(banEvent);
+		plugin.getServer().getPluginManager().callEvent(banEvent);
 		
 		if (!banEvent.isCancelled()){
 			Player player = plugin.getServer().getPlayer(playerName);
@@ -141,9 +141,9 @@ public class BanManager {
 		PlayerTempBanEvent tempBanEvent = new PlayerTempBanEvent(playerName, duration);
 		PlayerBanEvent banEvent = new PlayerBanEvent(playerName, BanType.TEMP);
 		
-		plugin.pluginManager.callEvent(tempBanEvent);
+		plugin.getServer().getPluginManager().callEvent(tempBanEvent);
 		banEvent.setCancelled(tempBanEvent.isCancelled());
-		plugin.pluginManager.callEvent(banEvent);
+		plugin.getServer().getPluginManager().callEvent(banEvent);
 		
 		if (!banEvent.isCancelled()){
 			Player player = plugin.getServer().getPlayer(playerName);
@@ -173,7 +173,7 @@ public class BanManager {
 	public void unbanPlayerAPICallback(String playerName, String issuedBy){
 		if (this.globallyBannedPlayers.contains(playerName)){
 			PlayerUnbanEvent unbanEvent = new PlayerUnbanEvent(playerName, BanType.GLOBAL);
-			plugin.pluginManager.callEvent(unbanEvent);
+			plugin.getServer().getPluginManager().callEvent(unbanEvent);
 			
 			if (!unbanEvent.isCancelled()){
 				this.globallyBannedPlayers.remove(playerName);
@@ -198,7 +198,7 @@ public class BanManager {
 	
 	public void unLocalBan(String playerName, String issuedBy, boolean log){
 		PlayerUnbanEvent unbanEvent = new PlayerUnbanEvent(playerName, BanType.LOCAL);
-		plugin.pluginManager.callEvent(unbanEvent);
+		plugin.getServer().getPluginManager().callEvent(unbanEvent);
 		
 		if (!unbanEvent.isCancelled()){
 			this.locallyBannedPlayers.remove(playerName);
@@ -210,7 +210,7 @@ public class BanManager {
 	
 	public void unTempBan(String playerName, String issuedBy, boolean log){
 		PlayerUnbanEvent unbanEvent = new PlayerUnbanEvent(playerName, BanType.TEMP);
-		plugin.pluginManager.callEvent(unbanEvent);
+		plugin.getServer().getPluginManager().callEvent(unbanEvent);
 		
 		if (!unbanEvent.isCancelled()){
 			this.tempBannedPlayers.remove(playerName);
@@ -236,7 +236,7 @@ public class BanManager {
 	
 	public void exemptPlayer(String playerName, String issuedBy, boolean log){
 		PlayerExemptEvent exemptEvent = new PlayerExemptEvent(playerName);
-		plugin.pluginManager.callEvent(exemptEvent);
+		plugin.getServer().getPluginManager().callEvent(exemptEvent);
 		
 		if (!exemptEvent.isCancelled()){
 			this.localExemptList.add(playerName);
@@ -252,7 +252,7 @@ public class BanManager {
 	
 	public void unExemptPlayer(String playerName, String issuedBy, boolean log){
 		PlayerUnExemptEvent unExemptEvent = new PlayerUnExemptEvent(playerName); 
-		plugin.pluginManager.callEvent(unExemptEvent);
+		plugin.getServer().getPluginManager().callEvent(unExemptEvent);
 		
 		if (!unExemptEvent.isCancelled()){
 			Player player = plugin.getServer().getPlayer(playerName);

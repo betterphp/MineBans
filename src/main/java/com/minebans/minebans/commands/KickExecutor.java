@@ -22,19 +22,19 @@ public class KickExecutor extends BaseCommandExecutor<MineBans> {
 	@CommandTabCompletion({"<player>"})
 	public void kick(CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_KICK.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+			sender.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
 			return;
 		}
 		
 		if (args.length == 0){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Useage: /" + label + " <player_name> [reason]"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " wide_load"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " wide_load doing bad things :("));
+			sender.sendMessage(ChatColor.RED + "Useage: /" + label + " <player_name> [reason]");
+			sender.sendMessage(ChatColor.RED + "Example: /" + label + " wide_load");
+			sender.sendMessage(ChatColor.RED + "Example: /" + label + " wide_load doing bad things :(");
 			return;
 		}
 		
-		if (!plugin.server.getOfflinePlayer(args[0]).isOnline()){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + args[0] + " is not online."));
+		if (!plugin.getServer().getOfflinePlayer(args[0]).isOnline()){
+			sender.sendMessage(ChatColor.RED + args[0] + " is not online.");
 			return;
 		}
 		
@@ -59,7 +59,7 @@ public class KickExecutor extends BaseCommandExecutor<MineBans> {
 			
 			plugin.banManager.kickPlayer(playerName, issuedBy, true, message.toString());
 			
-			sender.sendMessage(plugin.formatMessage(NotificationManager.parseNotification(plugin.config.getString(Config.MESSAGE_KICK_SERVER), playerName, issuedBy, null, 0)));
+			sender.sendMessage(NotificationManager.parseNotification(plugin.config.getString(Config.MESSAGE_KICK_SERVER), playerName, issuedBy, null, 0));
 		}
 	}
 	

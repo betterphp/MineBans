@@ -23,11 +23,11 @@ public class NoCheatPlusDataCache implements Runnable, Listener {
 		
 		this.data = new HashMap<String, LinkedList<NoCheatPlusCombinedData>>();
 		
-		plugin.pluginManager.registerEvents(this, plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
 	public void run(){
-		for (Player player : plugin.server.getOnlinePlayers()){
+		for (Player player : plugin.getServer().getOnlinePlayers()){
 			String playerName = player.getName();
 			LinkedList<NoCheatPlusCombinedData> data = this.data.get(playerName);
 			

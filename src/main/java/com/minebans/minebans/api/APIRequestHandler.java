@@ -46,7 +46,7 @@ public abstract class APIRequestHandler extends Thread {
 				try{
 					final String response = this.processRequest(request);
 					
-					plugin.scheduler.callSyncMethod(plugin, new Callable<Boolean>(){
+					plugin.getServer().getScheduler().callSyncMethod(plugin, new Callable<Boolean>(){
 						
 						public Boolean call() throws Exception {
 							request.onSuccess(response);
@@ -55,7 +55,7 @@ public abstract class APIRequestHandler extends Thread {
 						
 					});
 				}catch (final Exception e){
-					plugin.scheduler.callSyncMethod(plugin, new Callable<Boolean>(){
+					plugin.getServer().getScheduler().callSyncMethod(plugin, new Callable<Boolean>(){
 						
 						public Boolean call() throws Exception {
 							request.onFailure(e);

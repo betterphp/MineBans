@@ -25,7 +25,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 	
 	public LogBlockPluginInterface(MineBans plugin){
 		this.plugin = plugin;
-		this.logblock = (LogBlock) plugin.pluginManager.getPlugin("LogBlock");
+		this.logblock = (LogBlock) plugin.getServer().getPluginManager().getPlugin("LogBlock");
 	}
 	
 	@Override
@@ -46,7 +46,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 		
 		YamlConfiguration worldConfig = new YamlConfiguration();
 		
-		for (World world : plugin.server.getWorlds()){
+		for (World world : plugin.getServer().getWorlds()){
 			worldName = world.getName();
 			
 			worldConfigFile = new File(lbFolder + File.separator + BukkitUtils.friendlyWorldname(worldName) + ".yml");
@@ -93,7 +93,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 		Field typeField, amountField;
 		Short type, amount;
 		
-		for (World world : plugin.server.getWorlds()){
+		for (World world : plugin.getServer().getWorlds()){
 			try{
 				QueryParams params = new QueryParams(this.logblock);
 				
@@ -135,7 +135,7 @@ public class LogBlockPluginInterface extends LoggingPluginInterface {
 	private HashMap<Integer, Integer> getBlockChanges(String playerName, BlockChangeType type){
 		HashMap<Integer, Integer> blocks = new HashMap<Integer, Integer>();
 		
-		for (World world : plugin.server.getWorlds()){
+		for (World world : plugin.getServer().getWorlds()){
 			try{
 				QueryParams params = new QueryParams(this.logblock);
 				

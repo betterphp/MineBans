@@ -26,7 +26,7 @@ public class SWatchdogPluginInterface extends LoggingPluginInterface {
 	
 	public SWatchdogPluginInterface(MineBans plugin){
 		this.plugin = plugin;
-		this.watchdog = (SWatchdog) plugin.pluginManager.getPlugin("SWatchdog");
+		this.watchdog = (SWatchdog) plugin.getServer().getPluginManager().getPlugin("SWatchdog");
 	}
 	
 	@Override

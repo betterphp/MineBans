@@ -18,8 +18,8 @@ public class DefaultLoggingPluginInterface extends LoggingPluginInterface {
 		
 		this.chestAccess = new HashMap<String, HashMap<Integer, Integer>>();
 		
-		plugin.pluginManager.registerEvents(new BlockListener(this), plugin);
-		plugin.pluginManager.registerEvents(new InventoryListener(this), plugin);
+		plugin.getServer().getPluginManager().registerEvents(new BlockListener(this), plugin);
+		plugin.getServer().getPluginManager().registerEvents(new InventoryListener(this), plugin);
 	}
 	
 	@Override

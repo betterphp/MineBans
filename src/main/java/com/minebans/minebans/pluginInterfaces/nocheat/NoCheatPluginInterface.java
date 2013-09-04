@@ -25,11 +25,11 @@ public class NoCheatPluginInterface extends ExploitPluginInterface {
 	
 	public NoCheatPluginInterface(MineBans plugin){
 		this.plugin = plugin;
-		this.nocheat = (NoCheat) plugin.pluginManager.getPlugin("NoCheat");
+		this.nocheat = (NoCheat) plugin.getServer().getPluginManager().getPlugin("NoCheat");
 		this.data = new NoCheatDataCache(plugin, this.nocheat);
 		this.reasonKeyMap = new HashMap<BanReason, List<Statistics.Id>>();
 		
-		plugin.scheduler.scheduleSyncRepeatingTask(plugin, this.data, 1200, 1200);
+		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this.data, 1200, 1200);
 		
 		this.reasonKeyMap.put(BanReason.FLY, Arrays.asList(Statistics.Id.MOV_FLYING));
 		this.reasonKeyMap.put(BanReason.SPEED, Arrays.asList(Statistics.Id.MOV_RUNNING, Statistics.Id.MOV_MOREPACKETS, Statistics.Id.MOV_SNEAKING, Statistics.Id.MOV_SWIMMING));
@@ -52,7 +52,7 @@ public class NoCheatPluginInterface extends ExploitPluginInterface {
 	
 	@Override
 	public boolean checkConfig(){
-		for (World world : plugin.server.getWorlds()){
+		for (World world : plugin.getServer().getWorlds()){
 			plugin.log.info("Checking NoCheat config for '" + world.getName() + "'");
 			
 			NoCheatConfiguration noCheatConfig = this.nocheat.getConfig(world).getConfiguration();

@@ -14,10 +14,10 @@ public class DefaultAntiSpamPluginInterface extends AntiSpamPluginInterface {
 		this.maxViolationLevel = new HashMap<String, Integer>();
 		this.messageCounter = new HashMap<String, HashMap<String, Integer>>();
 		
-		plugin.pluginManager.registerEvents(new ChatListener(this), plugin);
-		plugin.pluginManager.registerEvents(new BanListener(this), plugin);
+		plugin.getServer().getPluginManager().registerEvents(new ChatListener(this), plugin);
+		plugin.getServer().getPluginManager().registerEvents(new BanListener(this), plugin);
 		
-		plugin.scheduler.scheduleSyncRepeatingTask(plugin, new CounterResetTask(this), 200, 200);
+		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new CounterResetTask(this), 200, 200);
 	}
 	
 	@Override

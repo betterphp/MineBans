@@ -81,7 +81,7 @@ public class MineBansPluginAPI {
 	 * @return				True is the player was online and was kicked, false if not.
 	 */
 	public boolean kickPlayer(String playerName, String message){
-		Player player = plugin.server.getPlayer(playerName);
+		Player player = plugin.getServer().getPlayer(playerName);
 		return this.kickPlayer(player, message);
 	}
 	
@@ -226,7 +226,7 @@ public class MineBansPluginAPI {
 	 * @return				True on success or false on failure.
 	 */
 	public boolean globallyBanPlayer(String playerName, String issuedBy, BanReason reason){
-		if (!plugin.seenPlayers.contains(playerName.toLowerCase()) && !plugin.server.getOfflinePlayer(playerName).hasPlayedBefore()){
+		if (!plugin.seenPlayers.contains(playerName.toLowerCase()) && !plugin.getServer().getOfflinePlayer(playerName).hasPlayedBefore()){
 			return false;
 		}
 		

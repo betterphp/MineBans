@@ -42,7 +42,7 @@ public class NotificationManager {
 		String message = parseNotification(MineBans.INSTANCE.config.getString(Config.MESSAGE_LOCAL_BAN_SERVER), playerName, issuedBy, null, 0);
 		
 		for (Player player : Permission.ALERT_ON_BAN.getPlayersWith()){
-			player.sendMessage(MineBans.INSTANCE.formatMessage(message));
+			player.sendMessage(message);
 		}
 		
 		if (log){
@@ -54,7 +54,7 @@ public class NotificationManager {
 		String message = parseNotification(MineBans.INSTANCE.config.getString(Config.MESSAGE_GLOBAL_BAN_SERVER), playerName, issuedBy, reason, 0);
 		
 		for (Player player : Permission.ALERT_ON_BAN.getPlayersWith()){
-			player.sendMessage(MineBans.INSTANCE.formatMessage(message));
+			player.sendMessage(message);
 		}
 		
 		if (log){
@@ -66,7 +66,7 @@ public class NotificationManager {
 		String message = parseNotification(MineBans.INSTANCE.config.getString(Config.MESSAGE_TEMP_BAN_SERVER), playerName, issuedBy, null, duration);
 		
 		for (Player player : Permission.ALERT_ON_BAN.getPlayersWith()){
-			player.sendMessage(MineBans.INSTANCE.formatMessage(message));
+			player.sendMessage(message);
 		}
 		
 		if (log){
@@ -90,7 +90,7 @@ public class NotificationManager {
 		String message = parseNotification(MineBans.INSTANCE.config.getString(Config.MESSAGE_EXEMPT_SERVER), playerName, issuedBy, null, 0);
 		
 		for (Player player : Permission.ALERT_ON_EXEMPT.getPlayersWith()){
-			player.sendMessage(MineBans.INSTANCE.formatMessage(message));
+			player.sendMessage(message);
 		}
 		
 		if (log){
@@ -102,7 +102,7 @@ public class NotificationManager {
 		String message = parseNotification(MineBans.INSTANCE.config.getString(Config.MESSAGE_UNEXEMPT_SERVER), playerName, issuedBy, null, 0);
 		
 		for (Player player : Permission.ALERT_ON_UNEXEMPT.getPlayersWith()){
-			player.sendMessage(MineBans.INSTANCE.formatMessage(message));
+			player.sendMessage(message);
 		}
 		
 		if (log){
@@ -114,7 +114,7 @@ public class NotificationManager {
 		String message = parseNotification(MineBans.INSTANCE.config.getString(Config.MESSAGE_KICK_SERVER), playerName, issuedBy, null, 0);
 		
 		for (Player player : Permission.ALERT_ON_KICK.getPlayersWith()){
-			player.sendMessage(MineBans.INSTANCE.formatMessage(message));
+			player.sendMessage(message);
 		}
 		
 		if (log){
@@ -130,7 +130,7 @@ public class NotificationManager {
 		
 		if (totalBans > 0L || last24 > 0L){
 			for (Player player : Permission.ALERT_ON_JOIN.getPlayersWith()){
-				player.sendMessage(MineBans.INSTANCE.formatMessage(ChatColor.GREEN + "Summary for " + playerName + " Total: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans) + " Last 24 Hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
+				player.sendMessage(ChatColor.GREEN + "Summary for " + playerName + " Total: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans + " Last 24 Hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
 			}
 		}
 	}
@@ -152,7 +152,7 @@ public class NotificationManager {
 		
 		if (totalBans > 0L || last24 > 0L || (removed > 0L && !MineBans.INSTANCE.config.getBoolean(Config.IGNORE_REMOVED_BANS)) || compromised || (bannedAlts != null && !bannedAlts.isEmpty())){
 			for (Player player : Permission.ALERT_ON_JOIN.getPlayersWith()){
-				player.sendMessage(MineBans.INSTANCE.formatMessage(ChatColor.GREEN + "Summary for " + playerName));
+				player.sendMessage(ChatColor.GREEN + "Summary for " + playerName);
 				player.sendMessage(ChatColor.GREEN + "Total bans on record: " + ((totalBans <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + totalBans);
 				player.sendMessage(ChatColor.GREEN + "Bans in the last 24 hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
 				player.sendMessage(ChatColor.GREEN + "Bans that have been removed: " + ((removed <= 10L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + removed);

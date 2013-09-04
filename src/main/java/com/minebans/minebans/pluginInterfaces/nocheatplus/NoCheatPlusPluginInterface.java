@@ -20,10 +20,10 @@ public class NoCheatPlusPluginInterface extends ExploitPluginInterface {
 	
 	public NoCheatPlusPluginInterface(MineBans plugin){
 		this.plugin = plugin;
-		this.noCheatPlus = (NoCheatPlus) plugin.pluginManager.getPlugin("NoCheatPlus");
+		this.noCheatPlus = (NoCheatPlus) plugin.getServer().getPluginManager().getPlugin("NoCheatPlus");
 		this.data = new NoCheatPlusDataCache(plugin);
 		
-		plugin.scheduler.scheduleSyncRepeatingTask(plugin, this.data, 1200L, 1200L);
+		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this.data, 1200L, 1200L);
 	}
 	
 	@Override

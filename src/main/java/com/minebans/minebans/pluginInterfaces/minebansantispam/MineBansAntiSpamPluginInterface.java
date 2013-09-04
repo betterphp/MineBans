@@ -16,12 +16,12 @@ public class MineBansAntiSpamPluginInterface extends AntiSpamPluginInterface {
 		
 		this.detectedSpammers = new ArrayList<String>();
 		
-		plugin.pluginManager.registerEvents(new SpammerBanListener(this.detectedSpammers), plugin);
+		plugin.getServer().getPluginManager().registerEvents(new SpammerBanListener(this.detectedSpammers), plugin);
 	}
 	
 	@Override
 	public boolean pluginEnabled(){
-		return plugin.pluginManager.isPluginEnabled("MineBansAntiSpam");
+		return plugin.getServer().getPluginManager().isPluginEnabled("MineBansAntiSpam");
 	}
 	
 	@Override

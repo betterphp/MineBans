@@ -38,7 +38,7 @@ public class APIInterface {
 			this.statusURL = new URL("http://dl.dropbox.com/s/vjngx1qzvhvtcqz/minebans_status_message.txt");
 		}catch (Exception e){
 			e.printStackTrace();
-			plugin.pluginManager.disablePlugin(plugin);
+			plugin.getServer().getPluginManager().disablePlugin(plugin);
 			return;
 		}
 		
@@ -102,10 +102,10 @@ public class APIInterface {
 		this.handleException(exception);
 		
 		if (sender != null){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "API request failed :("));
+			sender.sendMessage(ChatColor.RED + "API request failed :(");
 			
 			if (exception instanceof APIException){
-				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Server Response: " + ((APIException) exception).getResponse()));
+				sender.sendMessage(ChatColor.RED + "Server Response: " + ((APIException) exception).getResponse());
 			}
 		}
 	}

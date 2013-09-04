@@ -18,7 +18,7 @@ public class CoreProtectPluginIntereface extends LoggingPluginInterface {
 	
 	public CoreProtectPluginIntereface(MineBans plugin){
 		this.plugin = plugin;
-		this.coreProtect = (CoreProtect) plugin.pluginManager.getPlugin("CoreProtect");
+		this.coreProtect = (CoreProtect) plugin.getServer().getPluginManager().getPlugin("CoreProtect");
 		this.coreProtectAPI = this.coreProtect.getAPI();
 	}
 	

@@ -72,7 +72,7 @@ public class MineBans extends BasePlugin {
 		
 		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.class, this.log);
 		
-		if (!this.config.getBoolean(Config.BUNGEE_CORD_MODE_ENABLED) && !this.server.getOnlineMode()){
+		if (!this.config.getBoolean(Config.BUNGEE_CORD_MODE_ENABLED) && !this.getServer().getOnlineMode()){
 			this.log.warn("======================== WARNING ========================");
 			this.log.warn(" Your server must have online-mode=true to use MineBans!");
 			this.log.warn("=========================================================");
@@ -96,51 +96,51 @@ public class MineBans extends BasePlugin {
 		this.playerIPs = new HashMap<String, ArrayList<String>>();
 		this.bannedIPs = new HashMap<String, ArrayList<String>>();
 		
-		this.pluginManager.registerEvents(new PlayerLoginListener(this), this);
-		this.pluginManager.registerEvents(new PlayerJoinListener(this), this);
-		this.pluginManager.registerEvents(new PlayerIPListener(this), this);
-		this.pluginManager.registerEvents(new RequestVerificationListener(this), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerLoginListener(this), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerIPListener(this), this);
+		this.getServer().getPluginManager().registerEvents(new RequestVerificationListener(this), this);
 		
-		this.pluginManager.registerEvents(new PlayerBannedListener(this), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerBannedListener(this), this);
 		
 		if (this.config.getBoolean(Config.BLOCK_PROXIES)){
-			this.pluginManager.registerEvents(new PublicProxyListener(this), this);
+			this.getServer().getPluginManager().registerEvents(new PublicProxyListener(this), this);
 		}
 		
 		if (this.config.getBoolean(Config.BLOCK_COMPROMISED_ACCOUNTS)){
-			this.pluginManager.registerEvents(new KnownCompromisedListener(this), this);
+			this.getServer().getPluginManager().registerEvents(new KnownCompromisedListener(this), this);
 		}
 		
 		if (this.config.getBoolean(Config.USE_GROUP_BANS)){
-			this.pluginManager.registerEvents(new GroupBanListener(this), this);
+			this.getServer().getPluginManager().registerEvents(new GroupBanListener(this), this);
 		}
 		
 		for (BanReason banReason : BanReason.getAll()){
 			if (this.config.getBoolean(Config.getReasonEnabled(banReason))){
-				this.pluginManager.registerEvents(new TooManyBansListener(this), this);
+				this.getServer().getPluginManager().registerEvents(new TooManyBansListener(this), this);
 				break;
 			}
 		}
 		
-		this.permissionManager.registerPermissions(Permission.class);
+		this.getPermissionManager().registerPermissions(Permission.class);
 		
 		try{
-			this.commandManager.registerCommandExecutor(new BanExecutor(this));
-			this.commandManager.registerCommandExecutor(new KickExecutor(this));
-			this.commandManager.registerCommandExecutor(new ExemptExecutor(this));
-			this.commandManager.registerCommandExecutor(new MineBansExecutor(this));
+			this.getCommandManager().registerCommandExecutor(new BanExecutor(this));
+			this.getCommandManager().registerCommandExecutor(new KickExecutor(this));
+			this.getCommandManager().registerCommandExecutor(new ExemptExecutor(this));
+			this.getCommandManager().registerCommandExecutor(new MineBansExecutor(this));
 		}catch (CommandRegistrationException e){
 			this.log.fatal(e.getMessage());
 			this.log.fatal("Some commands may not work, check for plugins with conflicting commands");
 		}
 		
-		this.scheduler.runTaskLater(this, new Runnable(){
+		this.getServer().getScheduler().runTaskLater(this, new Runnable(){
 			
 			public void run(){
 				try{
 					ServerListPingEvent testPing = new ServerListPingEvent(InetAddress.getLocalHost(), "MineBans Test", 0, 20);
 					
-					MineBans.this.pluginManager.callEvent(testPing);
+					MineBans.this.getServer().getPluginManager().callEvent(testPing);
 					
 					if (!testPing.getMotd().equals("MineBans Test")){
 						MineBans.this.log.warn("============================= WARNING ==============================");

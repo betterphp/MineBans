@@ -29,7 +29,7 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 	
 	@Override
 	public boolean pluginEnabled(){
-		return plugin.pluginManager.isPluginEnabled("HawkEye");
+		return plugin.getServer().getPluginManager().isPluginEnabled("HawkEye");
 	}
 	
 	@Override
@@ -72,7 +72,7 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 	
 	@Override
 	public HashMap<Integer, Integer> getChestAccess(String playerName){
-		List<World> worlds = plugin.server.getWorlds();
+		List<World> worlds = plugin.getServer().getWorlds();
 		String[] worldNames = new String[worlds.size()];
 		
 		for (int i = 0; i < worlds.size(); ++i){
@@ -108,7 +108,7 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 	
 	@Override
 	public HashMap<Integer, Integer> getBlocksPlaced(String playerName){
-		List<World> worlds = plugin.server.getWorlds();
+		List<World> worlds = plugin.getServer().getWorlds();
 		String[] worldNames = new String[worlds.size()];
 		
 		for (int i = 0; i < worlds.size(); ++i){
@@ -144,7 +144,7 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 	
 	@Override
 	public HashMap<Integer, Integer> getBlocksBroken(String playerName){
-		List<World> worlds = plugin.server.getWorlds();
+		List<World> worlds = plugin.getServer().getWorlds();
 		String[] worldNames = new String[worlds.size()];
 		
 		for (int i = 0; i < worlds.size(); ++i){
@@ -182,7 +182,7 @@ public class HawkEyePluginInterface extends LoggingPluginInterface {
 	public HashMap<String, HashMap<Integer, Integer>> getBlockChanges(String playerName){
 		HashMap<String, HashMap<Integer, Integer>> data = new HashMap<String, HashMap<Integer, Integer>>();
 		
-		List<World> worlds = plugin.server.getWorlds();
+		List<World> worlds = plugin.getServer().getWorlds();
 		String[] worldNames = new String[worlds.size()];
 		
 		for (int i = 0; i < worlds.size(); ++i){

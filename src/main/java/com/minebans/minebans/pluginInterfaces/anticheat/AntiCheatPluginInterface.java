@@ -34,7 +34,7 @@ public class AntiCheatPluginInterface extends ExploitPluginInterface {
 	
 	@Override
 	public boolean pluginEnabled(){
-		return plugin.pluginManager.isPluginEnabled(this.getPluginName());
+		return plugin.getServer().getPluginManager().isPluginEnabled(this.getPluginName());
 	}
 	
 	@Override

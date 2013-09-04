@@ -31,7 +31,7 @@ public class LoggingInterface {
 			String pluginName = entry.getKey();
 			Class<? extends LoggingPluginInterface> cls = entry.getValue();
 			
-			if (plugin.pluginManager.isPluginEnabled(pluginName)){
+			if (plugin.getServer().getPluginManager().isPluginEnabled(pluginName)){
 				try{
 					this.pluginInterface = cls.getConstructor(MineBans.class).newInstance(plugin);
 					

@@ -42,46 +42,46 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 	@CommandHandler(names = {"minebans", "mbans", "mb"}, description = "Provides various commands relating to the system.", usage = "<option> [args]")
 	@CommandTabCompletion({"status|update|reasons|lookup|listtemp|exec|import"})
 	public void minebans(CommandSender sender, String label, String[] args){
-		sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /" + label + " <option> [args]"));
-		sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Options:"));
+		sender.sendMessage(ChatColor.RED + "Usage: /" + label + " <option> [args]");
+		sender.sendMessage(ChatColor.RED + "Options:");
 		
 		if (Permission.ADMIN_STATUS.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   status - Gets the status of the API."));
+			sender.sendMessage(ChatColor.RED + "   status - Gets the status of the API.");
 		}
 		
 		if (Permission.ADMIN_UPDATE.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   update - Checks for new versions of the plugin."));
+			sender.sendMessage(ChatColor.RED + "   update - Checks for new versions of the plugin.");
 		}
 		
 		if (Permission.ADMIN_BAN.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   reasons - Lists all of the ban reasons."));
+			sender.sendMessage(ChatColor.RED + "   reasons - Lists all of the ban reasons.");
 		}
 		
 		if (Permission.ADMIN_LOOKUP.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   lookup - Gets a summary of a players bans."));
+			sender.sendMessage(ChatColor.RED + "   lookup - Gets a summary of a players bans.");
 		}
 		
 		if (Permission.ADMIN_LISTTEMP.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   listtemp - Lists all of the players that are temporarily banned."));
+			sender.sendMessage(ChatColor.RED + "   listtemp - Lists all of the players that are temporarily banned.");
 		}
 		
 		if (Permission.ADMIN_BAN_COMMAND.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   exec - Executes the commands for the last ban made."));
+			sender.sendMessage(ChatColor.RED + "   exec - Executes the commands for the last ban made.");
 		}
 		
 		if (Permission.ADMIN_IMPORT.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   import - Imports any bans made using other systems."));
+			sender.sendMessage(ChatColor.RED + "   import - Imports any bans made using other systems.");
 		}
 		
 		if (Permission.ADMIN_APPEALS.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "   appeals - Lists open ban appeals for this server."));
+			sender.sendMessage(ChatColor.RED + "   appeals - Lists open ban appeals for this server.");
 		}
 	}
 	
 	@SubCommandHandler(parent = "minebans", name = "status")
 	public void minebansStatus(final CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_STATUS.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+			sender.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
 			return;
 		}
 		
@@ -94,8 +94,8 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			public void onSuccess(StatusData data){
 				Double[] loadAvg = data.getLoadAverage();
 				
-				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "The API responded in " + (data.getResponceTime() - timeStart) + "ms"));
-				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Server Load Average: " + ((loadAvg[0] > 8L) ? ChatColor.RED : ChatColor.GREEN) + loadAvg[0] + " " + loadAvg[1] + " " + loadAvg[2]));
+				sender.sendMessage(ChatColor.GREEN + "The API responded in " + (data.getResponceTime() - timeStart) + "ms");
+				sender.sendMessage(ChatColor.GREEN + "Server Load Average: " + ((loadAvg[0] > 8L) ? ChatColor.RED : ChatColor.GREEN) + loadAvg[0] + " " + loadAvg[1] + " " + loadAvg[2]);
 			}
 			
 			@Override
@@ -103,17 +103,17 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 				plugin.api.handleException(exception, sender);
 				
 				if (!(exception instanceof APIException)){
-					sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Checking for known problems..."));
+					sender.sendMessage(ChatColor.RED + "Checking for known problems...");
 					
 					(new StatusMessageRequest(plugin)).process(new StatusMessageCallback(plugin){
 						
 						public void onSuccess(StatusMessageData data){
-							sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Result: " + data.getMessage()));
+							sender.sendMessage(ChatColor.GREEN + "Result: " + data.getMessage());
 						}
 						
 						public void onFailure(Exception e){
 							plugin.log.warn("We use Dropbox to provide the status announcements, for some reason it did not respond within 12 seconds.");
-							sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Status: " + ChatColor.RED + "Unable to get info, check your server.log"));
+							sender.sendMessage(ChatColor.GREEN + "Status: " + ChatColor.RED + "Unable to get info, check your server.log");
 						}
 						
 					});
@@ -126,25 +126,25 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 	@SubCommandHandler(parent = "minebans", name = "update")
 	public void minebansUpdate(final CommandSender sender, String label, final String[] args){
 		if (!Permission.ADMIN_UPDATE.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+			sender.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
 			return;
 		}
 		
-		plugin.scheduler.runTaskAsynchronously(plugin, new Runnable(){
+		plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable(){
 			
 			public void run(){
 				final boolean update = plugin.updateChecker.updateNeeded();
 				
-				plugin.scheduler.scheduleSyncDelayedTask(plugin, new Runnable(){
+				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
 					
 					@Override
 					public void run(){
 						if (update){
-							sender.sendMessage(plugin.formatMessage(ChatColor.RED + "A new version is available, v" + plugin.updateChecker.getVersion()));
-							sender.sendMessage(plugin.formatMessage(ChatColor.RED + plugin.updateChecker.getLink()));
+							sender.sendMessage(ChatColor.RED + "A new version is available, v" + plugin.updateChecker.getVersion());
+							sender.sendMessage(ChatColor.RED + plugin.updateChecker.getLink());
 						}else{
 							if (args.length != 1 || !args[0].equals("-q")){
-								sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Up to date \\o/"));
+								sender.sendMessage(ChatColor.GREEN + "Up to date \\o/");
 							}
 						}
 					}
@@ -158,11 +158,11 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 	@SubCommandHandler(parent = "minebans", name = "reasons")
 	public void minebansReasons(final CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_BAN.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+			sender.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
 			return;
 		}
 		
-		sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Available ban reasons:"));
+		sender.sendMessage(ChatColor.GREEN + "Available ban reasons:");
 		
 		BanReason[] reasons = BanReason.getAll();
 		BanReason reason;
@@ -207,13 +207,13 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 	@CommandTabCompletion({"<player>"})
 	public void minebansLookup(final CommandSender sender, String label, final String[] args){
 		if (!Permission.ADMIN_LOOKUP.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+			sender.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
 			return;
 		}
 		
 		if (args.length != 1){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /minebans lookup <player_name>"));
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /minebans lookup wide_load"));
+			sender.sendMessage(ChatColor.RED + "Usage: /minebans lookup <player_name>");
+			sender.sendMessage(ChatColor.RED + "Example: /minebans lookup wide_load");
 			return;
 		}
 		
@@ -227,7 +227,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 				Long last24 = data.getLast24();
 				Long removed = data.getRemoved();
 				
-				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Summary for " + args[0]));
+				sender.sendMessage(ChatColor.GREEN + "Summary for " + args[0]);
 				
 				sender.sendMessage(ChatColor.GREEN + "Total bans on record: " + ((total <= 5L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + total);
 				sender.sendMessage(ChatColor.GREEN + "Bans in the last 24 hours: " + ((last24 == 0L) ? ChatColor.DARK_GREEN : ChatColor.DARK_RED) + last24);
@@ -267,13 +267,13 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 	@SubCommandHandler(parent = "minebans", name = "listtemp")
 	public void minebansListTemp(final CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_LISTTEMP.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+			sender.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
 			return;
 		}
 		
 		List<String> playerNames = plugin.banManager.getTempBannedPlayers();
 		
-		sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "There are " + playerNames.size() + " players temporarily banned."));
+		sender.sendMessage(ChatColor.GREEN + "There are " + playerNames.size() + " players temporarily banned.");
 		
 		for (String playerName : playerNames){
 			sender.sendMessage(ChatColor.GREEN + "  " + playerName + " - " + plugin.banManager.getTempBanRemaining(playerName) / 3600 + " hours");
@@ -283,7 +283,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 	@SubCommandHandler(parent = "minebans", name = "exec")
 	public void minebansExec(final CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_BAN_COMMAND.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+			sender.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
 			return;
 		}
 		
@@ -292,12 +292,12 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 		ArrayList<String> cmds = plugin.banCommands.get(senderName);
 		
 		if (cmds == null){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "There are no commands to be executed."));
+			sender.sendMessage(ChatColor.RED + "There are no commands to be executed.");
 			return;
 		}
 		
 		for (String cmd : cmds){
-			plugin.server.dispatchCommand(sender, cmd);
+			plugin.getServer().dispatchCommand(sender, cmd);
 		}
 		
 		plugin.banCommands.remove(senderName);
@@ -306,7 +306,7 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 	@SubCommandHandler(parent = "minebans", name = "import")
 	public void minebansImport(final CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_IMPORT.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+			sender.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
 			return;
 		}
 		
@@ -316,19 +316,19 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			issuedBy = "console";
 		}
 		
-		Set<OfflinePlayer> players = plugin.server.getBannedPlayers();
+		Set<OfflinePlayer> players = plugin.getServer().getBannedPlayers();
 		
 		for (OfflinePlayer player : players){
 			plugin.banManager.locallyBanPlayer(player.getName(), issuedBy, true, false);
 		}
 		
-		sender.sendMessage(plugin.formatMessage(ChatColor.GREEN.toString() + players.size() + " bans have been imported"));
+		sender.sendMessage(ChatColor.GREEN.toString() + players.size() + " bans have been imported");
 	}
 	
 	@SubCommandHandler(parent = "minebans", name = "appeals")
 	public void minebansAppeals(final CommandSender sender, String label, final String[] args){
 		if (!Permission.ADMIN_APPEALS.has(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+			sender.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
 			return;
 		}
 		
@@ -344,9 +344,9 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 				}
 				
 				if (total == 1){
-					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "There is 1 open ban appeal"));
+					sender.sendMessage(ChatColor.GREEN + "There is 1 open ban appeal");
 				}else{
-					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "There are " + total + " open ban appeals"));
+					sender.sendMessage(ChatColor.GREEN + "There are " + total + " open ban appeals");
 				}
 				
 				for (AppealData appeal : appeals){

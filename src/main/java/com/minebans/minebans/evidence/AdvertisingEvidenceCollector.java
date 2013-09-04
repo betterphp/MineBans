@@ -26,7 +26,7 @@ public class AdvertisingEvidenceCollector extends EvidenceCollector implements L
 		
 		this.wordList = Arrays.asList("supplies", "pay", "more", "winner", "consolidate", "debt", "promotion", "paid", "guarantee", "guaranteed", "opportunity", "compare", "offer", "selected", "giveaway", "giving", "join", "singles", "online", "pharmacy", "marketing", "limited", "vacation", "viagra", "amazing", "cash", "bonus", "promise", "credit", "loans", "satisfaction", "avoid", "bankruptcy", "casino", "subscribe", "discount", "eliminate", "weight", "marketing", "affordable", "bargain", "claims", "congratulations", "membership", "offer", "refund", "sales", "traffic", "insurance", "investment", "decision", "legal", "solutions", "money", "trial", "obligation", "shipped", "priority", "performance", "potential", "earnings", "win", "server", "map", "world");
 		
-		plugin.pluginManager.registerEvents(this, plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -64,7 +64,7 @@ public class AdvertisingEvidenceCollector extends EvidenceCollector implements L
 			return 0;
 		}
 		
-		return ListUtils.sumIntegers(this.wordListLog.get(playerName).values());
+		return ListUtils.sumInts(this.wordListLog.get(playerName).values());
 	}
 	
 }

@@ -28,7 +28,7 @@ public class NoCheatDataCache implements Runnable, Listener {
 		
 		this.data = new HashMap<String, HashMap<String, ArrayList<Long>>>();
 		
-		plugin.pluginManager.registerEvents(this, plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
 	public void run(){
@@ -37,7 +37,7 @@ public class NoCheatDataCache implements Runnable, Listener {
 		HashMap<String, ArrayList<Long>> storedData;
 		ArrayList<Long> storedValues;
 		
-		for (Player player : plugin.server.getOnlinePlayers()){
+		for (Player player : plugin.getServer().getOnlinePlayers()){
 			playerName = player.getName();
 			playerData = this.nocheat.getPlayerData(playerName);
 			

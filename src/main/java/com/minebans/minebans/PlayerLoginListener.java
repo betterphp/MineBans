@@ -32,7 +32,7 @@ public class PlayerLoginListener extends BaseListener<MineBans> {
 		
 		if (plugin.banManager.isExempt(playerName)){
 			plugin.log.info(playerName + " (" + playerAddress + ") was found on the local ban exempt list, no further checks will be made.");
-			plugin.pluginManager.callEvent(new PlayerConnectionAllowedEvent(playerName, ConnectionAllowedReason.PLAYER_EXEMPT));
+			plugin.getServer().getPluginManager().callEvent(new PlayerConnectionAllowedEvent(playerName, ConnectionAllowedReason.PLAYER_EXEMPT));
 			return;
 		}
 		
@@ -41,12 +41,12 @@ public class PlayerLoginListener extends BaseListener<MineBans> {
 		if (joinData != null){
 			PlayerLoginDataEvent loginDataEvent = new PlayerLoginDataEvent(playerName, playerAddress, joinData);
 			
-			plugin.pluginManager.callEvent(loginDataEvent);
+			plugin.getServer().getPluginManager().callEvent(loginDataEvent);
 			
 			if (loginDataEvent.isConnectionPrevented()){
 				event.disallow(Result.KICK_OTHER, loginDataEvent.getKickMessage());
 				plugin.log.info(playerName + " (" + playerAddress + ") " + loginDataEvent.getLogMessage());
-				plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, loginDataEvent.getReason()));
+				plugin.getServer().getPluginManager().callEvent(new PlayerConnectionDeniedEvent(playerName, loginDataEvent.getReason()));
 				return;
 			}
 		}else{
@@ -55,17 +55,17 @@ public class PlayerLoginListener extends BaseListener<MineBans> {
 			if (plugin.banManager.isLocallyBanned(playerName)){
 				event.disallow(Result.KICK_BANNED, ConnectionDeniedReason.LOCALLY_BANNED.getKickMessage());
 				plugin.log.info(playerName + " (" + playerAddress + ") " + ConnectionDeniedReason.LOCALLY_BANNED.getLogMessage());
-				plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, ConnectionDeniedReason.LOCALLY_BANNED));
+				plugin.getServer().getPluginManager().callEvent(new PlayerConnectionDeniedEvent(playerName, ConnectionDeniedReason.LOCALLY_BANNED));
 				return;
 			}else if (plugin.banManager.isGloballyBanned(playerName)){
 				event.disallow(Result.KICK_BANNED, ConnectionDeniedReason.GLOBALLY_BANNED.getKickMessage());
 				plugin.log.info(playerName + " (" + playerAddress + ") " + ConnectionDeniedReason.GLOBALLY_BANNED.getLogMessage());
-				plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, ConnectionDeniedReason.GLOBALLY_BANNED));
+				plugin.getServer().getPluginManager().callEvent(new PlayerConnectionDeniedEvent(playerName, ConnectionDeniedReason.GLOBALLY_BANNED));
 				return;
 			}else if (plugin.banManager.isTempBanned(playerName)){
 				event.disallow(Result.KICK_BANNED, ConnectionDeniedReason.TEMP_BANNED.getKickMessage());
 				plugin.log.info(playerName + " (" + playerAddress + ") " + ConnectionDeniedReason.TEMP_BANNED.getLogMessage());
-				plugin.pluginManager.callEvent(new PlayerConnectionDeniedEvent(playerName, ConnectionDeniedReason.TEMP_BANNED));
+				plugin.getServer().getPluginManager().callEvent(new PlayerConnectionDeniedEvent(playerName, ConnectionDeniedReason.TEMP_BANNED));
 				return;
 			}
 		}
@@ -79,7 +79,7 @@ public class PlayerLoginListener extends BaseListener<MineBans> {
 		}
 		
 		plugin.log.info(playerName + " (" + playerAddress + ") was allowed to join the server.");
-		plugin.pluginManager.callEvent(new PlayerConnectionAllowedEvent(playerName, ConnectionAllowedReason.PASSED_CHECKS));
+		plugin.getServer().getPluginManager().callEvent(new PlayerConnectionAllowedEvent(playerName, ConnectionAllowedReason.PASSED_CHECKS));
 	}
 	
 }

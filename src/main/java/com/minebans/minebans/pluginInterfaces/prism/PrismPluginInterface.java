@@ -25,7 +25,7 @@ public class PrismPluginInterface extends LoggingPluginInterface {
 	
 	public PrismPluginInterface(MineBans plugin){
 		this.plugin = plugin;
-		this.prism = (Prism) plugin.pluginManager.getPlugin("Prism");
+		this.prism = (Prism) plugin.getServer().getPluginManager().getPlugin("Prism");
 	}
 	
 	@Override
