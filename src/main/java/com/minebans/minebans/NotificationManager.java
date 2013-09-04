@@ -169,4 +169,10 @@ public class NotificationManager {
 		}
 	}
 	
+	public static void sendProxyNotification(String playerName, String ipAddress){
+		for (Player player : Permission.ALERT_ON_JOIN.getPlayersWith()){
+			player.sendMessage(ChatColor.GREEN + playerName + " (" + ipAddress + ") is using an open proxy server");
+		}
+	}
+	
 }

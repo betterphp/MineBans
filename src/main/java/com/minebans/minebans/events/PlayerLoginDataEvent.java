@@ -18,6 +18,7 @@ public class PlayerLoginDataEvent extends Event {
 	private ConnectionDeniedReason reason;
 	private String kickMessage;
 	private String logMessage;
+	private boolean proxyDetected;
 	
 	public PlayerLoginDataEvent(String playerName, String playerAddress, PlayerJoinInfoData joinData){
 		this.playerName = playerName;
@@ -28,6 +29,7 @@ public class PlayerLoginDataEvent extends Event {
 		this.reason = null;
 		this.kickMessage = "";
 		this.logMessage = "";
+		this.proxyDetected = false;
 	}
 	
 	public HandlerList getHandlers(){
@@ -92,6 +94,14 @@ public class PlayerLoginDataEvent extends Event {
 	
 	public void setLogMessage(String message){
 		this.logMessage = message;
+	}
+	
+	public void setProxyDetected(boolean detected){
+		this.proxyDetected = detected;
+	}
+	
+	public boolean isProxyDetected(){
+		return this.proxyDetected;
 	}
 	
 }

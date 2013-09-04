@@ -49,6 +49,16 @@ public class PlayerLoginListener extends BaseListener<MineBans> {
 				plugin.getServer().getPluginManager().callEvent(new PlayerConnectionDeniedEvent(playerName, loginDataEvent.getReason()));
 				return;
 			}
+			
+			if (plugin.config.getBoolean(Config.USE_COMPACT_JOIN_INFO)){
+				NotificationManager.sendCompactJoinNotification(playerName, joinData);
+			}else{
+				NotificationManager.sendJoinNotification(playerName, playerAddress, joinData);
+			}
+			
+			if (loginDataEvent.isProxyDetected() && plugin.config.getBoolean(Config.PROXY_NOTIFY)){
+				NotificationManager.sendProxyNotification(playerName, playerAddress);
+			}
 		}else{
 			plugin.log.warn("The API failed to respond, reverting to local only checks.");
 			
@@ -71,12 +81,6 @@ public class PlayerLoginListener extends BaseListener<MineBans> {
 		}
 		
 		plugin.seenPlayers.add(playerName.toLowerCase());
-		
-		if (plugin.config.getBoolean(Config.USE_COMPACT_JOIN_INFO)){
-			NotificationManager.sendCompactJoinNotification(playerName, joinData);
-		}else{
-			NotificationManager.sendJoinNotification(playerName, playerAddress, joinData);
-		}
 		
 		plugin.log.info(playerName + " (" + playerAddress + ") was allowed to join the server.");
 		plugin.getServer().getPluginManager().callEvent(new PlayerConnectionAllowedEvent(playerName, ConnectionAllowedReason.PASSED_CHECKS));

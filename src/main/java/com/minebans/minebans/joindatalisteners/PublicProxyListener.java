@@ -40,9 +40,9 @@ public class PublicProxyListener extends BaseListener<MineBans> {
 				event.setReason(ConnectionDeniedReason.PUBLIC_PROXY);
 				event.setKickMessage(ConnectionDeniedReason.PUBLIC_PROXY.getKickMessage());
 				event.setLogMessage(ConnectionDeniedReason.PUBLIC_PROXY.getLogMessage());
-			}else if (plugin.config.getBoolean(Config.PROXY_NOTIFY)){
-				// TODO
 			}
+			
+			event.setProxyDetected(true);
 		}
 	}
 	
