@@ -103,7 +103,7 @@ public class MineBans extends BasePlugin {
 		
 		this.getServer().getPluginManager().registerEvents(new PlayerBannedListener(this), this);
 		
-		if (this.config.getBoolean(Config.BLOCK_PROXIES)){
+		if (this.config.getBoolean(Config.PROXY_BLOCK) || this.config.getBoolean(Config.PROXY_NOTIFY)){
 			this.getServer().getPluginManager().registerEvents(new PublicProxyListener(this), this);
 		}
 		

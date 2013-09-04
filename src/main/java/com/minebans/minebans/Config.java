@@ -1,6 +1,7 @@
 package com.minebans.minebans;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import uk.co.jacekk.bukkit.baseplugin.config.PluginConfigKey;
@@ -20,7 +21,10 @@ public class Config {
 	public static final PluginConfigKey IGNORE_REMOVED_BANS						= new PluginConfigKey("ignore-removed-bans", false);
 	public static final PluginConfigKey USE_GROUP_BANS							= new PluginConfigKey("use-group-bans", true);
 	
-	public static final PluginConfigKey BLOCK_PROXIES							= new PluginConfigKey("block-public-proxies", true);
+	public static final PluginConfigKey PROXY_DNSBL_LIST						= new PluginConfigKey("public-proxies.dnsbl-list", Arrays.asList("dnsbl.proxybl.org", "http.dnsbl.sorbs.net", "socks.dnsbl.sorbs.net", "misc.dnsbl.sorbs.net"));
+	public static final PluginConfigKey PROXY_BLOCK								= new PluginConfigKey("public-proxies.block", true);
+	public static final PluginConfigKey PROXY_NOTIFY							= new PluginConfigKey("public-proxies.notify", false);
+	
 	public static final PluginConfigKey BLOCK_COMPROMISED_ACCOUNTS				= new PluginConfigKey("block-known-compromised-accounts", true);
 	
 	public static final PluginConfigKey MESSAGE_KICK_PLAYER						= new PluginConfigKey("messages.kick.player", "You have been kicked from the server.");

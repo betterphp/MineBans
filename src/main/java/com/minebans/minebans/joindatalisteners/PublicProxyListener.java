@@ -7,6 +7,7 @@ import org.bukkit.event.EventPriority;
 
 import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 
+import com.minebans.minebans.Config;
 import com.minebans.minebans.MineBans;
 import com.minebans.minebans.api.ConnectionDeniedReason;
 import com.minebans.minebans.events.PlayerLoginDataEvent;
@@ -22,11 +23,9 @@ public class PublicProxyListener extends BaseListener<MineBans> {
 		try{
 			this.dnsblChecker = new DNSBLChecker();
 			
-			this.dnsblChecker.addDNSBL("dnsbl.proxybl.org");
-			this.dnsblChecker.addDNSBL("http.dnsbl.sorbs.net");
-			this.dnsblChecker.addDNSBL("socks.dnsbl.sorbs.net");
-			this.dnsblChecker.addDNSBL("misc.dnsbl.sorbs.net");
-			this.dnsblChecker.addDNSBL("tor.dnsbl.sectoor.de");
+			for (String dnsbl : plugin.config.getStringList(Config.PROXY_DNSBL_LIST)){
+				this.dnsblChecker.addDNSBL(dnsbl);
+			}
 		}catch (NamingException e){
 			plugin.log.fatal("Something odd happened (you should report this)");
 			e.printStackTrace();
@@ -36,10 +35,14 @@ public class PublicProxyListener extends BaseListener<MineBans> {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerLoginData(PlayerLoginDataEvent event){
 		if (this.dnsblChecker.ipFound(event.getPlayerAddress())){
-			event.setPreventConnection(true);
-			event.setReason(ConnectionDeniedReason.PUBLIC_PROXY);
-			event.setKickMessage(ConnectionDeniedReason.PUBLIC_PROXY.getKickMessage());
-			event.setLogMessage(ConnectionDeniedReason.PUBLIC_PROXY.getLogMessage());
+			if (plugin.config.getBoolean(Config.PROXY_BLOCK)){
+				event.setPreventConnection(true);
+				event.setReason(ConnectionDeniedReason.PUBLIC_PROXY);
+				event.setKickMessage(ConnectionDeniedReason.PUBLIC_PROXY.getKickMessage());
+				event.setLogMessage(ConnectionDeniedReason.PUBLIC_PROXY.getLogMessage());
+			}else if (plugin.config.getBoolean(Config.PROXY_NOTIFY)){
+				// TODO
+			}
 		}
 	}
 	
