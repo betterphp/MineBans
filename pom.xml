@@ -3,7 +3,7 @@
 	<groupId>com.minebans</groupId>
 	<artifactId>minebans</artifactId>
 	<name>MineBans</name>
-	<version>0.16</version>
+	<version>0.17-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<url>http://dev.bukkit.org/bukkit-plugins/minebans/</url>
 	
@@ -45,14 +45,14 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.6.2-R0.1-SNAPSHOT</version>
+			<version>1.6.2-R0.1</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>2.2.2</version>
+			<version>2.2.4</version>
 			<scope>compile</scope>
 		</dependency>
 		
@@ -80,49 +80,49 @@
 		<dependency>
 			<groupId>org.bukkit.dev</groupId>
 			<artifactId>swatchdog</artifactId>
-			<version>1.18</version>
+			<version>1.19</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.bukkit.dev</groupId>
 			<artifactId>coreprotect</artifactId>
-			<version>2.05</version>
+			<version>2.0.8</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.bukkit.dev</groupId>
 			<artifactId>hawkeye-reload</artifactId>
-			<version>1.1.0</version>
+			<version>1.5.5</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.bukkit.dev</groupId>
 			<artifactId>prism</artifactId>
-			<version>1.5.6</version>
+			<version>1.6.5</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.bukkit.dev</groupId>
 			<artifactId>nocheat-classic</artifactId>
-			<version>3.6.4</version>
+			<version>3.6.6</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.bukkit.dev</groupId>
 			<artifactId>nocheatplus</artifactId>
-			<version>3.8.9-b353</version>
+			<version>3.10.0-RC-b569</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.bukkit.dev</groupId>
 			<artifactId>anticheat</artifactId>
-			<version>1.5.5</version>
+			<version>1.5.9</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>

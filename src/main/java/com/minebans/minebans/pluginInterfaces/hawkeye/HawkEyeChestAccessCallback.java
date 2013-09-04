@@ -8,6 +8,7 @@ import com.minebans.minebans.MineBans;
 
 import uk.co.oliwali.HawkEye.callbacks.BaseCallback;
 import uk.co.oliwali.HawkEye.database.SearchQuery.SearchError;
+import uk.co.oliwali.HawkEye.entry.ContainerEntry;
 import uk.co.oliwali.HawkEye.entry.DataEntry;
 import uk.co.oliwali.HawkEye.util.InventoryUtil;
 
@@ -32,21 +33,20 @@ public class HawkEyeChestAccessCallback extends BaseCallback {
 	}
 	
 	public void execute(){
-		String data;
-		Integer blockId, amount, mult;
-		
-		for (DataEntry entry : results){
-			data = entry.getSqlData();
+		for (DataEntry entry : this.results){
+			String data = ((ContainerEntry) entry).getStringData();
 			
-			mult = (data.startsWith("@")) ? -1 : 1;
-			
-			for (HashMap<String, Integer> compressedInv : InventoryUtil.interpretDifferenceString(data)){
-				for (ItemStack item : InventoryUtil.uncompressInventory(compressedInv)){
-					blockId = item.getTypeId();
-					amount = item.getAmount() * mult;
-					
-					this.taken.put(blockId, (this.taken.containsKey(blockId)) ? this.taken.get(blockId) + amount : amount);
+			for (String compressed : data.split("@")){
+				ItemStack item = InventoryUtil.uncompressItem(compressed);
+				
+				int blockId = item.getTypeId();
+				int amount = item.getAmount();
+				
+				if (compressed.startsWith("-")){
+					amount *= -1;
 				}
+				
+				this.taken.put(blockId, (this.taken.containsKey(blockId)) ? this.taken.get(blockId) + amount : amount);
 			}
 		}
 		
