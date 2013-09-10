@@ -88,7 +88,7 @@ public class MineBans extends BasePlugin {
 		this.evidenceManager = new EvidenceManager(this);
 		
 		this.api = new APIInterface(this);
-		this.updateChecker = new BukkitDevUpdateChecker(this, "http://dev.bukkit.org/server-mods/minebans/files.rss");
+		this.updateChecker = new BukkitDevUpdateChecker(this, "minebans");
 		
 		this.seenPlayers = new ArrayList<String>();
 		this.banCommands = new HashMap<String, ArrayList<String>>();
