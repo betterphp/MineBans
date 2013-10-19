@@ -30,7 +30,7 @@ public class APIInterface {
 			String version = plugin.getVersion();
 			
 			if (MineBans.DEBUG_MODE){
-				this.apiURL = new URL("http://192.168.1.10/minebans/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
+				this.apiURL = new URL("http://192.168.1.10/minebans.com/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
 			}else{
 				this.apiURL = new URL("http://minebans.com/api.php?api_key=" + URLEncoder.encode(apiKey, "UTF-8") + "&version=" + URLEncoder.encode(version, "UTF-8"));
 			}
