@@ -7,16 +7,18 @@ public class OpenAppealsRequest extends APIRequest<OpenAppealsCallback> {
 	
 	protected String action;
 	protected String issued_by;
+	protected String issued_by_uuid;
 	
-	public OpenAppealsRequest(MineBans plugin, int timeout, String issuedBy){
+	public OpenAppealsRequest(MineBans plugin, int timeout, String issuedBy, String issuedByUUID){
 		super(plugin, plugin.api.getAPIURL(), timeout);
 		
 		this.action = "get_open_appeals";
 		this.issued_by = issuedBy;
+		this.issued_by_uuid = issuedByUUID;
 	}
 	
-	public OpenAppealsRequest(MineBans plugin, String issuedBy){
-		this(plugin, 8000, issuedBy);
+	public OpenAppealsRequest(MineBans plugin, String issuedBy, String issuedByUUID){
+		this(plugin, 8000, issuedBy, issuedByUUID);
 	}
 	
 	@Override

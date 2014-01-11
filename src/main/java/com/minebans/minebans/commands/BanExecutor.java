@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
@@ -165,7 +166,10 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 					return;
 				}
 				
-				plugin.banManager.globallyBanPlayer(playerName, sender.getName(), reason, (sender instanceof Player));
+				final String senderName = sender.getName();
+				final String senderUUID = (sender instanceof CraftPlayer) ? ((CraftPlayer) sender).getHandle().getProfile().getId() : "";
+				
+				plugin.banManager.globallyBanPlayer(playerName, senderName, senderUUID, reason, (sender instanceof Player));
 				sender.sendMessage(NotificationManager.parseNotification(plugin.config.getString(Config.MESSAGE_GLOBAL_BAN_SERVER), playerName, issuedBy, reason, 0));
 				
 				for (String cmd : plugin.config.getStringList(Config.GLOBAL_BAN_COMMANDS)){
@@ -219,6 +223,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 		
 		String playerName = args[0];
 		String issuedBy = sender.getName();
+		final String senderUUID = (sender instanceof CraftPlayer) ? ((CraftPlayer) sender).getHandle().getProfile().getId() : "";
 		
 		if (issuedBy.equals("CONSOLE")){
 			issuedBy = "console";
@@ -229,7 +234,7 @@ public class BanExecutor extends BaseCommandExecutor<MineBans> {
 			return;
 		}
 		
-		plugin.banManager.unbanPlayer(playerName, issuedBy, (sender instanceof Player));
+		plugin.banManager.unbanPlayer(playerName, issuedBy, senderUUID, (sender instanceof Player));
 		
 		sender.sendMessage(NotificationManager.parseNotification(plugin.config.getString(Config.MESSAGE_UNBAN_SERVER), playerName, issuedBy, null, 0));
 	}

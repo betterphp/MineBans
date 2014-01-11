@@ -157,7 +157,7 @@ public class MineBans extends BasePlugin {
 		
 		final long startTime = System.currentTimeMillis();
 		
-		(new StatusRequest(MineBans.this, "CONSOLE")).process(new StatusCallback(this){
+		(new StatusRequest(MineBans.this, "CONSOLE", "")).process(new StatusCallback(this){
 			
 			@Override
 			public void onSuccess(StatusData data){

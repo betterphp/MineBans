@@ -8,22 +8,24 @@ public class PlayerBanRequest extends APIRequest<PlayerBanCallback> {
 	
 	protected String action;
 	protected String issued_by;
+	protected String issued_by_uuid;
 	protected String player_name;
 	protected int reason;
 	protected Object evidence;
 	
-	public PlayerBanRequest(MineBans plugin, int timeout, String playerName, String issuedBy, BanReason reason, Object evidence){
+	public PlayerBanRequest(MineBans plugin, int timeout, String playerName, String issuedBy, String issuedByUUID, BanReason reason, Object evidence){
 		super(plugin, plugin.api.getAPIURL(), timeout);
 		
 		this.action = "ban_player";
 		this.issued_by = issuedBy;
+		this.issued_by_uuid = issuedByUUID;
 		this.player_name = playerName;
 		this.reason = reason.getID();
 		this.evidence = evidence;
 	}
 	
-	public PlayerBanRequest(MineBans plugin, String playerName, String issuedBy, BanReason reason, Object evidence){
-		this(plugin, 8000, playerName, issuedBy, reason, evidence);
+	public PlayerBanRequest(MineBans plugin, String playerName, String issuedBy, String issuedByUUID, BanReason reason, Object evidence){
+		this(plugin, 8000, playerName, issuedBy, issuedByUUID, reason, evidence);
 	}
 	
 	@Override

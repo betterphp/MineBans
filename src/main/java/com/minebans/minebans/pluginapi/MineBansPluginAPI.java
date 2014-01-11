@@ -238,7 +238,7 @@ public class MineBansPluginAPI {
 			return false;
 		}
 		
-		plugin.banManager.globallyBanPlayer(playerName, issuedBy, reason, false, false);
+		plugin.banManager.globallyBanPlayer(playerName, issuedBy, "", reason, false, false);
 		plugin.log.info(playerName + " was globally banned by the plugin '" + this.pluginName + "'");
 		
 		return true;
@@ -324,7 +324,7 @@ public class MineBansPluginAPI {
 			return false;
 		}
 		
-		plugin.banManager.unGlobalBan(playerName, issuedBy);
+		plugin.banManager.unGlobalBan(playerName, issuedBy, "");
 		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pluginName + "'");
 		
 		return true;
@@ -381,7 +381,7 @@ public class MineBansPluginAPI {
 			return false;
 		}
 		
-		plugin.banManager.unbanPlayer(playerName, issuedBy, false);
+		plugin.banManager.unbanPlayer(playerName, issuedBy, "", false);
 		plugin.log.info(playerName + " was unbanned by the plugin '" + this.pluginName + "'");
 		
 		return true;
@@ -456,7 +456,7 @@ public class MineBansPluginAPI {
 	 * @param callback		A {@link PlayerBansCallback} to be used to handle the response.
 	 */
 	public void lookupPlayer(String playerName, String issuedBy, PlayerBansCallback callback){
-		(new PlayerBansRequest(plugin, issuedBy, playerName)).process(callback);
+		(new PlayerBansRequest(plugin, issuedBy, "", playerName)).process(callback);
 	}
 	
 	/**

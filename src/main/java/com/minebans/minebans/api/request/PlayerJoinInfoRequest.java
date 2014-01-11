@@ -8,18 +8,20 @@ public class PlayerJoinInfoRequest extends APIRequest<PlayerJoinInfoCallback> {
 	
 	protected String action;
 	protected String issued_by;
+	protected String issued_by_uuid;
 	protected String player_name;
 	
-	public PlayerJoinInfoRequest(MineBans plugin, int timeout, String issuedBy, String playerName){
+	public PlayerJoinInfoRequest(MineBans plugin, int timeout, String issuedBy, String issuedByUUID, String playerName){
 		super(plugin, plugin.api.getAPIURL(), timeout);
 		
 		this.action = "get_player_join_info";
 		this.issued_by = issuedBy;
+		this.issued_by_uuid = issuedByUUID;
 		this.player_name = playerName;
 	}
 	
-	public PlayerJoinInfoRequest(MineBans plugin, String issuedBy, String playerName){
-		this(plugin, 8000, issuedBy, playerName);
+	public PlayerJoinInfoRequest(MineBans plugin, String issuedBy, String issuedByUUID, String playerName){
+		this(plugin, 8000, issuedBy, issuedByUUID, playerName);
 	}
 	
 	public PlayerJoinInfoData process(){

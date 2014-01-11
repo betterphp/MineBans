@@ -36,7 +36,7 @@ public class PlayerLoginListener extends BaseListener<MineBans> {
 			return;
 		}
 		
-		PlayerJoinInfoData joinData = (new PlayerJoinInfoRequest(plugin, "CONSOLE", playerName)).process();
+		PlayerJoinInfoData joinData = (new PlayerJoinInfoRequest(plugin, "CONSOLE", "", playerName)).process();
 		
 		if (joinData != null){
 			PlayerLoginDataEvent loginDataEvent = new PlayerLoginDataEvent(playerName, playerAddress, joinData);

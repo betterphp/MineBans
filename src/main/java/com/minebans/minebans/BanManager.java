@@ -95,7 +95,7 @@ public class BanManager {
 		this.locallyBanPlayer(playerName, issuedBy, true, true);
 	}
 	
-	public void globallyBanPlayer(String playerName, final String issuedBy, BanReason reason, boolean log, boolean notify){
+	public void globallyBanPlayer(String playerName, final String issuedBy, String issuedByUUID, BanReason reason, boolean log, boolean notify){
 		PlayerGlobalBanEvent globalBanEvent = new PlayerGlobalBanEvent(playerName, reason);
 		PlayerBanEvent banEvent = new PlayerBanEvent(playerName, BanType.GLOBAL);
 		
@@ -113,7 +113,7 @@ public class BanManager {
 			this.globallyBannedPlayers.add(playerName);
 			this.globallyBannedPlayers.save();
 			
-			(new PlayerBanRequest(plugin, playerName, issuedBy, reason, plugin.evidenceManager.collectFor(reason, playerName))).process(new PlayerBanCallback(plugin){
+			(new PlayerBanRequest(plugin, playerName, issuedBy, issuedByUUID, reason, plugin.evidenceManager.collectFor(reason, playerName))).process(new PlayerBanCallback(plugin){
 				
 				public void onFailure(Exception exception){
 					CommandSender sender = (issuedBy.equalsIgnoreCase("console")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
@@ -129,12 +129,12 @@ public class BanManager {
 		}
 	}
 	
-	public void globallyBanPlayer(String playerName, String issuedBy, BanReason reason, boolean log){
-		this.globallyBanPlayer(playerName, issuedBy, reason, log, true);
+	public void globallyBanPlayer(String playerName, String issuedBy, String issuedByUUID, BanReason reason, boolean log){
+		this.globallyBanPlayer(playerName, issuedBy, issuedByUUID, reason, log, true);
 	}
 	
-	public void globallyBanPlayer(String playerName, String issuedBy, BanReason reason){
-		this.globallyBanPlayer(playerName, issuedBy, reason, true, true);
+	public void globallyBanPlayer(String playerName, String issuedBy, String issuedByUUID, BanReason reason){
+		this.globallyBanPlayer(playerName, issuedBy, issuedByUUID, reason, true, true);
 	}
 	
 	public void tempBanPlayer(String playerName, String issuedBy, int duration, boolean log, boolean notify){
@@ -184,8 +184,8 @@ public class BanManager {
 		}
 	}
 	
-	public void unGlobalBan(String playerName, final String issuedBy){
-		(new PlayerUnbanRequest(plugin, playerName, issuedBy)).process(new PlayerUnbanCallback(plugin, playerName, issuedBy){
+	public void unGlobalBan(String playerName, final String issuedBy, final String issuedByUUID){
+		(new PlayerUnbanRequest(plugin, playerName, issuedBy, issuedByUUID)).process(new PlayerUnbanCallback(plugin, playerName, issuedBy){
 			
 			public void onFailure(Exception exception){
 				CommandSender sender = (issuedBy.equalsIgnoreCase("console")) ? Bukkit.getConsoleSender() : Bukkit.getServer().getPlayer(issuedBy);
@@ -220,9 +220,9 @@ public class BanManager {
 		}
 	}
 	
-	public void unbanPlayer(String playerName, String issuedBy, boolean log){
+	public void unbanPlayer(String playerName, String issuedBy, String issuedByUUID, boolean log){
 		if (this.isGloballyBanned(playerName)){
-			this.unGlobalBan(playerName, issuedBy);
+			this.unGlobalBan(playerName, issuedBy, issuedByUUID);
 		}else if (this.isLocallyBanned(playerName)){
 			this.unLocalBan(playerName, issuedBy, log);
 		}else if (this.isTempBanned(playerName)){
@@ -230,8 +230,8 @@ public class BanManager {
 		}
 	}
 	
-	public void unbanPlayer(String playerName, String issuedBy){
-		this.unbanPlayer(playerName, issuedBy, true);
+	public void unbanPlayer(String playerName, String issuedBy, String issuedByUUID){
+		this.unbanPlayer(playerName, issuedBy, issuedByUUID, true);
 	}
 	
 	public void exemptPlayer(String playerName, String issuedBy, boolean log){

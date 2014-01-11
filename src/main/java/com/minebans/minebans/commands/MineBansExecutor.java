@@ -7,6 +7,7 @@ import java.util.Set;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 
 import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
 import uk.co.jacekk.bukkit.baseplugin.command.CommandHandler;
@@ -86,9 +87,10 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 		}
 		
 		final String senderName = sender.getName();
+		final String senderUUID = (sender instanceof CraftPlayer) ? ((CraftPlayer) sender).getHandle().getProfile().getId() : "";
 		final long timeStart = System.currentTimeMillis();
 		
-		(new StatusRequest(plugin, senderName)).process(new StatusCallback(plugin){
+		(new StatusRequest(plugin, senderName, senderUUID)).process(new StatusCallback(plugin){
 			
 			@Override
 			public void onSuccess(StatusData data){
@@ -218,8 +220,9 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 		}
 		
 		final String senderName = sender.getName();
+		final String senderUUID = (sender instanceof CraftPlayer) ? ((CraftPlayer) sender).getHandle().getProfile().getId() : "";
 		
-		(new PlayerBansRequest(plugin, senderName, args[0])).process(new PlayerBansCallback(plugin){
+		(new PlayerBansRequest(plugin, senderName, senderUUID, args[0])).process(new PlayerBansCallback(plugin){
 			
 			@Override
 			public void onSuccess(PlayerBansData data){
@@ -332,7 +335,10 @@ public class MineBansExecutor extends BaseCommandExecutor<MineBans> {
 			return;
 		}
 		
-		new OpenAppealsRequest(plugin, sender.getName()).process(new OpenAppealsCallback(plugin){
+		final String senderName = sender.getName();
+		final String senderUUID = (sender instanceof CraftPlayer) ? ((CraftPlayer) sender).getHandle().getProfile().getId() : "";
+		
+		new OpenAppealsRequest(plugin, senderName, senderUUID).process(new OpenAppealsCallback(plugin){
 			
 			@Override
 			public void onSuccess(OpenAppealsData data){

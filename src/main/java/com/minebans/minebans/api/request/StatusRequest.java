@@ -7,16 +7,18 @@ public class StatusRequest extends APIRequest<StatusCallback> {
 	
 	protected String action;
 	protected String issued_by;
+	protected String issued_by_uuid;
 	
-	public StatusRequest(MineBans plugin, int timeout, String issuedBy){
+	public StatusRequest(MineBans plugin, int timeout, String issuedBy, String issuedByUUID){
 		super(plugin, plugin.api.getAPIURL(), timeout);
 		
 		this.action = "get_system_status";
 		this.issued_by = issuedBy;
+		this.issued_by_uuid = issuedByUUID;
 	}
 	
-	public StatusRequest(MineBans plugin, String issuedBy){
-		this(plugin, 8000, issuedBy);
+	public StatusRequest(MineBans plugin, String issuedBy, String issuedByUUID){
+		this(plugin, 8000, issuedBy, issuedByUUID);
 	}
 	
 	@Override
